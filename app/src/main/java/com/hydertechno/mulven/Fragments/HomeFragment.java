@@ -3,64 +3,67 @@ package com.hydertechno.mulven.Fragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.hydertechno.mulven.Adapters.CategoriesAdapter;
+import com.hydertechno.mulven.Adapters.HomePageSliderAdapter;
+import com.hydertechno.mulven.Models.CategoriesModel;
 import com.hydertechno.mulven.R;
+import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
+import com.smarteist.autoimageslider.SliderAnimations;
+import com.smarteist.autoimageslider.SliderView;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link HomeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
 public class HomeFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public HomeFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment HomeFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static HomeFragment newInstance(String param1, String param2) {
-        HomeFragment fragment = new HomeFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
+    private RecyclerView categoryRecycler,category_1;
+    private CategoriesAdapter categoriesAdapter;
+    private List<CategoriesModel> categoriesModelList=new ArrayList<>();
+    private SliderView imageSlider;
+    int[] image={R.drawable.beefslider,R.drawable.seller,R.drawable.slider1,R.drawable.slider2,R.drawable.slider3};
+    HomePageSliderAdapter homePageSliderAdapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+
+        View view= inflater.inflate(R.layout.fragment_home, container, false);
+        init(view);
+
+
+        categoriesModelList.add(new CategoriesModel("1","Food",R.drawable.ic_burger));
+        categoriesModelList.add(new CategoriesModel("1","Kids and Toy",R.drawable.ic_baby));
+        categoriesModelList.add(new CategoriesModel("1","Grocery Item",R.drawable.ic_shopping_basket));
+        categoriesModelList.add(new CategoriesModel("1","Jewelry and Watches",R.drawable.ic_gem));
+        categoriesModelList.add(new CategoriesModel("1","Sports",R.drawable.ic_volleybal));
+
+        imageSlider.setSliderAdapter(homePageSliderAdapter);
+        imageSlider.setIndicatorAnimation(IndicatorAnimationType.WORM);
+        imageSlider.setSliderTransformAnimation(SliderAnimations.DEPTHTRANSFORMATION);
+        imageSlider.startAutoCycle();
+        return view;
+    }
+
+    private void init(View view) {
+        categoryRecycler=view.findViewById(R.id.categoryRecyclerView);
+        categoriesAdapter=new CategoriesAdapter(categoriesModelList,getContext());
+        LinearLayoutManager layoutManager
+                = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        categoryRecycler.setLayoutManager(layoutManager);
+        categoryRecycler.setAdapter(categoriesAdapter);
+        imageSlider=view.findViewById(R.id.imageSlider);
+        homePageSliderAdapter=new HomePageSliderAdapter(image);
+        Collections.reverse(categoriesModelList);
+        category_1=view.findViewById(R.id.category_1Grid_View);
+        category_1.setLayoutManager(new GridLayoutManager(getContext(),2));
+        category_1.setAdapter(categoriesAdapter);
     }
 }
