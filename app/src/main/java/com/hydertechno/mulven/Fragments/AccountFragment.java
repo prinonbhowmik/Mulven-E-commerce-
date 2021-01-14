@@ -1,66 +1,75 @@
 package com.hydertechno.mulven.Fragments;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+import com.hydertechno.mulven.Activities.PhoneNumber;
 import com.hydertechno.mulven.R;
-
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link AccountFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class AccountFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public AccountFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AccountFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static AccountFragment newInstance(String param1, String param2) {
-        AccountFragment fragment = new AccountFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
+    private RelativeLayout loginRelative;
+    private TextInputLayout phoneTIL,passwordTIL;
+    private TextInputEditText phoneTIET,passwordTIET;
+    private TextView forgetPasswordTV,newRegisterTV;
+    private Button logInBtn;
+    private DrawerLayout drawerLayout;
+    private ImageView navIcon;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_account, container, false);
+        View view= inflater.inflate(R.layout.fragment_account, container, false);
+        init(view);
+        drawerLayout=getActivity().findViewById(R.id.drawerLayout);
+        newRegisterTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), PhoneNumber.class));
+            }
+        });
+        navIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawerLayout.openDrawer(GravityCompat.START);
+                hideKeyboardFrom(view.getContext());
+            }
+        });
+
+        return view;
+    }
+
+    private void init(View view) {
+        loginRelative=view.findViewById(R.id.logInRelative);
+        phoneTIL=view.findViewById(R.id.phone_LT);
+        passwordTIL=view.findViewById(R.id.password_LT);
+        phoneTIET=view.findViewById(R.id.phone_ET);
+        passwordTIET=view.findViewById(R.id.password_ET);
+        forgetPasswordTV=view.findViewById(R.id.forget_pass_TV);
+        newRegisterTV=view.findViewById(R.id.registerTV);
+        logInBtn=view.findViewById(R.id.loginBtn);
+        navIcon=view.findViewById(R.id.navIcon);
+
+    }
+
+    private void hideKeyboardFrom(Context context) {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(this.getActivity().getWindow().getDecorView().getRootView().getWindowToken(), 0);
     }
 }

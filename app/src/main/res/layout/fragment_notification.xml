@@ -3,9 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/GBlue"
-    tools:context=".Fragments.CartFragment">
-
+    android:background="@color/GRed"
+    tools:context=".Fragments.NotificationFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -24,7 +23,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="35dp"
-            android:text="Cart"
+            android:text="Notification"
             android:layout_toEndOf="@+id/navIcon"
             android:layout_centerVertical="true"
             android:layout_marginStart="10dp"

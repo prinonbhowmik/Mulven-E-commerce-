@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
+    tools:context=".Activities.OTP">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/rl1"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@drawable/login_page_design">
+
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="60dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="30dp"
+                android:src="@drawable/mvlogo"/>
+            <TextView
+                android:id="@+id/log_in_txt1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="OTP"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="30dp"
+                android:layout_marginEnd="40dp"
+                android:fontFamily="@font/comfortaa_light"
+                android:layout_centerHorizontal="true"/>
+        </RelativeLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/otp_LT"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_below="@+id/rl1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="20dp"
+            app:boxCornerRadiusBottomStart="10dp"
+            app:boxCornerRadiusTopEnd="10dp"
+            android:hint="OTP"
+            app:hintTextColor="@color/black"
+            android:textColorHint="#000"
+            app:boxBackgroundMode="outline">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/otp_Et"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/comfortaa_light"
+                android:inputType="text"
+                android:maxLines="1"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:textColor="#000"
+                android:textSize="18sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <Button
+            android:id="@+id/nextBtn2"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/otp_LT"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="50dp"
+            android:fontFamily="@font/comfortaa_light"
+            android:background="@drawable/btn_background"
+            android:text="Next"
+            android:textSize="18sp"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"/>
+
+
+    </RelativeLayout>
+
+</ScrollView>

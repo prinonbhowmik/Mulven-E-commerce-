@@ -6,14 +6,11 @@ public class CategoriesModel {
     private String categoriesName;
     private int icon;
 
-
     public CategoriesModel(String id, String categoriesName, int icon) {
         this.id = id;
         this.categoriesName = categoriesName;
         this.icon = icon;
     }
-
-
 
     public CategoriesModel() {
     }

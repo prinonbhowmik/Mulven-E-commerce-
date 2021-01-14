@@ -12,24 +12,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="65dp"
-            android:id="@+id/toolbar"
-            android:background="@color/themDark">
-
-        <ImageView
-            android:id="@+id/navIcon"
-            android:layout_width="35sp"
-            android:layout_height="35sp"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="20dp"
-            android:src="@drawable/ic_menu"/>
-
-        </RelativeLayout>
-
         <FrameLayout
-            android:layout_below="@+id/toolbar"
             android:id="@+id/fragment_container"
             android:layout_above="@+id/bottom_menu"
             android:layout_width="match_parent"

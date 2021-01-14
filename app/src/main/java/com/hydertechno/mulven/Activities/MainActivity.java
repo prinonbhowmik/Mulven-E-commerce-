@@ -1,30 +1,33 @@
 package com.hydertechno.mulven.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.view.View;
+import android.os.Handler;
+import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.hydertechno.mulven.Fragments.AccountFragment;
 import com.hydertechno.mulven.Fragments.CartFragment;
 import com.hydertechno.mulven.Fragments.HomeFragment;
-import com.hydertechno.mulven.Fragments.NotifcationFragment;
+import com.hydertechno.mulven.Fragments.NotificationFragment;
 import com.hydertechno.mulven.R;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private ChipNavigationBar chipNavigationBar;
-    private ImageView navIcon;
+    private boolean doubleBackToExitPressedOnce=false;
     private Fragment fragment=null;
 
     @Override
@@ -46,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
                         break;case R.id.cart:
                         fragment=new CartFragment();
                         break;case R.id.notification:
-                        fragment=new NotifcationFragment();
+                        fragment=new NotificationFragment();
                         break;case R.id.account:
                         fragment=new AccountFragment();
                         break;
@@ -57,24 +60,80 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        navIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                drawerLayout.openDrawer(GravityCompat.START);
-                hideKeyboardFrom(getApplicationContext());
-            }
-        });
+
     }
 
     private void init() {
         drawerLayout=findViewById(R.id.drawerLayout);
         navigationView=findViewById(R.id.nav_view);
+        navigationView.getMenu().getItem(0).setChecked(true);
         chipNavigationBar=findViewById(R.id.bottom_menu);
-        navIcon=findViewById(R.id.navIcon);
     }
 
     private void hideKeyboardFrom(Context context) {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(this.getWindow().getDecorView().getRootView().getWindowToken(), 0);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.home:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment()).commit();
+                drawerLayout.closeDrawers();
+                navigationView.getMenu().getItem(0).setChecked(true);
+                break;
+            case R.id.cart:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new CartFragment()).commit();
+                drawerLayout.closeDrawers();
+                navigationView.getMenu().getItem(2).setChecked(true);
+                break;
+            case R.id.notification:
+                FragmentTransaction notification = getSupportFragmentManager().beginTransaction();
+                notification.replace(R.id.fragment_container, new NotificationFragment());
+                notification.commit();
+                drawerLayout.closeDrawers();
+                navigationView.getMenu().getItem(0).setChecked(false);
+                navigationView.getMenu().getItem(1).setChecked(false);
+                navigationView.getMenu().getItem(2).setChecked(false);
+                navigationView.getMenu().getItem(3).setChecked(true);
+                navigationView.getMenu().getItem(4).setChecked(false);
+                break;
+            case R.id.account:
+                FragmentTransaction account = getSupportFragmentManager().beginTransaction();
+                account.replace(R.id.fragment_container, new AccountFragment());
+                account.commit();
+                drawerLayout.closeDrawers();
+                navigationView.getMenu().getItem(0).setChecked(false);
+                navigationView.getMenu().getItem(1).setChecked(false);
+                navigationView.getMenu().getItem(2).setChecked(false);
+                navigationView.getMenu().getItem(3).setChecked(false);
+                navigationView.getMenu().getItem(4).setChecked(true);
+                break;
+        }
+
+        return false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            if (doubleBackToExitPressedOnce) {
+                super.onBackPressed();
+                return;
+            }
+            this.doubleBackToExitPressedOnce = true;
+            Toast.makeText(this, "Press again for exit", Toast.LENGTH_SHORT).show();
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce = false;
+                }
+            }, 2000);
+
+        }
     }
 }
