@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/lightWhite"
     tools:context=".Fragments.HomeFragment">
 
     <RelativeLayout
@@ -72,6 +73,15 @@
                 android:textColor="@color/GGreen"
                 android:textSize="15sp"
                 android:text="Computer and Accessories"/>
+            <TextView
+                android:id="@+id/seeAll_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:textColor="@color/GGreen"
+                android:textSize="15sp"
+                android:layout_alignParentEnd="true"
+                android:text="See All"/>
             <View
                 android:id="@+id/view_1"
                 android:layout_width="match_parent"
@@ -102,6 +112,15 @@
                 android:textColor="@color/GBlue"
                 android:textSize="15sp"
                 android:text="Jewelry and Watches"/>
+            <TextView
+                android:id="@+id/seeAll_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:textColor="@color/GBlue"
+                android:textSize="15sp"
+                android:layout_alignParentEnd="true"
+                android:text="See All"/>
             <View
                 android:id="@+id/view_2"
                 android:layout_width="match_parent"

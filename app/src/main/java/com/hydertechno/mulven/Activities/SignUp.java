@@ -80,7 +80,7 @@ public class SignUp extends AppCompatActivity {
     public void onBackPressed() {
         AlertDialog.Builder dialog2 = new AlertDialog.Builder(this);
         dialog2.setTitle("Exit!");
-        dialog2.setIcon(R.drawable.mvlogo);
+        dialog2.setIcon(R.drawable.applogo);
         dialog2.setMessage("Do you want to exit this page?");
         dialog2.setCancelable(false);
         dialog2.setPositiveButton("Yes", new DialogInterface.OnClickListener() {

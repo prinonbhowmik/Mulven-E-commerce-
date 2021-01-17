@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="6dp"
+    android:layout_margin="5dp">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp">
+        <ImageView
+            android:layout_margin="5dp"
+            android:id="@+id/cartProductImage"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/monitor"/>
+        <ImageView
+            android:id="@+id/cartProductDelete"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/ic_delete"/>
+
+        <TextView
+            android:id="@+id/cartProductName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Transcend 8GB DDR4 2666MHz Bus SO-DIMM Laptop RAM"
+            android:fontFamily="@font/comfortaa_light"
+            android:maxLines="2"
+            android:textSize="16sp"
+            android:layout_toEndOf="@+id/cartProductImage"
+            android:layout_toStartOf="@id/cartProductDelete"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="10dp"/>
+        <TextView
+            android:id="@+id/cartProductPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="৳3,800"
+            android:fontFamily="@font/comfortaa_light"
+            android:maxLines="2"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:layout_below="@+id/cartProductName"
+            android:layout_toEndOf="@+id/cartProductImage"
+            android:layout_toStartOf="@id/cartProductDelete"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="10dp"/>
+
+        <ImageView
+            android:id="@+id/cardMinus"
+            android:layout_width="25dp"
+            android:layout_height="23dp"
+            android:src="@drawable/ic_minus"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@id/cartProductImage"
+            android:layout_below="@+id/cartProductPrice"/>
+        <TextView
+            android:id="@+id/cardQuantity"
+            android:layout_width="40dp"
+            android:layout_height="23dp"
+            android:textSize="15sp"
+            android:text="5"
+            android:textColor="@color/black"
+            android:background="@drawable/product_quantity_bg"
+            android:gravity="center"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@id/cardMinus"
+            android:layout_below="@+id/cartProductPrice"/>
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="23dp"
+            android:src="@drawable/ic_plus"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@id/cardQuantity"
+            android:layout_below="@+id/cartProductPrice"/>
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
