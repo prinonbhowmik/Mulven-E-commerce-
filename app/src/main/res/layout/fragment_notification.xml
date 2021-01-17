@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/GRed"
+    android:background="@color/white"
     tools:context=".Fragments.NotificationFragment">
 
     <RelativeLayout
@@ -33,4 +33,29 @@
 
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/noNotificationLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar">
+
+    <ImageView
+        android:id="@+id/bellLogo"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:src="@drawable/ic_bell"
+        android:layout_marginBottom="10dp"
+        android:layout_above="@+id/noNotification"
+        android:layout_centerInParent="true"/>
+    <TextView
+        android:id="@+id/noNotification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textColor="@color/black"
+        android:text="No notification yet!"
+        android:textSize="18sp"
+        android:fontFamily="@font/comfortaa_light"/>
+
+    </RelativeLayout>
 </RelativeLayout>

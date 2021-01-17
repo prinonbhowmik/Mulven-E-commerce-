@@ -25,6 +25,7 @@ public class PhoneNumber extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(PhoneNumber.this,OTP.class));
+                finish();
             }
         });
     }

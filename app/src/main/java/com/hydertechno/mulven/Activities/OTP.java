@@ -24,6 +24,7 @@ public class OTP extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(OTP.this,SignUp.class));
+                finish();
             }
         });
     }
@@ -32,5 +33,11 @@ public class OTP extends AppCompatActivity {
         otpTIL=findViewById(R.id.otp_LT);
         otpTIET=findViewById(R.id.otp_Et);
         nextBtn2=findViewById(R.id.nextBtn2);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 }

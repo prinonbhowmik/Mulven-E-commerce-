@@ -1,8 +1,10 @@
 package com.hydertechno.mulven.Activities;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -74,4 +76,27 @@ public class SignUp extends AppCompatActivity {
         datePickerDialog.show();
     }
 
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder dialog2 = new AlertDialog.Builder(this);
+        dialog2.setTitle("Exit!");
+        dialog2.setIcon(R.drawable.mvlogo);
+        dialog2.setMessage("Do you want to exit this page?");
+        dialog2.setCancelable(false);
+        dialog2.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog2, int which) {
+                finish();
+            }
+        });
+        dialog2.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog2, int which) {
+                dialog2.dismiss();
+            }
+        });
+        AlertDialog alertDialog2 = dialog2.create();
+        alertDialog2.show();
+
+    }
 }
