@@ -20,6 +20,7 @@ import android.widget.ImageView;
 
 import com.hydertechno.mulven.Adapters.CategoriesAdapter;
 import com.hydertechno.mulven.Adapters.HomePageSliderAdapter;
+import com.hydertechno.mulven.Adapters.ProductAdapter;
 import com.hydertechno.mulven.Models.CategoriesModel;
 import com.hydertechno.mulven.R;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
@@ -34,7 +35,7 @@ import java.util.List;
 public class HomeFragment extends Fragment {
     private RecyclerView categoryRecycler,category_1,category_2;
     private CategoriesAdapter categoriesAdapter;
-    private CategoriesAdapter categoriesAdapter2;
+    private ProductAdapter productAdapter;
     private DrawerLayout drawerLayout;
     private ImageView navIcon;
     private List<CategoriesModel> categoriesModelList=new ArrayList<>();
@@ -81,7 +82,7 @@ public class HomeFragment extends Fragment {
     private void init(View view) {
         categoryRecycler=view.findViewById(R.id.categoryRecyclerView);
         categoriesAdapter=new CategoriesAdapter(categoriesModelList,getContext());
-        categoriesAdapter2=new CategoriesAdapter(categoriesModelList2,getContext());
+        productAdapter=new ProductAdapter(categoriesModelList2,getContext());
         navIcon=view.findViewById(R.id.navIcon);
         LinearLayoutManager layoutManager
                 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
@@ -92,10 +93,10 @@ public class HomeFragment extends Fragment {
         Collections.reverse(categoriesModelList);
         category_1=view.findViewById(R.id.category_1Grid_View);
         category_1.setLayoutManager(new GridLayoutManager(getContext(),2));
-        category_1.setAdapter(categoriesAdapter2);
+        category_1.setAdapter(productAdapter);
         category_2=view.findViewById(R.id.category_2Grid_View);
         category_2.setLayoutManager(new GridLayoutManager(getContext(),1));
-        category_2.setAdapter(categoriesAdapter2);
+        category_2.setAdapter(productAdapter);
     }
 
     private void hideKeyboardFrom(Context context) {

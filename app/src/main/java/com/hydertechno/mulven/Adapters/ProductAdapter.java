@@ -1,6 +1,7 @@
 package com.hydertechno.mulven.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.hydertechno.mulven.Activities.ProductDetailsActivity;
 import com.hydertechno.mulven.Models.CategoriesModel;
 import com.hydertechno.mulven.R;
 
@@ -38,6 +40,18 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         holder.productImage.setImageResource(model.getIcon());
         holder.productPrice.setText(model.getId());
         holder.productName.setText(model.getCategoriesName());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    Intent intent = new Intent(context, ProductDetailsActivity.class);
+                    context.startActivity(intent);
+                    /*    ((Activity)context).finish();*/
+                } catch (Exception e) {
+                }
+            }
+        });
 
     }
 
