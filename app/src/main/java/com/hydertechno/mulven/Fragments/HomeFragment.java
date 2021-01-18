@@ -71,6 +71,8 @@ public class HomeFragment extends Fragment {
 
         categoriesModelList2.add(new CategoriesModel("1000","LG 19M38A 18.5 Inch Monitor",R.drawable.monitor));
         categoriesModelList2.add(new CategoriesModel("2000","Transcend 8GB DDR4 2666MHz Bus SO-DIMM Laptop RAM",R.drawable.ram));
+        categoriesModelList2.add(new CategoriesModel("1000","LG 19M38A 18.5 Inch Monitor",R.drawable.monitor));
+        categoriesModelList2.add(new CategoriesModel("2000","Transcend 8GB DDR4 2666MHz Bus SO-DIMM Laptop RAM",R.drawable.ram));
 
         imageSlider.setSliderAdapter(homePageSliderAdapter);
         imageSlider.setIndicatorAnimation(IndicatorAnimationType.WORM);
@@ -95,7 +97,7 @@ public class HomeFragment extends Fragment {
         category_1.setLayoutManager(new GridLayoutManager(getContext(),2));
         category_1.setAdapter(productAdapter);
         category_2=view.findViewById(R.id.category_2Grid_View);
-        category_2.setLayoutManager(new GridLayoutManager(getContext(),1));
+        category_2.setLayoutManager(new GridLayoutManager(getContext(),2));
         category_2.setAdapter(productAdapter);
     }
 
