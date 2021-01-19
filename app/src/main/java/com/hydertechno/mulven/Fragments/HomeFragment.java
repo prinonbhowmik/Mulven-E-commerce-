@@ -69,10 +69,10 @@ public class HomeFragment extends Fragment {
         categoriesModelList.add(new CategoriesModel("1","Sports",R.drawable.ic_volleybal));
 
 
-        categoriesModelList2.add(new CategoriesModel("1000","LG 19M38A 18.5 Inch Monitor",R.drawable.monitor));
-        categoriesModelList2.add(new CategoriesModel("2000","Transcend 8GB DDR4 2666MHz Bus SO-DIMM Laptop RAM",R.drawable.ram));
-        categoriesModelList2.add(new CategoriesModel("1000","LG 19M38A 18.5 Inch Monitor",R.drawable.monitor));
-        categoriesModelList2.add(new CategoriesModel("2000","Transcend 8GB DDR4 2666MHz Bus SO-DIMM Laptop RAM",R.drawable.ram));
+        categoriesModelList2.add(new CategoriesModel("৳ 1000","LG 19M38A 18.5 Inch Monitor",R.drawable.monitor));
+        categoriesModelList2.add(new CategoriesModel("৳ 2000","Transcend 8GB DDR4 2666MHz Bus SO-DIMM Laptop RAM",R.drawable.ram));
+        categoriesModelList2.add(new CategoriesModel("৳ 1000","LG 19M38A 18.5 Inch Monitor",R.drawable.monitor));
+        categoriesModelList2.add(new CategoriesModel("৳ 2000","Transcend 8GB DDR4 2666MHz Bus SO-DIMM Laptop RAM",R.drawable.ram));
 
         imageSlider.setSliderAdapter(homePageSliderAdapter);
         imageSlider.setIndicatorAnimation(IndicatorAnimationType.WORM);

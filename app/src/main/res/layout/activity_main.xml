@@ -14,9 +14,15 @@
         android:layout_height="match_parent">
         <FrameLayout
             android:id="@+id/fragment_container"
-            android:layout_above="@+id/bottom_menu"
+            android:layout_above="@+id/view"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#808080"
+            android:layout_above="@+id/bottom_menu" />
 
     <com.ismaeldivita.chipnavigation.ChipNavigationBar
         android:id="@+id/bottom_menu"

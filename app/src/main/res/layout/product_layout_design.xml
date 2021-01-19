@@ -24,7 +24,8 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:text="৳3,800"
-        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:textColor="@color/themRed"
         android:layout_marginTop="5dp"
         android:layout_below="@+id/productImage"/>
     <TextView
