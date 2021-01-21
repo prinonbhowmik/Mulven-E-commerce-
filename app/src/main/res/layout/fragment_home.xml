@@ -10,10 +10,11 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <RelativeLayout
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="65dp"
-            android:id="@+id/toolbar"
             android:background="@color/themDark">
 
             <ImageView
@@ -22,14 +23,15 @@
                 android:layout_height="35sp"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="20dp"
-                android:src="@drawable/ic_menu"/>
+                android:src="@drawable/ic_menu" />
 
         </RelativeLayout>
+
         <androidx.cardview.widget.CardView
-            android:layout_below="@+id/toolbar"
             android:id="@+id/sliderCardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/toolbar"
             android:layout_margin="10dp"
             app:cardCornerRadius="6dp">
 
@@ -59,83 +61,143 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/sliderCardView"
             android:orientation="horizontal" />
+
         <RelativeLayout
+            android:id="@+id/product_1_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/product_1_layout"
-            android:layout_marginTop="10dp"
-            android:layout_below="@+id/categoryRecyclerView">
+            android:layout_below="@+id/categoryRecyclerView"
+            android:layout_marginTop="10dp">
+
             <TextView
                 android:id="@+id/category_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
+                android:fontFamily="@font/comfortaa_light"
+                android:text="Computer and Accessories"
                 android:textColor="@color/GGreen"
-                android:textSize="15sp"
-                android:text="Computer and Accessories"/>
+                android:textSize="15sp" />
+
             <TextView
                 android:id="@+id/seeAll_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="20dp"
-                android:textColor="@color/GGreen"
-                android:textSize="15sp"
                 android:layout_alignParentEnd="true"
-                android:text="See All"/>
+                android:layout_marginEnd="20dp"
+                android:fontFamily="@font/comfortaa_light"
+                android:text="See All"
+                android:textColor="@color/GGreen"
+                android:textSize="15sp" />
+
             <View
                 android:id="@+id/view_1"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:background="@color/themDark"
-                android:layout_marginTop="3dp"
+                android:layout_below="@+id/category_1"
                 android:layout_marginStart="10dp"
+                android:layout_marginTop="3dp"
                 android:layout_marginEnd="20dp"
-                android:layout_below="@+id/category_1"/>
+                android:background="@color/themDark" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/category_1Grid_View"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/view_1"
-                android:layout_marginTop="5dp"/>
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal" />
         </RelativeLayout>
+
         <RelativeLayout
+            android:id="@+id/product_2_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/product_2_layout"
-            android:layout_marginTop="10dp"
-            android:layout_below="@+id/product_1_layout">
+            android:layout_below="@+id/product_1_layout"
+            android:layout_marginTop="10dp">
+
             <TextView
                 android:id="@+id/category_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
+                android:fontFamily="@font/comfortaa_light"
+                android:text="Jewelry and Watches"
                 android:textColor="@color/GBlue"
-                android:textSize="15sp"
-                android:text="Jewelry and Watches"/>
+                android:textSize="15sp" />
+
             <TextView
                 android:id="@+id/seeAll_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="20dp"
-                android:textColor="@color/GBlue"
-                android:textSize="15sp"
                 android:layout_alignParentEnd="true"
-                android:text="See All"/>
+                android:layout_marginEnd="20dp"
+                android:fontFamily="@font/comfortaa_light"
+                android:text="See All"
+                android:textColor="@color/GBlue"
+                android:textSize="15sp" />
+
             <View
                 android:id="@+id/view_2"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:background="@color/themDark"
-                android:layout_marginTop="3dp"
+                android:layout_below="@+id/category_2"
                 android:layout_marginStart="10dp"
+                android:layout_marginTop="3dp"
                 android:layout_marginEnd="20dp"
-                android:layout_below="@+id/category_2"/>
+                android:background="@color/themDark" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/category_2Grid_View"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/view_2"
-                android:layout_marginTop="5dp"/>
+                android:layout_marginTop="5dp" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/product_3_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/product_2_layout"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/category_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/comfortaa_light"
+                android:text="Grocery"
+                android:textColor="@color/GYellow"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/seeAll_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="20dp"
+                android:fontFamily="@font/comfortaa_light"
+                android:text="See All"
+                android:textColor="@color/GYellow"
+                android:textSize="15sp" />
+
+            <View
+                android:id="@+id/view_3"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_below="@+id/category_3"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="20dp"
+                android:background="@color/themDark" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/category_3Grid_View"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/view_3"
+                android:layout_marginTop="5dp" />
         </RelativeLayout>
     </RelativeLayout>
 </ScrollView>

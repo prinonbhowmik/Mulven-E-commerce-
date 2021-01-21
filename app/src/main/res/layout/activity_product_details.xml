@@ -20,16 +20,17 @@
             android:layout_marginStart="20dp"
             android:onClick="productDetailsBack"
             android:src="@drawable/ic_arrow" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="35dp"
-            android:text="Details"
-            android:layout_toEndOf="@+id/navIcon"
             android:layout_centerVertical="true"
             android:layout_marginStart="10dp"
-            android:textSize="24sp"
+            android:layout_toEndOf="@+id/navIcon"
             android:fontFamily="@font/comfortaa_light"
-            android:textColor="@color/white"/>
+            android:text="Details"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
 
     </RelativeLayout>
 
@@ -46,7 +47,7 @@
             <ImageView
                 android:id="@+id/product_Image"
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
+                android:layout_height="220dp"
                 android:src="@drawable/monitor" />
 
             <TextView
@@ -57,11 +58,22 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="15dp"
-                android:text="LG 19M38A 18.5 Inch Monitor"
                 android:fontFamily="@font/comfortaa_light"
+                android:text="LG 19M38A 18.5 Inch Monitor"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
 
+            <TextView
+                android:id="@+id/product_Old_Price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/product_Name"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="15dp"
+                android:fontFamily="@font/comfortaa_light"
+                android:text="৳ 4000"
+                android:textSize="16sp" />
             <TextView
                 android:id="@+id/product_Price"
                 android:layout_width="wrap_content"
@@ -70,8 +82,9 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="15dp"
-                android:text="300"
+                android:layout_toEndOf="@+id/product_Old_Price"
                 android:fontFamily="@font/comfortaa_light"
+                android:text="৳ 3800"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
 
@@ -83,90 +96,98 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="15dp"
-                android:text="Mulven"
                 android:fontFamily="@font/comfortaa_light"
+                android:text="Mulven"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
+
             <LinearLayout
+                android:id="@+id/quantity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/quantity"
-                android:visibility="gone"
+                android:layout_below="@id/shop_Name"
                 android:layout_marginStart="15dp"
-                android:layout_below="@id/shop_Name">
+                android:visibility="gone">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Quantity : "
+                    android:layout_gravity="center_vertical"
                     android:fontFamily="@font/comfortaa_light"
+                    android:text="Quantity : "
                     android:textColor="@color/black"
-                    android:textSize="18sp"
-                    android:layout_gravity="center_vertical"/>
+                    android:textSize="18sp" />
+
                 <ImageView
                     android:id="@+id/cardMinus"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
-                    android:src="@drawable/ic_minus"
+                    android:layout_marginStart="5dp"
                     android:layout_marginTop="5dp"
-                    android:layout_marginStart="5dp"/>
+                    android:src="@drawable/ic_minus" />
+
                 <TextView
                     android:id="@+id/cardQuantity"
                     android:layout_width="80dp"
                     android:layout_height="35dp"
-                    android:textSize="15sp"
-                    android:text="5"
-                    android:fontFamily="@font/comfortaa_light"
-                    android:textColor="@color/black"
-                    android:background="@drawable/product_quantity_bg"
-                    android:gravity="center"
+                    android:layout_marginStart="5dp"
                     android:layout_marginTop="5dp"
-                    android:layout_marginStart="5dp"/>
+                    android:background="@drawable/product_quantity_bg"
+                    android:fontFamily="@font/comfortaa_light"
+                    android:gravity="center"
+                    android:text="5"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
                 <ImageView
                     android:layout_width="35dp"
                     android:layout_height="35dp"
-                    android:src="@drawable/ic_plus"
+                    android:layout_marginStart="5dp"
                     android:layout_marginTop="5dp"
-                    android:layout_marginStart="5dp"/>
+                    android:src="@drawable/ic_plus" />
             </LinearLayout>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/size_menu"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Size"
-                android:layout_below="@+id/quantity">
+                android:layout_below="@+id/quantity"
+                android:hint="Size">
 
                 <AutoCompleteTextView
                     android:id="@+id/sizeMenu"
                     android:layout_width="140dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     android:layout_marginStart="15dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginEnd="20dp"
-                    android:textSize="12sp"
-                    android:inputType="none" />
+                    android:inputType="none"
+                    android:textSize="12sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/color_menu"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Color"
+                android:layout_below="@+id/quantity"
                 android:layout_alignParentEnd="true"
-                android:layout_below="@+id/quantity">
+                android:hint="Color">
 
                 <AutoCompleteTextView
                     android:id="@+id/colorMenu"
                     android:layout_width="140dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     android:layout_marginStart="15dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginEnd="20dp"
-                    android:textSize="12sp"
-                    android:inputType="none" />
+                    android:inputType="none"
+                    android:textSize="12sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
+
             <TextView
                 android:id="@+id/description"
                 android:layout_width="match_parent"
@@ -179,6 +200,7 @@
                 android:text="@string/description"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -188,39 +210,51 @@
                 android:layout_marginEnd="15dp"
                 android:layout_marginBottom="70dp"
                 android:fontFamily="@font/comfortaa_light"
+                android:lineSpacingExtra="10dp"
                 android:text="@string/html"
                 android:textColor="@color/black"
                 android:textSize="15sp" />
-        </RelativeLayout>
 
+        </RelativeLayout>
 
     </ScrollView>
-<FrameLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="10dp"
-    android:layout_marginEnd="10dp"
-    android:layout_marginBottom="10dp"
-    android:layout_alignParentBottom="true">
-    <androidx.cardview.widget.CardView
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        app:cardCornerRadius="6dp"
-        android:layout_margin="5dp">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/themRed">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Add To Cart"
-            android:textSize="15sp"
-            android:fontFamily="@font/comfortaa_light"
-            android:gravity="center"
-            android:textColor="@color/white"/>
-        </RelativeLayout>
-    </androidx.cardview.widget.CardView>
-</FrameLayout>
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:orientation="horizontal"
+                android:weightSum="1">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".5"
+                    android:fontFamily="@font/comfortaa_light"
+                    android:gravity="center"
+                    android:text="Buy Now"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/btn_background_blue"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".5"
+                    android:fontFamily="@font/comfortaa_light"
+                    android:gravity="center"
+                    android:layout_marginStart="5dp"
+                    android:text="Add To Cart"
+                    android:background="@drawable/btn_background_red"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+            </LinearLayout>
+    </FrameLayout>
 </RelativeLayout>

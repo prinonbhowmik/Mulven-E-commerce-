@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.SeeAllProductsActivity">
+
+    <RelativeLayout
+        android:id="@+id/allProductToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:background="@color/themDark">
+
+        <ImageView
+            android:id="@+id/seeAllP"
+            android:layout_width="35sp"
+            android:layout_height="35sp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="20dp"
+            android:onClick="seeAllProductBack"
+            android:src="@drawable/ic_arrow" />
+
+        <TextView
+            android:id="@+id/titleName"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/seeAllP"
+            android:fontFamily="@font/comfortaa_light"
+            android:text="Category"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/allProductRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/allProductToolbar" />
+</RelativeLayout>

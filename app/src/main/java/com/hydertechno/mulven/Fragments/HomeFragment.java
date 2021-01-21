@@ -2,6 +2,7 @@ package com.hydertechno.mulven.Fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
 
@@ -17,7 +18,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.hydertechno.mulven.Activities.SeeAllProductsActivity;
 import com.hydertechno.mulven.Adapters.CategoriesAdapter;
 import com.hydertechno.mulven.Adapters.HomePageSliderAdapter;
 import com.hydertechno.mulven.Adapters.ProductAdapter;
@@ -33,14 +36,19 @@ import java.util.Collections;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
-    private RecyclerView categoryRecycler,category_1,category_2;
+    private RecyclerView categoryRecycler,category_1,category_2,category_3;
     private CategoriesAdapter categoriesAdapter;
-    private ProductAdapter productAdapter;
+    private ProductAdapter computer_and_accessory_Adapter;
+    private ProductAdapter jewelry_and_watch_Adapter;
+    private ProductAdapter grocery_Adapter;
     private DrawerLayout drawerLayout;
     private ImageView navIcon;
     private List<CategoriesModel> categoriesModelList=new ArrayList<>();
-    private List<CategoriesModel> categoriesModelList2=new ArrayList<>();
+    private List<CategoriesModel> computer_and_accessory=new ArrayList<>();
+    private List<CategoriesModel> jewelry_and_watch=new ArrayList<>();
+    private List<CategoriesModel> grocery=new ArrayList<>();
     private SliderView imageSlider;
+    private TextView seeAll1,seeAll2,seeAll3;
     int[] image={R.drawable.beefslider,
             R.drawable.seller,
             R.drawable.slider1,
@@ -62,6 +70,25 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        seeAll1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), SeeAllProductsActivity.class).putExtra("title","Computer And Accessories"));
+            }
+        });
+        seeAll2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), SeeAllProductsActivity.class).putExtra("title","Jewelry And Watches"));
+            }
+        });
+        seeAll3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), SeeAllProductsActivity.class).putExtra("title","Grocery"));
+            }
+        });
+
         categoriesModelList.add(new CategoriesModel("1","Food",R.drawable.ic_burger));
         categoriesModelList.add(new CategoriesModel("1","Kids and Toys",R.drawable.ic_baby));
         categoriesModelList.add(new CategoriesModel("1","Grocery Item",R.drawable.ic_shopping_basket));
@@ -69,10 +96,20 @@ public class HomeFragment extends Fragment {
         categoriesModelList.add(new CategoriesModel("1","Sports",R.drawable.ic_volleybal));
 
 
-        categoriesModelList2.add(new CategoriesModel("৳ 1000","LG 19M38A 18.5 Inch Monitor",R.drawable.monitor));
-        categoriesModelList2.add(new CategoriesModel("৳ 2000","Transcend 8GB DDR4 2666MHz Bus SO-DIMM Laptop RAM",R.drawable.ram));
-        categoriesModelList2.add(new CategoriesModel("৳ 1000","LG 19M38A 18.5 Inch Monitor",R.drawable.monitor));
-        categoriesModelList2.add(new CategoriesModel("৳ 2000","Transcend 8GB DDR4 2666MHz Bus SO-DIMM Laptop RAM",R.drawable.ram));
+        computer_and_accessory.add(new CategoriesModel("৳ 1000","LG 19M38A 18.5 Inch Monitor",R.drawable.monitor));
+        computer_and_accessory.add(new CategoriesModel("৳ 2000","Transcend 8GB DDR4 2666MHz Bus SO-DIMM Laptop RAM",R.drawable.ram));
+        computer_and_accessory.add(new CategoriesModel("৳ 1000","LG 19M38A 18.5 Inch Monitor",R.drawable.monitor));
+        computer_and_accessory.add(new CategoriesModel("৳ 2000","Transcend 8GB DDR4 2666MHz Bus SO-DIMM Laptop RAM",R.drawable.ram));
+
+        jewelry_and_watch.add(new CategoriesModel("৳ 180","15 pcs/set Imitation Black Gem & Rhinestone Inlay Rings for Women",R.drawable.ring));
+        jewelry_and_watch.add(new CategoriesModel("৳ 250","white stone jewelry set for women",R.drawable.jewelry));
+        jewelry_and_watch.add(new CategoriesModel("৳ 180","15 pcs/set Imitation Black Gem & Rhinestone Inlay Rings for Women",R.drawable.ring));
+        jewelry_and_watch.add(new CategoriesModel("৳ 250","white stone jewelry set for women",R.drawable.jewelry));
+
+        grocery.add(new CategoriesModel("৳ 350","Rupchanda Miniket Rice 5Kg",R.drawable.rice));
+        grocery.add(new CategoriesModel("৳ 380","Danish Premium Ghee 900gm",R.drawable.ghee));
+        grocery.add(new CategoriesModel("৳ 350","Rupchanda Miniket Rice 5Kg",R.drawable.rice));
+        grocery.add(new CategoriesModel("৳ 380","Danish Premium Ghee 900gm",R.drawable.ghee));
 
         imageSlider.setSliderAdapter(homePageSliderAdapter);
         imageSlider.setIndicatorAnimation(IndicatorAnimationType.WORM);
@@ -82,23 +119,39 @@ public class HomeFragment extends Fragment {
     }
 
     private void init(View view) {
-        categoryRecycler=view.findViewById(R.id.categoryRecyclerView);
-        categoriesAdapter=new CategoriesAdapter(categoriesModelList,getContext());
-        productAdapter=new ProductAdapter(categoriesModelList2,getContext());
         navIcon=view.findViewById(R.id.navIcon);
-        LinearLayoutManager layoutManager
-                = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        categoryRecycler=view.findViewById(R.id.categoryRecyclerView);
+        imageSlider=view.findViewById(R.id.imageSlider);
+        category_1=view.findViewById(R.id.category_1Grid_View);
+        category_2=view.findViewById(R.id.category_2Grid_View);
+        category_3=view.findViewById(R.id.category_3Grid_View);
+        seeAll1=view.findViewById(R.id.seeAll_1);
+        seeAll2=view.findViewById(R.id.seeAll_2);
+        seeAll3=view.findViewById(R.id.seeAll_3);
+        homePageSliderAdapter=new HomePageSliderAdapter(image);
+
+        categoriesAdapter=new CategoriesAdapter(categoriesModelList,getContext());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         categoryRecycler.setLayoutManager(layoutManager);
         categoryRecycler.setAdapter(categoriesAdapter);
-        imageSlider=view.findViewById(R.id.imageSlider);
-        homePageSliderAdapter=new HomePageSliderAdapter(image);
         Collections.reverse(categoriesModelList);
-        category_1=view.findViewById(R.id.category_1Grid_View);
-        category_1.setLayoutManager(new GridLayoutManager(getContext(),2));
-        category_1.setAdapter(productAdapter);
-        category_2=view.findViewById(R.id.category_2Grid_View);
-        category_2.setLayoutManager(new GridLayoutManager(getContext(),2));
-        category_2.setAdapter(productAdapter);
+
+        computer_and_accessory_Adapter=new ProductAdapter(computer_and_accessory,getContext());
+        LinearLayoutManager layoutManager1 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        category_1.setLayoutManager(layoutManager1);
+        category_1.setAdapter(computer_and_accessory_Adapter);
+
+        jewelry_and_watch_Adapter=new ProductAdapter(jewelry_and_watch,getContext());
+        LinearLayoutManager layoutManager2 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        //category_2.setLayoutManager(new GridLayoutManager(getContext(),2));
+        category_2.setLayoutManager(layoutManager2);
+        category_2.setAdapter(jewelry_and_watch_Adapter);
+
+        grocery_Adapter=new ProductAdapter(grocery,getContext());
+        LinearLayoutManager layoutManager3 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        //category_2.setLayoutManager(new GridLayoutManager(getContext(),2));
+        category_3.setLayoutManager(layoutManager3);
+        category_3.setAdapter(grocery_Adapter);
     }
 
     private void hideKeyboardFrom(Context context) {

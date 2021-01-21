@@ -18,12 +18,12 @@ import com.hydertechno.mulven.R;
 
 import java.util.List;
 
-public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> {
+public class AllProductsAdapter extends RecyclerView.Adapter<AllProductsAdapter.ViewHolder> {
 
     private List<CategoriesModel> categoriesModelList;
     private Context context;
 
-    public ProductAdapter(List<CategoriesModel> categoriesModelList, Context context) {
+    public AllProductsAdapter(List<CategoriesModel> categoriesModelList, Context context) {
         this.categoriesModelList = categoriesModelList;
         this.context = context;
     }
@@ -31,8 +31,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_layout_design, parent, false);
-        return new ProductAdapter.ViewHolder(view);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.all_product_layout_design, parent, false);
+        return new AllProductsAdapter.ViewHolder(view);
     }
 
     @Override
@@ -74,3 +74,4 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         }
     }
 }
+

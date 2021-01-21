@@ -2,16 +2,19 @@ package com.hydertechno.mulven.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.TextView;
 
 import com.hydertechno.mulven.R;
 
 public class ProductDetailsActivity extends AppCompatActivity {
     private AutoCompleteTextView sizeTV,colorTV;
+    private TextView productOldPrice;
 
 
     @Override
@@ -32,6 +35,8 @@ public class ProductDetailsActivity extends AppCompatActivity {
     private void init() {
         sizeTV=findViewById(R.id.sizeMenu);
         colorTV=findViewById(R.id.colorMenu);
+        productOldPrice=findViewById(R.id.product_Old_Price);
+        productOldPrice.setPaintFlags(productOldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
     }
 
     public void productDetailsBack(View view) {
