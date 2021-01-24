@@ -87,9 +87,8 @@
                 android:text="৳ 3800"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
-
             <TextView
-                android:id="@+id/shop_Name"
+                android:id="@+id/shopTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/product_Price"
@@ -97,15 +96,52 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="15dp"
                 android:fontFamily="@font/comfortaa_light"
+                android:text="Shope :"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+            <TextView
+                android:id="@+id/shop_Name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/product_Price"
+                android:layout_toEndOf="@+id/shopTxt"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="15dp"
+                android:fontFamily="@font/comfortaa_light"
                 android:text="Mulven"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
-
+            <TextView
+                android:id="@+id/brandTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/shopTxt"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="15dp"
+                android:fontFamily="@font/comfortaa_light"
+                android:text="Brand :"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+            <TextView
+                android:id="@+id/brand_Name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/shop_Name"
+                android:layout_toEndOf="@+id/brandTxt"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="15dp"
+                android:fontFamily="@font/comfortaa_light"
+                android:text="Samsung"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
             <LinearLayout
                 android:id="@+id/quantity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/shop_Name"
+                android:layout_below="@id/brandTxt"
                 android:layout_marginStart="15dp"
                 android:visibility="gone">
 
@@ -189,7 +225,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
-                android:id="@+id/description"
+                android:id="@+id/descriptionTxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/size_menu"
@@ -202,20 +238,60 @@
                 android:textSize="18sp" />
 
             <TextView
+                android:id="@+id/description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/description"
+                android:layout_below="@+id/descriptionTxt"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="15dp"
-                android:layout_marginBottom="70dp"
+                android:layout_marginBottom="20dp"
                 android:fontFamily="@font/comfortaa_light"
                 android:lineSpacingExtra="10dp"
                 android:text="@string/html"
                 android:textColor="@color/black"
                 android:textSize="15sp" />
+            <RelativeLayout
+                android:id="@+id/relatedProduct_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/description"
+                android:layout_marginBottom="70dp"
+                android:layout_marginTop="10dp">
 
+                <TextView
+                    android:id="@+id/relatedProductTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="@font/comfortaa_light"
+                    android:text="Related Products"
+                    android:textColor="@color/themDark"
+                    android:textSize="15sp" />
+
+
+                <View
+                    android:id="@+id/view_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_below="@+id/relatedProductTxt"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginEnd="20dp"
+                    android:background="@color/themDark" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/relatedProductRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:layout_below="@+id/view_1"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal" />
+            </RelativeLayout>
         </RelativeLayout>
+
+
 
     </ScrollView>
 
