@@ -5,10 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -22,6 +24,7 @@ import java.util.Date;
 public class SignUp extends AppCompatActivity {
     private TextInputLayout nameTIL, dobTIL, passTIL;
     private TextInputEditText nameTIET, dobTIET, passTIET;
+    private TextView condition;
     private Button signUpBtn;
     private String currentDate;
 
@@ -36,6 +39,12 @@ public class SignUp extends AppCompatActivity {
                 getDate();
             }
         });
+        condition.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(SignUp.this,WebViewActivity.class).putExtra("url","https://mulven.com/terms-conditions"));
+            }
+        });
 
     }
 
@@ -45,6 +54,7 @@ public class SignUp extends AppCompatActivity {
         nameTIET = findViewById(R.id.name_Et);
         dobTIET = findViewById(R.id.date_ET);
         signUpBtn = findViewById(R.id.sign_upBtn);
+        condition=findViewById(R.id.conditions);
 
     }
 

@@ -9,15 +9,15 @@
     <RelativeLayout
         android:id="@+id/allProductToolbar"
         android:layout_width="match_parent"
-        android:layout_height="65dp"
+        android:layout_height="wrap_content"
         android:background="@color/themDark">
 
         <ImageView
-            android:id="@+id/seeAllP"
+            android:id="@+id/seeAllBack"
             android:layout_width="35sp"
             android:layout_height="35sp"
-            android:layout_centerVertical="true"
             android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
             android:onClick="seeAllProductBack"
             android:src="@drawable/ic_arrow" />
 
@@ -25,22 +25,35 @@
             android:id="@+id/titleName"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
-            android:layout_centerVertical="true"
             android:layout_marginStart="10dp"
-            android:layout_toEndOf="@+id/seeAllP"
+            android:layout_marginTop="15dp"
+            android:layout_toEndOf="@+id/seeAllBack"
             android:fontFamily="@font/comfortaa_light"
             android:text="Category"
             android:textColor="@color/white"
             android:textSize="24sp" />
-        <ImageView
-            android:id="@+id/searchIV"
-            android:layout_width="35sp"
-            android:layout_height="35sp"
-            android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="20dp"
-            android:onClick="seeAllProductBack"
-            android:src="@drawable/ic_arrow" />
+
+        <EditText
+            android:id="@+id/searchET"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:maxLines="1"
+            android:layout_below="@+id/titleName"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginBottom="15dp"
+            android:layout_toEndOf="@+id/seeAllBack"
+            android:background="@color/white"
+            android:drawableEnd="@drawable/ic_search"
+            android:drawablePadding="10dp"
+            android:fontFamily="@font/comfortaa_light"
+            android:gravity="center_vertical"
+            android:paddingStart="10dp"
+            android:text="Category"
+            android:textColor="@color/themDark"
+            android:textSize="18sp"
+            tools:ignore="RtlSymmetry" />
 
     </RelativeLayout>
 

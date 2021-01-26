@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.WebViewActivity">
+    <RelativeLayout
+        android:id="@+id/webToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:background="@color/themDark">
+
+        <ImageView
+            android:id="@+id/webBack"
+            android:layout_width="35sp"
+            android:layout_height="35sp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="20dp"
+            android:onClick="WebViewBack"
+            android:src="@drawable/ic_arrow" />
+
+        <TextView
+            android:id="@+id/webPageTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:text="Terms And Conditions"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/webBack"
+            android:fontFamily="@font/comfortaa_light"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+
+    </RelativeLayout>
+    <WebView
+        android:id="@+id/webView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/webToolbar"/>
+</RelativeLayout>

@@ -26,7 +26,6 @@ import java.util.List;
 
 public class SeeAllProductsActivity extends AppCompatActivity {
     private String title;
-    private ImageView searchIcon;
     private TextView titleName;
     private RecyclerView productRecyclerView;
     private AllProductsAdapter all_product_Adapter;
@@ -51,32 +50,12 @@ public class SeeAllProductsActivity extends AppCompatActivity {
         allProductsList.add(new CategoriesModel("৳ 250","white stone jewelry set for women",R.drawable.jewelry));
         allProductsList.add(new CategoriesModel("৳ 180","15 pcs/set Imitation Black Gem & Rhinestone Inlay Rings for Women",R.drawable.ring));
         allProductsList.add(new CategoriesModel("৳ 250","white stone jewelry set for women",R.drawable.jewelry));
-        /*searchIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getMenuInflater().inflate(R.menu.search_bar_menu,);
-                MenuItem menuItem=menu.findItem(R.id.searchBar);
-                SearchView searchView=(SearchView) menuItem.getActionView();
-                searchView.setQueryHint("Search Item...");
-                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                    @Override
-                    public boolean onQueryTextSubmit(String query) {
-                        return false;
-                    }
 
-                    @Override
-                    public boolean onQueryTextChange(String newText) {
-                        return false;
-                    }
-                });
-            }
-        });*/
 
     }
 
     private void init() {
         titleName=findViewById(R.id.titleName);
-        searchIcon=findViewById(R.id.searchIV);
         productRecyclerView=findViewById(R.id.allProductRecyclerView);
         all_product_Adapter=new AllProductsAdapter(allProductsList,this);
         productRecyclerView.setLayoutManager(new GridLayoutManager(this,2));
@@ -85,24 +64,5 @@ public class SeeAllProductsActivity extends AppCompatActivity {
 
     public void seeAllProductBack(View view) {
         finish();
-    }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.search_bar_menu,menu);
-        MenuItem menuItem=menu.findItem(R.id.searchBar);
-        SearchView searchView=(SearchView) menuItem.getActionView();
-        searchView.setQueryHint("Search Item...");
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
-        return super.onCreateOptionsMenu(menu);
     }
 }
