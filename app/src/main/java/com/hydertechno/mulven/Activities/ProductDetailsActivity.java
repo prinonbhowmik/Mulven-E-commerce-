@@ -1,15 +1,18 @@
 package com.hydertechno.mulven.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hydertechno.mulven.Adapters.CategoriesAdapter;
@@ -23,8 +26,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ProductDetailsActivity extends AppCompatActivity {
+public class ProductDetailsActivity extends AppCompatActivity implements ProductImagesAdapter.onNoteListener{
     private AutoCompleteTextView sizeTV,colorTV;
+    private ImageView product_Image;
     private TextView productOldPrice;
     private RecyclerView productImagesRecycler,relatedProductRecyclerView;
     private ProductImagesAdapter productImagesAdapter;
@@ -57,11 +61,30 @@ public class ProductDetailsActivity extends AppCompatActivity {
         jewelry_and_watch.add(new CategoriesModel("৳ 180","15 pcs/set Imitation Black Gem & Rhinestone Inlay Rings for Women",R.drawable.ring));
         jewelry_and_watch.add(new CategoriesModel("৳ 250","white stone jewelry set for women",R.drawable.jewelry));
 
+        productImagesRecycler.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+                product_Image.setImageResource(R.drawable.rice);
+                return false;
+            }
+
+            @Override
+            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+                product_Image.setImageResource(R.drawable.rice);
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        });
+
     }
 
     private void init() {
         sizeTV=findViewById(R.id.sizeMenu);
         colorTV=findViewById(R.id.colorMenu);
+        product_Image=findViewById(R.id.product_Image);
         productOldPrice=findViewById(R.id.product_Old_Price);
         productOldPrice.setPaintFlags(productOldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         productImagesRecycler=findViewById(R.id.productImagesRecyclerView);
@@ -82,5 +105,10 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
     public void productDetailsBack(View view) {
         finish();
+    }
+
+    @Override
+    public void onNoteClick(int position) {
+
     }
 }

@@ -48,4 +48,8 @@ public class ProductImagesAdapter extends RecyclerView.Adapter<ProductImagesAdap
             imageView=itemView.findViewById(R.id.imageIv);
         }
     }
+    public interface onNoteListener{
+        void onNoteClick(int position);
+
+    }
 }
