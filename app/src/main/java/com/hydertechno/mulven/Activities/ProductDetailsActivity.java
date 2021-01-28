@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.View;
@@ -18,13 +20,14 @@ import com.hydertechno.mulven.Interface.ProductImageClickInterface;
 import com.hydertechno.mulven.Models.CategoriesModel;
 import com.hydertechno.mulven.Models.ProductImagesModel;
 import com.hydertechno.mulven.R;
+import com.jsibbold.zoomage.ZoomageView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDetailsActivity extends AppCompatActivity implements ProductImageClickInterface {
     private AutoCompleteTextView sizeTV,colorTV;
-    private ImageView product_Image;
+    private ZoomageView product_Image;
     private TextView productOldPrice;
     private RecyclerView productImagesRecycler,relatedProductRecyclerView;
     private ProductImagesAdapter productImagesAdapter;
@@ -62,12 +65,14 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
             }
         }
 
+
+
     }
 
     private void init() {
         sizeTV=findViewById(R.id.sizeMenu);
         colorTV=findViewById(R.id.colorMenu);
-        product_Image=findViewById(R.id.product_Image);
+        product_Image = findViewById(R.id.product_Image);
         productOldPrice=findViewById(R.id.product_Old_Price);
         productOldPrice.setPaintFlags(productOldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         productImagesRecycler=findViewById(R.id.productImagesRecyclerView);

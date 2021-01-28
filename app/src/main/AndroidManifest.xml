@@ -3,6 +3,7 @@
     package="com.hydertechno.mulven">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,7 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Mulven">
-        <activity android:name=".Activities.WebViewActivity"/>
+        <activity android:name=".Activities.WebViewActivity" />
         <activity android:name=".Activities.SeeAllProductsActivity" />
         <activity android:name=".Activities.ProductDetailsActivity" />
         <activity android:name=".Activities.SignUp" />

@@ -54,4 +54,8 @@ dependencies {
 
     //picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
+
+    //Zoom Image
+    implementation 'com.jsibbold:zoomage:1.3.0'
+    implementation 'com.jsibbold:zoomage:1.3.0-SNAPSHOT'
 }

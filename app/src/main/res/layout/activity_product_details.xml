@@ -44,7 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
+            <com.jsibbold.zoomage.ZoomageView
                 android:id="@+id/product_Image"
                 android:layout_width="match_parent"
                 android:layout_height="220dp"
