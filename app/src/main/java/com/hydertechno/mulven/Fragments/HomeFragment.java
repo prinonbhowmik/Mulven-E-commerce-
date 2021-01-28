@@ -138,6 +138,7 @@ public class HomeFragment extends Fragment {
 
         computer_and_accessory_Adapter=new ProductAdapter(computer_and_accessory,getContext());
         LinearLayoutManager layoutManager1 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        layoutManager1.setSmoothScrollbarEnabled(true);
         category_1.setLayoutManager(layoutManager1);
         category_1.setAdapter(computer_and_accessory_Adapter);
 

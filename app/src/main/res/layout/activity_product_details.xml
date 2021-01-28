@@ -50,20 +50,13 @@
                 android:layout_height="220dp"
                 android:src="@drawable/monitor" />
 
-            <View
-                android:layout_toStartOf="@id/productImagesRecyclerView"
-                android:layout_below="@+id/product_Image"
-                android:layout_width="1dp"
-                android:layout_height="55dp"
-                android:layout_marginStart="15dp"
-                android:background="@color/themDark"/>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/productImagesRecyclerView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="10dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
                 android:orientation="horizontal"
                 android:layout_below="@+id/product_Image"/>
 
