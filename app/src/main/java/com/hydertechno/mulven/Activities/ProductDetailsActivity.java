@@ -1,32 +1,28 @@
 package com.hydertechno.mulven.Activities;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.hydertechno.mulven.Adapters.CategoriesAdapter;
 import com.hydertechno.mulven.Adapters.ProductAdapter;
 import com.hydertechno.mulven.Adapters.ProductImagesAdapter;
+import com.hydertechno.mulven.Interface.ProductImageClickInterface;
 import com.hydertechno.mulven.Models.CategoriesModel;
 import com.hydertechno.mulven.Models.ProductImagesModel;
 import com.hydertechno.mulven.R;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-public class ProductDetailsActivity extends AppCompatActivity implements ProductImagesAdapter.onNoteListener{
+public class ProductDetailsActivity extends AppCompatActivity implements ProductImageClickInterface {
     private AutoCompleteTextView sizeTV,colorTV;
     private ImageView product_Image;
     private TextView productOldPrice;
@@ -56,28 +52,15 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
         productImagesModelList.add(new ProductImagesModel("3",R.drawable.ghee));
         productImagesModelList.add(new ProductImagesModel("4",R.drawable.rice));
 
-        jewelry_and_watch.add(new CategoriesModel("৳ 180","15 pcs/set Imitation Black Gem & Rhinestone Inlay Rings for Women",R.drawable.ring));
-        jewelry_and_watch.add(new CategoriesModel("৳ 250","white stone jewelry set for women",R.drawable.jewelry));
-        jewelry_and_watch.add(new CategoriesModel("৳ 180","15 pcs/set Imitation Black Gem & Rhinestone Inlay Rings for Women",R.drawable.ring));
-        jewelry_and_watch.add(new CategoriesModel("৳ 250","white stone jewelry set for women",R.drawable.jewelry));
-
-        productImagesRecycler.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-            @Override
-            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
-                product_Image.setImageResource(R.drawable.rice);
-                return false;
+        for(int a=12; a>0;a--){
+            if(a%2==0){
+                jewelry_and_watch.add(new CategoriesModel("৳ 180","15 pcs/set Imitation Black Gem & Rhinestone Inlay Rings for Women",R.drawable.ring));
             }
-
-            @Override
-            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
-                product_Image.setImageResource(R.drawable.rice);
-            }
-
-            @Override
-            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+            else{
+                jewelry_and_watch.add(new CategoriesModel("৳ 250","white stone jewelry set for women",R.drawable.jewelry));
 
             }
-        });
+        }
 
     }
 
@@ -107,8 +90,10 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
         finish();
     }
 
-    @Override
-    public void onNoteClick(int position) {
 
+
+    @Override
+    public void OnClick(int image) {
+        product_Image.setImageResource(image);
     }
 }
