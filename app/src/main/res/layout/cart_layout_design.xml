@@ -69,7 +69,7 @@
             android:layout_width="40dp"
             android:layout_height="23dp"
             android:textSize="15sp"
-            android:text="5"
+            android:text="1"
             android:textColor="@color/black"
             android:background="@drawable/product_quantity_bg"
             android:gravity="center"

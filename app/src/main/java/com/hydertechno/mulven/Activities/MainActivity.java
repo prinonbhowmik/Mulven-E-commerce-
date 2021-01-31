@@ -46,13 +46,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         fragment=new HomeFragment();
                         break;
                     case R.id.favourite:
+                    case R.id.account:
                         fragment=new AccountFragment();
                         break;case R.id.cart:
                         fragment=new CartFragment();
                         break;case R.id.notification:
                         fragment=new NotificationFragment();
-                        break;case R.id.account:
-                        fragment=new AccountFragment();
                         break;
                 }
                 if(fragment!=null){
