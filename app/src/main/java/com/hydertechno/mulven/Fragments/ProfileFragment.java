@@ -1,25 +1,34 @@
 package com.hydertechno.mulven.Fragments;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.hydertechno.mulven.Activities.AddressActivity;
 import com.hydertechno.mulven.R;
+import com.squareup.picasso.Picasso;
 
 public class ProfileFragment extends Fragment {
-
+    private LinearLayout checkBalanceLayout,addressLayout;
     private DrawerLayout drawerLayout;
     private ImageView navIcon;
+    private Dialog dialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,12 +45,36 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        return view;
+        checkBalanceLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog = new Dialog(view.getContext());
+                dialog.setContentView(R.layout.check_balance_layout_design);
 
+                dialog.setCancelable(true);
+
+                dialog.show();
+                Window window = dialog.getWindow();
+                window.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            }
+        });
+
+        addressLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), AddressActivity.class));
+            }
+        });
+
+
+
+        return view;
     }
 
     private void init(View view) {
         navIcon=view.findViewById(R.id.navIcon);
+        checkBalanceLayout=view.findViewById(R.id.balanceLayout);
+        addressLayout=view.findViewById(R.id.addressLayout);
     }
     private void hideKeyboardFrom(Context context) {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);

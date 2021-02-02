@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
@@ -66,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void init() {
         drawerLayout=findViewById(R.id.drawerLayout);
         navigationView=findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
         navigationView.getMenu().getItem(0).setChecked(true);
         chipNavigationBar=findViewById(R.id.bottom_menu);
     }
@@ -80,38 +82,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (item.getItemId()){
             case R.id.home:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment()).commit();
-                drawerLayout.closeDrawers();
                 navigationView.getMenu().getItem(0).setChecked(true);
+                navigationView.getMenu().getItem(2).setChecked(false);
+                chipNavigationBar.setItemSelected(R.id.home,true);
+                break;
+            case R.id.gift:
+                //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new CartFragment()).commit();
+
+                startActivity(new Intent(getApplicationContext(),GiftVoucherActivity.class));
                 break;
             case R.id.cart:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new CartFragment()).commit();
-                drawerLayout.closeDrawers();
+                navigationView.getMenu().getItem(0).setChecked(false);
                 navigationView.getMenu().getItem(2).setChecked(true);
-                break;
-            case R.id.notification:
-                FragmentTransaction notification = getSupportFragmentManager().beginTransaction();
-                notification.replace(R.id.fragment_container, new NotificationFragment());
-                notification.commit();
-                drawerLayout.closeDrawers();
-                navigationView.getMenu().getItem(0).setChecked(false);
-                navigationView.getMenu().getItem(1).setChecked(false);
-                navigationView.getMenu().getItem(2).setChecked(false);
-                navigationView.getMenu().getItem(3).setChecked(true);
-                navigationView.getMenu().getItem(4).setChecked(false);
-                break;
-            case R.id.account:
-                FragmentTransaction account = getSupportFragmentManager().beginTransaction();
-                account.replace(R.id.fragment_container, new AccountFragment());
-                account.commit();
-                drawerLayout.closeDrawers();
-                navigationView.getMenu().getItem(0).setChecked(false);
-                navigationView.getMenu().getItem(1).setChecked(false);
-                navigationView.getMenu().getItem(2).setChecked(false);
-                navigationView.getMenu().getItem(3).setChecked(false);
-                navigationView.getMenu().getItem(4).setChecked(true);
+                chipNavigationBar.setItemSelected(R.id.cart,true);
                 break;
         }
 
+        drawerLayout.closeDrawers();
         return false;
     }
 

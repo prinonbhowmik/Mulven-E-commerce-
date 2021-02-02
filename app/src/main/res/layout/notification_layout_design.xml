@@ -34,6 +34,7 @@
             android:layout_marginEnd="10dp"
             android:fontFamily="@font/comfortaa_light"
             android:maxLines="3"
+            android:lineSpacingExtra="5dp"
             android:textColor="@color/white"
             android:text="Notification Body. This is notification boyd. text size 12sp. font family comfortaa light. and max lines are 3"
             android:textSize="12sp" />

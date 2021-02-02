@@ -11,6 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Mulven">
+        <activity android:name=".Activities.AddressActivity"></activity>
+        <activity android:name=".Activities.GiftVoucherActivity" />
         <activity android:name=".Activities.WebViewActivity" />
         <activity android:name=".Activities.SeeAllProductsActivity" />
         <activity android:name=".Activities.ProductDetailsActivity" />

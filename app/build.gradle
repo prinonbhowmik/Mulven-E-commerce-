@@ -61,4 +61,7 @@ dependencies {
 
     //Circle Image View
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    //RadioGroup
+    implementation 'com.github.patgdut:RadioRealButton:v2.1.2'
 }
