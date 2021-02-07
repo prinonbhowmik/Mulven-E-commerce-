@@ -36,9 +36,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
-        chipNavigationBar.setItemSelected(R.id.home,true);
+        Intent getFragment=getIntent();
+        String lodeFragment=getFragment.getStringExtra("fragment");
+        if(lodeFragment.equals("home")){
+            chipNavigationBar.setItemSelected(R.id.home,true);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment()).commit();
+
+        }else if(lodeFragment.equals("cart")){
+            chipNavigationBar.setItemSelected(R.id.cart,true);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new CartFragment()).commit();
+        }
+
+
+
         chipNavigationBar.showBadge(R.id.cart,2);
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment()).commit();
         chipNavigationBar.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
             @Override
             public void onItemSelected(int i) {

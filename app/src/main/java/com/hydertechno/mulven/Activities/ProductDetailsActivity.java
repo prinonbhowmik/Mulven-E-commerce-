@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hydertechno.mulven.Adapters.ProductAdapter;
 import com.hydertechno.mulven.Adapters.ProductImagesAdapter;
@@ -28,7 +29,7 @@ import java.util.List;
 public class ProductDetailsActivity extends AppCompatActivity implements ProductImageClickInterface {
     private AutoCompleteTextView sizeTV,colorTV;
     private ZoomageView product_Image;
-    private TextView productOldPrice;
+    private TextView productOldPrice,addToCart,buyNow;
     private RecyclerView productImagesRecycler,relatedProductRecyclerView;
     private ProductImagesAdapter productImagesAdapter;
     private ProductAdapter jewelry_and_watch_Adapter;
@@ -65,6 +66,25 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
             }
         }
 
+        addToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(ProductDetailsActivity.this, "1 item add to cart ", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        buyNow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProductDetailsActivity.this, MainActivity.class);
+                intent.putExtra("fragment","cart");
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
+               // startActivity(new Intent(ProductDetailsActivity.this,MainActivity.class).putExtra("fragment","cart"));
+            }
+        });
+
 
 
     }
@@ -72,6 +92,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
     private void init() {
         sizeTV=findViewById(R.id.sizeMenu);
         colorTV=findViewById(R.id.colorMenu);
+        addToCart=findViewById(R.id.addToCartTV);
+        buyNow=findViewById(R.id.buyNowTV);
         product_Image = findViewById(R.id.product_Image);
         productOldPrice=findViewById(R.id.product_Old_Price);
         productOldPrice.setPaintFlags(productOldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);

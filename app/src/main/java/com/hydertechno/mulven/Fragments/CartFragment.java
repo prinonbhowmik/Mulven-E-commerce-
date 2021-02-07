@@ -13,12 +13,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.hydertechno.mulven.R;
 
 public class CartFragment extends Fragment {
     private DrawerLayout drawerLayout;
     private ImageView navIcon;
+    private TextView placeOrder;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,6 +41,7 @@ public class CartFragment extends Fragment {
 
     private void init(View view) {
         navIcon=view.findViewById(R.id.navIcon);
+        placeOrder=view.findViewById(R.id.placeOrderTV);
     }
     private void hideKeyboardFrom(Context context) {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);

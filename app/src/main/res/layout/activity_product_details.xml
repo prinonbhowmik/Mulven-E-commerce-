@@ -320,6 +320,7 @@
                 android:orientation="horizontal"
                 android:weightSum="1">
                 <TextView
+                    android:id="@+id/buyNowTV"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight=".5"
@@ -331,6 +332,7 @@
                     android:textColor="@color/white"
                     android:textSize="15sp" />
                 <TextView
+                    android:id="@+id/addToCartTV"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight=".5"
