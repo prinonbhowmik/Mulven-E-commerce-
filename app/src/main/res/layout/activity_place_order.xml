@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f8f9fa"
+    tools:context=".Activities.PlaceOrderActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:id="@+id/toolbar"
+        android:background="@color/themDark">
+
+        <ImageView
+            android:id="@+id/navIcon"
+            android:layout_width="35sp"
+            android:layout_height="35sp"
+            android:layout_centerVertical="true"
+            android:onClick="placeOrderBack"
+            android:layout_marginStart="20dp"
+            android:src="@drawable/ic_arrow"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:text="Place Order"
+            android:layout_toEndOf="@+id/navIcon"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:textSize="24sp"
+            android:fontFamily="@font/comfortaa_light"
+            android:textColor="@color/white"/>
+
+    </RelativeLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:layout_marginTop="5dp"
+                android:id="@+id/your_orderRL">
+                <TextView
+                    android:id="@+id/orderTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Your Orders"
+                    android:textSize="21sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="20dp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/comfortaa_bold"/>
+
+                <TextView
+                    android:id="@+id/orderIDTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/orderTxt"
+                    android:text="MVH1FTMN1"
+                    android:textSize="15sp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="20dp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/comfortaa_bold"/>
+
+                <TextView
+                    android:id="@+id/orderTimeTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/orderIDTV"
+                    android:text="2021-Feb-04 4:28 pm"
+                    android:textSize="12sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="20dp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/comfortaa_bold"/>
+                <TextView
+                    android:id="@+id/orderStatusTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/orderTimeTV"
+                    android:text="Cancel"
+                    android:background="@drawable/status_cancel"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:textSize="12sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="20dp"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/comfortaa_bold"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/black"
+                    android:layout_marginBottom="10dp"
+                    android:layout_below="@id/orderStatusTV"/>
+
+                <ImageView
+                    android:id="@+id/showModeOrderIV"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:src="@drawable/ic__arrow_down"
+                    android:layout_alignParentEnd="true"
+                    android:onClick="test"
+                    android:layout_marginTop="10dp"
+                    android:layout_below="@+id/orderTxt"
+                    android:background="@color/black"
+                    android:layout_marginEnd="30dp"/>
+            </RelativeLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/orderListRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:visibility="gone"
+                android:layout_below="@+id/your_orderRL"/>
+
+
+        </RelativeLayout>
+
+
+    </ScrollView>
+</RelativeLayout>

@@ -18,17 +18,21 @@ import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hydertechno.mulven.Activities.AddressActivity;
+import com.hydertechno.mulven.Activities.PlaceOrderActivity;
+import com.hydertechno.mulven.Activities.ProfileActivity;
 import com.hydertechno.mulven.R;
 import com.squareup.picasso.Picasso;
 
 public class ProfileFragment extends Fragment {
-    private LinearLayout checkBalanceLayout,addressLayout;
+    private LinearLayout checkBalanceLayout,addressLayout,profileLayout;
     private DrawerLayout drawerLayout;
     private ImageView navIcon;
     private Dialog dialog;
+    private RelativeLayout paymentHistoryRL;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,6 +70,19 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        profileLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), ProfileActivity.class));
+            }
+        });
+
+        paymentHistoryRL.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), PlaceOrderActivity.class));
+            }
+        });
 
 
         return view;
@@ -75,6 +92,8 @@ public class ProfileFragment extends Fragment {
         navIcon=view.findViewById(R.id.navIcon);
         checkBalanceLayout=view.findViewById(R.id.balanceLayout);
         addressLayout=view.findViewById(R.id.addressLayout);
+        profileLayout=view.findViewById(R.id.profileLayout);
+        paymentHistoryRL=view.findViewById(R.id.paymentHistoryRL);
     }
     private void hideKeyboardFrom(Context context) {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);

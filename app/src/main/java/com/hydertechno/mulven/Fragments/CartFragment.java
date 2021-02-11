@@ -2,6 +2,7 @@ package com.hydertechno.mulven.Fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.core.view.GravityCompat;
@@ -15,6 +16,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.hydertechno.mulven.Activities.PlaceOrderActivity;
+import com.hydertechno.mulven.Activities.PlaceOrderDetailsActivity;
 import com.hydertechno.mulven.R;
 
 public class CartFragment extends Fragment {
@@ -34,6 +37,13 @@ public class CartFragment extends Fragment {
             public void onClick(View view) {
                 drawerLayout.openDrawer(GravityCompat.START);
                 hideKeyboardFrom(view.getContext());
+            }
+        });
+
+        placeOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), PlaceOrderDetailsActivity.class));
             }
         });
         return view;

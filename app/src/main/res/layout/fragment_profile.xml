@@ -136,6 +136,7 @@
                 android:layout_below="@+id/Relative1"
                 android:backgroundTint="@color/themDark">
                 <RelativeLayout
+                    android:id="@+id/paymentHistoryRL"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="10dp">

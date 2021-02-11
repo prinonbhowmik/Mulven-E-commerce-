@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1"
+        android:orientation="horizontal">
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".50">
+            <ImageView
+                android:id="@+id/productImageTV"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/monitor"/>
+            <TextView
+                android:id="@+id/productNameTV"
+                android:layout_below="@+id/productImageTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                android:text="LG 19M38A 18.5 Inch Monitor"
+                android:textSize="15sp"
+                android:fontFamily="@font/comfortaa_light"
+                android:textColor="@color/black"/>
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="৳ 1000 * 1"
+            android:textSize="15sp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:gravity="center_horizontal"
+            android:fontFamily="@font/comfortaa_light"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/black"
+            android:layout_weight=".25"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="৳ 1000"
+            android:textSize="15sp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_horizontal"
+            android:fontFamily="@font/comfortaa_light"
+            android:textColor="@color/black"
+            android:layout_weight=".25"/>
+    </LinearLayout>
