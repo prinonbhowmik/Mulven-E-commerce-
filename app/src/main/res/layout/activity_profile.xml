@@ -48,22 +48,40 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/profileImageTV"
-            android:layout_width="130dp"
-            android:layout_height="130dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="5dp"
-            android:background="@drawable/round_stroke"
-            android:padding="2dp"
-            android:src="@drawable/imran" />
+
+            <FrameLayout
+                android:id="@+id/frame_layout1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_gravity="center">
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/profileImageTV"
+                        android:layout_width="130dp"
+                        android:layout_height="130dp"
+                        android:padding="4dp"
+                        android:layout_gravity="bottom|center_horizontal"
+                        android:background="@drawable/round_stroke"
+                        android:src="@drawable/imran" />
+                    <ImageView
+                        android:id="@+id/cameraIV"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="bottom|end"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:background="@drawable/custom_round2"
+                        android:padding="10dp"
+                        android:src="@drawable/ic_camera" />
+            </FrameLayout>
 
         <TextView
             android:id="@+id/NameTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/profileImageTV"
+            android:layout_below="@+id/frame_layout1"
             android:layout_marginStart="20dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/timelineDateTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="10dp"
+        android:fontFamily="@font/comfortaa_light"
+        android:text="2021-02-09 1:13 pm"
+        android:textColor="@color/black"
+        android:textSize="15sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_toEndOf="@+id/timelineDateTV"
+        android:background="@drawable/circle_design" />
+
+    <View
+        android:layout_width="2dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="9dp"
+        android:layout_toEndOf="@+id/timelineDateTV"
+        android:background="@color/themRed" />
+
+    <TextView
+        android:id="@+id/timelineTitleTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="15dp"
+        android:layout_toEndOf="@+id/timelineDateTV"
+        android:fontFamily="@font/comfortaa_light"
+        android:text="Pending"
+        android:textColor="@color/black"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/timelineDescriptionTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/timelineTitleTV"
+        android:justificationMode="inter_word"
+        android:lineSpacingExtra="2dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="5dp"
+        android:layout_toEndOf="@+id/timelineDateTV"
+        android:fontFamily="@font/comfortaa_light"
+        android:text="Your order has been placed successfully. We will start processing your order after payment is complete."
+        android:textColor="@color/black"
+        android:textSize="15sp" />
+
+</RelativeLayout>

@@ -119,19 +119,18 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="2dp"
                         android:fontFamily="@font/comfortaa_light"
                         android:text="Bills From"
                         android:textColor="@color/black"
-                        android:textSize="21sp" />
+                        android:textSize="16sp" />
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/vendorImageTV"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
                         android:layout_marginStart="20dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="2dp"
                         android:background="@drawable/round_stroke"
                         android:padding="2dp"
                         android:src="@drawable/applogo" />
@@ -141,11 +140,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="2dp"
                         android:fontFamily="@font/comfortaa_light"
                         android:text="Mulven"
                         android:textColor="@color/black"
-                        android:textSize="18sp" />
+                        android:textSize="12sp" />
 
                     <RatingBar
                         android:id="@+id/ratingBar"
@@ -153,7 +152,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="2dp"
                         android:numStars="5"
                         android:rating="0"
                         android:stepSize=".5"
@@ -164,25 +163,25 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="2dp"
                         android:layout_marginEnd="20dp"
                         android:fontFamily="@font/comfortaa_light"
                         android:text="+88 0 1842 770738"
                         android:textColor="@color/black"
-                        android:textSize="15sp" />
+                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/vendorAddressTV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="2dp"
                         android:layout_marginEnd="20dp"
                         android:layout_marginBottom="10dp"
                         android:fontFamily="@font/comfortaa_light"
                         android:text="Moti Mahol, Dhalibari Madrasa Road Dhaka-1229"
                         android:textColor="@color/black"
-                        android:textSize="15sp" />
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
@@ -202,19 +201,18 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="2dp"
                         android:fontFamily="@font/comfortaa_light"
                         android:text="Bills To"
                         android:textColor="@color/black"
-                        android:textSize="21sp" />
+                        android:textSize="16sp" />
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/customerImageTV"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
                         android:layout_marginStart="20dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="2dp"
                         android:background="@drawable/round_stroke"
                         android:padding="2dp"
                         android:src="@drawable/imran" />
@@ -224,37 +222,37 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="2dp"
                         android:layout_marginEnd="10dp"
                         android:fontFamily="@font/comfortaa_light"
                         android:text="Imran Hossian"
                         android:textColor="@color/black"
-                        android:textSize="18sp" />
+                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/customePhoneTV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="2dp"
                         android:layout_marginEnd="20dp"
                         android:fontFamily="@font/comfortaa_light"
                         android:text="+88 0 1842 770738"
                         android:textColor="@color/black"
-                        android:textSize="15sp" />
+                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/customerAddressTV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="2dp"
                         android:layout_marginEnd="20dp"
                         android:layout_marginBottom="10dp"
                         android:fontFamily="@font/comfortaa_light"
                         android:text="Moti Mahol, Dhalibari Madrasa Road Dhaka-1229"
                         android:textColor="@color/black"
-                        android:textSize="15sp" />
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
@@ -502,6 +500,25 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="10dp"
                 android:background="@color/gray" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/timelineRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_above="@+id/v4"
+                android:visibility="gone"/>
+
+            <LinearLayout
+                android:id="@+id/teee2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/v4"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="20dp">
+
+                <include layout="@layout/order_timeline_layout_design" />
+            </LinearLayout>
 
         </RelativeLayout>
     </ScrollView>

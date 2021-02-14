@@ -22,6 +22,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hydertechno.mulven.Activities.AddressActivity;
+import com.hydertechno.mulven.Activities.ChangePasswordActivity;
 import com.hydertechno.mulven.Activities.PlaceOrderActivity;
 import com.hydertechno.mulven.Activities.ProfileActivity;
 import com.hydertechno.mulven.R;
@@ -32,7 +33,7 @@ public class ProfileFragment extends Fragment {
     private DrawerLayout drawerLayout;
     private ImageView navIcon;
     private Dialog dialog;
-    private RelativeLayout paymentHistoryRL;
+    private RelativeLayout paymentHistoryRL,changePasswordRL;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -84,6 +85,13 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        changePasswordRL.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), ChangePasswordActivity.class));
+            }
+        });
+
 
         return view;
     }
@@ -94,6 +102,7 @@ public class ProfileFragment extends Fragment {
         addressLayout=view.findViewById(R.id.addressLayout);
         profileLayout=view.findViewById(R.id.profileLayout);
         paymentHistoryRL=view.findViewById(R.id.paymentHistoryRL);
+        changePasswordRL=view.findViewById(R.id.changePasswordRL);
     }
     private void hideKeyboardFrom(Context context) {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
