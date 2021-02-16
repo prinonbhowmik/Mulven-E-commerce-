@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/deliveryTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delivery Address"
+        android:fontFamily="@font/comfortaa_bold"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="10dp"
+        android:textColor="@color/black"
+        android:textSize="18sp"/>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/delivery_LT"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_below="@+id/deliveryTxt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        app:boxCornerRadiusBottomStart="10dp"
+        app:boxCornerRadiusTopEnd="10dp"
+        android:hint="Address"
+        app:hintTextColor="@color/black"
+        android:textColorHint="#000"
+        app:boxBackgroundMode="outline">
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/delivery_ET"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:maxLines="1"
+        android:fontFamily="@font/comfortaa_light"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:textColor="#000"
+        android:textSize="18sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+    <TextView
+        android:id="@+id/saveAddressTV"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/delivery_LT"
+        android:text="Save Address"
+        android:gravity="center"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/btn_background_blue"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:fontFamily="@font/comfortaa_light"
+        android:textAllCaps="false"/>
+
+</RelativeLayout>

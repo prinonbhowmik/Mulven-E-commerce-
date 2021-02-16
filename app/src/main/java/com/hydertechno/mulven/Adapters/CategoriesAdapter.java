@@ -1,6 +1,7 @@
 package com.hydertechno.mulven.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.hydertechno.mulven.Activities.SeeAllProductsActivity;
 import com.hydertechno.mulven.Models.CategoriesModel;
 import com.hydertechno.mulven.R;
 import com.squareup.picasso.Picasso;
@@ -44,6 +46,15 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
         } catch (Exception e) {
             e.printStackTrace();
         }*/
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(context, SeeAllProductsActivity.class);
+                intent.putExtra("title",""+model.getCategoriesName());
+                context.startActivity(intent);
+
+            }
+        });
     }
 
     @Override

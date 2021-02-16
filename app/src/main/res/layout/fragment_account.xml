@@ -91,14 +91,14 @@
         app:hintTextColor="@color/black"
         android:textColorHint="#000"
         app:boxBackgroundMode="outline"
-        app:passwordToggleEnabled="true"
-        app:passwordToggleTint="@color/themDark">
+        app:endIconMode="password_toggle"
+        app:endIconTint="@color/themDark">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/password_ET"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:inputType="text"
+            android:inputType="textPassword"
             android:maxLines="1"
             android:fontFamily="@font/comfortaa_light"
             android:paddingStart="20dp"
