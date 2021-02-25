@@ -155,7 +155,7 @@
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="2dp"
                         android:numStars="5"
-                        android:rating="0"
+                        android:rating="4"
                         android:stepSize=".5"
                         android:theme="@style/RatingBar" />
 
@@ -167,7 +167,7 @@
                         android:layout_marginTop="2dp"
                         android:layout_marginEnd="20dp"
                         android:fontFamily="@font/comfortaa_light"
-                        android:text="+88 0 1842 770738"
+                        android:text="+880 1842770738"
                         android:textColor="@color/black"
                         android:textSize="12sp" />
 
@@ -267,7 +267,6 @@
                         android:textSize="12sp" />
 
                 </LinearLayout>
-
 
             </LinearLayout>
 

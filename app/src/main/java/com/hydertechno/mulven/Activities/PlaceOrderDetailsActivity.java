@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.hydertechno.mulven.R;
@@ -14,6 +15,7 @@ import com.hydertechno.mulven.R;
 public class PlaceOrderDetailsActivity extends AppCompatActivity {
     private TextView orderIDTV,orderTimeTV,vendorNameTV,vendorPhoneTV,vendorAddressTV,customerNameTV,customerPhoneTV,customerAddressTV,customerAddressEditTV;
     private Dialog dialog;
+    private RatingBar ratingBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +23,7 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_place_order_details);
         init();
 
-
+        ratingBar.getRating();
         customerAddressEditTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -45,6 +47,7 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity {
         customerPhoneTV=findViewById(R.id.customerPhoneTV);
         customerAddressTV=findViewById(R.id.customerAddressTV);
         customerAddressEditTV=findViewById(R.id.customerAddressEditTV);
+        ratingBar=findViewById(R.id.ratingBar);
     }
 
     public void placeOrderDetailsBack(View view) {
