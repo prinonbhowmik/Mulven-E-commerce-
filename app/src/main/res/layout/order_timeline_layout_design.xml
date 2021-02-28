@@ -10,7 +10,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="15dp"
         android:layout_marginEnd="10dp"
         android:layout_weight=".36"
         android:fontFamily="@font/comfortaa_light"
@@ -28,7 +27,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="5dp"
             android:background="@drawable/circle_design" />
 
         <View
@@ -50,7 +48,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="15dp"
             android:fontFamily="@font/comfortaa_light"
             android:text="Pending"
             android:textColor="@color/black"
@@ -63,7 +60,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="10dp"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="20dp"
             android:fontFamily="@font/comfortaa_light"
             android:justificationMode="inter_word"
             android:lineSpacingExtra="2dp"

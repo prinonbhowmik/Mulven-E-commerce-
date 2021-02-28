@@ -21,6 +21,38 @@
             android:layout_marginStart="20dp"
             android:src="@drawable/ic_menu" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/navIcon"
+            android:fontFamily="@font/comfortaa_light"
+            android:text="Mulven"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/textf"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="20dp"
+            android:layout_toStartOf="@id/homeSearchIV"
+            android:fontFamily="@font/comfortaa_light"
+            android:gravity="center_vertical"
+            android:text="Dream Deal"
+            android:textColor="@color/white"
+            android:textSize="21sp" />
+        <ImageView
+            android:id="@+id/homeSearchIV"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_home_search"
+            android:layout_marginEnd="20dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"/>
+
     </RelativeLayout>
 
     <ScrollView
