@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/bg"
     tools:context=".Fragments.HomeFragment">
 
     <RelativeLayout
@@ -91,19 +91,46 @@
                     app:sliderStartAutoCycle="true" />
 
             </androidx.cardview.widget.CardView>
+        <RelativeLayout
+            android:id="@+id/shop_by_catagory_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/sliderCardView"
+            android:layout_marginTop="10dp">
+            <TextView
+                android:id="@+id/category_0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/comfortaa_light"
+                android:text="Shop By Categories"
+                android:textColor="@color/GGreen"
+                android:layout_marginBottom="5dp"
+                android:textSize="18sp" />
 
+
+            <View
+                android:id="@+id/view_0"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_below="@+id/category_0"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="20dp"
+                android:background="@color/gray" />
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/categoryRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/sliderCardView"
+                android:layout_below="@+id/view_0"
+                android:layout_marginTop="5dp"
                 android:orientation="horizontal" />
-
+        </RelativeLayout>
             <RelativeLayout
                 android:id="@+id/product_1_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/categoryRecyclerView"
+                android:layout_below="@+id/shop_by_catagory_layout"
                 android:layout_marginTop="10dp">
 
                 <TextView
@@ -114,7 +141,7 @@
                     android:fontFamily="@font/comfortaa_light"
                     android:text="Computer and Accessories"
                     android:textColor="@color/GGreen"
-                    android:textSize="15sp" />
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/seeAll_1"
@@ -124,14 +151,19 @@
                     android:layout_marginEnd="20dp"
                     android:fontFamily="@font/comfortaa_light"
                     android:text="See All"
-                    android:textColor="@color/GGreen"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:textColor="@color/white"
+                    android:background="@drawable/see_all_products"
                     android:textSize="15sp" />
 
                 <View
                     android:id="@+id/view_1"
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
-                    android:layout_below="@+id/category_1"
+                    android:layout_below="@+id/seeAll_1"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="3dp"
                     android:layout_marginEnd="20dp"
@@ -160,8 +192,8 @@
                     android:layout_marginStart="10dp"
                     android:fontFamily="@font/comfortaa_light"
                     android:text="Jewelry and Watches"
-                    android:textColor="@color/GBlue"
-                    android:textSize="15sp" />
+                    android:textColor="@color/GGreen"
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/seeAll_2"
@@ -169,16 +201,21 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="20dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:background="@drawable/see_all_products"
                     android:fontFamily="@font/comfortaa_light"
                     android:text="See All"
-                    android:textColor="@color/GBlue"
+                    android:textColor="@color/white"
                     android:textSize="15sp" />
 
                 <View
                     android:id="@+id/view_2"
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
-                    android:layout_below="@+id/category_2"
+                    android:layout_below="@+id/seeAll_2"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="3dp"
                     android:layout_marginEnd="20dp"
@@ -206,8 +243,8 @@
                     android:layout_marginStart="10dp"
                     android:fontFamily="@font/comfortaa_light"
                     android:text="Grocery"
-                    android:textColor="@color/GYellow"
-                    android:textSize="15sp" />
+                    android:textColor="@color/GGreen"
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/seeAll_3"
@@ -217,14 +254,19 @@
                     android:layout_marginEnd="20dp"
                     android:fontFamily="@font/comfortaa_light"
                     android:text="See All"
-                    android:textColor="@color/GYellow"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:background="@drawable/see_all_products"
+                    android:textColor="@color/white"
                     android:textSize="15sp" />
 
                 <View
                     android:id="@+id/view_3"
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
-                    android:layout_below="@+id/category_3"
+                    android:layout_below="@+id/seeAll_3"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="3dp"
                     android:layout_marginEnd="20dp"
@@ -235,7 +277,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/view_3"
-                    android:layout_marginTop="5dp" />
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="10dp"/>
             </RelativeLayout>
         </RelativeLayout>
     </ScrollView>
