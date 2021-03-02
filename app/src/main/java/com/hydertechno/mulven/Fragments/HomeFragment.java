@@ -24,7 +24,10 @@ import com.hydertechno.mulven.Activities.SeeAllProductsActivity;
 import com.hydertechno.mulven.Adapters.CategoriesAdapter;
 import com.hydertechno.mulven.Adapters.HomePageSliderAdapter;
 import com.hydertechno.mulven.Adapters.ProductAdapter;
+import com.hydertechno.mulven.Api.ApiInterface;
+import com.hydertechno.mulven.Api.ApiUtils;
 import com.hydertechno.mulven.Models.CategoriesModel;
+import com.hydertechno.mulven.Models.Sliderimage;
 import com.hydertechno.mulven.R;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
 import com.smarteist.autoimageslider.SliderAnimations;
@@ -34,6 +37,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HomeFragment extends Fragment {
     private RecyclerView categoryRecycler,category_1,category_2,category_3;
@@ -49,11 +56,8 @@ public class HomeFragment extends Fragment {
     private List<CategoriesModel> grocery=new ArrayList<>();
     private SliderView imageSlider;
     private TextView seeAll1,seeAll2,seeAll3;
-    int[] image={R.drawable.beefslider,
-            R.drawable.seller,
-            R.drawable.slider1,
-            R.drawable.slider2,
-            R.drawable.slider3};
+    private ApiInterface apiInterface;
+
     HomePageSliderAdapter homePageSliderAdapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,6 +66,9 @@ public class HomeFragment extends Fragment {
         View view= inflater.inflate(R.layout.fragment_home, container, false);
         init(view);
         drawerLayout=getActivity().findViewById(R.id.drawerLayout);
+
+        getSliderImage();
+
         navIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -111,16 +118,37 @@ public class HomeFragment extends Fragment {
         grocery.add(new CategoriesModel("৳ 350","Rupchanda Miniket Rice 5Kg",R.drawable.rice));
         grocery.add(new CategoriesModel("৳ 380","Danish Premium Ghee 900gm",R.drawable.ghee));
 
-        imageSlider.setSliderAdapter(homePageSliderAdapter);
-        imageSlider.setIndicatorAnimation(IndicatorAnimationType.WORM);
-        imageSlider.setSliderTransformAnimation(SliderAnimations.DEPTHTRANSFORMATION);
-        imageSlider.startAutoCycle();
+
         return view;
+    }
+
+    private void getSliderImage() {
+
+        Call<List<Sliderimage>> call = apiInterface.getSliderImage();
+        call.enqueue(new Callback<List<Sliderimage>>() {
+            @Override
+            public void onResponse(Call<List<Sliderimage>> call, Response<List<Sliderimage>> response) {
+                List<Sliderimage> imageList = response.body();
+
+                homePageSliderAdapter=new HomePageSliderAdapter(imageList);
+                imageSlider.setSliderAdapter(homePageSliderAdapter);
+                imageSlider.setIndicatorAnimation(IndicatorAnimationType.WORM);
+                imageSlider.setSliderTransformAnimation(SliderAnimations.DEPTHTRANSFORMATION);
+                imageSlider.setScrollTimeInSec(4);
+                imageSlider.startAutoCycle();
+            }
+
+            @Override
+            public void onFailure(Call<List<Sliderimage>> call, Throwable t) {
+
+            }
+        });
     }
 
     private void init(View view) {
         navIcon=view.findViewById(R.id.navIcon);
         categoryRecycler=view.findViewById(R.id.categoryRecyclerView);
+        homePageSliderAdapter = new HomePageSliderAdapter(getContext());
         imageSlider=view.findViewById(R.id.imageSlider);
         category_1=view.findViewById(R.id.category_1Grid_View);
         category_2=view.findViewById(R.id.category_2Grid_View);
@@ -128,7 +156,6 @@ public class HomeFragment extends Fragment {
         seeAll1=view.findViewById(R.id.seeAll_1);
         seeAll2=view.findViewById(R.id.seeAll_2);
         seeAll3=view.findViewById(R.id.seeAll_3);
-        homePageSliderAdapter=new HomePageSliderAdapter(image);
 
         categoriesAdapter=new CategoriesAdapter(categoriesModelList,getContext());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
@@ -153,6 +180,7 @@ public class HomeFragment extends Fragment {
         //category_2.setLayoutManager(new GridLayoutManager(getContext(),2));
         category_3.setLayoutManager(layoutManager3);
         category_3.setAdapter(grocery_Adapter);
+        apiInterface = ApiUtils.getUserService();
     }
 
     private void hideKeyboardFrom(Context context) {

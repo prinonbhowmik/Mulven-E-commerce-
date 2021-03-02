@@ -62,4 +62,9 @@ dependencies {
 
     //RadioGroup
     implementation 'com.github.patgdut:RadioRealButton:v2.1.2'
+
+    //retrofit
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.squareup.retrofit2:retrofit:2.6.2'
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.2'
 }
