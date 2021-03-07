@@ -5,25 +5,23 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hydertechno.mulven.Activities.SeeAllProductsActivity;
-import com.hydertechno.mulven.Models.CategoriesModel;
+import com.hydertechno.mulven.Models.CategoryNamesModel;
 import com.hydertechno.mulven.R;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.ViewHolder> {
-    private List<CategoriesModel> categoriesModelList;
+public class CategoryNamesAdapter extends RecyclerView.Adapter<CategoryNamesAdapter.ViewHolder> {
+    private List<CategoryNamesModel> categoryNamesModelList;
     private Context context;
 
-    public CategoriesAdapter(List<CategoriesModel> categoriesModelList, Context context) {
-        this.categoriesModelList = categoriesModelList;
+    public CategoryNamesAdapter(List<CategoryNamesModel> categoryNamesModelList, Context context) {
+        this.categoryNamesModelList = categoryNamesModelList;
         this.context = context;
     }
 
@@ -36,9 +34,8 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        CategoriesModel model=categoriesModelList.get(position);
-        holder.categoryName.setText(model.getCategoriesName());
-        holder.categoryIcon.setImageResource(model.getIcon());
+        CategoryNamesModel model= categoryNamesModelList.get(position);
+        holder.categoryName.setText(model.getCategory_name());
         /*try {
             Picasso.get()
                     .load(model.getImage())
@@ -50,7 +47,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(context, SeeAllProductsActivity.class);
-                intent.putExtra("title",""+model.getCategoriesName());
+                intent.putExtra("title",""+model.getCategory_name());
                 context.startActivity(intent);
 
             }
@@ -59,15 +56,13 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
 
     @Override
     public int getItemCount() {
-        return categoriesModelList.size();
+        return categoryNamesModelList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private ImageView categoryIcon;
         private TextView categoryName;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            categoryIcon=itemView.findViewById(R.id.categoryIcon);
             categoryName=itemView.findViewById(R.id.categoryName);
 
         }

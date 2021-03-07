@@ -23,7 +23,23 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="30dp"
                 android:src="@drawable/mvlogo"/>
-            <TextView
+            <com.hanks.htextview.typer.TyperTextView
+                android:id="@+id/textViewLine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="Sign Up"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                android:fontFamily="@font/comfortaa_light"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="30dp"
+                android:layout_marginEnd="40dp"
+                app:charIncrease="1"
+                app:typerSpeed="80"/>
+           <!-- <TextView
                 android:id="@+id/log_in_txt1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -35,7 +51,7 @@
                 android:layout_marginBottom="30dp"
                 android:layout_marginEnd="40dp"
                 android:fontFamily="@font/comfortaa_light"
-                android:layout_centerHorizontal="true"/>
+                android:layout_centerHorizontal="true"/>-->
         </RelativeLayout>
 
         <com.google.android.material.textfield.TextInputLayout

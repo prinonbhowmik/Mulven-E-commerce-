@@ -11,6 +11,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ public class AccountFragment extends Fragment {
     private TextInputEditText phoneTIET,passwordTIET;
     private TextView forgetPasswordTV,newRegisterTV;
     private Button logInBtn;
+    private String phone,password;
     private DrawerLayout drawerLayout;
     private ImageView navIcon;
     @Override
@@ -55,17 +57,44 @@ public class AccountFragment extends Fragment {
         logInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment newFragment = new ProfileFragment();
-                // consider using Java coding conventions (upper first char class names!!!)
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                phone = phoneTIET.getText().toString();
+                password = passwordTIET.getText().toString();
+                if (TextUtils.isEmpty(phone)) {
+                    hideKeyboardFrom(getContext());
+                    phoneTIL.setError("Please Enter Phone Number");
+                    phoneTIET.requestFocus();
+                } else if (phone.length() != 11) {
+                    hideKeyboardFrom(getContext());
+                    phoneTIL.setError("Please Provide Correct Phone Number");
+                    phoneTIET.requestFocus();
+                }else if (TextUtils.isEmpty(password)) {
+                    hideKeyboardFrom(getContext());
+                    passwordTIL.setError("Please Enter Password");
+                    passwordTIET.requestFocus();
+                } else if (password.length() < 5) {
+                    hideKeyboardFrom(getContext());
+                    passwordTIL.setError("Minimum 6 digits password");
+                    passwordTIET.requestFocus();
+                } else {
+                    phoneTIL.setErrorEnabled(false);
+                    passwordTIL.setErrorEnabled(false);
+                    hideKeyboardFrom(getContext());
+                    Fragment newFragment = new ProfileFragment();
+                    // consider using Java coding conventions (upper first char class names!!!)
+                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
-                // Replace whatever is in the fragment_container view with this fragment,
-                // and add the transaction to the back stack
-                transaction.replace(R.id.fragment_container, newFragment);
-                transaction.addToBackStack(null);
+                    // Replace whatever is in the fragment_container view with this fragment,
+                    // and add the transaction to the back stack
+                    transaction.replace(R.id.fragment_container, newFragment);
+                    transaction.addToBackStack(null);
 
-                // Commit the transaction
-                transaction.commit();
+                    // Commit the transaction
+                    transaction.commit();
+                }
+                 if (phone.length() == 11) {
+                    hideKeyboardFrom(getContext());
+                    phoneTIL.setErrorEnabled(false);
+                }
             }
         });
         return view;

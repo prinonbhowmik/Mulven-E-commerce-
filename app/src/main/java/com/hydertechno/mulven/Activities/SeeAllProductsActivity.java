@@ -2,22 +2,14 @@ package com.hydertechno.mulven.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.graphics.Paint;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.hydertechno.mulven.Adapters.AllProductsAdapter;
-import com.hydertechno.mulven.Adapters.CategoriesAdapter;
-import com.hydertechno.mulven.Adapters.ProductAdapter;
 import com.hydertechno.mulven.Models.CategoriesModel;
 import com.hydertechno.mulven.R;
 

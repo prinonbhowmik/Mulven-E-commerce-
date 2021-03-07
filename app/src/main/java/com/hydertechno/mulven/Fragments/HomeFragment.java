@@ -3,13 +3,11 @@ package com.hydertechno.mulven.Fragments;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,12 +19,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hydertechno.mulven.Activities.SeeAllProductsActivity;
-import com.hydertechno.mulven.Adapters.CategoriesAdapter;
+import com.hydertechno.mulven.Adapters.CategoryNamesAdapter;
 import com.hydertechno.mulven.Adapters.HomePageSliderAdapter;
 import com.hydertechno.mulven.Adapters.ProductAdapter;
 import com.hydertechno.mulven.Api.ApiInterface;
 import com.hydertechno.mulven.Api.ApiUtils;
 import com.hydertechno.mulven.Models.CategoriesModel;
+import com.hydertechno.mulven.Models.CategoryNamesModel;
 import com.hydertechno.mulven.Models.Sliderimage;
 import com.hydertechno.mulven.R;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
@@ -34,7 +33,6 @@ import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -44,12 +42,14 @@ import retrofit2.Response;
 
 public class HomeFragment extends Fragment {
     private RecyclerView categoryRecycler,category_1,category_2,category_3;
-    private CategoriesAdapter categoriesAdapter;
+    private HomePageSliderAdapter homePageSliderAdapter;
+    private CategoryNamesAdapter categoryNamesAdapter;
     private ProductAdapter computer_and_accessory_Adapter;
     private ProductAdapter jewelry_and_watch_Adapter;
     private ProductAdapter grocery_Adapter;
     private DrawerLayout drawerLayout;
     private ImageView navIcon;
+    private List<CategoryNamesModel> categoryNamesModelList =new ArrayList<>();
     private List<CategoriesModel> categoriesModelList=new ArrayList<>();
     private List<CategoriesModel> computer_and_accessory=new ArrayList<>();
     private List<CategoriesModel> jewelry_and_watch=new ArrayList<>();
@@ -57,8 +57,6 @@ public class HomeFragment extends Fragment {
     private SliderView imageSlider;
     private TextView seeAll1,seeAll2,seeAll3;
     private ApiInterface apiInterface;
-
-    HomePageSliderAdapter homePageSliderAdapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -68,6 +66,7 @@ public class HomeFragment extends Fragment {
         drawerLayout=getActivity().findViewById(R.id.drawerLayout);
 
         getSliderImage();
+        getCategoriesName();
 
         navIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,11 +95,11 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        categoriesModelList.add(new CategoriesModel("1","Food",R.drawable.ic_burger));
+        /*categoriesModelList.add(new CategoriesModel("1","Food",R.drawable.ic_burger));
         categoriesModelList.add(new CategoriesModel("1","Kids and Toys",R.drawable.ic_baby));
         categoriesModelList.add(new CategoriesModel("1","Grocery Item",R.drawable.ic_shopping_basket));
         categoriesModelList.add(new CategoriesModel("1","Jewelry and Watches",R.drawable.ic_gem));
-        categoriesModelList.add(new CategoriesModel("1","Sports",R.drawable.ic_volleybal));
+        categoriesModelList.add(new CategoriesModel("1","Sports",R.drawable.ic_volleybal));*/
 
 
         computer_and_accessory.add(new CategoriesModel("৳ 1000","LG 19M38A 18.5 Inch Monitor",R.drawable.monitor));
@@ -144,7 +143,26 @@ public class HomeFragment extends Fragment {
             }
         });
     }
+    private void getCategoriesName() {
+        categoryNamesModelList.clear();
+        Call<List<CategoryNamesModel>> call = apiInterface.getProductsCategories();
+        call.enqueue(new Callback<List<CategoryNamesModel>>() {
+            @Override
+            public void onResponse(Call<List<CategoryNamesModel>> call, Response<List<CategoryNamesModel>> response) {
+                if (response.isSuccessful()){
+                    categoryNamesModelList = response.body();
+                    categoryNamesAdapter = new CategoryNamesAdapter(categoryNamesModelList, getContext());
+                    categoryRecycler.setAdapter(categoryNamesAdapter);
+                }
+                Collections.reverse(categoryNamesModelList);
+                categoryNamesAdapter.notifyDataSetChanged();
+            }
 
+            @Override
+            public void onFailure(Call<List<CategoryNamesModel>> call, Throwable t) {
+            }
+        });
+    }
     private void init(View view) {
         navIcon=view.findViewById(R.id.navIcon);
         categoryRecycler=view.findViewById(R.id.categoryRecyclerView);
@@ -157,10 +175,10 @@ public class HomeFragment extends Fragment {
         seeAll2=view.findViewById(R.id.seeAll_2);
         seeAll3=view.findViewById(R.id.seeAll_3);
 
-        categoriesAdapter=new CategoriesAdapter(categoriesModelList,getContext());
+        categoryNamesAdapter =new CategoryNamesAdapter(categoryNamesModelList,getContext());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         categoryRecycler.setLayoutManager(layoutManager);
-        categoryRecycler.setAdapter(categoriesAdapter);
+        categoryRecycler.setAdapter(categoryNamesAdapter);
         Collections.reverse(categoriesModelList);
 
         computer_and_accessory_Adapter=new ProductAdapter(computer_and_accessory,getContext());

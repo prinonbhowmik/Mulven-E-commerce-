@@ -57,7 +57,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     case R.id.home:
                         fragment=new HomeFragment();
                         break;
-                    case R.id.favourite:
                     case R.id.account:
                         fragment=new AccountFragment();
                         break;case R.id.cart:

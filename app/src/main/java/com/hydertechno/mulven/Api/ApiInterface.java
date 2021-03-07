@@ -1,5 +1,6 @@
 package com.hydertechno.mulven.Api;
 
+import com.hydertechno.mulven.Models.CategoryNamesModel;
 import com.hydertechno.mulven.Models.Sliderimage;
 
 import java.util.List;
@@ -11,4 +12,7 @@ public interface ApiInterface {
 
     @GET("slider")
     Call<List<Sliderimage>> getSliderImage();
+
+    @GET("categories")
+    Call<List<CategoryNamesModel>> getProductsCategories();
 }

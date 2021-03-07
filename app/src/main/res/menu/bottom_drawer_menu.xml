@@ -8,12 +8,6 @@
             android:title="Home"
             app:cnb_iconColor="@color/GGreen"/>
         <item
-            android:id="@+id/favourite"
-            android:icon="@drawable/ic_favourite"
-            android:title="Favourite"
-            app:cnb_iconColor="@color/GYellow"/>
-
-        <item
             android:id="@+id/cart"
             android:icon="@drawable/ic_cart"
             android:title="Cart"
@@ -27,7 +21,7 @@
             android:id="@+id/account"
             android:icon="@drawable/ic_account"
             android:title="Account"
-            app:cnb_iconColor="@color/GGreen"/>
+            app:cnb_iconColor="@color/GYellow"/>
 
 
     </group>
