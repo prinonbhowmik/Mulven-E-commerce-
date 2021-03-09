@@ -1,49 +1,46 @@
 package com.hydertechno.mulven.Models;
 
 public class CategoriesModel {
-    private String id;
-    private String image;
-    private String categoriesName;
-    private int icon;
+    private int id;
+    private String sku;
+    private String product_name;
+    private int mrp_price;
+    private int unit_price;
+    private String feacher_image;
 
-    public CategoriesModel(String id, String categoriesName, int icon) {
+    public CategoriesModel(int id, String sku, String product_name, int mrp_price, int unit_price, String feacher_image) {
         this.id = id;
-        this.categoriesName = categoriesName;
-        this.icon = icon;
+        this.sku = sku;
+        this.product_name = product_name;
+        this.mrp_price = mrp_price;
+        this.unit_price = unit_price;
+        this.feacher_image = feacher_image;
     }
 
     public CategoriesModel() {
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public String getImage() {
-        return image;
+    public String getSku() {
+        return sku;
     }
 
-    public String getCategoriesName() {
-        return categoriesName;
+    public String getProduct_name() {
+        return product_name;
     }
 
-    public int getIcon() {
-        return icon;
+    public int getMrp_price() {
+        return mrp_price;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public int getUnit_price() {
+        return unit_price;
     }
 
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public void setCategoriesName(String categoriesName) {
-        this.categoriesName = categoriesName;
-    }
-
-    public void setIcon(int icon) {
-        this.icon = icon;
+    public String getFeacher_image() {
+        return feacher_image;
     }
 }

@@ -3,12 +3,10 @@ package com.hydertechno.mulven.Models;
 public class CategoryNamesModel {
     private String id;
     private String category_name;
-    private int status;
 
-    public CategoryNamesModel(String id, String category_name, int status) {
+    public CategoryNamesModel(String id, String category_name) {
         this.id = id;
         this.category_name = category_name;
-        this.status = status;
     }
 
     public CategoryNamesModel() {
@@ -30,11 +28,4 @@ public class CategoryNamesModel {
         this.category_name = category_name;
     }
 
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
 }

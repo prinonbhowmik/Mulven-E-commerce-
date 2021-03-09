@@ -15,6 +15,7 @@
             android:id="@+id/productImage"
             android:layout_width="match_parent"
             android:layout_height="140dp"
+            android:padding="5dp"
             android:layout_centerHorizontal="true"
             android:scaleType="fitXY"
             android:src="@drawable/ram" />
@@ -26,14 +27,14 @@
             android:layout_marginTop="2dp"
             android:layout_below="@+id/productImage">
             <TextView
-                android:id="@+id/productOldPrice"
+                android:id="@+id/productMRPPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/comfortaa_light"
                 android:text="৳ 800"
                 android:textSize="15sp" />
             <TextView
-                android:id="@+id/productPrice"
+                android:id="@+id/productUnitPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -46,12 +47,12 @@
         <TextView
             android:id="@+id/productName"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_below="@+id/priceLayout"
             android:layout_centerHorizontal="true"
             android:layout_margin="8dp"
             android:fontFamily="@font/comfortaa_light"
-            android:gravity="center"
+            android:gravity="center|top"
             android:maxLines="2"
             android:lineSpacingExtra="3dp"
             android:text="Transcend 8GB DDR4 2666MHz Bus SO-DIMM Laptop RAM"

@@ -13,8 +13,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hydertechno.mulven.Activities.ProductDetailsActivity;
+import com.hydertechno.mulven.Api.Config;
 import com.hydertechno.mulven.Models.CategoriesModel;
 import com.hydertechno.mulven.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -38,9 +40,16 @@ public class AllProductsAdapter extends RecyclerView.Adapter<AllProductsAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         CategoriesModel model=categoriesModelList.get(position);
-        holder.productImage.setImageResource(model.getIcon());
-        holder.productPrice.setText(model.getId());
-        holder.productName.setText(model.getCategoriesName());
+        holder.productUnitPrice.setText(String.valueOf(model.getUnit_price()));
+        holder.productMRPPrice.setText(String.valueOf(model.getMrp_price()));
+        holder.productName.setText(model.getProduct_name());
+        try{
+            Picasso.get()
+                    .load(Config.IMAGE_LINE+model.getFeacher_image())
+                    .into(holder.productImage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,14 +72,14 @@ public class AllProductsAdapter extends RecyclerView.Adapter<AllProductsAdapter.
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView productImage;
-        private TextView productPrice,productName,productOldPrice;
+        private TextView productUnitPrice,productName,productMRPPrice;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             productImage=itemView.findViewById(R.id.productImage);
             productName=itemView.findViewById(R.id.productName);
-            productPrice=itemView.findViewById(R.id.productPrice);
-            productOldPrice=itemView.findViewById(R.id.productOldPrice);
-            productOldPrice.setPaintFlags(productOldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            productUnitPrice=itemView.findViewById(R.id.productUnitPrice);
+            productMRPPrice=itemView.findViewById(R.id.productMRPPrice);
+            productMRPPrice.setPaintFlags(productMRPPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         }
     }
 }

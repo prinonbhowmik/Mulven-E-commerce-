@@ -10,18 +10,27 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.hydertechno.mulven.Adapters.AllProductsAdapter;
+import com.hydertechno.mulven.Adapters.ProductAdapter;
+import com.hydertechno.mulven.Api.ApiInterface;
+import com.hydertechno.mulven.Api.ApiUtils;
 import com.hydertechno.mulven.Models.CategoriesModel;
 import com.hydertechno.mulven.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class SeeAllProductsActivity extends AppCompatActivity {
-    private String title;
+    private String title,id;
+    private int categoryID;
     private TextView titleName;
     private RecyclerView productRecyclerView;
     private AllProductsAdapter all_product_Adapter;
     private List<CategoriesModel> allProductsList=new ArrayList<>();
+    private ApiInterface apiInterface;
 
 
 
@@ -32,17 +41,20 @@ public class SeeAllProductsActivity extends AppCompatActivity {
         init();
         Intent intent=getIntent();
         title=intent.getStringExtra("title");
+        id=intent.getStringExtra("id");
+        categoryID=Integer.parseInt(id);
         titleName.setText(title);
+        getCategories();
        // titleName.setPaintFlags(titleName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
-        for(int a=12; a>0;a--){
+       /* for(int a=12; a>0;a--){
             if(a%2==0){
                 allProductsList.add(new CategoriesModel("৳ 180","15 pcs/set Imitation Black Gem & Rhinestone Inlay Rings for Women",R.drawable.ring));
             }
             else{
                 allProductsList.add(new CategoriesModel("৳ 250","white stone jewelry set for women",R.drawable.jewelry));
             }
-        }
+        }*/
 
     }
 
@@ -52,8 +64,30 @@ public class SeeAllProductsActivity extends AppCompatActivity {
         all_product_Adapter=new AllProductsAdapter(allProductsList,this);
         productRecyclerView.setLayoutManager(new GridLayoutManager(this,2));
         productRecyclerView.setAdapter(all_product_Adapter);
+        apiInterface= ApiUtils.getUserService();
     }
 
+
+    private void getCategories() {
+        allProductsList.clear();
+        Call<List<CategoriesModel>> call = apiInterface.getCategories(categoryID);
+        call.enqueue(new Callback<List<CategoriesModel>>() {
+            @Override
+            public void onResponse(Call<List<CategoriesModel>> call, Response<List<CategoriesModel>> response) {
+                if (response.isSuccessful()){
+                    allProductsList = response.body();
+                    all_product_Adapter = new AllProductsAdapter(allProductsList, getApplicationContext());
+                    productRecyclerView.setAdapter(all_product_Adapter);
+                }
+                //Collections.reverse(categoryNamesModelList);
+                all_product_Adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<List<CategoriesModel>> call, Throwable t) {
+            }
+        });
+    }
     public void seeAllProductBack(View view) {
         finish();
     }

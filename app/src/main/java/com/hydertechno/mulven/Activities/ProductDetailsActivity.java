@@ -56,7 +56,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
         productImagesModelList.add(new ProductImagesModel("3",R.drawable.ghee));
         productImagesModelList.add(new ProductImagesModel("4",R.drawable.rice));
 
-        for(int a=12; a>0;a--){
+      /*  for(int a=12; a>0;a--){
             if(a%2==0){
                 jewelry_and_watch.add(new CategoriesModel("৳ 180","15 pcs/set Imitation Black Gem & Rhinestone Inlay Rings for Women",R.drawable.ring));
             }
@@ -64,7 +64,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
                 jewelry_and_watch.add(new CategoriesModel("৳ 250","white stone jewelry set for women",R.drawable.jewelry));
 
             }
-        }
+        }*/
 
         addToCart.setOnClickListener(new View.OnClickListener() {
             @Override

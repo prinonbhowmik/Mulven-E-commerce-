@@ -47,6 +47,7 @@ public class CategoryNamesAdapter extends RecyclerView.Adapter<CategoryNamesAdap
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(context, SeeAllProductsActivity.class);
+                intent.putExtra("id",""+model.getId());
                 intent.putExtra("title",""+model.getCategory_name());
                 context.startActivity(intent);
 

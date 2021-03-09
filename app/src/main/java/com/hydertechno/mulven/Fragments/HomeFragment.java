@@ -67,6 +67,9 @@ public class HomeFragment extends Fragment {
 
         getSliderImage();
         getCategoriesName();
+        getCategories1();
+        getCategories2();
+        getCategories3();
 
         navIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,7 +105,7 @@ public class HomeFragment extends Fragment {
         categoriesModelList.add(new CategoriesModel("1","Sports",R.drawable.ic_volleybal));*/
 
 
-        computer_and_accessory.add(new CategoriesModel("৳ 1000","LG 19M38A 18.5 Inch Monitor",R.drawable.monitor));
+      /*  computer_and_accessory.add(new CategoriesModel("৳ 1000","LG 19M38A 18.5 Inch Monitor",R.drawable.monitor));
         computer_and_accessory.add(new CategoriesModel("৳ 2000","Transcend 8GB DDR4 2666MHz Bus SO-DIMM Laptop RAM",R.drawable.ram));
         computer_and_accessory.add(new CategoriesModel("৳ 1000","LG 19M38A 18.5 Inch Monitor",R.drawable.monitor));
         computer_and_accessory.add(new CategoriesModel("৳ 2000","Transcend 8GB DDR4 2666MHz Bus SO-DIMM Laptop RAM",R.drawable.ram));
@@ -115,7 +118,7 @@ public class HomeFragment extends Fragment {
         grocery.add(new CategoriesModel("৳ 350","Rupchanda Miniket Rice 5Kg",R.drawable.rice));
         grocery.add(new CategoriesModel("৳ 380","Danish Premium Ghee 900gm",R.drawable.ghee));
         grocery.add(new CategoriesModel("৳ 350","Rupchanda Miniket Rice 5Kg",R.drawable.rice));
-        grocery.add(new CategoriesModel("৳ 380","Danish Premium Ghee 900gm",R.drawable.ghee));
+        grocery.add(new CategoriesModel("৳ 380","Danish Premium Ghee 900gm",R.drawable.ghee));*/
 
 
         return view;
@@ -154,12 +157,72 @@ public class HomeFragment extends Fragment {
                     categoryNamesAdapter = new CategoryNamesAdapter(categoryNamesModelList, getContext());
                     categoryRecycler.setAdapter(categoryNamesAdapter);
                 }
-                Collections.reverse(categoryNamesModelList);
+                //Collections.reverse(categoryNamesModelList);
                 categoryNamesAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onFailure(Call<List<CategoryNamesModel>> call, Throwable t) {
+            }
+        });
+    }
+    private void getCategories1() {
+        computer_and_accessory.clear();
+        Call<List<CategoriesModel>> call = apiInterface.getCategories(3);
+        call.enqueue(new Callback<List<CategoriesModel>>() {
+            @Override
+            public void onResponse(Call<List<CategoriesModel>> call, Response<List<CategoriesModel>> response) {
+                if (response.isSuccessful()){
+                    computer_and_accessory = response.body();
+                    computer_and_accessory_Adapter = new ProductAdapter(computer_and_accessory, getContext());
+                    category_1.setAdapter(computer_and_accessory_Adapter);
+                }
+                //Collections.reverse(categoryNamesModelList);
+                computer_and_accessory_Adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<List<CategoriesModel>> call, Throwable t) {
+            }
+        });
+    }
+    private void getCategories2() {
+        jewelry_and_watch.clear();
+        Call<List<CategoriesModel>> call = apiInterface.getCategories(8);
+        call.enqueue(new Callback<List<CategoriesModel>>() {
+            @Override
+            public void onResponse(Call<List<CategoriesModel>> call, Response<List<CategoriesModel>> response) {
+                if (response.isSuccessful()){
+                    jewelry_and_watch = response.body();
+                    jewelry_and_watch_Adapter = new ProductAdapter(jewelry_and_watch, getContext());
+                    category_2.setAdapter(jewelry_and_watch_Adapter);
+                }
+                //Collections.reverse(categoryNamesModelList);
+                jewelry_and_watch_Adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<List<CategoriesModel>> call, Throwable t) {
+            }
+        });
+    }
+    private void getCategories3() {
+        grocery.clear();
+        Call<List<CategoriesModel>> call = apiInterface.getCategories(1);
+        call.enqueue(new Callback<List<CategoriesModel>>() {
+            @Override
+            public void onResponse(Call<List<CategoriesModel>> call, Response<List<CategoriesModel>> response) {
+                if (response.isSuccessful()){
+                    grocery = response.body();
+                    grocery_Adapter = new ProductAdapter(grocery, getContext());
+                    category_3.setAdapter(grocery_Adapter);
+                }
+                //Collections.reverse(categoryNamesModelList);
+                grocery_Adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<List<CategoriesModel>> call, Throwable t) {
             }
         });
     }
