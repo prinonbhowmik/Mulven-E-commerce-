@@ -82,20 +82,22 @@ public class HomeFragment extends Fragment {
         seeAll1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), SeeAllProductsActivity.class).putExtra("title","Computer And Accessories"));
+                startActivity(new Intent(getContext(), SeeAllProductsActivity.class).putExtra("title","Computer And Accessories")
+                        .putExtra("id","3"));
             }
         });
         seeAll2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), SeeAllProductsActivity.class).putExtra("title","Jewelry And Watches"));
+                startActivity(new Intent(getContext(), SeeAllProductsActivity.class).putExtra("title","Jewelry And Watches")
+                        .putExtra("id","8"));
             }
         });
         seeAll3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), SeeAllProductsActivity.class).putExtra("title","Grocery"));
-            }
+                startActivity(new Intent(getContext(), SeeAllProductsActivity.class).putExtra("title","Grocery")
+                        .putExtra("id","1"));            }
         });
 
         /*categoriesModelList.add(new CategoriesModel("1","Food",R.drawable.ic_burger));

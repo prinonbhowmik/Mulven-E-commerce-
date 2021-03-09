@@ -59,7 +59,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
                 try {
                     Intent intent = new Intent(context, ProductDetailsActivity.class);
                     context.startActivity(intent);
-                    /*    ((Activity)context).finish();*/
                 } catch (Exception e) {
                 }
             }
