@@ -24,6 +24,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 
     private List<CategoriesModel> categoriesModelList;
     private Context context;
+    private int limit = 4;
 
     public ProductAdapter(List<CategoriesModel> categoriesModelList, Context context) {
         this.categoriesModelList = categoriesModelList;
@@ -68,7 +69,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return categoriesModelList.size();
+        if (categoriesModelList.size()>limit){
+            return limit;
+        }else {
+            return categoriesModelList.size();
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
