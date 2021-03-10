@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,6 +19,7 @@ import com.hydertechno.mulven.Models.CategoriesModel;
 import com.hydertechno.mulven.R;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AllProductsAdapter extends RecyclerView.Adapter<AllProductsAdapter.ViewHolder> {
@@ -65,7 +67,37 @@ public class AllProductsAdapter extends RecyclerView.Adapter<AllProductsAdapter.
 
     }
 
-    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                final FilterResults oReturn = new FilterResults();
+                final List<CategoriesModel> results = new ArrayList<CategoriesModel>();
+                List<CategoriesModel> orig = new ArrayList<>();
+                if (orig == null)
+                    orig = categoriesModelList;
+                if (constraint != null) {
+                    if (orig != null & orig.size() > 0) {
+                        for (final CategoriesModel g : orig) {
+                            if (g.getProduct_name().toLowerCase().contains(constraint.toString()))
+                                results.add(g);
+                        }
+                    }
+                    oReturn.values = results;
+                }
+                return oReturn;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                categoriesModelList = (ArrayList<CategoriesModel>) results.values;
+                notifyDataSetChanged();
+
+            }
+        };
+    }
+
+        @Override
     public int getItemCount() {
         return categoriesModelList.size();
     }

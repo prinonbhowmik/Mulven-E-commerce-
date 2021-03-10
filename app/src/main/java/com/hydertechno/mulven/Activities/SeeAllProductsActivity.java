@@ -1,12 +1,16 @@
 package com.hydertechno.mulven.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
 import com.hydertechno.mulven.Adapters.AllProductsAdapter;
@@ -27,6 +31,7 @@ public class SeeAllProductsActivity extends AppCompatActivity {
     private String title,id;
     private int categoryID;
     private TextView titleName;
+    private SearchView searchView;
     private RecyclerView productRecyclerView;
     private AllProductsAdapter all_product_Adapter;
     private List<CategoriesModel> allProductsList=new ArrayList<>();
@@ -47,6 +52,8 @@ public class SeeAllProductsActivity extends AppCompatActivity {
         getCategories();
        // titleName.setPaintFlags(titleName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
+        getSearchResult();
+
        /* for(int a=12; a>0;a--){
             if(a%2==0){
                 allProductsList.add(new CategoriesModel("৳ 180","15 pcs/set Imitation Black Gem & Rhinestone Inlay Rings for Women",R.drawable.ring));
@@ -58,7 +65,28 @@ public class SeeAllProductsActivity extends AppCompatActivity {
 
     }
 
+    private void getSearchResult() {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(final String newText) {
+                all_product_Adapter.getFilter().filter(newText);
+                productRecyclerView.setAdapter(all_product_Adapter);
+                return false;
+            }
+        });
+    }
+
     private void init() {
+        searchView = findViewById(R.id.searchET);
+        SearchManager manager = (SearchManager) getSystemService(SEARCH_SERVICE);
+        searchView.setSearchableInfo(manager.getSearchableInfo(getComponentName()));
+        searchView.setSubmitButtonEnabled(true);
+        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
         titleName=findViewById(R.id.titleName);
         productRecyclerView=findViewById(R.id.allProductRecyclerView);
         all_product_Adapter=new AllProductsAdapter(allProductsList,this);

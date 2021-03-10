@@ -34,7 +34,7 @@
             android:textColor="@color/white"
             android:textSize="18sp" />
 
-        <EditText
+        <androidx.appcompat.widget.SearchView
             android:id="@+id/searchET"
             android:layout_width="match_parent"
             android:layout_height="45dp"
