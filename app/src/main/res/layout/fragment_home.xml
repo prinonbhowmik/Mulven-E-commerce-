@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg"
+    android:background="@color/white"
     tools:context=".Fragments.HomeFragment">
 
     <RelativeLayout
@@ -67,12 +67,36 @@
             android:layout_height="wrap_content"
             android:animateLayoutChanges="true">
 
+            <RelativeLayout
+                android:id="@+id/shop_by_catagory_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+                <TextView
+                    android:id="@+id/category_0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="@font/comfortaa_bold"
+                    android:text="Top Categories"
+                    android:textColor="@color/black"
+                    android:layout_marginBottom="5dp"
+                    android:textSize="18sp" />
 
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/categoryRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/category_0"
+                    android:layout_margin="3dp"
+                    android:orientation="horizontal" />
+            </RelativeLayout>
             <androidx.cardview.widget.CardView
                 android:id="@+id/sliderCardView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_below="@+id/shop_by_catagory_layout"
+                android:layout_margin="8dp"
                 app:cardCornerRadius="6dp">
 
                 <com.smarteist.autoimageslider.SliderView
@@ -94,46 +118,12 @@
                     app:sliderStartAutoCycle="true" />
 
             </androidx.cardview.widget.CardView>
-        <RelativeLayout
-            android:id="@+id/shop_by_catagory_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/sliderCardView"
-            android:layout_marginTop="10dp">
-            <TextView
-                android:id="@+id/category_0"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:fontFamily="@font/comfortaa_light"
-                android:text="Shop By Categories"
-                android:textColor="@color/GGreen"
-                android:layout_marginBottom="5dp"
-                android:textSize="18sp" />
 
-
-            <View
-                android:id="@+id/view_0"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_below="@+id/category_0"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="3dp"
-                android:layout_marginEnd="20dp"
-                android:background="@color/gray" />
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/categoryRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/view_0"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal" />
-        </RelativeLayout>
             <RelativeLayout
                 android:id="@+id/product_1_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/shop_by_catagory_layout"
+                android:layout_below="@+id/sliderCardView"
                 android:layout_marginTop="10dp">
 
                 <TextView
@@ -141,9 +131,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:fontFamily="@font/comfortaa_light"
-                    android:text="Computer and Accessories"
-                    android:textColor="@color/GGreen"
+                    android:fontFamily="@font/comfortaa_bold"
+                    android:text="Cellphones and Camera"
+                    android:textColor="@color/black"
                     android:textSize="18sp" />
 
                 <TextView
@@ -156,7 +146,7 @@
                     android:text="See All"
                     android:paddingStart="10dp"
                     android:paddingEnd="10dp"
-                    android:paddingTop="5dp"
+                    android:paddingTop="3dp"
                     android:paddingBottom="5dp"
                     android:textColor="@color/white"
                     android:background="@drawable/see_all_products"
@@ -169,15 +159,17 @@
                     android:layout_below="@+id/seeAll_1"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"
                     android:layout_marginEnd="20dp"
                     android:background="@color/gray" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/category_1Grid_View"
+                    android:id="@+id/category_1Recycler_View"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/view_1"
-                    android:layout_marginTop="5dp"
+                    android:background="#F1F1F1"
+                    android:layout_margin="3dp"
                     android:orientation="horizontal" />
             </RelativeLayout>
 
@@ -193,9 +185,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:fontFamily="@font/comfortaa_light"
-                    android:text="Jewelry and Watches"
-                    android:textColor="@color/GGreen"
+                    android:fontFamily="@font/comfortaa_bold"
+                    android:text="Car and Bike"
+                    android:textColor="@color/black"
                     android:textSize="18sp" />
 
                 <TextView
@@ -225,9 +217,10 @@
                     android:background="@color/gray" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/category_2Grid_View"
+                    android:id="@+id/category_2Recycler_View"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="#F1F1F1"
                     android:layout_below="@+id/view_2"
                     android:layout_marginTop="5dp" />
             </RelativeLayout>
@@ -244,9 +237,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:fontFamily="@font/comfortaa_light"
-                    android:text="Grocery"
-                    android:textColor="@color/GGreen"
+                    android:fontFamily="@font/comfortaa_bold"
+                    android:text="Electronics"
+                    android:textColor="@color/black"
                     android:textSize="18sp" />
 
                 <TextView
@@ -276,10 +269,11 @@
                     android:background="@color/gray" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/category_3Grid_View"
+                    android:id="@+id/category_3Recycler_View"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/view_3"
+                    android:background="#F1F1F1"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="10dp"/>
             </RelativeLayout>

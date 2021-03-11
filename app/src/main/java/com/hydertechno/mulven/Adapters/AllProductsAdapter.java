@@ -6,6 +6,8 @@ import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -52,7 +54,9 @@ public class AllProductsAdapter extends RecyclerView.Adapter<AllProductsAdapter.
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        if(model.getMrp_price()==0){
+            holder.productMRPPrice.setVisibility(View.GONE);
+        }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -35,7 +35,7 @@ public class CategoryNamesAdapter extends RecyclerView.Adapter<CategoryNamesAdap
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         CategoryNamesModel model= categoryNamesModelList.get(position);
-        holder.categoryName.setText(model.getCategory_name());
+        holder.categoryName.setText(firstWord(model.getCategory_name()));
         /*try {
             Picasso.get()
                     .load(model.getImage())
@@ -53,6 +53,19 @@ public class CategoryNamesAdapter extends RecyclerView.Adapter<CategoryNamesAdap
 
             }
         });
+    }
+
+    public static String firstWord(String input) {
+
+        for(int i = 0; i < input.length(); i++)
+        {
+            if(input.charAt(i) == ' ')
+            {
+                return input.substring(0, i);
+            }
+        }
+
+        return input;
     }
 
     @Override

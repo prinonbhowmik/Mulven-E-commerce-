@@ -44,16 +44,15 @@ public class HomeFragment extends Fragment {
     private RecyclerView categoryRecycler,category_1,category_2,category_3;
     private HomePageSliderAdapter homePageSliderAdapter;
     private CategoryNamesAdapter categoryNamesAdapter;
-    private ProductAdapter computer_and_accessory_Adapter;
-    private ProductAdapter jewelry_and_watch_Adapter;
-    private ProductAdapter grocery_Adapter;
+    private ProductAdapter category1_Adapter;
+    private ProductAdapter category2_Adapter;
+    private ProductAdapter category3_Adapter;
     private DrawerLayout drawerLayout;
     private ImageView navIcon;
     private List<CategoryNamesModel> categoryNamesModelList =new ArrayList<>();
-    private List<CategoriesModel> categoriesModelList=new ArrayList<>();
-    private List<CategoriesModel> computer_and_accessory=new ArrayList<>();
-    private List<CategoriesModel> jewelry_and_watch=new ArrayList<>();
-    private List<CategoriesModel> grocery=new ArrayList<>();
+    private List<CategoriesModel> category1ModelList =new ArrayList<>();
+    private List<CategoriesModel> category2ModelList =new ArrayList<>();
+    private List<CategoriesModel> category3ModelList =new ArrayList<>();
     private SliderView imageSlider;
     private TextView seeAll1,seeAll2,seeAll3;
     private ApiInterface apiInterface;
@@ -82,46 +81,23 @@ public class HomeFragment extends Fragment {
         seeAll1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), SeeAllProductsActivity.class).putExtra("title","Computer And Accessories")
-                        .putExtra("id","3"));
+                startActivity(new Intent(getContext(), SeeAllProductsActivity.class).putExtra("title","Cellphones & Camera")
+                        .putExtra("id","9"));
             }
         });
         seeAll2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), SeeAllProductsActivity.class).putExtra("title","Jewelry And Watches")
-                        .putExtra("id","8"));
+                startActivity(new Intent(getContext(), SeeAllProductsActivity.class).putExtra("title","Car & Bike")
+                        .putExtra("id","4"));
             }
         });
         seeAll3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), SeeAllProductsActivity.class).putExtra("title","Grocery")
-                        .putExtra("id","1"));            }
+                startActivity(new Intent(getContext(), SeeAllProductsActivity.class).putExtra("title","Electronics")
+                        .putExtra("id","10"));            }
         });
-
-        /*categoriesModelList.add(new CategoriesModel("1","Food",R.drawable.ic_burger));
-        categoriesModelList.add(new CategoriesModel("1","Kids and Toys",R.drawable.ic_baby));
-        categoriesModelList.add(new CategoriesModel("1","Grocery Item",R.drawable.ic_shopping_basket));
-        categoriesModelList.add(new CategoriesModel("1","Jewelry and Watches",R.drawable.ic_gem));
-        categoriesModelList.add(new CategoriesModel("1","Sports",R.drawable.ic_volleybal));*/
-
-
-      /*  computer_and_accessory.add(new CategoriesModel("৳ 1000","LG 19M38A 18.5 Inch Monitor",R.drawable.monitor));
-        computer_and_accessory.add(new CategoriesModel("৳ 2000","Transcend 8GB DDR4 2666MHz Bus SO-DIMM Laptop RAM",R.drawable.ram));
-        computer_and_accessory.add(new CategoriesModel("৳ 1000","LG 19M38A 18.5 Inch Monitor",R.drawable.monitor));
-        computer_and_accessory.add(new CategoriesModel("৳ 2000","Transcend 8GB DDR4 2666MHz Bus SO-DIMM Laptop RAM",R.drawable.ram));
-
-        jewelry_and_watch.add(new CategoriesModel("৳ 180","15 pcs/set Imitation Black Gem & Rhinestone Inlay Rings for Women",R.drawable.ring));
-        jewelry_and_watch.add(new CategoriesModel("৳ 250","white stone jewelry set for women",R.drawable.jewelry));
-        jewelry_and_watch.add(new CategoriesModel("৳ 180","15 pcs/set Imitation Black Gem & Rhinestone Inlay Rings for Women",R.drawable.ring));
-        jewelry_and_watch.add(new CategoriesModel("৳ 250","white stone jewelry set for women",R.drawable.jewelry));
-
-        grocery.add(new CategoriesModel("৳ 350","Rupchanda Miniket Rice 5Kg",R.drawable.rice));
-        grocery.add(new CategoriesModel("৳ 380","Danish Premium Ghee 900gm",R.drawable.ghee));
-        grocery.add(new CategoriesModel("৳ 350","Rupchanda Miniket Rice 5Kg",R.drawable.rice));
-        grocery.add(new CategoriesModel("৳ 380","Danish Premium Ghee 900gm",R.drawable.ghee));*/
-
 
         return view;
     }
@@ -169,18 +145,18 @@ public class HomeFragment extends Fragment {
         });
     }
     private void getCategories1() {
-        computer_and_accessory.clear();
-        Call<List<CategoriesModel>> call = apiInterface.getCategories(3);
+        category1ModelList.clear();
+        Call<List<CategoriesModel>> call = apiInterface.getCategories(9);
         call.enqueue(new Callback<List<CategoriesModel>>() {
             @Override
             public void onResponse(Call<List<CategoriesModel>> call, Response<List<CategoriesModel>> response) {
                 if (response.isSuccessful()){
-                    computer_and_accessory = response.body();
-                    computer_and_accessory_Adapter = new ProductAdapter(computer_and_accessory, getContext());
-                    category_1.setAdapter(computer_and_accessory_Adapter);
+                    category1ModelList = response.body();
+                    category1_Adapter = new ProductAdapter(category1ModelList, getContext());
+                    category_1.setAdapter(category1_Adapter);
                 }
                 //Collections.reverse(categoryNamesModelList);
-                computer_and_accessory_Adapter.notifyDataSetChanged();
+                category1_Adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -189,18 +165,18 @@ public class HomeFragment extends Fragment {
         });
     }
     private void getCategories2() {
-        jewelry_and_watch.clear();
-        Call<List<CategoriesModel>> call = apiInterface.getCategories(8);
+        category2ModelList.clear();
+        Call<List<CategoriesModel>> call = apiInterface.getCategories(4);
         call.enqueue(new Callback<List<CategoriesModel>>() {
             @Override
             public void onResponse(Call<List<CategoriesModel>> call, Response<List<CategoriesModel>> response) {
                 if (response.isSuccessful()){
-                    jewelry_and_watch = response.body();
-                    jewelry_and_watch_Adapter = new ProductAdapter(jewelry_and_watch, getContext());
-                    category_2.setAdapter(jewelry_and_watch_Adapter);
+                    category2ModelList = response.body();
+                    category2_Adapter = new ProductAdapter(category2ModelList, getContext());
+                    category_2.setAdapter(category2_Adapter);
                 }
                 //Collections.reverse(categoryNamesModelList);
-                jewelry_and_watch_Adapter.notifyDataSetChanged();
+                category2_Adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -209,18 +185,18 @@ public class HomeFragment extends Fragment {
         });
     }
     private void getCategories3() {
-        grocery.clear();
-        Call<List<CategoriesModel>> call = apiInterface.getCategories(1);
+        category3ModelList.clear();
+        Call<List<CategoriesModel>> call = apiInterface.getCategories(10);
         call.enqueue(new Callback<List<CategoriesModel>>() {
             @Override
             public void onResponse(Call<List<CategoriesModel>> call, Response<List<CategoriesModel>> response) {
                 if (response.isSuccessful()){
-                    grocery = response.body();
-                    grocery_Adapter = new ProductAdapter(grocery, getContext());
-                    category_3.setAdapter(grocery_Adapter);
+                    category3ModelList = response.body();
+                    category3_Adapter = new ProductAdapter(category3ModelList, getContext());
+                    category_3.setAdapter(category3_Adapter);
                 }
                 //Collections.reverse(categoryNamesModelList);
-                grocery_Adapter.notifyDataSetChanged();
+                category3_Adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -233,9 +209,9 @@ public class HomeFragment extends Fragment {
         categoryRecycler=view.findViewById(R.id.categoryRecyclerView);
         homePageSliderAdapter = new HomePageSliderAdapter(getContext());
         imageSlider=view.findViewById(R.id.imageSlider);
-        category_1=view.findViewById(R.id.category_1Grid_View);
-        category_2=view.findViewById(R.id.category_2Grid_View);
-        category_3=view.findViewById(R.id.category_3Grid_View);
+        category_1=view.findViewById(R.id.category_1Recycler_View);
+        category_2=view.findViewById(R.id.category_2Recycler_View);
+        category_3=view.findViewById(R.id.category_3Recycler_View);
         seeAll1=view.findViewById(R.id.seeAll_1);
         seeAll2=view.findViewById(R.id.seeAll_2);
         seeAll3=view.findViewById(R.id.seeAll_3);
@@ -244,25 +220,24 @@ public class HomeFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         categoryRecycler.setLayoutManager(layoutManager);
         categoryRecycler.setAdapter(categoryNamesAdapter);
-        Collections.reverse(categoriesModelList);
 
-        computer_and_accessory_Adapter=new ProductAdapter(computer_and_accessory,getContext());
+        category1_Adapter =new ProductAdapter(category1ModelList,getContext());
         LinearLayoutManager layoutManager1 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         layoutManager1.setSmoothScrollbarEnabled(true);
         category_1.setLayoutManager(layoutManager1);
-        category_1.setAdapter(computer_and_accessory_Adapter);
+        category_1.setAdapter(category1_Adapter);
 
-        jewelry_and_watch_Adapter=new ProductAdapter(jewelry_and_watch,getContext());
+        category2_Adapter =new ProductAdapter(category2ModelList,getContext());
         LinearLayoutManager layoutManager2 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         //category_2.setLayoutManager(new GridLayoutManager(getContext(),2));
         category_2.setLayoutManager(layoutManager2);
-        category_2.setAdapter(jewelry_and_watch_Adapter);
+        category_2.setAdapter(category2_Adapter);
 
-        grocery_Adapter=new ProductAdapter(grocery,getContext());
+        category3_Adapter =new ProductAdapter(category3ModelList,getContext());
         LinearLayoutManager layoutManager3 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         //category_2.setLayoutManager(new GridLayoutManager(getContext(),2));
         category_3.setLayoutManager(layoutManager3);
-        category_3.setAdapter(grocery_Adapter);
+        category_3.setAdapter(category3_Adapter);
         apiInterface = ApiUtils.getUserService();
     }
 

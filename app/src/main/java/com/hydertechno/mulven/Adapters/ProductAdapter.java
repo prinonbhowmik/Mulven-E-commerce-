@@ -24,7 +24,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 
     private List<CategoriesModel> categoriesModelList;
     private Context context;
-    private int limit = 4;
+    private int limit = 8;
 
     public ProductAdapter(List<CategoriesModel> categoriesModelList, Context context) {
         this.categoriesModelList = categoriesModelList;

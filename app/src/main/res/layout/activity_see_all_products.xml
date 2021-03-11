@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:focusableInTouchMode="true"
-    android:background="@color/bg"
+    android:background="@color/white"
     tools:context=".Activities.SeeAllProductsActivity">
 
     <RelativeLayout
@@ -61,5 +61,11 @@
         android:id="@+id/allProductRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:padding="2dp"
+        android:layoutAnimation="@anim/layout_animation"
+        android:background="#F1F1F1"
+        android:scrollbars="vertical"
+        android:fitsSystemWindows="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_below="@+id/allProductToolbar" />
 </RelativeLayout>

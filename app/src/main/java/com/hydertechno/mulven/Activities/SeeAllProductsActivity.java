@@ -2,14 +2,18 @@ package com.hydertechno.mulven.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
@@ -80,7 +84,13 @@ public class SeeAllProductsActivity extends AppCompatActivity {
             }
         });
     }
-
+    private void layoutAnimator(RecyclerView recyclerView){
+        Context context=recyclerView.getContext();
+        LayoutAnimationController layoutAnimationController= AnimationUtils.loadLayoutAnimation(context,R.anim.item_animation_fall_down);
+        recyclerView.setLayoutAnimation(layoutAnimationController);
+        recyclerView.getAdapter().notifyDataSetChanged();
+        recyclerView.scheduleLayoutAnimation();
+    }
     private void init() {
         searchView = findViewById(R.id.searchET);
         SearchManager manager = (SearchManager) getSystemService(SEARCH_SERVICE);
@@ -91,6 +101,7 @@ public class SeeAllProductsActivity extends AppCompatActivity {
         productRecyclerView=findViewById(R.id.allProductRecyclerView);
         all_product_Adapter=new AllProductsAdapter(allProductsList,this);
         productRecyclerView.setLayoutManager(new GridLayoutManager(this,2));
+        productRecyclerView.setItemAnimator(new DefaultItemAnimator());
         productRecyclerView.setAdapter(all_product_Adapter);
         apiInterface= ApiUtils.getUserService();
     }

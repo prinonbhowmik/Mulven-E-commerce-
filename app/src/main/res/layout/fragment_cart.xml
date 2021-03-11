@@ -79,11 +79,12 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             android:layout_alignParentBottom="true">
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/themDark"/>
+                android:background="@color/gray"/>
             <TextView
                 android:id="@+id/cardSubtotalTxt"
                 android:layout_width="wrap_content"
@@ -91,20 +92,22 @@
                 android:text="Subtotal"
                 android:fontFamily="@font/comfortaa_light"
                 android:textSize="18sp"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="25dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:textColor="@color/themDark"/>
             <TextView
                 android:id="@+id/cardSubtotalAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="3800"
+                android:text="৳ 7600"
                 android:fontFamily="@font/comfortaa_light"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="20dp"
+                android:layout_marginEnd="25dp"
                 android:textSize="18sp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:textColor="@color/themDark"/>
 
             <TextView
@@ -117,6 +120,7 @@
                 android:layout_below="@id/cardSubtotalTxt"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
+                android:visibility="gone"
                 android:textColor="@color/themDark"/>
             <TextView
                 android:id="@+id/cardShippingAmount"
@@ -128,6 +132,7 @@
                 android:layout_below="@id/cardSubtotalAmount"
                 android:layout_marginEnd="20dp"
                 android:textSize="18sp"
+                android:visibility="gone"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
                 android:textColor="@color/themDark"/>
@@ -139,6 +144,7 @@
                 android:text="Total"
                 android:fontFamily="@font/comfortaa_light"
                 android:textSize="18sp"
+                android:visibility="gone"
                 android:layout_below="@+id/cardShippingTxt"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
@@ -153,6 +159,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="20dp"
                 android:textSize="18sp"
+                android:visibility="gone"
                 android:layout_below="@id/cardShippingAmount"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
