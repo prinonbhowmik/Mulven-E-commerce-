@@ -80,6 +80,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginBottom="5dp"
                     android:fontFamily="@font/comfortaa"
+                    android:textStyle="bold"
                     android:text="Top Categories"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
@@ -134,6 +135,7 @@
                     android:layout_marginStart="10dp"
                     android:fontFamily="@font/comfortaa"
                     android:text="Cellphones and Camera"
+                    android:textStyle="bold"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
 
@@ -143,14 +145,14 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="20dp"
-                    android:fontFamily="@font/comfortaa_light"
+                    android:fontFamily="@font/comfortaa"
+                    android:textStyle="bold"
                     android:text="See All"
                     android:paddingStart="10dp"
                     android:paddingEnd="10dp"
                     android:paddingTop="3dp"
                     android:paddingBottom="5dp"
-                    android:textColor="@color/white"
-                    android:background="@drawable/see_all_products"
+                    android:textColor="@color/GGreen"
                     android:textSize="15sp" />
 
                 <View
@@ -169,7 +171,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/view_1"
-                    android:background="#F1F1F1"
+                    android:background="#F8F8F8"
                     android:layout_margin="3dp"
                     android:orientation="horizontal" />
             </RelativeLayout>
@@ -188,6 +190,7 @@
                     android:layout_marginStart="10dp"
                     android:fontFamily="@font/comfortaa"
                     android:text="Car and Bike"
+                    android:textStyle="bold"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
 
@@ -201,10 +204,9 @@
                     android:paddingEnd="10dp"
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp"
-                    android:background="@drawable/see_all_products"
-                    android:fontFamily="@font/comfortaa_light"
+                    android:fontFamily="@font/comfortaa_bold"
                     android:text="See All"
-                    android:textColor="@color/white"
+                    android:textColor="@color/GGreen"
                     android:textSize="15sp" />
 
                 <View
@@ -239,6 +241,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:fontFamily="@font/comfortaa"
+                    android:textStyle="bold"
                     android:text="Electronics"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
@@ -249,14 +252,14 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="20dp"
-                    android:fontFamily="@font/comfortaa_light"
+                    android:fontFamily="@font/comfortaa"
                     android:text="See All"
                     android:paddingStart="10dp"
                     android:paddingEnd="10dp"
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp"
-                    android:background="@drawable/see_all_products"
-                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:textColor="@color/GGreen"
                     android:textSize="15sp" />
 
                 <View
