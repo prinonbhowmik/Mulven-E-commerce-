@@ -27,11 +27,13 @@ import java.util.List;
 public class AllProductsAdapter extends RecyclerView.Adapter<AllProductsAdapter.ViewHolder> {
 
     private List<CategoriesModel> categoriesModelList;
+    private List<CategoriesModel> categoriesModelFiltered;
     private Context context;
 
     public AllProductsAdapter(List<CategoriesModel> categoriesModelList, Context context) {
         this.categoriesModelList = categoriesModelList;
         this.context = context;
+//        categoriesModelFiltered = new ArrayList<>(categoriesModelFiltered);
     }
 
     @NonNull
@@ -72,34 +74,33 @@ public class AllProductsAdapter extends RecyclerView.Adapter<AllProductsAdapter.
     }
 
     public Filter getFilter() {
-        return new Filter() {
-            @Override
-            protected FilterResults performFiltering(CharSequence constraint) {
-                final FilterResults oReturn = new FilterResults();
-                final List<CategoriesModel> results = new ArrayList<CategoriesModel>();
-                List<CategoriesModel> orig = new ArrayList<>();
-                if (orig == null)
-                    orig = categoriesModelList;
-                if (constraint != null) {
-                    if (orig != null & orig.size() > 0) {
-                        for (final CategoriesModel g : orig) {
-                            if (g.getProduct_name().toLowerCase().contains(constraint.toString()))
-                                results.add(g);
-                        }
-                    }
-                    oReturn.values = results;
-                }
-                return oReturn;
-            }
-
-            @Override
-            protected void publishResults(CharSequence constraint, FilterResults results) {
-                categoriesModelList = (ArrayList<CategoriesModel>) results.values;
-                notifyDataSetChanged();
-
-            }
-        };
+        return exampleFilter;
     }
+    private Filter exampleFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<CategoriesModel> filteredList = new ArrayList<>();
+            if (constraint == null || constraint.length() == 0) {
+                filteredList.addAll(categoriesModelFiltered);
+            } else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+                for (CategoriesModel item : categoriesModelList) {
+                    if (item.getProduct_name().toLowerCase().contains(filterPattern)) {
+                        filteredList.add(item);
+                    }
+                }
+            }
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+            return results;
+        }
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            categoriesModelList.clear();
+            categoriesModelList.addAll((List) results.values);
+            notifyDataSetChanged();
+        }
+    };
 
         @Override
     public int getItemCount() {

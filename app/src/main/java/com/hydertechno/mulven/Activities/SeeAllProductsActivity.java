@@ -78,8 +78,11 @@ public class SeeAllProductsActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(final String newText) {
-                all_product_Adapter.getFilter().filter(newText);
-                productRecyclerView.setAdapter(all_product_Adapter);
+                if (!newText.equals("")){
+                    all_product_Adapter.getFilter().filter(newText);
+                }else{
+                    getCategories();
+                }
                 return false;
             }
         });

@@ -72,15 +72,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp">
+
                 <TextView
                     android:id="@+id/category_0"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:fontFamily="@font/comfortaa_bold"
+                    android:layout_marginBottom="5dp"
+                    android:fontFamily="@font/comfortaa"
                     android:text="Top Categories"
                     android:textColor="@color/black"
-                    android:layout_marginBottom="5dp"
                     android:textSize="18sp" />
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -131,7 +132,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:fontFamily="@font/comfortaa_bold"
+                    android:fontFamily="@font/comfortaa"
                     android:text="Cellphones and Camera"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
@@ -185,7 +186,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:fontFamily="@font/comfortaa_bold"
+                    android:fontFamily="@font/comfortaa"
                     android:text="Car and Bike"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
@@ -237,7 +238,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:fontFamily="@font/comfortaa_bold"
+                    android:fontFamily="@font/comfortaa"
                     android:text="Electronics"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
