@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.google.android.material.navigation.NavigationView;
 import com.hydertechno.mulven.Fragments.AccountFragment;
 import com.hydertechno.mulven.Fragments.CartFragment;
+import com.hydertechno.mulven.Fragments.DreamDealFragment;
 import com.hydertechno.mulven.Fragments.HomeFragment;
 import com.hydertechno.mulven.Fragments.NotificationFragment;
 import com.hydertechno.mulven.R;
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         chipNavigationBar.showBadge(R.id.cart,2);
+        chipNavigationBar.showBadge(R.id.notification,1);
         chipNavigationBar.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
             @Override
             public void onItemSelected(int i) {
@@ -57,12 +59,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     case R.id.home:
                         fragment=new HomeFragment();
                         break;
+                    case R.id.dream_deal:
+                        fragment=new DreamDealFragment();
+                        break;
+                    case R.id.cart:
+                        fragment=new CartFragment();
+                        break;
+                    case R.id.notification:
+                        fragment=new NotificationFragment();
+                        break;
                     case R.id.account:
                         fragment=new AccountFragment();
-                        break;case R.id.cart:
-                        fragment=new CartFragment();
-                        break;case R.id.notification:
-                        fragment=new NotificationFragment();
                         break;
                 }
                 if(fragment!=null){

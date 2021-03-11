@@ -8,6 +8,11 @@
             android:title="Home"
             app:cnb_iconColor="@color/GGreen"/>
         <item
+            android:id="@+id/dream_deal"
+            android:icon="@drawable/ic_d"
+            android:title="Dream Deal"
+            app:cnb_iconColor="@color/GYellow"/>
+        <item
             android:id="@+id/cart"
             android:icon="@drawable/ic_cart"
             android:title="Cart"
