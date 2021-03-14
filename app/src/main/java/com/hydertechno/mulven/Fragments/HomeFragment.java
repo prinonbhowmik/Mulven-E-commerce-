@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,8 +21,10 @@ import android.widget.TextView;
 
 import com.hydertechno.mulven.Activities.SeeAllProductsActivity;
 import com.hydertechno.mulven.Adapters.CategoryNamesAdapter;
+import com.hydertechno.mulven.Adapters.FeatureAddAdapter;
 import com.hydertechno.mulven.Adapters.HomePageSliderAdapter;
 import com.hydertechno.mulven.Adapters.ProductAdapter;
+import com.hydertechno.mulven.Adapters.VerticalProductsAdapter;
 import com.hydertechno.mulven.Api.ApiInterface;
 import com.hydertechno.mulven.Api.ApiUtils;
 import com.hydertechno.mulven.Models.CategoriesModel;
@@ -41,20 +44,24 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class HomeFragment extends Fragment {
-    private RecyclerView categoryRecycler,category_1,category_2,category_3;
+    private RecyclerView categoryRecycler,feature_Add_Recycler_View,category_1,category_2,category_3,category_4;
     private HomePageSliderAdapter homePageSliderAdapter;
     private CategoryNamesAdapter categoryNamesAdapter;
     private ProductAdapter category1_Adapter;
     private ProductAdapter category2_Adapter;
     private ProductAdapter category3_Adapter;
+    private VerticalProductsAdapter verticalProductsAdapter;
+    private FeatureAddAdapter feature_Add_Adapter;
     private DrawerLayout drawerLayout;
     private ImageView navIcon;
     private List<CategoryNamesModel> categoryNamesModelList =new ArrayList<>();
+    private List<Sliderimage> featureAddList =new ArrayList<>();
     private List<CategoriesModel> category1ModelList =new ArrayList<>();
     private List<CategoriesModel> category2ModelList =new ArrayList<>();
     private List<CategoriesModel> category3ModelList =new ArrayList<>();
+    private List<CategoriesModel> category4ModelList =new ArrayList<>();
     private SliderView imageSlider;
-    private TextView seeAll1,seeAll2,seeAll3;
+    private TextView seeAll1,seeAll2,seeAll3,seeAll4;
     private ApiInterface apiInterface;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,9 +73,11 @@ public class HomeFragment extends Fragment {
 
         getSliderImage();
         getCategoriesName();
+        getFeatureAdds();
         getCategories1();
         getCategories2();
         getCategories3();
+        getCategories4();
 
         navIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,13 +107,19 @@ public class HomeFragment extends Fragment {
                 startActivity(new Intent(getContext(), SeeAllProductsActivity.class).putExtra("title","Electronics")
                         .putExtra("id","10"));            }
         });
+        seeAll4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), SeeAllProductsActivity.class).putExtra("title","Grocery")
+                        .putExtra("id","1"));            }
+        });
 
         return view;
     }
 
     private void getSliderImage() {
 
-        Call<List<Sliderimage>> call = apiInterface.getSliderImage();
+        Call<List<Sliderimage>> call = apiInterface.getSliderImage("slider");
         call.enqueue(new Callback<List<Sliderimage>>() {
             @Override
             public void onResponse(Call<List<Sliderimage>> call, Response<List<Sliderimage>> response) {
@@ -204,17 +219,63 @@ public class HomeFragment extends Fragment {
             }
         });
     }
+    private void getCategories4() {
+        category3ModelList.clear();
+        Call<List<CategoriesModel>> call = apiInterface.getCategories(1);
+        call.enqueue(new Callback<List<CategoriesModel>>() {
+            @Override
+            public void onResponse(Call<List<CategoriesModel>> call, Response<List<CategoriesModel>> response) {
+                if (response.isSuccessful()){
+                    category4ModelList = response.body();
+                    verticalProductsAdapter = new VerticalProductsAdapter(category4ModelList, getContext());
+                    category_4.setAdapter(verticalProductsAdapter);
+                }
+                //Collections.reverse(categoryNamesModelList);
+                verticalProductsAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<List<CategoriesModel>> call, Throwable t) {
+            }
+        });
+    }
+    private void getFeatureAdds(){
+        Call<List<Sliderimage>> call = apiInterface.getSliderImage("feature_add");
+        call.enqueue(new Callback<List<Sliderimage>>() {
+            @Override
+            public void onResponse(Call<List<Sliderimage>> call, Response<List<Sliderimage>> response) {
+                if(response.isSuccessful()){
+
+
+                 featureAddList = response.body();
+
+                feature_Add_Adapter=new FeatureAddAdapter(featureAddList,getContext());
+                feature_Add_Recycler_View.setAdapter(feature_Add_Adapter);
+            }
+                feature_Add_Adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<List<Sliderimage>> call, Throwable t) {
+
+            }
+        });
+    }
     private void init(View view) {
         navIcon=view.findViewById(R.id.navIcon);
         categoryRecycler=view.findViewById(R.id.categoryRecyclerView);
         homePageSliderAdapter = new HomePageSliderAdapter(getContext());
         imageSlider=view.findViewById(R.id.imageSlider);
+        feature_Add_Recycler_View=view.findViewById(R.id.feature_Add_Recycler_View);
         category_1=view.findViewById(R.id.category_1Recycler_View);
         category_2=view.findViewById(R.id.category_2Recycler_View);
         category_3=view.findViewById(R.id.category_3Recycler_View);
+        category_4=view.findViewById(R.id.category_4Recycler_View);
+
         seeAll1=view.findViewById(R.id.seeAll_1);
         seeAll2=view.findViewById(R.id.seeAll_2);
         seeAll3=view.findViewById(R.id.seeAll_3);
+        seeAll4=view.findViewById(R.id.seeAll_4);
 
         categoryNamesAdapter =new CategoryNamesAdapter(categoryNamesModelList,getContext());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
@@ -239,6 +300,18 @@ public class HomeFragment extends Fragment {
         category_3.setLayoutManager(layoutManager3);
         category_3.setAdapter(category3_Adapter);
         apiInterface = ApiUtils.getUserService();
+
+        verticalProductsAdapter =new VerticalProductsAdapter(category4ModelList,getContext());
+        //LinearLayoutManager layoutManager4 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        category_4.setLayoutManager(new GridLayoutManager(getContext(),2));
+        category_4.setAdapter(verticalProductsAdapter);
+
+        apiInterface = ApiUtils.getUserService();
+
+        feature_Add_Adapter =new FeatureAddAdapter(featureAddList,getContext());
+        LinearLayoutManager layoutManager5 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        feature_Add_Recycler_View.setLayoutManager(layoutManager5);
+        feature_Add_Recycler_View.setAdapter(feature_Add_Adapter);
     }
 
     private void hideKeyboardFrom(Context context) {

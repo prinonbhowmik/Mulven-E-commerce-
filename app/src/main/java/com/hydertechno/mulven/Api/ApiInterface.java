@@ -14,7 +14,7 @@ import retrofit2.http.Query;
 public interface ApiInterface {
 
     @GET("slider")
-    Call<List<Sliderimage>> getSliderImage();
+    Call<List<Sliderimage>> getSliderImage(@Query("post_type") String post_type);
 
     @GET("categories")
     Call<List<CategoryNamesModel>> getProductsCategories();

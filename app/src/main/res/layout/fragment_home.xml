@@ -175,12 +175,19 @@
                     android:layout_margin="3dp"
                     android:orientation="horizontal" />
             </RelativeLayout>
-
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/feature_Add_Recycler_View"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/product_1_layout"
+                android:background="#F8F8F8"
+                android:layout_margin="3dp"
+                android:orientation="vertical" />
             <RelativeLayout
                 android:id="@+id/product_2_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/product_1_layout"
+                android:layout_below="@+id/feature_Add_Recycler_View"
                 android:layout_marginTop="10dp">
 
                 <TextView
@@ -277,6 +284,60 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/view_3"
+                    android:background="#F1F1F1"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="10dp"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/product_4_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/product_3_layout"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/category_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="@font/comfortaa"
+                    android:textStyle="bold"
+                    android:text="Grocery"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/seeAll_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="20dp"
+                    android:fontFamily="@font/comfortaa"
+                    android:text="See All"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/GGreen"
+                    android:textSize="15sp" />
+
+                <View
+                    android:id="@+id/view_4"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_below="@+id/seeAll_4"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginEnd="20dp"
+                    android:background="@color/gray" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/category_4Recycler_View"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/view_4"
+                    android:nestedScrollingEnabled="false"
                     android:background="#F1F1F1"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="10dp"/>
