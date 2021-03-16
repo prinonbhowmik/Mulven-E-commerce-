@@ -124,13 +124,15 @@ public class HomeFragment extends Fragment {
             @Override
             public void onResponse(Call<List<Sliderimage>> call, Response<List<Sliderimage>> response) {
                 List<Sliderimage> imageList = response.body();
-
-                homePageSliderAdapter=new HomePageSliderAdapter(imageList);
-                imageSlider.setSliderAdapter(homePageSliderAdapter);
-                imageSlider.setIndicatorAnimation(IndicatorAnimationType.WORM);
-                imageSlider.setSliderTransformAnimation(SliderAnimations.DEPTHTRANSFORMATION);
-                imageSlider.setScrollTimeInSec(4);
-                imageSlider.startAutoCycle();
+                String post_Type = imageList.get(0).getPost_type();
+                if (post_Type.equals("slider")){
+                    homePageSliderAdapter=new HomePageSliderAdapter(imageList);
+                    imageSlider.setSliderAdapter(homePageSliderAdapter);
+                    imageSlider.setIndicatorAnimation(IndicatorAnimationType.WORM);
+                    imageSlider.setSliderTransformAnimation(SliderAnimations.DEPTHTRANSFORMATION);
+                    imageSlider.setScrollTimeInSec(4);
+                    imageSlider.startAutoCycle();
+                }
             }
 
             @Override

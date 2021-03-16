@@ -106,7 +106,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="15dp"
                 android:fontFamily="@font/comfortaa_light"
-                android:text="Shope :"
+                android:text="Shop :"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
             <TextView

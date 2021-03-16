@@ -64,6 +64,7 @@ public class AllProductsAdapter extends RecyclerView.Adapter<AllProductsAdapter.
             public void onClick(View view) {
                 try {
                     Intent intent = new Intent(context, ProductDetailsActivity.class);
+                    intent.putExtra("id",model.getId());
                     context.startActivity(intent);
                     /*    ((Activity)context).finish();*/
                 } catch (Exception e) {

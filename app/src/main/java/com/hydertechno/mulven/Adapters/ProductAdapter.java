@@ -59,6 +59,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             public void onClick(View view) {
                 try {
                     Intent intent = new Intent(context, ProductDetailsActivity.class);
+                    intent.putExtra("id",model.getId());
                     context.startActivity(intent);
                 } catch (Exception e) {
                 }
