@@ -103,7 +103,7 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="15dp"
-                android:fontFamily="@font/comfortaa_light"
+                android:fontFamily="@font/comfortaa_bold"
                 android:text="Brand :"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
@@ -116,7 +116,7 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="15dp"
-                android:fontFamily="@font/comfortaa_light"
+                android:fontFamily="@font/comfortaa"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
             <LinearLayout
@@ -219,7 +219,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="15dp"
                     android:fontFamily="@font/comfortaa_bold"
-                    android:text="Feature"
+                    android:text="Feature :"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
                 <androidx.recyclerview.widget.RecyclerView
@@ -235,16 +235,16 @@
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="15dp"
-                    android:fontFamily="@font/comfortaa_light"
-                    android:text="Sold By"
+                    android:fontFamily="@font/comfortaa_bold"
+                    android:text="Sold By :"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
                 <ImageView
                     android:id="@+id/shopLogoIV"
                     android:layout_below="@+id/shopTxt"
                     android:layout_margin="15dp"
-                    android:layout_width="120dp"
-                    android:layout_height="100dp" />
+                    android:layout_width="80dp"
+                    android:layout_height="60dp" />
                 <TextView
                     android:id="@+id/shop_Name"
                     android:layout_width="wrap_content"
@@ -253,8 +253,8 @@
                     android:layout_toEndOf="@id/shopLogoIV"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginEnd="15dp"
-                    android:fontFamily="@font/comfortaa_light"
+                    android:layout_marginEnd="10dp"
+                    android:fontFamily="@font/comfortaa"
                     android:textColor="@color/black"
                     android:textSize="15sp" />
                 <TextView
@@ -265,7 +265,7 @@
                     android:layout_toEndOf="@id/shopLogoIV"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="5dp"
-                    android:layout_marginEnd="15dp"
+                    android:layout_marginEnd="10dp"
                     android:fontFamily="@font/comfortaa_light"
                     android:textColor="@color/black"
                     android:textSize="12sp" />
@@ -279,7 +279,7 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="15dp"
-                android:fontFamily="@font/comfortaa_light"
+                android:fontFamily="@font/comfortaa_bold"
                 android:text="@string/description"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
