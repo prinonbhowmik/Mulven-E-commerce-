@@ -8,17 +8,20 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.hydertechno.mulven.Api.Config;
 import com.hydertechno.mulven.Interface.ProductImageClickInterface;
+import com.hydertechno.mulven.Models.ImageGallery;
 import com.hydertechno.mulven.Models.ProductImagesModel;
 import com.hydertechno.mulven.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class ProductImagesAdapter extends RecyclerView.Adapter<ProductImagesAdapter.ViewHolder> {
-    private List<ProductImagesModel> productImagesModelList;
+    private List<ImageGallery> productImagesModelList;
     private ProductImageClickInterface productImageClickInterface;
 
-    public ProductImagesAdapter(List<ProductImagesModel> productImagesModelList, ProductImageClickInterface productImageClickInterface) {
+    public ProductImagesAdapter(List<ImageGallery> productImagesModelList, ProductImageClickInterface productImageClickInterface) {
         this.productImagesModelList = productImagesModelList;
         this.productImageClickInterface = productImageClickInterface;
     }
@@ -32,12 +35,20 @@ public class ProductImagesAdapter extends RecyclerView.Adapter<ProductImagesAdap
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        ProductImagesModel model=productImagesModelList.get(position);
-        holder.imageView.setImageResource(model.getImage());
+        ImageGallery model=productImagesModelList.get(position);
+        try{
+            Picasso.get()
+                    .load(Config.IMAGE_LINE+model.getImage_name())
+                    .into(holder.imageView);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                productImageClickInterface.OnClick(model.getImage());
+                if (model.getImage_name()!=null) {
+                    productImageClickInterface.OnClick(model.getImage_name());
+                }
             }
         });
     }

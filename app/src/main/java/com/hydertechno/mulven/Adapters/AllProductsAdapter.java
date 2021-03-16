@@ -3,6 +3,7 @@ package com.hydertechno.mulven.Adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,6 +66,8 @@ public class AllProductsAdapter extends RecyclerView.Adapter<AllProductsAdapter.
                 try {
                     Intent intent = new Intent(context, ProductDetailsActivity.class);
                     intent.putExtra("id",model.getId());
+                    Log.d("productId", String.valueOf(model.getId()));
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
                     /*    ((Activity)context).finish();*/
                 } catch (Exception e) {

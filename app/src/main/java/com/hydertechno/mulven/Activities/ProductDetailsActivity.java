@@ -8,7 +8,10 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
@@ -17,54 +20,46 @@ import android.widget.Toast;
 
 import com.hydertechno.mulven.Adapters.ProductAdapter;
 import com.hydertechno.mulven.Adapters.ProductImagesAdapter;
+import com.hydertechno.mulven.Api.ApiUtils;
+import com.hydertechno.mulven.Api.Config;
 import com.hydertechno.mulven.Interface.ProductImageClickInterface;
 import com.hydertechno.mulven.Models.CategoriesModel;
+import com.hydertechno.mulven.Models.ImageGallery;
+import com.hydertechno.mulven.Models.ProductDetails;
 import com.hydertechno.mulven.Models.ProductImagesModel;
 import com.hydertechno.mulven.R;
 import com.jsibbold.zoomage.ZoomageView;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class ProductDetailsActivity extends AppCompatActivity implements ProductImageClickInterface {
     private AutoCompleteTextView sizeTV,colorTV;
     private ZoomageView product_Image;
-    private TextView productOldPrice,addToCart,buyNow;
+    private TextView productOldPrice,addToCart,buyNow,product_Name,shop_Name,brand_Name,product_Price,shop_Address;
     private RecyclerView productImagesRecycler,relatedProductRecyclerView;
     private ProductImagesAdapter productImagesAdapter;
-    private ProductAdapter jewelry_and_watch_Adapter;
-    private List<ProductImagesModel> productImagesModelList=new ArrayList<>();
-    private List<CategoriesModel> jewelry_and_watch=new ArrayList<>();
-
+    private int product_id;
+    private WebView webView;
+    private String url = "https://mulven.com/pro-det-for-app/";
+    private ImageView shopLogoIV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_details);
+
+        Intent intent = getIntent();
+        product_id = intent.getIntExtra("id",0);
+
         init();
-        final String[] size = new String[]{"12", "18", "24","32","40"};
-        final String[] color = new String[]{"Red", "Green", "Blue","Black","White"};
-        ArrayAdapter<String> adapter1 = new ArrayAdapter<>(this, R.layout.list_item, size);
-        sizeTV.setText(adapter1.getItem(0).toString(),false);
-        sizeTV.setAdapter(adapter1);
-        ArrayAdapter<String> adapter2 = new ArrayAdapter<>(this, R.layout.list_item, color);
-        colorTV.setText(adapter2.getItem(0).toString(),false);
-        colorTV.setAdapter(adapter2);
 
-        productImagesModelList.add(new ProductImagesModel("1",R.drawable.monitor));
-        productImagesModelList.add(new ProductImagesModel("2",R.drawable.ram));
-        productImagesModelList.add(new ProductImagesModel("3",R.drawable.ghee));
-        productImagesModelList.add(new ProductImagesModel("4",R.drawable.rice));
-
-      /*  for(int a=12; a>0;a--){
-            if(a%2==0){
-                jewelry_and_watch.add(new CategoriesModel("৳ 180","15 pcs/set Imitation Black Gem & Rhinestone Inlay Rings for Women",R.drawable.ring));
-            }
-            else{
-                jewelry_and_watch.add(new CategoriesModel("৳ 250","white stone jewelry set for women",R.drawable.jewelry));
-
-            }
-        }*/
+        getProductDeatils();
 
         addToCart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,38 +84,92 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
 
     }
 
+    private void getProductDeatils() {
+        Call<ProductDetails> call = ApiUtils.getUserService().getProd_details(product_id);
+        call.enqueue(new Callback<ProductDetails>() {
+            @Override
+            public void onResponse(Call<ProductDetails> call, Response<ProductDetails> response) {
+                ProductDetails detailsList = response.body();
+                product_Name.setText(""+detailsList.getProduct_name());
+                productOldPrice.setText(""+detailsList.getMrp_price());
+                product_Price.setText(""+detailsList.getUnit_price());
+                shop_Name.setText(""+detailsList.getShop_name());
+                shop_Address.setText(""+detailsList.getShop_address());
+                brand_Name.setText(""+detailsList.getBrand());
+                try{
+                    Picasso.get()
+                            .load(Config.IMAGE_LINE+detailsList.getFeacher_image())
+                            .into(product_Image);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try{
+                    Picasso.get()
+                            .load(Config.IMAGE_LINE+detailsList.getShop_logo())
+                            .into(shopLogoIV);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                List<ImageGallery> productImagesModelList = detailsList.getImage_gallery();
+                if (!productImagesModelList.isEmpty()){
+                    productImagesRecycler.setVisibility(View.VISIBLE);
+                    productImagesAdapter=new ProductImagesAdapter(productImagesModelList,ProductDetailsActivity.this);
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(ProductDetailsActivity.this, LinearLayoutManager.HORIZONTAL, false);
+                    productImagesRecycler.setLayoutManager(layoutManager);
+                    productImagesRecycler.setAdapter(productImagesAdapter);
+                }else{
+                    productImagesRecycler.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ProductDetails> call, Throwable t) {
+
+            }
+        });
+    }
+
     private void init() {
+        product_Name = findViewById(R.id.product_Name);
+        shop_Name = findViewById(R.id.shop_Name);
+        brand_Name = findViewById(R.id.brand_Name);
+        product_Price = findViewById(R.id.product_Price);
         sizeTV=findViewById(R.id.sizeMenu);
         colorTV=findViewById(R.id.colorMenu);
         addToCart=findViewById(R.id.addToCartTV);
         buyNow=findViewById(R.id.buyNowTV);
         product_Image = findViewById(R.id.product_Image);
         productOldPrice=findViewById(R.id.product_Old_Price);
+        shopLogoIV=findViewById(R.id.shopLogoIV);
+        shop_Address=findViewById(R.id.shop_Address);
+
+
         productOldPrice.setPaintFlags(productOldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         productImagesRecycler=findViewById(R.id.productImagesRecyclerView);
         relatedProductRecyclerView=findViewById(R.id.relatedProductRecyclerView);
-
-        productImagesAdapter=new ProductImagesAdapter(productImagesModelList,this);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        productImagesRecycler.setLayoutManager(layoutManager);
-        productImagesRecycler.setAdapter(productImagesAdapter);
-
-        jewelry_and_watch_Adapter=new ProductAdapter(jewelry_and_watch,this);
-        LinearLayoutManager layoutManager2 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        //category_2.setLayoutManager(new GridLayoutManager(getContext(),2));
-        relatedProductRecyclerView.setLayoutManager(layoutManager2);
-        relatedProductRecyclerView.setAdapter(jewelry_and_watch_Adapter);
+        webView = findViewById(R.id.description);
+        webView.setWebViewClient(new WebViewClient());
+        webView.loadUrl(url+""+product_id);
 
     }
 
     public void productDetailsBack(View view) {
         finish();
     }
-
-
-
+/*
     @Override
     public void OnClick(int image) {
         product_Image.setImageResource(image);
+    }*/
+
+    @Override
+    public void OnClick(String image) {
+        try{
+            Picasso.get()
+                    .load(Config.IMAGE_LINE+image)
+                    .into(product_Image);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
