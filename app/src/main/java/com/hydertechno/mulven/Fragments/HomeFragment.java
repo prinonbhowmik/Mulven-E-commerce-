@@ -222,7 +222,7 @@ public class HomeFragment extends Fragment {
         });
     }
     private void getCategories4() {
-        category3ModelList.clear();
+        category4ModelList.clear();
         Call<List<CategoriesModel>> call = apiInterface.getCategories(1);
         call.enqueue(new Callback<List<CategoriesModel>>() {
             @Override
