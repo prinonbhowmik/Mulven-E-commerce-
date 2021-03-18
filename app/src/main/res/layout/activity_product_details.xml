@@ -124,44 +124,45 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/brandTxt"
+                android:layout_marginTop="5dp"
                 android:layout_marginStart="15dp"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:fontFamily="@font/comfortaa_light"
+                    android:fontFamily="@font/comfortaa_bold"
                     android:text="Quantity : "
                     android:textColor="@color/black"
                     android:textSize="18sp" />
 
                 <ImageView
                     android:id="@+id/cardMinus"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
+                    android:layout_width="25dp"
+                    android:layout_height="23dp"
                     android:layout_marginStart="5dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_gravity="center_vertical"
                     android:src="@drawable/ic_minus" />
 
                 <TextView
                     android:id="@+id/cardQuantity"
-                    android:layout_width="80dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="35dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="5dp"
-                    android:background="@drawable/product_quantity_bg"
-                    android:fontFamily="@font/comfortaa_light"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"
+                    android:fontFamily="@font/comfortaa"
+                    android:layout_gravity="center_vertical"
                     android:gravity="center"
-                    android:text="5"
+                    android:text="1"
                     android:textColor="@color/black"
-                    android:textSize="15sp" />
+                    android:textSize="13sp" />
 
                 <ImageView
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
+                    android:layout_width="25dp"
+                    android:layout_height="23dp"
                     android:layout_marginStart="5dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_gravity="center_vertical"
                     android:src="@drawable/ic_plus" />
             </LinearLayout>
 
@@ -223,15 +224,17 @@
                     android:textColor="@color/black"
                     android:textSize="18sp" />
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/featureRecyclerView"
+                    android:id="@+id/productFeatureRecyclerView"
+                    android:layout_marginTop="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
                     android:layout_below="@+id/featureTxt"/>
                 <TextView
                     android:id="@+id/shopTxt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/featureRecyclerView"
+                    android:layout_below="@+id/productFeatureRecyclerView"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="15dp"
@@ -242,9 +245,18 @@
                 <ImageView
                     android:id="@+id/shopLogoIV"
                     android:layout_below="@+id/shopTxt"
-                    android:layout_margin="15dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="10dp"
                     android:layout_width="80dp"
                     android:layout_height="60dp" />
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="75dp"
+                    android:layout_below="@+id/shopTxt"
+                    android:background="@color/gray"
+                    android:layout_toEndOf="@id/shopLogoIV"/>
                 <TextView
                     android:id="@+id/shop_Name"
                     android:layout_width="wrap_content"
@@ -252,7 +264,7 @@
                     android:layout_below="@+id/shopTxt"
                     android:layout_toEndOf="@id/shopLogoIV"
                     android:layout_marginStart="15dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
                     android:layout_marginEnd="10dp"
                     android:fontFamily="@font/comfortaa"
                     android:textColor="@color/black"
@@ -264,9 +276,9 @@
                     android:layout_below="@+id/shop_Name"
                     android:layout_toEndOf="@id/shopLogoIV"
                     android:layout_marginStart="15dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="2dp"
                     android:layout_marginEnd="10dp"
-                    android:fontFamily="@font/comfortaa_light"
+                    android:fontFamily="@font/comfortaa"
                     android:textColor="@color/black"
                     android:textSize="12sp" />
             </RelativeLayout>
@@ -304,9 +316,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:fontFamily="@font/comfortaa_light"
+                    android:fontFamily="@font/comfortaa_bold"
                     android:text="Related Products"
-                    android:textColor="@color/themDark"
+                    android:textColor="@color/black"
                     android:textSize="15sp" />
 
 

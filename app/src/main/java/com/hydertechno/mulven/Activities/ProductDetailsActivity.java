@@ -1,6 +1,7 @@
 package com.hydertechno.mulven.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hydertechno.mulven.Adapters.ProductAdapter;
+import com.hydertechno.mulven.Adapters.ProductFeatureAdapter;
 import com.hydertechno.mulven.Adapters.ProductImagesAdapter;
 import com.hydertechno.mulven.Api.ApiUtils;
 import com.hydertechno.mulven.Api.Config;
@@ -26,6 +28,7 @@ import com.hydertechno.mulven.Interface.ProductImageClickInterface;
 import com.hydertechno.mulven.Models.CategoriesModel;
 import com.hydertechno.mulven.Models.ImageGallery;
 import com.hydertechno.mulven.Models.ProductDetails;
+import com.hydertechno.mulven.Models.ProductFeature;
 import com.hydertechno.mulven.Models.ProductImagesModel;
 import com.hydertechno.mulven.R;
 import com.jsibbold.zoomage.ZoomageView;
@@ -42,8 +45,9 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
     private AutoCompleteTextView sizeTV,colorTV;
     private ZoomageView product_Image;
     private TextView productOldPrice,addToCart,buyNow,product_Name,shop_Name,brand_Name,product_Price,shop_Address;
-    private RecyclerView productImagesRecycler,relatedProductRecyclerView;
+    private RecyclerView productImagesRecycler,productFeatureRecyclerView,relatedProductRecyclerView;
     private ProductImagesAdapter productImagesAdapter;
+    private ProductFeatureAdapter productFeatureAdapter;
     private int product_id;
     private WebView webView;
     private String url = "https://mulven.com/pro-det-for-app/";
@@ -110,6 +114,11 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                List<ProductFeature> productFeatureList = detailsList.getProduct_feature();
+                productFeatureAdapter=new ProductFeatureAdapter(productFeatureList,ProductDetailsActivity.this);
+                productFeatureRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(),2));
+                productFeatureRecyclerView.setAdapter(productFeatureAdapter);
+
                 List<ImageGallery> productImagesModelList = detailsList.getImage_gallery();
                 if (!productImagesModelList.isEmpty()){
                     productImagesRecycler.setVisibility(View.VISIBLE);
@@ -146,6 +155,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
 
         productOldPrice.setPaintFlags(productOldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         productImagesRecycler=findViewById(R.id.productImagesRecyclerView);
+        productFeatureRecyclerView=findViewById(R.id.productFeatureRecyclerView);
         relatedProductRecyclerView=findViewById(R.id.relatedProductRecyclerView);
         webView = findViewById(R.id.description);
         webView.setWebViewClient(new WebViewClient());
