@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragments.DreamDealFragment">
 
     <RelativeLayout
@@ -31,5 +32,23 @@
             android:textColor="@color/white"/>
 
     </RelativeLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/dream_dealRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="2dp"
+        android:layoutAnimation="@anim/layout_animation"
+        android:background="#F1F1F1"
+        android:scrollbars="vertical"
+        android:visibility="visible"
+        android:fitsSystemWindows="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_below="@+id/toolbar" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
+        android:visibility="gone">
 
+    </RelativeLayout>
 </RelativeLayout>
