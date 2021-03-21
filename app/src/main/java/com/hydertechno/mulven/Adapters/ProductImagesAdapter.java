@@ -1,9 +1,11 @@
 package com.hydertechno.mulven.Adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +22,8 @@ import java.util.List;
 public class ProductImagesAdapter extends RecyclerView.Adapter<ProductImagesAdapter.ViewHolder> {
     private List<ImageGallery> productImagesModelList;
     private ProductImageClickInterface productImageClickInterface;
+    private Context context;
+
 
     public ProductImagesAdapter(List<ImageGallery> productImagesModelList, ProductImageClickInterface productImageClickInterface) {
         this.productImagesModelList = productImagesModelList;
@@ -30,6 +34,9 @@ public class ProductImagesAdapter extends RecyclerView.Adapter<ProductImagesAdap
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_images_layout_design, parent, false);
+        if (productImagesModelList==null){
+            view.setVisibility(View.GONE);
+        }
         return new ProductImagesAdapter.ViewHolder(view);
     }
 
@@ -43,10 +50,11 @@ public class ProductImagesAdapter extends RecyclerView.Adapter<ProductImagesAdap
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (model.getImage_name()!=null) {
+                if (productImagesModelList!=null) {
                     productImageClickInterface.OnClick(model.getImage_name());
                 }
             }
@@ -60,10 +68,11 @@ public class ProductImagesAdapter extends RecyclerView.Adapter<ProductImagesAdap
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView imageView;
+        private RecyclerView productImagesRecycler;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView=itemView.findViewById(R.id.imageIv);
-
+            productImagesRecycler = itemView.findViewById(R.id.productImagesRecyclerView);
         }
     }
 

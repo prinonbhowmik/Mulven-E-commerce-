@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.hydertechno.mulven.Activities.ProductDetailsActivity;
 import com.hydertechno.mulven.Api.Config;
 import com.hydertechno.mulven.Models.CategoriesModel;
+import com.hydertechno.mulven.Models.ImageGallery;
 import com.hydertechno.mulven.R;
 import com.squareup.picasso.Picasso;
 
@@ -28,6 +29,7 @@ import java.util.List;
 public class AllProductsAdapter extends RecyclerView.Adapter<AllProductsAdapter.ViewHolder> {
 
     private List<CategoriesModel> categoriesModelList;
+    private List<ImageGallery> productImagesModelList = new ArrayList<>();
     private List<CategoriesModel> categoriesModelFiltered;
     private Context context;
 
