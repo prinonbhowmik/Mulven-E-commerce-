@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
@@ -127,6 +128,7 @@ public class SeeAllProductsActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<CategoriesModel>> call, Throwable t) {
+                Log.d("ErrorKi",t.getMessage());
             }
         });
     }
