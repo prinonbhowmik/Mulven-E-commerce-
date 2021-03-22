@@ -42,175 +42,192 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="#F8F8F8">
 
-            <com.jsibbold.zoomage.ZoomageView
-                android:id="@+id/product_Image"
+            <RelativeLayout
+                android:id="@+id/re1"
                 android:layout_width="match_parent"
-                android:layout_height="220dp" />
+                android:layout_height="wrap_content"
+                android:background="@color/white">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/productImagesRecyclerView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal"
-                android:layout_below="@+id/product_Image"/>
+                <com.jsibbold.zoomage.ZoomageView
+                    android:id="@+id/product_Image"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp" />
 
-            <TextView
-                android:id="@+id/product_Name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/productImagesRecyclerView"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="15dp"
-                android:fontFamily="@font/comfortaa_light"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/product_Old_Price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/product_Name"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="15dp"
-                android:fontFamily="@font/comfortaa_light"
-                android:textSize="16sp" />
-            <TextView
-                android:id="@+id/product_Price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/product_Name"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="15dp"
-                android:layout_toEndOf="@+id/product_Old_Price"
-                android:fontFamily="@font/comfortaa_light"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
-            <TextView
-                android:id="@+id/brandTxt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/product_Price"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="15dp"
-                android:fontFamily="@font/comfortaa_bold"
-                android:text="Brand :"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
-            <TextView
-                android:id="@+id/brand_Name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/product_Price"
-                android:layout_toEndOf="@+id/brandTxt"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="15dp"
-                android:fontFamily="@font/comfortaa"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
-            <LinearLayout
-                android:id="@+id/quantity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/brandTxt"
-                android:layout_marginTop="5dp"
-                android:layout_marginStart="15dp"
-                android:visibility="visible">
-
-                <TextView
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/productImagesRecyclerView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:fontFamily="@font/comfortaa_bold"
-                    android:text="Quantity : "
+                    android:layout_below="@+id/product_Image"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="20dp"
+                    android:orientation="horizontal" />
+
+                <TextView
+                    android:id="@+id/product_Name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/productImagesRecyclerView"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="15dp"
+                    android:fontFamily="@font/comfortaa_light"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
 
-                <ImageView
-                    android:id="@+id/cardMinus"
-                    android:layout_width="25dp"
-                    android:layout_height="23dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/ic_minus" />
+                <TextView
+                    android:id="@+id/product_Old_Price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/product_Name"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="15dp"
+                    android:fontFamily="@font/comfortaa_light"
+                    android:textSize="16sp" />
 
                 <TextView
-                    android:id="@+id/cardQuantity"
+                    android:id="@+id/product_Price"
                     android:layout_width="wrap_content"
-                    android:layout_height="35dp"
-                    android:paddingStart="15dp"
-                    android:paddingEnd="15dp"
-                    android:fontFamily="@font/comfortaa"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center"
-                    android:text="1"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/product_Name"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_toEndOf="@+id/product_Old_Price"
+                    android:fontFamily="@font/comfortaa_light"
                     android:textColor="@color/black"
-                    android:textSize="13sp" />
+                    android:textSize="18sp" />
 
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="23dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/ic_plus" />
-            </LinearLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/size_menu"
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/quantity"
-                android:hint="Size">
-
-                <AutoCompleteTextView
-                    android:id="@+id/sizeMenu"
-                    android:layout_width="140dp"
+                <TextView
+                    android:id="@+id/brandTxt"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/product_Price"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginEnd="20dp"
-                    android:inputType="none"
-                    android:textSize="12sp" />
+                    android:layout_marginEnd="15dp"
+                    android:fontFamily="@font/comfortaa_bold"
+                    android:text="Brand :"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
 
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/color_menu"
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/quantity"
-                android:layout_alignParentEnd="true"
-                android:hint="Color">
-
-                <AutoCompleteTextView
-                    android:id="@+id/colorMenu"
-                    android:layout_width="140dp"
+                <TextView
+                    android:id="@+id/brand_Name"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/product_Price"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginEnd="20dp"
-                    android:inputType="none"
-                    android:textSize="12sp" />
+                    android:layout_marginEnd="15dp"
+                    android:layout_toEndOf="@+id/brandTxt"
+                    android:fontFamily="@font/comfortaa"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
 
-            </com.google.android.material.textfield.TextInputLayout>
+                <LinearLayout
+                    android:id="@+id/quantity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/brandTxt"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:visibility="visible">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:fontFamily="@font/comfortaa_bold"
+                        android:text="Quantity : "
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+                    <ImageView
+                        android:id="@+id/cardMinus"
+                        android:layout_width="25dp"
+                        android:layout_height="23dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="5dp"
+                        android:src="@drawable/ic_minus" />
+
+                    <TextView
+                        android:id="@+id/cardQuantity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:layout_gravity="center_vertical"
+                        android:fontFamily="@font/comfortaa"
+                        android:gravity="center"
+                        android:paddingStart="15dp"
+                        android:paddingEnd="15dp"
+                        android:text="1"
+                        android:textColor="@color/black"
+                        android:textSize="13sp" />
+
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="23dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="5dp"
+                        android:src="@drawable/ic_plus" />
+                </LinearLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/size_menu"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/quantity"
+                    android:layout_marginBottom="10dp"
+                    android:hint="Size">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/sizeMenu"
+                        android:layout_width="140dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="20dp"
+                        android:inputType="none"
+                        android:textSize="12sp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/color_menu"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/quantity"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginBottom="10dp"
+                    android:hint="Color">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/colorMenu"
+                        android:layout_width="140dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="20dp"
+                        android:inputType="none"
+                        android:textSize="12sp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+            </RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/featureRL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/size_menu"
-                android:layout_marginTop="10dp">
+                android:layout_below="@+id/re1"
+                android:layout_marginTop="10dp"
+                android:background="@color/white">
+
                 <TextView
                     android:id="@+id/featureTxt"
                     android:layout_width="wrap_content"
@@ -222,13 +239,15 @@
                     android:text="Feature :"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/productFeatureRecyclerView"
-                    android:layout_marginTop="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:nestedScrollingEnabled="false"
-                    android:layout_below="@+id/featureTxt"/>
+                    android:layout_below="@+id/featureTxt"
+                    android:layout_marginTop="5dp"
+                    android:nestedScrollingEnabled="false" />
+
                 <TextView
                     android:id="@+id/shopTxt"
                     android:layout_width="wrap_content"
@@ -241,74 +260,87 @@
                     android:text="Sold By :"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
+
                 <ImageView
                     android:id="@+id/shopLogoIV"
+                    android:layout_width="80dp"
+                    android:layout_height="60dp"
                     android:layout_below="@+id/shopTxt"
                     android:layout_marginStart="15dp"
-                    android:layout_marginEnd="15sp"
                     android:layout_marginTop="5dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_width="80dp"
-                    android:layout_height="60dp" />
+                    android:layout_marginEnd="15sp"
+                    android:layout_marginBottom="10dp" />
+
                 <View
                     android:layout_width="1dp"
                     android:layout_height="75dp"
                     android:layout_below="@+id/shopTxt"
-                    android:background="@color/gray"
-                    android:layout_toEndOf="@id/shopLogoIV"/>
+                    android:layout_toEndOf="@id/shopLogoIV"
+                    android:background="@color/gray" />
+
                 <TextView
                     android:id="@+id/shop_Name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/shopTxt"
-                    android:layout_toEndOf="@id/shopLogoIV"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginEnd="10dp"
+                    android:layout_toEndOf="@id/shopLogoIV"
                     android:fontFamily="@font/comfortaa"
                     android:textColor="@color/black"
                     android:textSize="15sp" />
+
                 <TextView
                     android:id="@+id/shop_Address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/shop_Name"
-                    android:layout_toEndOf="@id/shopLogoIV"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="2dp"
                     android:layout_marginEnd="10dp"
+                    android:layout_toEndOf="@id/shopLogoIV"
                     android:fontFamily="@font/comfortaa"
                     android:textColor="@color/black"
                     android:textSize="12sp" />
             </RelativeLayout>
 
-            <TextView
-                android:id="@+id/descriptionTxt"
+            <RelativeLayout
+                android:id="@+id/descriptionRl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/featureRL"
-                android:layout_marginStart="15dp"
+                android:background="@color/white"
                 android:layout_marginTop="10dp"
-                android:layout_marginEnd="15dp"
-                android:fontFamily="@font/comfortaa_bold"
-                android:text="@string/description"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:layout_below="@id/featureRL">
 
-            <WebView
-                android:id="@+id/description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:ignore="WebViewLayout"
-                android:layout_below="@+id/descriptionTxt" />
+                <TextView
+                    android:id="@+id/descriptionTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="15dp"
+                    android:fontFamily="@font/comfortaa_bold"
+                    android:text="@string/description"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+                <WebView
+                    android:id="@+id/description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/descriptionTxt"
+                    tools:ignore="WebViewLayout" />
+            </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/relatedProduct_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/description"
-                android:layout_marginBottom="70dp"
-                android:layout_marginTop="10dp">
+                android:layout_below="@+id/descriptionRl"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:layout_marginBottom="70dp">
 
                 <TextView
                     android:id="@+id/relatedProductTxt"
@@ -335,13 +367,13 @@
                     android:id="@+id/relatedProductRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="visible"
                     android:layout_below="@+id/view_1"
                     android:layout_marginTop="5dp"
-                    android:orientation="horizontal" />
+                    android:background="#F8F8F8"
+                    android:orientation="horizontal"
+                    android:visibility="visible" />
             </RelativeLayout>
         </RelativeLayout>
-
 
 
     </ScrollView>
@@ -355,35 +387,37 @@
         android:layout_marginBottom="10dp">
 
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:orientation="horizontal"
-                android:weightSum="1">
-                <TextView
-                    android:id="@+id/buyNowTV"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight=".5"
-                    android:fontFamily="@font/comfortaa_light"
-                    android:gravity="center"
-                    android:text="Buy Now"
-                    android:layout_marginEnd="5dp"
-                    android:background="@drawable/btn_background_blue"
-                    android:textColor="@color/white"
-                    android:textSize="15sp" />
-                <TextView
-                    android:id="@+id/addToCartTV"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight=".5"
-                    android:fontFamily="@font/comfortaa_light"
-                    android:gravity="center"
-                    android:layout_marginStart="5dp"
-                    android:text="Add To Cart"
-                    android:background="@drawable/btn_background_red"
-                    android:textColor="@color/white"
-                    android:textSize="15sp" />
-            </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <TextView
+                android:id="@+id/buyNowTV"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="5dp"
+                android:layout_weight=".5"
+                android:background="@drawable/btn_background_blue"
+                android:fontFamily="@font/comfortaa_light"
+                android:gravity="center"
+                android:text="Buy Now"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/addToCartTV"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="5dp"
+                android:layout_weight=".5"
+                android:background="@drawable/btn_background_red"
+                android:fontFamily="@font/comfortaa_light"
+                android:gravity="center"
+                android:text="Add To Cart"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+        </LinearLayout>
     </FrameLayout>
 </RelativeLayout>

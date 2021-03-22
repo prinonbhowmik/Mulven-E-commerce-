@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:shimmer="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -37,8 +38,8 @@
             android:id="@+id/textf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
             android:layout_marginEnd="20dp"
             android:layout_toStartOf="@id/homeSearchIV"
             android:fontFamily="@font/comfortaa_light"
@@ -46,14 +47,15 @@
             android:text="Dream Deal"
             android:textColor="@color/white"
             android:textSize="18sp" />
+
         <ImageView
             android:id="@+id/homeSearchIV"
             android:layout_width="15dp"
             android:layout_height="15dp"
-            android:src="@drawable/ic_home_search"
-            android:layout_marginEnd="20dp"
             android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"/>
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/ic_home_search" />
 
     </RelativeLayout>
 
@@ -80,10 +82,10 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginBottom="5dp"
                     android:fontFamily="@font/comfortaa"
-                    android:textStyle="bold"
                     android:text="Top Categories"
                     android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/categoryRecyclerView"
@@ -92,7 +94,63 @@
                     android:layout_below="@+id/category_0"
                     android:layout_margin="3dp"
                     android:orientation="horizontal" />
+
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/shimmer_view_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_below="@+id/category_0"
+                    android:layout_gravity="center"
+                    android:layout_margin="3dp"
+                    android:orientation="vertical"
+                    android:visibility="visible"
+                    shimmer:duration="800"
+                    tools:ignore="MissingConstraints">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_marginStart="5dp"
+                            android:background="@color/shimmer_background" />
+
+                        <View
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_marginStart="5dp"
+                            android:background="@color/shimmer_background" />
+
+                        <View
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_marginStart="5dp"
+                            android:background="@color/shimmer_background" />
+
+                        <View
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_marginStart="5dp"
+                            android:background="@color/shimmer_background" />
+
+                        <View
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_marginStart="5dp"
+                            android:background="@color/shimmer_background" />
+
+                        <View
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_marginStart="5dp"
+                            android:background="@color/shimmer_background" />
+                    </LinearLayout>
+                </com.facebook.shimmer.ShimmerFrameLayout>
             </RelativeLayout>
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/sliderCardView"
                 android:layout_width="match_parent"
@@ -118,6 +176,22 @@
                     app:sliderIndicatorUnselectedColor="#FFF"
                     app:sliderScrollTimeInSec="4"
                     app:sliderStartAutoCycle="true" />
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/shimmer_view_container2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/category_0"
+                    android:layout_gravity="center"
+                    android:orientation="vertical"
+                    android:visibility="visible"
+                    shimmer:duration="800"
+                    tools:ignore="MissingConstraints">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/shimmer_background" />
+                </com.facebook.shimmer.ShimmerFrameLayout>
 
             </androidx.cardview.widget.CardView>
 
@@ -135,9 +209,9 @@
                     android:layout_marginStart="10dp"
                     android:fontFamily="@font/comfortaa"
                     android:text="Cellphones and Camera"
-                    android:textStyle="bold"
                     android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/seeAll_1"
@@ -146,14 +220,14 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="20dp"
                     android:fontFamily="@font/comfortaa"
-                    android:textStyle="bold"
-                    android:text="See All"
                     android:paddingStart="10dp"
-                    android:paddingEnd="10dp"
                     android:paddingTop="3dp"
+                    android:paddingEnd="10dp"
                     android:paddingBottom="5dp"
+                    android:text="See All"
                     android:textColor="@color/GGreen"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
                 <View
                     android:id="@+id/view_1"
@@ -162,8 +236,8 @@
                     android:layout_below="@+id/seeAll_1"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="3dp"
-                    android:layout_marginBottom="3dp"
                     android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="3dp"
                     android:background="@color/gray" />
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -171,18 +245,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/view_1"
-                    android:background="#F8F8F8"
                     android:layout_margin="3dp"
+                    android:background="#F8F8F8"
                     android:orientation="horizontal" />
             </RelativeLayout>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/feature_Add_Recycler_View"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/product_1_layout"
-                android:background="#F8F8F8"
                 android:layout_margin="3dp"
+                android:background="#F8F8F8"
                 android:orientation="vertical" />
+
             <RelativeLayout
                 android:id="@+id/product_2_layout"
                 android:layout_width="match_parent"
@@ -197,9 +273,9 @@
                     android:layout_marginStart="10dp"
                     android:fontFamily="@font/comfortaa"
                     android:text="Car and Bike"
-                    android:textStyle="bold"
                     android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/seeAll_2"
@@ -207,11 +283,11 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="20dp"
-                    android:paddingStart="10dp"
-                    android:paddingEnd="10dp"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
                     android:fontFamily="@font/comfortaa_bold"
+                    android:paddingStart="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingEnd="10dp"
+                    android:paddingBottom="5dp"
                     android:text="See All"
                     android:textColor="@color/GGreen"
                     android:textSize="15sp" />
@@ -230,9 +306,9 @@
                     android:id="@+id/category_2Recycler_View"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#F1F1F1"
                     android:layout_below="@+id/view_2"
-                    android:layout_marginTop="5dp" />
+                    android:layout_marginTop="5dp"
+                    android:background="#F1F1F1" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -248,10 +324,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:fontFamily="@font/comfortaa"
-                    android:textStyle="bold"
                     android:text="Electronics"
                     android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/seeAll_3"
@@ -260,14 +336,14 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="20dp"
                     android:fontFamily="@font/comfortaa"
-                    android:text="See All"
                     android:paddingStart="10dp"
-                    android:paddingEnd="10dp"
                     android:paddingTop="5dp"
+                    android:paddingEnd="10dp"
                     android:paddingBottom="5dp"
-                    android:textStyle="bold"
+                    android:text="See All"
                     android:textColor="@color/GGreen"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
                 <View
                     android:id="@+id/view_3"
@@ -284,10 +360,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/view_3"
-                    android:background="#F1F1F1"
                     android:layout_marginTop="5dp"
-                    android:layout_marginBottom="10dp"/>
+                    android:layout_marginBottom="10dp"
+                    android:background="#F1F1F1" />
             </RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/product_4_layout"
                 android:layout_width="match_parent"
@@ -301,10 +378,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:fontFamily="@font/comfortaa"
-                    android:textStyle="bold"
                     android:text="Grocery"
                     android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/seeAll_4"
@@ -313,14 +390,14 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="20dp"
                     android:fontFamily="@font/comfortaa"
-                    android:text="See All"
                     android:paddingStart="10dp"
-                    android:paddingEnd="10dp"
                     android:paddingTop="5dp"
+                    android:paddingEnd="10dp"
                     android:paddingBottom="5dp"
-                    android:textStyle="bold"
+                    android:text="See All"
                     android:textColor="@color/GGreen"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
                 <View
                     android:id="@+id/view_4"
@@ -337,10 +414,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/view_4"
-                    android:nestedScrollingEnabled="false"
-                    android:background="#F1F1F1"
                     android:layout_marginTop="5dp"
-                    android:layout_marginBottom="10dp"/>
+                    android:layout_marginBottom="10dp"
+                    android:background="#F1F1F1"
+                    android:nestedScrollingEnabled="false" />
             </RelativeLayout>
         </RelativeLayout>
     </ScrollView>

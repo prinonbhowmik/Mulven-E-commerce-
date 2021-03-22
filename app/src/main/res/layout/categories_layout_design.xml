@@ -6,25 +6,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="7dp"
     android:layout_margin="5dp">
+
 <RelativeLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/purple_500">
+    android:layout_height="match_parent">
 
     <ImageView
+        android:id="@+id/imageIV"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitXY"
-        android:src="@drawable/category_test"/>
+        tools:ignore="ContentDescription" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/categoryName"
-        android:text="Category"
         android:textColor="@color/white"
-        android:fontFamily="@font/comfortaa_bold"
-        android:gravity="top|left"
-        android:textSize="10sp"
+        android:textStyle="bold"
+        android:gravity="top|start"
+        android:textSize="13sp"
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
         android:maxLines="2"

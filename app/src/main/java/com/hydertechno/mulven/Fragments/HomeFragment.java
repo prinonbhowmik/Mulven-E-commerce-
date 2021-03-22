@@ -20,6 +20,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.hydertechno.mulven.Activities.SeeAllProductsActivity;
 import com.hydertechno.mulven.Adapters.CategoryNamesAdapter;
 import com.hydertechno.mulven.Adapters.FeatureAddAdapter;
@@ -64,6 +65,8 @@ public class HomeFragment extends Fragment {
     private SliderView imageSlider;
     private TextView seeAll1,seeAll2,seeAll3,seeAll4;
     private ApiInterface apiInterface;
+
+    private ShimmerFrameLayout mShimmerViewContainer,mShimmerViewContainer2;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -133,6 +136,9 @@ public class HomeFragment extends Fragment {
                     imageSlider.setSliderTransformAnimation(SliderAnimations.DEPTHTRANSFORMATION);
                     imageSlider.setScrollTimeInSec(4);
                     imageSlider.startAutoCycle();
+
+                    mShimmerViewContainer2.stopShimmerAnimation();
+                    mShimmerViewContainer2.setVisibility(View.GONE);
                 }
             }
 
@@ -155,6 +161,9 @@ public class HomeFragment extends Fragment {
                 }
                 //Collections.reverse(categoryNamesModelList);
                 categoryNamesAdapter.notifyDataSetChanged();
+
+                mShimmerViewContainer.stopShimmerAnimation();
+                mShimmerViewContainer.setVisibility(View.GONE);
             }
 
             @Override
@@ -320,10 +329,28 @@ public class HomeFragment extends Fragment {
         LinearLayoutManager layoutManager5 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         feature_Add_Recycler_View.setLayoutManager(layoutManager5);
         feature_Add_Recycler_View.setAdapter(feature_Add_Adapter);
+
+
+        mShimmerViewContainer = view.findViewById(R.id.shimmer_view_container);
+        mShimmerViewContainer2 = view.findViewById(R.id.shimmer_view_container2);
     }
 
     private void hideKeyboardFrom(Context context) {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(this.getActivity().getWindow().getDecorView().getRootView().getWindowToken(), 0);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mShimmerViewContainer.startShimmerAnimation();
+        mShimmerViewContainer2.startShimmerAnimation();
+    }
+
+    @Override
+    public void onPause() {
+        mShimmerViewContainer.stopShimmerAnimation();
+        mShimmerViewContainer2.stopShimmerAnimation();
+        super.onPause();
     }
 }

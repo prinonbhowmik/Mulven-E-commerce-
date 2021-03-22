@@ -22,4 +22,6 @@
     <color name="GGreen">#0F9D58</color>
     <color name="GBlue">#4285F4</color>
     <color name="GYellow">#F4B400</color>
+
+    <color name="shimmer_background">#dddddd</color>
 </resources>

@@ -120,14 +120,12 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
                 productFeatureRecyclerView.setAdapter(productFeatureAdapter);
 
                 List<ImageGallery> productImagesModelList = detailsList.getImage_gallery();
-                if (productImagesModelList == null || productImagesModelList.isEmpty()){
-                    productImagesRecycler.setVisibility(View.GONE);
-                }else{
+
                     productImagesAdapter=new ProductImagesAdapter(productImagesModelList,ProductDetailsActivity.this);
                     LinearLayoutManager layoutManager = new LinearLayoutManager(ProductDetailsActivity.this, LinearLayoutManager.HORIZONTAL, false);
                     productImagesRecycler.setLayoutManager(layoutManager);
                     productImagesRecycler.setAdapter(productImagesAdapter);
-                }
+
             }
 
             @Override
