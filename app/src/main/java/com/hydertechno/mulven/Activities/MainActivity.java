@@ -17,6 +17,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
+import com.hydertechno.mulven.DatabaseHelper.Database_Helper;
 import com.hydertechno.mulven.Fragments.AccountFragment;
 import com.hydertechno.mulven.Fragments.CartFragment;
 import com.hydertechno.mulven.Fragments.DreamDealFragment;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private ChipNavigationBar chipNavigationBar;
+    private Database_Helper helper;
     private boolean doubleBackToExitPressedOnce=false;
     private Fragment fragment=null;
 
@@ -49,9 +51,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new CartFragment()).commit();
         }
 
-
-
-        chipNavigationBar.showBadge(R.id.cart,2);
+        int count = helper.numberOfrows().getCount();
+        chipNavigationBar.showBadge(R.id.cart,count);
         chipNavigationBar.showBadge(R.id.notification,1);
         chipNavigationBar.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
             @Override
@@ -88,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.getMenu().getItem(0).setChecked(true);
         chipNavigationBar=findViewById(R.id.bottom_menu);
+        helper = new Database_Helper(this);
     }
 
     private void hideKeyboardFrom(Context context) {

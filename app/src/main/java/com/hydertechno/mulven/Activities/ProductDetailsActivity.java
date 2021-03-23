@@ -24,6 +24,7 @@ import com.hydertechno.mulven.Adapters.ProductFeatureAdapter;
 import com.hydertechno.mulven.Adapters.ProductImagesAdapter;
 import com.hydertechno.mulven.Api.ApiUtils;
 import com.hydertechno.mulven.Api.Config;
+import com.hydertechno.mulven.DatabaseHelper.Database_Helper;
 import com.hydertechno.mulven.Interface.ProductImageClickInterface;
 import com.hydertechno.mulven.Models.CategoriesModel;
 import com.hydertechno.mulven.Models.ImageGallery;
@@ -44,13 +45,15 @@ import retrofit2.Response;
 public class ProductDetailsActivity extends AppCompatActivity implements ProductImageClickInterface {
     private AutoCompleteTextView sizeTV,colorTV;
     private ZoomageView product_Image;
-    private TextView productOldPrice,addToCart,buyNow,product_Name,shop_Name,brand_Name,product_Price,shop_Address;
+    private TextView productOldPrice,addToCart,buyNow,product_Name,shop_Name,brand_Name,product_Price,shop_Address,cardQuantity;
     private RecyclerView productImagesRecycler,productFeatureRecyclerView,relatedProductRecyclerView;
     private ProductImagesAdapter productImagesAdapter;
     private ProductFeatureAdapter productFeatureAdapter;
+    private Database_Helper databaseHelper;
+    private List<ProductDetails> list;
     private int product_id;
     private WebView webView;
-    private String url = "https://mulven.com/pro-det-for-app/";
+    private String url = "https://mulven.com/pro-det-for-app/",imageString;
     private ImageView shopLogoIV;
 
     @Override
@@ -68,7 +71,16 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
         addToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ProductDetailsActivity.this, "1 item add to cart ", Toast.LENGTH_SHORT).show();
+                if (databaseHelper.checkCart(product_id)){
+                    Toast.makeText(ProductDetailsActivity.this, "Product Already in Cart", Toast.LENGTH_LONG).show();
+                    return;
+                }else{
+                    databaseHelper.addToCart(product_id,product_Name.getText().toString(),
+                            Integer.parseInt(productOldPrice.getText().toString()),
+                            Integer.parseInt(product_Price.getText().toString()),
+                            shop_Name.getText().toString(),Integer.parseInt(cardQuantity.getText().toString()),imageString);
+                    Toast.makeText(ProductDetailsActivity.this, "Product Added To Cart", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -100,6 +112,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
                 shop_Name.setText(""+detailsList.getShop_name());
                 shop_Address.setText(""+detailsList.getShop_address());
                 brand_Name.setText(""+detailsList.getBrand());
+                imageString = detailsList.getFeacher_image();
                 try{
                     Picasso.get()
                             .load(Config.IMAGE_LINE+detailsList.getFeacher_image())
@@ -145,10 +158,11 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
         addToCart=findViewById(R.id.addToCartTV);
         buyNow=findViewById(R.id.buyNowTV);
         product_Image = findViewById(R.id.product_Image);
+        cardQuantity = findViewById(R.id.cardQuantity);
         productOldPrice=findViewById(R.id.product_Old_Price);
         shopLogoIV=findViewById(R.id.shopLogoIV);
         shop_Address=findViewById(R.id.shop_Address);
-
+        databaseHelper = new Database_Helper(this);
 
         productOldPrice.setPaintFlags(productOldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         productImagesRecycler=findViewById(R.id.productImagesRecyclerView);

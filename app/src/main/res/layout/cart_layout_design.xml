@@ -56,7 +56,6 @@
             android:id="@+id/cartProductPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="3800"
             android:fontFamily="@font/comfortaa_bold"
             android:maxLines="2"
             android:textSize="12sp"
@@ -71,7 +70,6 @@
         android:id="@+id/ProductQuantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="× 1"
         android:fontFamily="@font/comfortaa_bold"
         android:maxLines="2"
         android:textSize="12sp"
@@ -85,7 +83,6 @@
         android:id="@+id/cartProductTotalPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="৳ 3800"
         android:fontFamily="@font/comfortaa_light"
         android:maxLines="2"
         android:textSize="15sp"
@@ -119,6 +116,7 @@
             android:layout_toEndOf="@id/cardMinus"
             android:layout_below="@+id/cartProductPrice"/>
         <ImageView
+            android:id="@+id/cardPlus"
             android:layout_width="20dp"
             android:layout_height="18dp"
             android:src="@drawable/ic_plus"

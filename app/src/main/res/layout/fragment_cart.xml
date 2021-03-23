@@ -66,18 +66,15 @@
         android:layout_width="match_parent"
         android:background="#F8F8F8"
         android:layout_height="match_parent">
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <include
-                android:id="@+id/l1"
-                layout="@layout/cart_layout_design"/>
-            <include
-                android:id="@+id/l2"
-                layout="@layout/cart_layout_design"/>
-        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/totalLayout"
+            android:id="@+id/cartRecycler"/>
+
         <RelativeLayout
+            android:id="@+id/totalLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
@@ -91,7 +88,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Subtotal"
-                android:fontFamily="@font/comfortaa_light"
+                android:fontFamily="@font/comfortaa"
                 android:textSize="18sp"
                 android:layout_marginStart="25dp"
                 android:layout_marginTop="10dp"
@@ -102,7 +99,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="৳ 7600"
-                android:fontFamily="@font/comfortaa_light"
+                android:fontFamily="@font/comfortaa"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="25dp"
                 android:textSize="18sp"
