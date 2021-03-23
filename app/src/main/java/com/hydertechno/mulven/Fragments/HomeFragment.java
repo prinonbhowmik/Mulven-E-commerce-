@@ -66,7 +66,8 @@ public class HomeFragment extends Fragment {
     private TextView seeAll1,seeAll2,seeAll3,seeAll4;
     private ApiInterface apiInterface;
 
-    private ShimmerFrameLayout mShimmerViewContainer,mShimmerViewContainer2;
+    private ShimmerFrameLayout mShimmerViewContainer,mShimmerViewContainer2,Horizontal_shimmer_container1,Horizontal_shimmer_container2,
+            Horizontal_shimmer_container3,featureAdd_shimmer_container;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -185,6 +186,10 @@ public class HomeFragment extends Fragment {
                 }
                 //Collections.reverse(categoryNamesModelList);
                 category1_Adapter.notifyDataSetChanged();
+
+
+                Horizontal_shimmer_container1.stopShimmerAnimation();
+                Horizontal_shimmer_container1.setVisibility(View.GONE);
             }
 
             @Override
@@ -206,6 +211,8 @@ public class HomeFragment extends Fragment {
                 }
                 //Collections.reverse(categoryNamesModelList);
                 category2_Adapter.notifyDataSetChanged();
+                Horizontal_shimmer_container2.stopShimmerAnimation();
+                Horizontal_shimmer_container2.setVisibility(View.GONE);
             }
 
             @Override
@@ -227,6 +234,8 @@ public class HomeFragment extends Fragment {
                 }
                 //Collections.reverse(categoryNamesModelList);
                 category3_Adapter.notifyDataSetChanged();
+                Horizontal_shimmer_container3.stopShimmerAnimation();
+                Horizontal_shimmer_container3.setVisibility(View.GONE);
             }
 
             @Override
@@ -270,6 +279,9 @@ public class HomeFragment extends Fragment {
                 feature_Add_Recycler_View.setAdapter(feature_Add_Adapter);
             }
                 feature_Add_Adapter.notifyDataSetChanged();
+
+                featureAdd_shimmer_container.stopShimmerAnimation();
+                featureAdd_shimmer_container.setVisibility(View.GONE);
             }
 
             @Override
@@ -333,6 +345,10 @@ public class HomeFragment extends Fragment {
 
         mShimmerViewContainer = view.findViewById(R.id.shimmer_view_container);
         mShimmerViewContainer2 = view.findViewById(R.id.shimmer_view_container2);
+        Horizontal_shimmer_container1 = view.findViewById(R.id.Horizontal_shimmer_container1);
+        Horizontal_shimmer_container2 = view.findViewById(R.id.Horizontal_shimmer_container2);
+        Horizontal_shimmer_container3 = view.findViewById(R.id.Horizontal_shimmer_container3);
+        featureAdd_shimmer_container = view.findViewById(R.id.featureAdd_shimmer_container);
     }
 
     private void hideKeyboardFrom(Context context) {
@@ -345,6 +361,10 @@ public class HomeFragment extends Fragment {
         super.onResume();
         mShimmerViewContainer.startShimmerAnimation();
         mShimmerViewContainer2.startShimmerAnimation();
+        Horizontal_shimmer_container1.startShimmerAnimation();
+        Horizontal_shimmer_container2.startShimmerAnimation();
+        Horizontal_shimmer_container3.startShimmerAnimation();
+        featureAdd_shimmer_container.startShimmerAnimation();
     }
 
     @Override

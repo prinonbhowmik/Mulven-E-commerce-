@@ -15,6 +15,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -30,9 +32,11 @@ import com.squareup.picasso.Picasso;
 
 public class ProfileFragment extends Fragment {
     private LinearLayout checkBalanceLayout,addressLayout,profileLayout;
+    private RelativeLayout bottomRL;
     private DrawerLayout drawerLayout;
     private ImageView navIcon;
     private Dialog dialog;
+    private Animation upAnimation,downAnimation;
     private RelativeLayout paymentHistoryRL,changePasswordRL;
 
     @Override
@@ -98,6 +102,11 @@ public class ProfileFragment extends Fragment {
 
     private void init(View view) {
         navIcon=view.findViewById(R.id.navIcon);
+        upAnimation=AnimationUtils.loadAnimation(getContext(),R.anim.slide_up);
+        downAnimation=AnimationUtils.loadAnimation(getContext(),R.anim.slide_down);
+
+        bottomRL=view.findViewById(R.id.bottomRL);
+        bottomRL.setAnimation(upAnimation);
         checkBalanceLayout=view.findViewById(R.id.balanceLayout);
         addressLayout=view.findViewById(R.id.addressLayout);
         profileLayout=view.findViewById(R.id.profileLayout);

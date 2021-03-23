@@ -22,6 +22,7 @@ import com.hydertechno.mulven.Fragments.CartFragment;
 import com.hydertechno.mulven.Fragments.DreamDealFragment;
 import com.hydertechno.mulven.Fragments.HomeFragment;
 import com.hydertechno.mulven.Fragments.NotificationFragment;
+import com.hydertechno.mulven.Fragments.ProfileFragment;
 import com.hydertechno.mulven.R;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
@@ -69,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         fragment=new NotificationFragment();
                         break;
                     case R.id.account:
-                        fragment=new AccountFragment();
+                        fragment=new ProfileFragment();
                         break;
                 }
                 if(fragment!=null){
