@@ -52,7 +52,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         int count = helper.numberOfrows().getCount();
-        chipNavigationBar.showBadge(R.id.cart,count);
+        if (count>0) {
+            chipNavigationBar.showBadge(R.id.cart, count);
+        }
         chipNavigationBar.showBadge(R.id.notification,1);
         chipNavigationBar.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
             @Override

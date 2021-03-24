@@ -1,7 +1,9 @@
 package com.hydertechno.mulven.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.hydertechno.mulven.Activities.ProductDetailsActivity;
 import com.hydertechno.mulven.Api.Config;
 import com.hydertechno.mulven.DatabaseHelper.Database_Helper;
 import com.hydertechno.mulven.Fragments.CartFragment;
@@ -84,7 +87,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, ""+cart.getId(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, ProductDetailsActivity.class);
+                intent.putExtra("id",cart.getId());
+                Log.d("productId", String.valueOf(cart.getId()));
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
             }
         });
         holder.cartProductDelete.setOnClickListener(new View.OnClickListener() {
