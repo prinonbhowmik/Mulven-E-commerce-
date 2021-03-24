@@ -1,6 +1,7 @@
 package com.hydertechno.mulven.Adapters;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,9 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.UiThread;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hydertechno.mulven.Activities.ProductDetailsActivity;
@@ -27,6 +30,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     private List<CartProduct> list;
     private Context context;
     private CartFragment cartFragment;
+    private androidx.appcompat.app.AlertDialog.Builder alert;
 
     public CartAdapter(List<CartProduct> list, Context context) {
         this.list = list;
@@ -100,9 +104,29 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         holder.cartProductDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                database_helper.deleteData(list.get(position).getId());
-                list.remove(position);
-                notifyDataSetChanged();
+
+                alert = new androidx.appcompat.app.AlertDialog.Builder(context);
+                alert.setTitle("Delete!");
+                alert.setMessage("Want to delete this product??");
+                alert.setIcon(R.drawable.applogo);
+
+                alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+                alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        database_helper.deleteData(list.get(position).getId());
+                        list.remove(position);
+                        notifyDataSetChanged();
+                        cartFragment.cardSubtotalAmount.setText("৳ "+database_helper.columnSum());
+                    }
+                });
+                AlertDialog alertDialog = alert.create();
+                alertDialog.show();
             }
         });
     }
