@@ -5,10 +5,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Adapter;
 
 import androidx.annotation.Nullable;
 
-import com.hydertechno.mulven.Models.ProductDetails;
+import com.hydertechno.mulven.Adapters.CartAdapter;
+import com.hydertechno.mulven.Models.CartProduct;
+
+import java.util.List;
 
 public class Database_Helper extends SQLiteOpenHelper {
 
@@ -24,11 +28,9 @@ public class Database_Helper extends SQLiteOpenHelper {
     public static String IMAGE = "image";
     private static int VERSION = 4;
     private Context context;
-    private String table = "CREATE TABLE "+ TABLE_NAME+" ("+ ID+" INTEGER,"+ SKU+" VARCHAR(255),"
-            + MRP_PRICE+" VARCHAR(255),"+ UNIT_PRICE+" INTEGER,"+ PRODUCT_NAME+" VARCHAR(255),"
-            + SHOP_NAME+" VARCHAR(255),"+ QUANTITY+" INTEGER,"+ IMAGE+" VARCHAR)";
-
-
+    private String table = "CREATE TABLE " + TABLE_NAME + " (" + ID + " INTEGER," + SKU + " VARCHAR(255),"
+            + MRP_PRICE + " VARCHAR(255)," + UNIT_PRICE + " INTEGER," + PRODUCT_NAME + " VARCHAR(255),"
+            + SHOP_NAME + " VARCHAR(255)," + QUANTITY + " INTEGER," + IMAGE + " VARCHAR)";
 
     public Database_Helper(@Nullable Context context) {
         super(context, DB_NAME, null, VERSION);
@@ -45,7 +47,7 @@ public class Database_Helper extends SQLiteOpenHelper {
 
     }
 
-    public void addToCart(int id,String name,int mrp_price,int unit_price,String shop_name,int quantity,String image) {
+    public void addToCart(int id, String name, int mrp_price, int unit_price, String shop_name, int quantity, String image) {
 
         SQLiteDatabase sq = getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -70,9 +72,9 @@ public class Database_Helper extends SQLiteOpenHelper {
     }
 
     public Cursor getCart() {
-        String sql = "SELECT * FROM "+TABLE_NAME;
+        String sql = "SELECT * FROM " + TABLE_NAME;
         SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.rawQuery(sql,null);
+        Cursor cursor = db.rawQuery(sql, null);
         return cursor;
     }
 
@@ -82,17 +84,30 @@ public class Database_Helper extends SQLiteOpenHelper {
 
     public void addQuantity(int id, int quantity) {
 
-        SQLiteDatabase db=this.getWritableDatabase();
-        db.execSQL("update "+TABLE_NAME+" set "+QUANTITY+" = "+quantity+" where "+ID+" = "+id);
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("update " + TABLE_NAME + " set " + QUANTITY + " = " + quantity + " where " + ID + " = " + id);
         db.close();
     }
 
-    public Cursor numberOfrows(){
+    public Cursor numberOfrows() {
         SQLiteDatabase db = this.getWritableDatabase();
 
         Cursor data = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
         return data;
     }
+
+     public int columnSum() {
+         SQLiteDatabase db = this.getWritableDatabase();
+         Cursor cur = db.rawQuery("SELECT SUM(quantity * unit_price) FROM new_table", null);
+         if(cur.moveToFirst())
+         {
+             return cur.getInt(0);
+         }
+
+         return 0;
+     }
+
+
 
 
 }

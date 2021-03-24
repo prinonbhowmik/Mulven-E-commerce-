@@ -2,16 +2,15 @@ package com.hydertechno.mulven.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.UiThread;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hydertechno.mulven.Activities.ProductDetailsActivity;
@@ -50,9 +49,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         holder.cartProductPrice.setText(String.valueOf(cart.getUnit_price())+" X "+cart.getQuantity());
        // holder.ProductQuantity.setText(String.valueOf(cart.getQuantity()));
         holder.cardQuantity.setText(""+cart.getQuantity());
-        holder.cartProductTotalPrice.setText(""+cart.getUnit_price()*Integer.parseInt(holder.cardQuantity.getText().toString()));
+        holder.cartProductTotalPrice.setText("৳ "+cart.getUnit_price()*Integer.parseInt(holder.cardQuantity.getText().toString()));
 
-        cartFragment.cardSubtotalAmount.setText(""+total());
+        cartFragment.cardSubtotalAmount.setText("৳ "+database_helper.columnSum());
+
         holder.cardPlus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,6 +62,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                 holder.cartProductTotalPrice.setText(""+list.get(position).getUnit_price()*count);
                 holder.cartProductPrice.setText(list.get(position).getUnit_price()+" X "+String.valueOf(count));
                 database_helper.addQuantity(list.get(position).getId(),count);
+                cartFragment.cardSubtotalAmount.setText("৳ "+database_helper.columnSum());
             }
         });
 
@@ -74,7 +75,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                     holder.cardQuantity.setText(String.valueOf(count));
                     holder.cartProductTotalPrice.setText("" + list.get(position).getUnit_price() * count);
                     holder.cartProductPrice.setText(list.get(position).getUnit_price() + " X " + String.valueOf(count));
-                    database_helper.addQuantity(list.get(position).getId(), count);;
+                    database_helper.addQuantity(list.get(position).getId(), count);
+                    cartFragment.cardSubtotalAmount.setText("৳ "+database_helper.columnSum());
+
                 }else{
                     return;
                 }
@@ -109,17 +112,15 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         return list.size();
     }
 
-    public  int total(){
-        Database_Helper helper = new Database_Helper(context);
-        Cursor cursor = helper.getCart();
-        int count = 0;
-        if (cursor.getCount()>0){
-            while (cursor.moveToNext()){
-                count+=cursor.getInt(3)*cursor.getInt(5);
-            }
-        }
-        return count;
+    public void swapDataSet(List<CartProduct> newData){
+
+        this.list = newData;
+
+        //now, tell the adapter about the update
+        notifyDataSetChanged();
+
     }
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
