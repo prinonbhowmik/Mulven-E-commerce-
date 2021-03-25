@@ -98,7 +98,7 @@
                 android:id="@+id/cardSubtotalAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/comfortaa"
+                android:fontFamily="@font/comfortaa_bold"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="25dp"
                 android:textSize="18sp"
@@ -175,7 +175,7 @@
                 android:background="@drawable/btn_background_blue"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                android:fontFamily="@font/comfortaa_light"
+                android:fontFamily="@font/comfortaa"
                 android:textAllCaps="false"/>
         </RelativeLayout>
     </RelativeLayout>

@@ -91,7 +91,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         Picasso.get()
                 .load(Config.IMAGE_LINE+cart.getImage())
                 .into(holder.cartProductImage);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.cartProductImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ProductDetailsActivity.class);

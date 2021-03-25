@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +33,7 @@ import java.util.List;
 
 public class CartFragment extends Fragment {
     private DrawerLayout drawerLayout;
+    private RelativeLayout noCartLayout,cartLayout;
     private ImageView navIcon;
     private TextView placeOrder;
     public static TextView cardSubtotalAmount;
@@ -88,15 +90,18 @@ public class CartFragment extends Fragment {
                 cartRecycler.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
             }
-        }else{
-            Toast.makeText(getContext(), "No products in Cart", Toast.LENGTH_SHORT).show();
+            if(list.size()==0){
+                noCartLayout.setVisibility(View.VISIBLE);
+                cartLayout.setVisibility(View.GONE);
+            }
         }
     }
 
     private void init(View view) {
         navIcon=view.findViewById(R.id.navIcon);
         placeOrder=view.findViewById(R.id.placeOrderTV);
-        cartRecycler = view.findViewById(R.id.cartRecycler);
+        noCartLayout = view.findViewById(R.id.noCartLayout);
+        cartLayout = view.findViewById(R.id.cartLayout);
         cardSubtotalAmount = view.findViewById(R.id.cardSubtotalAmount);
         databaseHelper = new Database_Helper(getContext());
         list = new ArrayList<>();

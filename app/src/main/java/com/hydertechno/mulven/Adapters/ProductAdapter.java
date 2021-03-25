@@ -42,7 +42,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         CategoriesModel model=categoriesModelList.get(position);
-        holder.productUnitPrice.setText(String.valueOf(model.getUnit_price()));
+        holder.productUnitPrice.setText("৳ "+String.valueOf(model.getUnit_price()));
         holder.productMRPPrice.setText(String.valueOf(model.getMrp_price()));
         holder.productName.setText(model.getProduct_name());
         try{
