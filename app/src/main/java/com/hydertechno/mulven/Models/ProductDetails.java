@@ -5,6 +5,7 @@ import java.util.List;
 
 public class ProductDetails {
     private int id;
+    private int category_id;
     private String sku;
     private String product_name;
     private int mrp_price;
@@ -16,10 +17,16 @@ public class ProductDetails {
     private String feacher_image;
     private List<ProductFeature> product_feature = new ArrayList<>();
     private List<ImageGallery> image_gallery = new ArrayList<>();
+    private List<ProductSize> product_size = new ArrayList<>();
+    private List<ProductColor> product_color = new ArrayList<>();
     private List<Variant> variant = new ArrayList<>();
 
     public int getId() {
         return id;
+    }
+
+    public int getCategory_id() {
+        return category_id;
     }
 
     public String getSku() {
@@ -64,6 +71,14 @@ public class ProductDetails {
 
     public List<ImageGallery> getImage_gallery() {
         return image_gallery;
+    }
+
+    public List<ProductSize> getProduct_size() {
+        return product_size;
+    }
+
+    public List<ProductColor> getProduct_color() {
+        return product_color;
     }
 
     public List<Variant> getVariant() {
