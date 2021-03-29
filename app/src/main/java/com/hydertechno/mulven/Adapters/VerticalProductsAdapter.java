@@ -27,7 +27,7 @@ public class VerticalProductsAdapter extends RecyclerView.Adapter<VerticalProduc
 
     private List<CategoriesModel> categoriesModelList;
     private Context context;
-    private int limit=6;
+    private int limit=10;
 
     public VerticalProductsAdapter(List<CategoriesModel> categoriesModelList, Context context) {
         this.categoriesModelList = categoriesModelList;

@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.textfield.TextInputLayout;
 import com.hydertechno.mulven.Adapters.ProductAdapter;
 import com.hydertechno.mulven.Adapters.ProductFeatureAdapter;
 import com.hydertechno.mulven.Adapters.ProductImagesAdapter;
@@ -28,9 +29,11 @@ import com.hydertechno.mulven.DatabaseHelper.Database_Helper;
 import com.hydertechno.mulven.Interface.ProductImageClickInterface;
 import com.hydertechno.mulven.Models.CategoriesModel;
 import com.hydertechno.mulven.Models.ImageGallery;
+import com.hydertechno.mulven.Models.ProductColor;
 import com.hydertechno.mulven.Models.ProductDetails;
 import com.hydertechno.mulven.Models.ProductFeature;
 import com.hydertechno.mulven.Models.ProductImagesModel;
+import com.hydertechno.mulven.Models.ProductSize;
 import com.hydertechno.mulven.R;
 import com.jsibbold.zoomage.ZoomageView;
 import com.squareup.picasso.Picasso;
@@ -44,6 +47,7 @@ import retrofit2.Response;
 
 public class ProductDetailsActivity extends AppCompatActivity implements ProductImageClickInterface {
     private AutoCompleteTextView sizeTV,colorTV;
+    private TextInputLayout size_menu,color_menu;
     private ZoomageView product_Image;
     private TextView productOldPrice,addToCart,buyNow,product_Name,shop_Name,brand_Name,product_Price,shop_Address,cardQuantity;
     private RecyclerView productImagesRecycler,productFeatureRecyclerView,relatedProductRecyclerView;
@@ -51,21 +55,23 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
     private ProductFeatureAdapter productFeatureAdapter;
     private Database_Helper databaseHelper;
     private List<ProductDetails> list;
-    private int product_id;
+    private int product_id,quantity;
     private WebView webView;
     private String url = "https://mulven.com/pro-det-for-app/",imageString;
-    private ImageView shopLogoIV;
+    private ImageView shopLogoIV,card_Minus,card_Plus;
+    private ArrayList<String> productColor = new ArrayList<String>();
+    private ArrayList<String> productSize = new ArrayList<String>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_details);
-
         Intent intent = getIntent();
         product_id = intent.getIntExtra("id",0);
 
         init();
-
+        quantity=Integer.parseInt(cardQuantity.getText().toString());
         getProductDeatils();
 
         addToCart.setOnClickListener(new View.OnClickListener() {
@@ -139,6 +145,36 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
                     productImagesRecycler.setLayoutManager(layoutManager);
                     productImagesRecycler.setAdapter(productImagesAdapter);
 
+                //Get Product Color
+                List<ProductColor> productColorList  = detailsList.getProduct_color();
+                if(productColorList.size()!=1){
+                    color_menu.setVisibility(View.VISIBLE);
+                productColor.clear();
+                for (int i = 0; i < productColorList.size(); i++) {
+                    productColor.add(productColorList.get(i).getColor_name());
+                }
+                ArrayAdapter<String> product_color = new ArrayAdapter<String>(ProductDetailsActivity.this, R.layout.spinner_item_design, R.id.simpleSpinner, productColor);
+                product_color.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                colorTV.setAdapter(product_color);
+                /*int index=productColorList.indexOf(product_color.getColor_name());
+                colorTV.setSelection(productColor.indexOf(1));*/
+                }
+
+                //Get Product Size
+                List<ProductSize> productSizeList  = detailsList.getProduct_size();
+                if(productSizeList.size()!=1){
+                    size_menu.setVisibility(View.VISIBLE);
+                    productSize.clear();
+                    for (int i = 0; i < productSizeList.size(); i++) {
+                        productSize.add(productSizeList.get(i).getSize_name());
+                    }
+                    ArrayAdapter<String> product_size = new ArrayAdapter<String>(ProductDetailsActivity.this, R.layout.spinner_item_design, R.id.simpleSpinner, productSize);
+                    product_size.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                    sizeTV.setAdapter(product_size);
+                /*int index=productColorList.indexOf(product_color.getColor_name());
+                colorTV.setSelection(productColor.indexOf(1));*/
+                }
+
             }
 
             @Override
@@ -155,10 +191,14 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
         product_Price = findViewById(R.id.product_Price);
         sizeTV=findViewById(R.id.sizeMenu);
         colorTV=findViewById(R.id.colorMenu);
+        color_menu=findViewById(R.id.color_menu);
+        size_menu=findViewById(R.id.size_menu);
         addToCart=findViewById(R.id.addToCartTV);
         buyNow=findViewById(R.id.buyNowTV);
         product_Image = findViewById(R.id.product_Image);
         cardQuantity = findViewById(R.id.cardQuantity);
+        card_Plus = findViewById(R.id.card_Plus);
+        card_Minus = findViewById(R.id.card_Minus);
         productOldPrice=findViewById(R.id.product_Old_Price);
         shopLogoIV=findViewById(R.id.shopLogoIV);
         shop_Address=findViewById(R.id.shop_Address);
@@ -192,5 +232,17 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void cardMinus(View view) {
+        if(quantity>1) {
+            quantity--;
+            cardQuantity.setText("" + quantity);
+        }
+    }
+
+    public void cardPlus(View view) {
+        quantity++;
+        cardQuantity.setText("" +quantity);
     }
 }

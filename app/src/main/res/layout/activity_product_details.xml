@@ -49,6 +49,7 @@
                 android:id="@+id/re1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
                 android:background="@color/white">
 
                 <com.jsibbold.zoomage.ZoomageView
@@ -148,9 +149,10 @@
                         android:textSize="18sp" />
 
                     <ImageView
-                        android:id="@+id/cardMinus"
+                        android:id="@+id/card_Minus"
                         android:layout_width="25dp"
                         android:layout_height="23dp"
+                        android:onClick="cardMinus"
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="5dp"
                         android:src="@drawable/ic_minus" />
@@ -162,15 +164,17 @@
                         android:layout_gravity="center_vertical"
                         android:fontFamily="@font/comfortaa"
                         android:gravity="center"
-                        android:paddingStart="15dp"
-                        android:paddingEnd="15dp"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="20dp"
                         android:text="1"
                         android:textColor="@color/black"
                         android:textSize="13sp" />
 
                     <ImageView
+                        android:id="@+id/card_Plus"
                         android:layout_width="25dp"
                         android:layout_height="23dp"
+                        android:onClick="cardPlus"
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="5dp"
                         android:src="@drawable/ic_plus" />
@@ -182,7 +186,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/quantity"
-                    android:layout_marginBottom="10dp"
+                    android:visibility="gone"
                     android:hint="Size">
 
                     <AutoCompleteTextView
@@ -204,7 +208,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/quantity"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginBottom="10dp"
+                    android:visibility="gone"
                     android:hint="Color">
 
                     <AutoCompleteTextView

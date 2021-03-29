@@ -46,6 +46,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:layout_marginTop="5dp"
+                android:onClick="test"
                 android:id="@+id/your_orderRL">
 
                 <TextView
@@ -94,17 +95,6 @@
                     android:background="@color/black"
                     android:layout_marginBottom="10dp"
                     android:layout_below="@id/orderStatusTV"/>
-
-                <ImageView
-                    android:id="@+id/showModeOrderIV"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:src="@drawable/ic__arrow_down"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:onClick="test"
-                    android:background="@color/black"
-                    android:layout_marginEnd="30dp"/>
             </RelativeLayout>
 
             <androidx.recyclerview.widget.RecyclerView
