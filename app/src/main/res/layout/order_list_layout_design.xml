@@ -2,15 +2,28 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/white">
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_marginBottom="5dp">
     <TextView
         android:id="@+id/orderIDTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="MVH1FTMN1"
         android:textSize="15sp"
         android:layout_marginTop="10dp"
+        android:layout_marginStart="20dp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/comfortaa_bold"/>
+    <TextView
+        android:id="@+id/orderDateTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/orderIDTV"
+        android:textSize="12sp"
+        android:layout_marginTop="5dp"
         android:layout_marginStart="20dp"
         android:textColor="@color/black"
         android:fontFamily="@font/comfortaa_bold"/>
@@ -20,10 +33,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/orderIDTV"
-        android:text="2021-Feb-04 4:28 pm"
         android:textSize="12sp"
+        android:layout_toEndOf="@id/orderDateTV"
         android:layout_marginTop="5dp"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="10dp"
         android:textColor="@color/black"
         android:fontFamily="@font/comfortaa_bold"/>
     <TextView
@@ -31,8 +44,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/orderTimeTV"
-        android:text="Cancel"
-        android:background="@drawable/status_cancel"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
         android:paddingTop="5dp"
@@ -43,5 +54,6 @@
         android:layout_marginStart="20dp"
         android:textColor="@color/white"
         android:fontFamily="@font/comfortaa_bold"/>
+    </RelativeLayout>
 
 </RelativeLayout>

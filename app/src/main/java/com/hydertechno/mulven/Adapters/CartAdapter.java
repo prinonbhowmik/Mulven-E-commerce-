@@ -9,10 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.UiThread;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,19 +18,19 @@ import com.hydertechno.mulven.Activities.ProductDetailsActivity;
 import com.hydertechno.mulven.Api.Config;
 import com.hydertechno.mulven.DatabaseHelper.Database_Helper;
 import com.hydertechno.mulven.Fragments.CartFragment;
-import com.hydertechno.mulven.Models.CartProduct;
+import com.hydertechno.mulven.Models.CartProductModel;
 import com.hydertechno.mulven.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
-    private List<CartProduct> list;
+    private List<CartProductModel> list;
     private Context context;
     private CartFragment cartFragment;
     private androidx.appcompat.app.AlertDialog.Builder alert;
 
-    public CartAdapter(List<CartProduct> list, Context context) {
+    public CartAdapter(List<CartProductModel> list, Context context) {
         this.list = list;
         this.context = context;
     }
@@ -46,7 +44,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        CartProduct cart = list.get(position);
+        CartProductModel cart = list.get(position);
         Database_Helper database_helper = new Database_Helper(context);
         holder.cartProductName.setText(cart.getProduct_name());
         holder.ProductShopName.setText(cart.getShop_name());
@@ -136,7 +134,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         return list.size();
     }
 
-    public void swapDataSet(List<CartProduct> newData){
+    public void swapDataSet(List<CartProductModel> newData){
 
         this.list = newData;
 

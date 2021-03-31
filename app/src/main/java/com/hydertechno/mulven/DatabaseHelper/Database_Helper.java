@@ -5,14 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.widget.Adapter;
 
 import androidx.annotation.Nullable;
-
-import com.hydertechno.mulven.Adapters.CartAdapter;
-import com.hydertechno.mulven.Models.CartProduct;
-
-import java.util.List;
 
 public class Database_Helper extends SQLiteOpenHelper {
 

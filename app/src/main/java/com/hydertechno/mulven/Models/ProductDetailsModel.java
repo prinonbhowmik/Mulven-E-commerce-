@@ -3,7 +3,7 @@ package com.hydertechno.mulven.Models;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductDetails {
+public class ProductDetailsModel {
     private int id;
     private int category_id;
     private String sku;
@@ -15,11 +15,11 @@ public class ProductDetails {
     private String shop_address;
     private String brand;
     private String feacher_image;
-    private List<ProductFeature> product_feature = new ArrayList<>();
-    private List<ImageGallery> image_gallery = new ArrayList<>();
-    private List<ProductSize> product_size = new ArrayList<>();
-    private List<ProductColor> product_color = new ArrayList<>();
-    private List<Variant> variant = new ArrayList<>();
+    private List<ProductFeatureModel> product_feature = new ArrayList<>();
+    private List<ImageGalleryModel> image_gallery = new ArrayList<>();
+    private List<ProductSizeModel> product_size = new ArrayList<>();
+    private List<ProductColorModel> product_color = new ArrayList<>();
+    private List<ProductVariantModel> variant = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -65,23 +65,23 @@ public class ProductDetails {
         return feacher_image;
     }
 
-    public List<ProductFeature> getProduct_feature() {
+    public List<ProductFeatureModel> getProduct_feature() {
         return product_feature;
     }
 
-    public List<ImageGallery> getImage_gallery() {
+    public List<ImageGalleryModel> getImage_gallery() {
         return image_gallery;
     }
 
-    public List<ProductSize> getProduct_size() {
+    public List<ProductSizeModel> getProduct_size() {
         return product_size;
     }
 
-    public List<ProductColor> getProduct_color() {
+    public List<ProductColorModel> getProduct_color() {
         return product_color;
     }
 
-    public List<Variant> getVariant() {
+    public List<ProductVariantModel> getProductVariantModel() {
         return variant;
     }
 }

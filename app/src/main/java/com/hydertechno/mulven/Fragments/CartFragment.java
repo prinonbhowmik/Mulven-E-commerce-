@@ -19,13 +19,11 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.hydertechno.mulven.Activities.PlaceOrderActivity;
 import com.hydertechno.mulven.Activities.PlaceOrderDetailsActivity;
 import com.hydertechno.mulven.Adapters.CartAdapter;
 import com.hydertechno.mulven.DatabaseHelper.Database_Helper;
-import com.hydertechno.mulven.Models.CartProduct;
+import com.hydertechno.mulven.Models.CartProductModel;
 import com.hydertechno.mulven.R;
 
 import java.util.ArrayList;
@@ -39,7 +37,7 @@ public class CartFragment extends Fragment {
     public static TextView cardSubtotalAmount;
     private RecyclerView cartRecycler;
     private Database_Helper databaseHelper;
-    private List<CartProduct> list;
+    private List<CartProductModel> list;
     private CartAdapter adapter;
 
     @Override
@@ -83,9 +81,9 @@ public class CartFragment extends Fragment {
                 int quantity = cursor.getInt(cursor.getColumnIndex(databaseHelper.QUANTITY));
                 String image = cursor.getString(cursor.getColumnIndex(databaseHelper.IMAGE));
 
-                CartProduct cartProducts = new CartProduct(id,name,mrp_price,unit_price,shop_name ,quantity, image);
+                CartProductModel cartProductsModel = new CartProductModel(id,name,mrp_price,unit_price,shop_name ,quantity, image);
 
-                list.add(cartProducts);
+                list.add(cartProductsModel);
                 adapter = new CartAdapter(list, getContext());
                 cartRecycler.setAdapter(adapter);
                 adapter.notifyDataSetChanged();

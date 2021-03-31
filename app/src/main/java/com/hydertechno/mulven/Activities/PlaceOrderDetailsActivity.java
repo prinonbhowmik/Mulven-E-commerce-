@@ -3,6 +3,7 @@ package com.hydertechno.mulven.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +17,15 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity {
     private TextView orderIDTV,orderTimeTV,vendorNameTV,vendorPhoneTV,vendorAddressTV,customerNameTV,customerPhoneTV,customerAddressTV,customerAddressEditTV;
     private Dialog dialog;
     private RatingBar ratingBar;
+    private String OrderId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_place_order_details);
         init();
+        Intent intent = getIntent();
+        OrderId = intent.getStringExtra("OrderId");
 
         ratingBar.getRating();
         customerAddressEditTV.setOnClickListener(new View.OnClickListener() {

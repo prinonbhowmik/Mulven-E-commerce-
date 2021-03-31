@@ -15,7 +15,7 @@
         android:theme="@style/Theme.Mulven">
         <activity android:name=".Activities.ChangePasswordActivity"></activity>
         <activity android:name=".Activities.PlaceOrderDetailsActivity" />
-        <activity android:name=".Activities.PlaceOrderActivity" />
+        <activity android:name=".Activities.PlaceOrderListActivity" />
         <activity android:name=".Activities.ProfileActivity" />
         <activity android:name=".Activities.AddressActivity" />
         <activity android:name=".Activities.GiftVoucherActivity" />

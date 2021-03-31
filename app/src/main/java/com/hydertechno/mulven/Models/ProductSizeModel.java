@@ -1,9 +1,9 @@
 package com.hydertechno.mulven.Models;
 
-public class ProductSize {
+public class ProductSizeModel {
     private String size_name;
 
-    public ProductSize(String size_name) {
+    public ProductSizeModel(String size_name) {
         this.size_name = size_name;
     }
 

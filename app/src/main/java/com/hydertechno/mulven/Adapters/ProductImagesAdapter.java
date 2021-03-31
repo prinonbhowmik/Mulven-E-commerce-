@@ -5,27 +5,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hydertechno.mulven.Api.Config;
 import com.hydertechno.mulven.Interface.ProductImageClickInterface;
-import com.hydertechno.mulven.Models.ImageGallery;
-import com.hydertechno.mulven.Models.ProductImagesModel;
+import com.hydertechno.mulven.Models.ImageGalleryModel;
 import com.hydertechno.mulven.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class ProductImagesAdapter extends RecyclerView.Adapter<ProductImagesAdapter.ViewHolder> {
-    private List<ImageGallery> productImagesModelList;
+    private List<ImageGalleryModel> productImagesModelList;
     private ProductImageClickInterface productImageClickInterface;
     private Context context;
 
 
-    public ProductImagesAdapter(List<ImageGallery> productImagesModelList, ProductImageClickInterface productImageClickInterface) {
+    public ProductImagesAdapter(List<ImageGalleryModel> productImagesModelList, ProductImageClickInterface productImageClickInterface) {
         this.productImagesModelList = productImagesModelList;
         this.productImageClickInterface = productImageClickInterface;
     }
@@ -42,7 +40,7 @@ public class ProductImagesAdapter extends RecyclerView.Adapter<ProductImagesAdap
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        ImageGallery model=productImagesModelList.get(position);
+        ImageGalleryModel model=productImagesModelList.get(position);
         try{
             Picasso.get()
                     .load(Config.IMAGE_LINE+model.getImage_name())

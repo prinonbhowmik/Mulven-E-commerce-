@@ -1,9 +1,9 @@
 package com.hydertechno.mulven.Models;
 
-public class ImageGallery {
+public class ImageGalleryModel {
     private String image_name;
 
-    public ImageGallery(String image_name) {
+    public ImageGalleryModel(String image_name) {
         this.image_name = image_name;
     }
 

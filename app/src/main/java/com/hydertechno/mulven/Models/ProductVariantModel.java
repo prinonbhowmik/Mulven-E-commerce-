@@ -1,10 +1,10 @@
 package com.hydertechno.mulven.Models;
 
-public class Variant {
+public class ProductVariantModel {
     private String feature_name;
     private String price;
 
-    public Variant(String feature_name, String price) {
+    public ProductVariantModel(String feature_name, String price) {
         this.feature_name = feature_name;
         this.price = price;
     }

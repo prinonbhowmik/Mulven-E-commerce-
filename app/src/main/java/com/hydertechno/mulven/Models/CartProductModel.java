@@ -1,6 +1,6 @@
 package com.hydertechno.mulven.Models;
 
-public class CartProduct {
+public class CartProductModel {
     private int id;
     private String product_name;
     private int mrp_price;
@@ -9,7 +9,7 @@ public class CartProduct {
     private int quantity;
     private String image;
 
-    public CartProduct(int id, String product_name, int mrp_price, int unit_price, String shop_name, int quantity, String image) {
+    public CartProductModel(int id, String product_name, int mrp_price, int unit_price, String shop_name, int quantity, String image) {
         this.id = id;
         this.product_name = product_name;
         this.mrp_price = mrp_price;
@@ -19,7 +19,7 @@ public class CartProduct {
         this.image = image;
     }
 
-    public CartProduct() {
+    public CartProductModel() {
     }
 
     public int getId() {

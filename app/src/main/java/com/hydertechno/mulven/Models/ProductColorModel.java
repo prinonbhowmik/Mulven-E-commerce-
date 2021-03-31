@@ -1,9 +1,9 @@
 package com.hydertechno.mulven.Models;
 
-public class ProductColor {
+public class ProductColorModel {
     private String color_name;
 
-    public ProductColor(String color_name) {
+    public ProductColorModel(String color_name) {
         this.color_name = color_name;
     }
 

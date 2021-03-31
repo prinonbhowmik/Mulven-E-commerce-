@@ -9,18 +9,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.hydertechno.mulven.Models.ProductFeature;
+import com.hydertechno.mulven.Models.ProductFeatureModel;
 import com.hydertechno.mulven.R;
 
 import java.util.List;
 
 public class ProductFeatureAdapter extends RecyclerView.Adapter<ProductFeatureAdapter.ViewHolder> {
 
-    private List<ProductFeature> productFeatureList;
+    private List<ProductFeatureModel> productFeatureModelList;
     private Context context;
 
-    public ProductFeatureAdapter(List<ProductFeature> productFeatureList, Context context) {
-        this.productFeatureList = productFeatureList;
+    public ProductFeatureAdapter(List<ProductFeatureModel> productFeatureModelList, Context context) {
+        this.productFeatureModelList = productFeatureModelList;
         this.context = context;
     }
 
@@ -33,13 +33,13 @@ public class ProductFeatureAdapter extends RecyclerView.Adapter<ProductFeatureAd
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        ProductFeature feature=productFeatureList.get(position);
+        ProductFeatureModel feature= productFeatureModelList.get(position);
         holder.featureTV.setText(feature.getFeature_name());
     }
 
     @Override
     public int getItemCount() {
-        return productFeatureList.size();
+        return productFeatureModelList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

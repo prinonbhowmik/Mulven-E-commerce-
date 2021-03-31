@@ -1,9 +1,9 @@
 package com.hydertechno.mulven.Api;
 
-import com.hydertechno.mulven.Adapters.ProductAdapter;
 import com.hydertechno.mulven.Models.CategoriesModel;
 import com.hydertechno.mulven.Models.CategoryNamesModel;
-import com.hydertechno.mulven.Models.ProductDetails;
+import com.hydertechno.mulven.Models.OrderListModel;
+import com.hydertechno.mulven.Models.ProductDetailsModel;
 import com.hydertechno.mulven.Models.Sliderimage;
 
 import java.util.List;
@@ -24,7 +24,10 @@ public interface ApiInterface {
     Call<List<CategoriesModel>> getCategories(@Query("category") int categoryId);
 
      @GET("product-detais?")
-    Call<ProductDetails> getProd_details(@Query("id") int id);
+    Call<ProductDetailsModel> getProd_details(@Query("id") int id);
+
+    @GET("order-list?")
+    Call<List<OrderListModel>> getOrderList(@Query("customer_id") int customerId);
 
 
 }

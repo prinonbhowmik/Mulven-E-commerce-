@@ -335,7 +335,6 @@ public class HomeFragment extends Fragment {
         category_4.setLayoutManager(new GridLayoutManager(getContext(),2));
         category_4.setAdapter(verticalProductsAdapter);
 
-        apiInterface = ApiUtils.getUserService();
 
         feature_Add_Adapter =new FeatureAddAdapter(featureAddList,getContext());
         LinearLayoutManager layoutManager5 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);

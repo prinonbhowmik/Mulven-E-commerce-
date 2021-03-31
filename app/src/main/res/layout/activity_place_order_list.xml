@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f8f9fa"
+    tools:context=".Activities.PlaceOrderListActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:id="@+id/toolbar"
+        android:background="@color/themDark">
+
+        <ImageView
+            android:id="@+id/navIcon"
+            android:layout_width="35sp"
+            android:layout_height="35sp"
+            android:layout_centerVertical="true"
+            android:onClick="placeOrderBack"
+            android:layout_marginStart="20dp"
+            android:src="@drawable/ic_arrow"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:text="Place Order"
+            android:layout_toEndOf="@+id/navIcon"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:textSize="21sp"
+            android:fontFamily="@font/comfortaa_light"
+            android:textColor="@color/white"/>
+
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/orderListRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        android:background="#f8f9fa"
+        android:layout_below="@+id/toolbar"/>
+</RelativeLayout>

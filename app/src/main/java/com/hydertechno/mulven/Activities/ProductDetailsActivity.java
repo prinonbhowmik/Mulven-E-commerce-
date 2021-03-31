@@ -6,10 +6,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -20,21 +18,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
-import com.hydertechno.mulven.Adapters.ProductAdapter;
 import com.hydertechno.mulven.Adapters.ProductFeatureAdapter;
 import com.hydertechno.mulven.Adapters.ProductImagesAdapter;
 import com.hydertechno.mulven.Api.ApiUtils;
 import com.hydertechno.mulven.Api.Config;
 import com.hydertechno.mulven.DatabaseHelper.Database_Helper;
 import com.hydertechno.mulven.Interface.ProductImageClickInterface;
-import com.hydertechno.mulven.Models.CategoriesModel;
-import com.hydertechno.mulven.Models.ImageGallery;
-import com.hydertechno.mulven.Models.ProductColor;
-import com.hydertechno.mulven.Models.ProductDetails;
-import com.hydertechno.mulven.Models.ProductFeature;
-import com.hydertechno.mulven.Models.ProductImagesModel;
-import com.hydertechno.mulven.Models.ProductSize;
-import com.hydertechno.mulven.Models.Variant;
+import com.hydertechno.mulven.Models.ImageGalleryModel;
+import com.hydertechno.mulven.Models.ProductColorModel;
+import com.hydertechno.mulven.Models.ProductDetailsModel;
+import com.hydertechno.mulven.Models.ProductFeatureModel;
+import com.hydertechno.mulven.Models.ProductSizeModel;
+import com.hydertechno.mulven.Models.ProductVariantModel;
 import com.hydertechno.mulven.R;
 import com.jsibbold.zoomage.ZoomageView;
 import com.squareup.picasso.Picasso;
@@ -55,7 +50,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
     private ProductImagesAdapter productImagesAdapter;
     private ProductFeatureAdapter productFeatureAdapter;
     private Database_Helper databaseHelper;
-    private List<ProductDetails> list;
+    private List<ProductDetailsModel> list;
     private int product_id,quantity;
     private WebView webView;
     private String url = "https://mulven.com/pro-det-for-app/",imageString;
@@ -109,11 +104,11 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
     }
 
     private void getProductDeatils() {
-        Call<ProductDetails> call = ApiUtils.getUserService().getProd_details(product_id);
-        call.enqueue(new Callback<ProductDetails>() {
+        Call<ProductDetailsModel> call = ApiUtils.getUserService().getProd_details(product_id);
+        call.enqueue(new Callback<ProductDetailsModel>() {
             @Override
-            public void onResponse(Call<ProductDetails> call, Response<ProductDetails> response) {
-                ProductDetails detailsList = response.body();
+            public void onResponse(Call<ProductDetailsModel> call, Response<ProductDetailsModel> response) {
+                ProductDetailsModel detailsList = response.body();
                 product_Name.setText(""+detailsList.getProduct_name());
                 productOldPrice.setText(""+detailsList.getMrp_price());
                 product_Price.setText(""+detailsList.getUnit_price());
@@ -135,66 +130,69 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                List<ProductFeature> productFeatureList = detailsList.getProduct_feature();
-                productFeatureAdapter=new ProductFeatureAdapter(productFeatureList,ProductDetailsActivity.this);
+                //Get Product features
+                List<ProductFeatureModel> productFeatureModelList = detailsList.getProduct_feature();
+                productFeatureAdapter=new ProductFeatureAdapter(productFeatureModelList,ProductDetailsActivity.this);
                 productFeatureRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(),2));
                 productFeatureRecyclerView.setAdapter(productFeatureAdapter);
 
-                List<ImageGallery> productImagesModelList = detailsList.getImage_gallery();
+                //Get Product Images
+                List<ImageGalleryModel> productImagesModelList = detailsList.getImage_gallery();
 
                     productImagesAdapter=new ProductImagesAdapter(productImagesModelList,ProductDetailsActivity.this);
                     LinearLayoutManager layoutManager = new LinearLayoutManager(ProductDetailsActivity.this, LinearLayoutManager.HORIZONTAL, false);
                     productImagesRecycler.setLayoutManager(layoutManager);
                     productImagesRecycler.setAdapter(productImagesAdapter);
 
-                //Get Product Color
-                List<ProductColor> productColorList  = detailsList.getProduct_color();
-                if(productColorList.get(0) != null){
+                //Get Product Colors
+                List<ProductColorModel> productColorModelList = detailsList.getProduct_color();
+                if(productColorModelList.get(0) != null){
                     color_menu.setVisibility(View.VISIBLE);
                 productColor.clear();
-                for (int i = 0; i < productColorList.size(); i++) {
-                    productColor.add(productColorList.get(i).getColor_name());
+                for (int i = 0; i < productColorModelList.size(); i++) {
+                    productColor.add(productColorModelList.get(i).getColor_name());
                 }
                 ArrayAdapter<String> product_color = new ArrayAdapter<String>(ProductDetailsActivity.this, R.layout.spinner_item_design, R.id.simpleSpinner, productColor);
                 product_color.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
                 colorTV.setAdapter(product_color);
-                /*int index=productColorList.indexOf(product_color.getColor_name());
+                /*int index=productColorModelList.indexOf(product_color.getColor_name());
                 colorTV.setSelection(productColor.indexOf(1));*/
                 }
 
-                //Get Product Size
-                List<ProductSize> productSizeList  = detailsList.getProduct_size();
-                if(productSizeList.get(0) != null){
+                //Get Product Sizes
+                List<ProductSizeModel> productSizeModelList = detailsList.getProduct_size();
+                if(productSizeModelList.get(0) != null){
                     size_menu.setVisibility(View.VISIBLE);
                     productSize.clear();
-                    for (int i = 0; i < productSizeList.size(); i++) {
-                        productSize.add(productSizeList.get(i).getSize_name());
+                    for (int i = 0; i < productSizeModelList.size(); i++) {
+                        productSize.add(productSizeModelList.get(i).getSize_name());
                     }
                     ArrayAdapter<String> product_size = new ArrayAdapter<String>(ProductDetailsActivity.this, R.layout.spinner_item_design, R.id.simpleSpinner, productSize);
                     product_size.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
                     sizeTV.setAdapter(product_size);
-                /*int index=productColorList.indexOf(product_color.getColor_name());
+                /*int index=productColorModelList.indexOf(product_color.getColor_name());
                 colorTV.setSelection(productColor.indexOf(1));*/
                 }
-                //Get Product Size
-                List<Variant> productVariantList  = detailsList.getVariant();
-                if(productVariantList.get(0) != null){
+
+                //Get Product Variants
+                List<ProductVariantModel> productVariantModelList = detailsList.getProductVariantModel();
+                if(productVariantModelList.get(0) != null){
                     variant_menu.setVisibility(View.VISIBLE);
                     productVariant.clear();
-                    for (int i = 0; i < productVariantList.size(); i++) {
-                        productVariant.add(productVariantList.get(i).getFeature_name());
+                    for (int i = 0; i < productVariantModelList.size(); i++) {
+                        productVariant.add(productVariantModelList.get(i).getFeature_name());
                     }
                     ArrayAdapter<String> product_size = new ArrayAdapter<String>(ProductDetailsActivity.this, R.layout.spinner_item_design, R.id.simpleSpinner, productVariant);
                     product_size.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
                     variantTV.setAdapter(product_size);
-                /*int index=productColorList.indexOf(product_color.getColor_name());
+                /*int index=productColorModelList.indexOf(product_color.getColor_name());
                 colorTV.setSelection(productColor.indexOf(1));*/
                 }
 
             }
 
             @Override
-            public void onFailure(Call<ProductDetails> call, Throwable t) {
+            public void onFailure(Call<ProductDetailsModel> call, Throwable t) {
 
             }
         });

@@ -10,7 +10,6 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,14 +20,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.hydertechno.mulven.Activities.AddressActivity;
 import com.hydertechno.mulven.Activities.ChangePasswordActivity;
-import com.hydertechno.mulven.Activities.PlaceOrderActivity;
+import com.hydertechno.mulven.Activities.PlaceOrderListActivity;
 import com.hydertechno.mulven.Activities.ProfileActivity;
 import com.hydertechno.mulven.R;
-import com.squareup.picasso.Picasso;
 
 public class ProfileFragment extends Fragment {
     private LinearLayout checkBalanceLayout,addressLayout,profileLayout;
@@ -85,7 +82,7 @@ public class ProfileFragment extends Fragment {
         paymentHistoryRL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), PlaceOrderActivity.class));
+                startActivity(new Intent(getActivity(), PlaceOrderListActivity.class));
             }
         });
 
