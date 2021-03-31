@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -18,12 +19,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
+import com.hydertechno.mulven.Adapters.ProductAdapter;
 import com.hydertechno.mulven.Adapters.ProductFeatureAdapter;
 import com.hydertechno.mulven.Adapters.ProductImagesAdapter;
+import com.hydertechno.mulven.Api.ApiInterface;
 import com.hydertechno.mulven.Api.ApiUtils;
 import com.hydertechno.mulven.Api.Config;
 import com.hydertechno.mulven.DatabaseHelper.Database_Helper;
 import com.hydertechno.mulven.Interface.ProductImageClickInterface;
+import com.hydertechno.mulven.Models.CategoriesModel;
 import com.hydertechno.mulven.Models.ImageGalleryModel;
 import com.hydertechno.mulven.Models.ProductColorModel;
 import com.hydertechno.mulven.Models.ProductDetailsModel;
@@ -51,13 +55,16 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
     private ProductFeatureAdapter productFeatureAdapter;
     private Database_Helper databaseHelper;
     private List<ProductDetailsModel> list;
-    private int product_id,quantity;
+    private int product_id,quantity,category_id;
     private WebView webView;
     private String url = "https://mulven.com/pro-det-for-app/",imageString;
     private ImageView shopLogoIV,card_Minus,card_Plus;
+    private List<CategoriesModel> relatedProductList =new ArrayList<>();
     private ArrayList<String> productColor = new ArrayList<String>();
     private ArrayList<String> productSize = new ArrayList<String>();
     private ArrayList<String> productVariant = new ArrayList<String>();
+    private ApiInterface apiInterface;
+    private ProductAdapter relatedProductAdapter;
 
 
     @Override
@@ -69,7 +76,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
 
         init();
         quantity=Integer.parseInt(cardQuantity.getText().toString());
-        getProductDeatils();
+        getProductDetails();
 
         addToCart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,7 +110,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
 
     }
 
-    private void getProductDeatils() {
+    private void getProductDetails() {
         Call<ProductDetailsModel> call = ApiUtils.getUserService().getProd_details(product_id);
         call.enqueue(new Callback<ProductDetailsModel>() {
             @Override
@@ -116,6 +123,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
                 shop_Address.setText(""+detailsList.getShop_address());
                 brand_Name.setText(""+detailsList.getBrand());
                 imageString = detailsList.getFeacher_image();
+                category_id = detailsList.getCategory_id();
                 try{
                     Picasso.get()
                             .load(Config.IMAGE_LINE+detailsList.getFeacher_image())
@@ -196,6 +204,29 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
 
             }
         });
+        getRelatedProduct(category_id);
+    }
+
+    private void getRelatedProduct(int category_id) {
+        relatedProductList.clear();
+        Call<List<CategoriesModel>> call = apiInterface.getCategories(category_id);
+        call.enqueue(new Callback<List<CategoriesModel>>() {
+            @Override
+            public void onResponse(Call<List<CategoriesModel>> call, Response<List<CategoriesModel>> response) {
+                if (response.isSuccessful()){
+                    relatedProductList = response.body();
+                    relatedProductAdapter = new ProductAdapter(relatedProductList, getApplicationContext());
+                    relatedProductRecyclerView.setAdapter(relatedProductAdapter);
+                }
+                relatedProductAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onFailure(Call<List<CategoriesModel>> call, Throwable t) {
+                Log.d("ErrorKi",t.getMessage());
+            }
+        });
     }
 
     private void init() {
@@ -219,6 +250,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
         shopLogoIV=findViewById(R.id.shopLogoIV);
         shop_Address=findViewById(R.id.shop_Address);
         databaseHelper = new Database_Helper(this);
+        apiInterface = ApiUtils.getUserService();
 
         productOldPrice.setPaintFlags(productOldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         productImagesRecycler=findViewById(R.id.productImagesRecyclerView);
@@ -228,6 +260,9 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
         webView.setWebViewClient(new WebViewClient());
         webView.loadUrl(url+""+product_id);
 
+        LinearLayoutManager layoutManager1 = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
+        layoutManager1.setSmoothScrollbarEnabled(true);
+        relatedProductRecyclerView.setLayoutManager(layoutManager1);
     }
 
     public void productDetailsBack(View view) {

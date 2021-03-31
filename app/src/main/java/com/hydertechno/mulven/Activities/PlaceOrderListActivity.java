@@ -44,7 +44,7 @@ public class PlaceOrderListActivity extends AppCompatActivity {
 
     private void getOrderList() {
         orderListModel.clear();
-        Call<List<OrderListModel>> call = apiInterface.getOrderList(335);
+        Call<List<OrderListModel>> call = apiInterface.getOrderList(73);
         call.enqueue(new Callback<List<OrderListModel>>() {
             @Override
             public void onResponse(Call<List<OrderListModel>> call, Response<List<OrderListModel>> response) {

@@ -54,6 +54,8 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
         }
         else if(orderStatus.equals("Partial Paid")){
             holder.orderStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.status_partial_paid));
+        }else if(orderStatus.equals("Shipped")){
+            holder.orderStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.status_shipped));
         }
         holder.orderStatusTV.setText(orderStatus);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
