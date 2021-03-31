@@ -34,6 +34,7 @@ import com.hydertechno.mulven.Models.ProductDetails;
 import com.hydertechno.mulven.Models.ProductFeature;
 import com.hydertechno.mulven.Models.ProductImagesModel;
 import com.hydertechno.mulven.Models.ProductSize;
+import com.hydertechno.mulven.Models.Variant;
 import com.hydertechno.mulven.R;
 import com.jsibbold.zoomage.ZoomageView;
 import com.squareup.picasso.Picasso;
@@ -46,8 +47,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ProductDetailsActivity extends AppCompatActivity implements ProductImageClickInterface {
-    private AutoCompleteTextView sizeTV,colorTV;
-    private TextInputLayout size_menu,color_menu;
+    private AutoCompleteTextView sizeTV,colorTV,variantTV;
+    private TextInputLayout size_menu,color_menu,variant_menu;
     private ZoomageView product_Image;
     private TextView productOldPrice,addToCart,buyNow,product_Name,shop_Name,brand_Name,product_Price,shop_Address,cardQuantity;
     private RecyclerView productImagesRecycler,productFeatureRecyclerView,relatedProductRecyclerView;
@@ -61,6 +62,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
     private ImageView shopLogoIV,card_Minus,card_Plus;
     private ArrayList<String> productColor = new ArrayList<String>();
     private ArrayList<String> productSize = new ArrayList<String>();
+    private ArrayList<String> productVariant = new ArrayList<String>();
 
 
     @Override
@@ -147,7 +149,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
 
                 //Get Product Color
                 List<ProductColor> productColorList  = detailsList.getProduct_color();
-                if(productColorList.size()!=1){
+                if(productColorList.get(0) != null){
                     color_menu.setVisibility(View.VISIBLE);
                 productColor.clear();
                 for (int i = 0; i < productColorList.size(); i++) {
@@ -162,7 +164,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
 
                 //Get Product Size
                 List<ProductSize> productSizeList  = detailsList.getProduct_size();
-                if(productSizeList.size()!=1){
+                if(productSizeList.get(0) != null){
                     size_menu.setVisibility(View.VISIBLE);
                     productSize.clear();
                     for (int i = 0; i < productSizeList.size(); i++) {
@@ -171,6 +173,20 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
                     ArrayAdapter<String> product_size = new ArrayAdapter<String>(ProductDetailsActivity.this, R.layout.spinner_item_design, R.id.simpleSpinner, productSize);
                     product_size.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
                     sizeTV.setAdapter(product_size);
+                /*int index=productColorList.indexOf(product_color.getColor_name());
+                colorTV.setSelection(productColor.indexOf(1));*/
+                }
+                //Get Product Size
+                List<Variant> productVariantList  = detailsList.getVariant();
+                if(productVariantList.get(0) != null){
+                    variant_menu.setVisibility(View.VISIBLE);
+                    productVariant.clear();
+                    for (int i = 0; i < productVariantList.size(); i++) {
+                        productVariant.add(productVariantList.get(i).getFeature_name());
+                    }
+                    ArrayAdapter<String> product_size = new ArrayAdapter<String>(ProductDetailsActivity.this, R.layout.spinner_item_design, R.id.simpleSpinner, productVariant);
+                    product_size.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                    variantTV.setAdapter(product_size);
                 /*int index=productColorList.indexOf(product_color.getColor_name());
                 colorTV.setSelection(productColor.indexOf(1));*/
                 }
@@ -191,8 +207,10 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
         product_Price = findViewById(R.id.product_Price);
         sizeTV=findViewById(R.id.sizeMenu);
         colorTV=findViewById(R.id.colorMenu);
+        variantTV=findViewById(R.id.variantMenu);
         color_menu=findViewById(R.id.color_menu);
         size_menu=findViewById(R.id.size_menu);
+        variant_menu=findViewById(R.id.variant_menu);
         addToCart=findViewById(R.id.addToCartTV);
         buyNow=findViewById(R.id.buyNowTV);
         product_Image = findViewById(R.id.product_Image);

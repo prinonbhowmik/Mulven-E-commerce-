@@ -187,15 +187,16 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/quantity"
                     android:visibility="gone"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="32dp"
                     android:hint="Size">
 
                     <AutoCompleteTextView
                         android:id="@+id/sizeMenu"
                         android:layout_width="140dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginEnd="20dp"
                         android:inputType="none"
                         android:textSize="12sp" />
 
@@ -207,7 +208,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/quantity"
-                    android:layout_alignParentEnd="true"
+                    android:layout_toEndOf="@+id/size_menu"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginEnd="15dp"
                     android:visibility="gone"
                     android:hint="Color">
 
@@ -215,12 +220,29 @@
                         android:id="@+id/colorMenu"
                         android:layout_width="140dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginEnd="20dp"
                         android:inputType="none"
                         android:textSize="12sp" />
 
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/variant_menu"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/size_menu"
+                    android:visibility="gone"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:hint="Vairant">
+
+                <AutoCompleteTextView
+                    android:id="@+id/variantMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:textSize="12sp" />
                 </com.google.android.material.textfield.TextInputLayout>
             </RelativeLayout>
 
