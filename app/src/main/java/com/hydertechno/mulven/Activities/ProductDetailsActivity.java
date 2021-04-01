@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -69,6 +70,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
     private ArrayList<Integer> productVariantPrice = new ArrayList<Integer>();
     private ApiInterface apiInterface;
     private RelatedProductAdapter relatedProductAdapter;
+    private RelativeLayout feature_RelativeLayout,soldByRelativeLayout;
 
 
     @Override
@@ -170,9 +172,15 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
                 }
                 //Get Product features
                 List<ProductFeatureModel> productFeatureModelList = detailsList.getProduct_feature();
-                productFeatureAdapter=new ProductFeatureAdapter(productFeatureModelList,ProductDetailsActivity.this);
-                productFeatureRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(),2));
-                productFeatureRecyclerView.setAdapter(productFeatureAdapter);
+                if(productFeatureModelList.get(0) != null) {
+                    feature_RelativeLayout.setVisibility(View.VISIBLE);
+                    productFeatureAdapter = new ProductFeatureAdapter(productFeatureModelList, ProductDetailsActivity.this);
+                    productFeatureRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
+                    productFeatureRecyclerView.setAdapter(productFeatureAdapter);
+                }
+                if(!shop_Name.equals("")){
+                    soldByRelativeLayout.setVisibility(View.VISIBLE);
+                }
 
                 //Get Product Images
                 List<ImageGalleryModel> productImagesModelList = detailsList.getImage_gallery();
@@ -291,6 +299,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
         productImagesRecycler=findViewById(R.id.productImagesRecyclerView);
         productFeatureRecyclerView=findViewById(R.id.productFeatureRecyclerView);
         relatedProductRecyclerView=findViewById(R.id.relatedProductRecyclerView);
+        feature_RelativeLayout=findViewById(R.id.feature_RelativeLayout);
+        soldByRelativeLayout=findViewById(R.id.soldByRelativeLayout);
         webView = findViewById(R.id.description);
         webView.setWebViewClient(new WebViewClient());
         webView.loadUrl(url+""+product_id);
