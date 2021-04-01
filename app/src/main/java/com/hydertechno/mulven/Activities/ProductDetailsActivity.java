@@ -41,6 +41,7 @@ import com.jsibbold.zoomage.ZoomageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;
@@ -65,7 +66,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
     private ArrayList<String> productColor = new ArrayList<String>();
     private ArrayList<String> productSize = new ArrayList<String>();
     private ArrayList<String> productVariant = new ArrayList<String>();
-    private ArrayList<String> productVariantPrice = new ArrayList<String>();
+    private ArrayList<Integer> productVariantPrice = new ArrayList<Integer>();
     private ApiInterface apiInterface;
     private RelatedProductAdapter relatedProductAdapter;
 
@@ -131,8 +132,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
         variantTV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(ProductDetailsActivity.this, ""+productVariantPrice.get(1), Toast.LENGTH_SHORT).show();
-            }
+                int index=productVariant.indexOf(variantTV.getText().toString());
+                product_Price.setText(""+productVariantPrice.get(index));            }
         });
 
 
@@ -220,11 +221,12 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
                     productVariant.clear();
                     for (int i = 0; i < productVariantModelList.size(); i++) {
                         productVariant.add(productVariantModelList.get(i).getFeature_name());
-                        productVariantPrice.add(productVariantModelList.get(i).getPrice());
+                        productVariantPrice.add(Integer.parseInt(productVariantModelList.get(i).getPrice()));
                     }
+                    int lowestPrice=productVariantPrice.indexOf((Collections.min(productVariantPrice)));
                     ArrayAdapter<String> product_variant = new ArrayAdapter<String>(ProductDetailsActivity.this, R.layout.spinner_item_design, R.id.simpleSpinner, productVariant);
                     product_variant.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-                    variantTV.setText(product_variant.getItem(0),false);
+                    variantTV.setText(product_variant.getItem(lowestPrice),false);
                     variantTV.setAdapter(product_variant);
                 /*int index=productColorModelList.indexOf(product_color.getColor_name());
                 colorTV.setSelection(productColor.indexOf(1));*/
