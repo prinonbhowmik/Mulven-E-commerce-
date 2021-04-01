@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
@@ -22,6 +23,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.hydertechno.mulven.Adapters.ProductAdapter;
 import com.hydertechno.mulven.Adapters.ProductFeatureAdapter;
 import com.hydertechno.mulven.Adapters.ProductImagesAdapter;
+import com.hydertechno.mulven.Adapters.RelatedProductAdapter;
 import com.hydertechno.mulven.Api.ApiInterface;
 import com.hydertechno.mulven.Api.ApiUtils;
 import com.hydertechno.mulven.Api.Config;
@@ -63,8 +65,9 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
     private ArrayList<String> productColor = new ArrayList<String>();
     private ArrayList<String> productSize = new ArrayList<String>();
     private ArrayList<String> productVariant = new ArrayList<String>();
+    private ArrayList<String> productVariantPrice = new ArrayList<String>();
     private ApiInterface apiInterface;
-    private ProductAdapter relatedProductAdapter;
+    private RelatedProductAdapter relatedProductAdapter;
 
 
     @Override
@@ -120,6 +123,13 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
                 startActivity(intent);
                 finish();
                // startActivity(new Intent(ProductDetailsActivity.this,MainActivity.class).putExtra("fragment","cart"));
+            }
+        });
+
+        variantTV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(ProductDetailsActivity.this, ""+productVariantPrice.get(1), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -179,6 +189,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
                 }
                 ArrayAdapter<String> product_color = new ArrayAdapter<String>(ProductDetailsActivity.this, R.layout.spinner_item_design, R.id.simpleSpinner, productColor);
                 product_color.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                colorTV.setText(product_color.getItem(0),false);
                 colorTV.setAdapter(product_color);
                 /*int index=productColorModelList.indexOf(product_color.getColor_name());
                 colorTV.setSelection(productColor.indexOf(1));*/
@@ -194,6 +205,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
                     }
                     ArrayAdapter<String> product_size = new ArrayAdapter<String>(ProductDetailsActivity.this, R.layout.spinner_item_design, R.id.simpleSpinner, productSize);
                     product_size.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                    sizeTV.setText(product_size.getItem(0),false);
                     sizeTV.setAdapter(product_size);
                 /*int index=productColorModelList.indexOf(product_color.getColor_name());
                 colorTV.setSelection(productColor.indexOf(1));*/
@@ -206,14 +218,16 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
                     productVariant.clear();
                     for (int i = 0; i < productVariantModelList.size(); i++) {
                         productVariant.add(productVariantModelList.get(i).getFeature_name());
+                        productVariantPrice.add(productVariantModelList.get(i).getPrice());
                     }
-                    ArrayAdapter<String> product_size = new ArrayAdapter<String>(ProductDetailsActivity.this, R.layout.spinner_item_design, R.id.simpleSpinner, productVariant);
-                    product_size.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-                    variantTV.setAdapter(product_size);
+                    ArrayAdapter<String> product_variant = new ArrayAdapter<String>(ProductDetailsActivity.this, R.layout.spinner_item_design, R.id.simpleSpinner, productVariant);
+                    product_variant.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                    variantTV.setText(product_variant.getItem(0),false);
+                    variantTV.setAdapter(product_variant);
                 /*int index=productColorModelList.indexOf(product_color.getColor_name());
                 colorTV.setSelection(productColor.indexOf(1));*/
                 }
-
+                getRelatedProduct(category_id);
             }
 
             @Override
@@ -221,7 +235,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
 
             }
         });
-        getRelatedProduct(category_id);
+
     }
 
     private void getRelatedProduct(int category_id) {
@@ -232,7 +246,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
             public void onResponse(Call<List<CategoriesModel>> call, Response<List<CategoriesModel>> response) {
                 if (response.isSuccessful()){
                     relatedProductList = response.body();
-                    relatedProductAdapter = new ProductAdapter(relatedProductList, getApplicationContext());
+                    relatedProductAdapter = new RelatedProductAdapter(relatedProductList, getApplicationContext());
                     relatedProductRecyclerView.setAdapter(relatedProductAdapter);
                 }
                 relatedProductAdapter.notifyDataSetChanged();
@@ -280,6 +294,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
         LinearLayoutManager layoutManager1 = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
         layoutManager1.setSmoothScrollbarEnabled(true);
         relatedProductRecyclerView.setLayoutManager(layoutManager1);
+        relatedProductRecyclerView.setAdapter(relatedProductAdapter);
     }
 
     public void productDetailsBack(View view) {

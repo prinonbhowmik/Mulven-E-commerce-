@@ -41,15 +41,20 @@ public class HomePageSliderAdapter extends SliderViewAdapter<HomePageSliderAdapt
     @Override
     public void onBindViewHolder(HomePageSliderAdapter.Holder viewHolder, int position) {
         Sliderimage imageList = image.get(position);
-        Picasso.get().load(Config.IMAGE_LINE+imageList.getSlider_image())
-                .into(viewHolder.sliderImage, new com.squareup.picasso.Callback() {
-                    @Override
-                    public void onSuccess() {}
-                    @Override
-                    public void onError(Exception e) {
-                        Log.d("kiKahini", e.getMessage());
-                    }
-                });
+        try {
+            Picasso.get().load(Config.IMAGE_LINE+imageList.getSlider_image())
+                    .into(viewHolder.sliderImage, new com.squareup.picasso.Callback() {
+                        @Override
+                        public void onSuccess() {}
+                        @Override
+                        public void onError(Exception e) {
+                            Log.d("kiKahini", e.getMessage());
+                        }
+                    });
+        }catch (Exception e){
+            Log.d("kiKahini", e.getMessage());
+        }
+
     }
 
     @Override
