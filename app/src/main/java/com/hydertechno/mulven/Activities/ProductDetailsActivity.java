@@ -99,12 +99,14 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
                 }else{
                     variant = "";
                 }
+                Log.d("CheckData",size+","+color+","+variant);
+                if (databaseHelper.checkCart(product_id,size,color,variant)){
 
-
-                if (databaseHelper.checkCart(product_id)){
-                    Toast.makeText(ProductDetailsActivity.this, "Product Already in Cart", Toast.LENGTH_LONG).show();
-                    return;
-                }else{
+                    int count  = databaseHelper.checkQuantity(product_id);
+                    databaseHelper.addQuantity(product_id,count+1);
+                    Toast.makeText(ProductDetailsActivity.this, "Product Added To Cart", Toast.LENGTH_SHORT).show();
+                }
+                else{
                     databaseHelper.addToCart(product_id,product_Name.getText().toString(),
                             Integer.parseInt(productOldPrice.getText().toString()),
                             Integer.parseInt(product_Price.getText().toString()),size,color,variant,

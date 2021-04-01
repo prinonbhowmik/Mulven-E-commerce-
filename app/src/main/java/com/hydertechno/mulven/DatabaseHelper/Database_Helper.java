@@ -67,13 +67,23 @@ public class Database_Helper extends SQLiteOpenHelper {
 
     }
 
-    public boolean checkCart(int id) {
+    public boolean checkCart(int id, String size, String color, String variant) {
         SQLiteDatabase sq = getReadableDatabase();
-        Cursor cursor = sq.rawQuery("select " + ID + " from " + TABLE_NAME + " where " + ID + " = " + id, (String[]) null);
+        Cursor cursor = sq.rawQuery("select " + ID  +" from " + TABLE_NAME + " where " +
+                ID + " = " + id  , (String[]) null);
         if (cursor.getCount() > 0) {
             return true;
         }
         return false;
+    }
+    public int checkQuantity(int id){
+        SQLiteDatabase sq = getReadableDatabase();
+        Cursor cursor = sq.rawQuery("select " + QUANTITY + " from " + TABLE_NAME + " where " + ID + " = " + id, (String[]) null);
+        if(cursor.moveToFirst())
+        {
+            return cursor.getInt(0);
+        }
+        return 0;
     }
 
     public Cursor getCart() {

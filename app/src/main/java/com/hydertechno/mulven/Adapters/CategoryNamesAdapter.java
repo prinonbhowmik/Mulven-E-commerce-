@@ -57,7 +57,6 @@ public class CategoryNamesAdapter extends RecyclerView.Adapter<CategoryNamesAdap
                 intent.putExtra("id",""+model.getId());
                 intent.putExtra("title",""+model.getCategory_name());
                 context.startActivity(intent);
-
             }
         });
     }

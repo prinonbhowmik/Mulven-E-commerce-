@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
@@ -34,12 +35,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Database_Helper helper;
     private boolean doubleBackToExitPressedOnce=false;
     private Fragment fragment=null;
-
+    private SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
+
         Intent getFragment=getIntent();
         String lodeFragment=getFragment.getStringExtra("fragment");
         if(lodeFragment.equals("home")){
@@ -56,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             chipNavigationBar.showBadge(R.id.cart, count);
         }
         chipNavigationBar.showBadge(R.id.notification,1);
+
         chipNavigationBar.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
             @Override
             public void onItemSelected(int i) {
@@ -73,8 +76,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         fragment=new NotificationFragment();
                         break;
                     case R.id.account:
-                        fragment=new ProfileFragment();
-                        break;
+                        int loggedIn = sharedPreferences.getInt("loggedIn",0);
+
+                        if (loggedIn == 0 ){
+                            fragment=new AccountFragment();
+                            break;
+                        }else{
+                            fragment=new ProfileFragment();
+                            break;
+                        }
                 }
                 if(fragment!=null){
 
@@ -92,6 +102,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.getMenu().getItem(0).setChecked(true);
         chipNavigationBar=findViewById(R.id.bottom_menu);
         helper = new Database_Helper(this);
+        sharedPreferences = getSharedPreferences("MyRef", MODE_PRIVATE);
+
     }
 
     private void hideKeyboardFrom(Context context) {

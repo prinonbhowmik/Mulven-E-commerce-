@@ -3,6 +3,7 @@ package com.hydertechno.mulven.Fragments;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.Image;
 import android.os.Bundle;
 
@@ -25,6 +26,9 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.hydertechno.mulven.Activities.PhoneNumber;
 import com.hydertechno.mulven.R;
+
+import static android.content.Context.MODE_PRIVATE;
+
 public class AccountFragment extends Fragment {
     private RelativeLayout loginRelative;
     private TextInputLayout phoneTIL,passwordTIL;
@@ -34,6 +38,8 @@ public class AccountFragment extends Fragment {
     private String phone,password;
     private DrawerLayout drawerLayout;
     private ImageView navIcon;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -63,11 +69,11 @@ public class AccountFragment extends Fragment {
                     hideKeyboardFrom(getContext());
                     phoneTIL.setError("Please Enter Phone Number");
                     phoneTIET.requestFocus();
-                } else if (phone.length() != 11) {
+                } /*else if (phone.length() != 11) {
                     hideKeyboardFrom(getContext());
                     phoneTIL.setError("Please Provide Correct Phone Number");
                     phoneTIET.requestFocus();
-                }else if (TextUtils.isEmpty(password)) {
+                }*/else if (TextUtils.isEmpty(password)) {
                     hideKeyboardFrom(getContext());
                     passwordTIL.setError("Please Enter Password");
                     passwordTIET.requestFocus();
@@ -91,10 +97,10 @@ public class AccountFragment extends Fragment {
                     // Commit the transaction
                     transaction.commit();
                 }
-                 if (phone.length() == 11) {
+                 /*if (phone.length() == 11) {
                     hideKeyboardFrom(getContext());
                     phoneTIL.setErrorEnabled(false);
-                }
+                }*/
             }
         });
         return view;
@@ -110,6 +116,8 @@ public class AccountFragment extends Fragment {
         newRegisterTV=view.findViewById(R.id.registerTV);
         logInBtn=view.findViewById(R.id.loginBtn);
         navIcon=view.findViewById(R.id.navIcon);
+        sharedPreferences = getContext().getSharedPreferences("MyRef", MODE_PRIVATE);
+        editor = sharedPreferences.edit();
 
     }
 
