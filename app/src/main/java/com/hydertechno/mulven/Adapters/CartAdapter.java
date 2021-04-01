@@ -47,7 +47,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         CartProductModel cart = list.get(position);
         Database_Helper database_helper = new Database_Helper(context);
         holder.cartProductName.setText(cart.getProduct_name());
-        holder.ProductShopName.setText(cart.getShop_name());
+        holder.ProductShopName.setText(cart.getSize()+"--"+cart.getColor()+"--"+cart.getVariant());
         holder.cartProductPrice.setText(String.valueOf(cart.getUnit_price())+" X "+cart.getQuantity());
        // holder.ProductQuantity.setText(String.valueOf(cart.getQuantity()));
         holder.cardQuantity.setText(""+cart.getQuantity());

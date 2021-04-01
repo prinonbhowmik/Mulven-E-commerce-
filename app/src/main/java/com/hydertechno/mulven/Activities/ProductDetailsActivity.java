@@ -57,7 +57,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
     private List<ProductDetailsModel> list;
     private int product_id,quantity,category_id;
     private WebView webView;
-    private String url = "https://mulven.com/pro-det-for-app/",imageString;
+    private String url = "https://mulven.com/pro-det-for-app/",imageString,size,color,variant;
     private ImageView shopLogoIV,card_Minus,card_Plus;
     private List<CategoriesModel> relatedProductList =new ArrayList<>();
     private ArrayList<String> productColor = new ArrayList<String>();
@@ -81,13 +81,30 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
         addToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (sizeTV.getText().toString()!=null){
+                    size = sizeTV.getText().toString();
+                }else{
+                    size = "";
+                }
+                if (colorTV.getText().toString()!=null){
+                    color = colorTV.getText().toString();
+                }else{
+                     color = "";
+                }
+                if (variantTV.getText().toString()!=null){
+                    variant = variantTV.getText().toString();
+                }else{
+                    variant = "";
+                }
+
+
                 if (databaseHelper.checkCart(product_id)){
                     Toast.makeText(ProductDetailsActivity.this, "Product Already in Cart", Toast.LENGTH_LONG).show();
                     return;
                 }else{
                     databaseHelper.addToCart(product_id,product_Name.getText().toString(),
                             Integer.parseInt(productOldPrice.getText().toString()),
-                            Integer.parseInt(product_Price.getText().toString()),
+                            Integer.parseInt(product_Price.getText().toString()),size,color,variant,
                             shop_Name.getText().toString(),Integer.parseInt(cardQuantity.getText().toString()),imageString);
                     Toast.makeText(ProductDetailsActivity.this, "Product Added To Cart", Toast.LENGTH_LONG).show();
                 }

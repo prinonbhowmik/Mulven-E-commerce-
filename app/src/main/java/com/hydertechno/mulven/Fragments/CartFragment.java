@@ -80,8 +80,11 @@ public class CartFragment extends Fragment {
                 String shop_name = cursor.getString(cursor.getColumnIndex(databaseHelper.SHOP_NAME));
                 int quantity = cursor.getInt(cursor.getColumnIndex(databaseHelper.QUANTITY));
                 String image = cursor.getString(cursor.getColumnIndex(databaseHelper.IMAGE));
+                String size = cursor.getString(cursor.getColumnIndex(databaseHelper.SIZE));
+                String color = cursor.getString(cursor.getColumnIndex(databaseHelper.COLOR));
+                String variant = cursor.getString(cursor.getColumnIndex(databaseHelper.VARIANT));
 
-                CartProductModel cartProductsModel = new CartProductModel(id,name,mrp_price,unit_price,shop_name ,quantity, image);
+                CartProductModel cartProductsModel = new CartProductModel(id,name,mrp_price,unit_price,size,color,variant,shop_name ,quantity, image);
 
                 list.add(cartProductsModel);
                 adapter = new CartAdapter(list, getContext());
