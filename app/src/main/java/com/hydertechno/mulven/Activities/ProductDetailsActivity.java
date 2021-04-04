@@ -71,6 +71,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
     private ApiInterface apiInterface;
     private RelatedProductAdapter relatedProductAdapter;
     private RelativeLayout feature_RelativeLayout,soldByRelativeLayout;
+    private int productMrpPrice,productUnitPrice;
 
 
     @Override
@@ -111,8 +112,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
                 }
                 else{
                     databaseHelper.addToCart(product_id,product_Name.getText().toString(),
-                            Integer.parseInt(productOldPrice.getText().toString()),
-                            Integer.parseInt(product_Price.getText().toString()),size,color,variant,
+                            productMrpPrice,productUnitPrice,size,color,variant,
                             shop_Name.getText().toString(),Integer.parseInt(cardQuantity.getText().toString()),imageString);
                     Toast.makeText(ProductDetailsActivity.this, "Product Added To Cart", Toast.LENGTH_LONG).show();
                 }
@@ -135,7 +135,9 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 int index=productVariant.indexOf(variantTV.getText().toString());
-                product_Price.setText(""+productVariantPrice.get(index));            }
+                product_Price.setText("৳ "+productVariantPrice.get(index));
+                productUnitPrice=productVariantPrice.get(index);
+            }
         });
 
 
@@ -149,8 +151,14 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
             public void onResponse(Call<ProductDetailsModel> call, Response<ProductDetailsModel> response) {
                 ProductDetailsModel detailsList = response.body();
                 product_Name.setText(""+detailsList.getProduct_name());
-                productOldPrice.setText(""+detailsList.getMrp_price());
-                product_Price.setText(""+detailsList.getUnit_price());
+                productMrpPrice=detailsList.getMrp_price();
+                if(productMrpPrice==0){
+                    productOldPrice.setVisibility(View.GONE);
+                }else{
+                    productOldPrice.setText("৳ "+productMrpPrice);
+                }
+                productUnitPrice=detailsList.getUnit_price();
+                product_Price.setText("৳ "+productUnitPrice);
                 shop_Name.setText(""+detailsList.getShop_name());
                 shop_Address.setText(""+detailsList.getShop_address());
                 brand_Name.setText(""+detailsList.getBrand());
