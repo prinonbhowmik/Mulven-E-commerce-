@@ -12,8 +12,7 @@
         android:layout_height="90dp"
         android:layout_marginStart="5dp"
         android:layout_marginTop="10dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/ram" />
+        android:scaleType="fitXY" />
 
     <ImageView
         android:id="@+id/cartProductDelete"
@@ -35,7 +34,6 @@
         android:layout_toEndOf="@+id/cartProductImage"
         android:fontFamily="@font/comfortaa_bold"
         android:maxLines="2"
-        android:text="Transcend 8GB DDR4 RAM"
         android:textColor="@color/black"
         android:textSize="16sp" />
 
@@ -49,9 +47,9 @@
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="5dp"
         android:layout_toEndOf="@+id/cartProductImage"
+        android:layout_toStartOf="@+id/cartProductPrice"
         android:fontFamily="@font/comfortaa_bold"
         android:maxLines="2"
-        android:text="Mulven"
         android:textColor="@color/ash"
         android:textSize="13sp" />
 
@@ -102,7 +100,7 @@
         android:id="@+id/cardMinus"
         android:layout_width="20dp"
         android:layout_height="18dp"
-        android:layout_below="@+id/cartProductPrice"
+        android:layout_below="@+id/ProductShopName"
         android:layout_marginStart="5dp"
         android:layout_marginTop="6dp"
         android:layout_toEndOf="@id/cartProductImage"
@@ -112,7 +110,7 @@
         android:id="@+id/cardQuantity"
         android:layout_width="wrap_content"
         android:layout_height="18dp"
-        android:layout_below="@+id/cartProductPrice"
+        android:layout_below="@+id/ProductShopName"
         android:layout_marginTop="5dp"
         android:layout_toEndOf="@id/cardMinus"
         android:gravity="center"
@@ -126,7 +124,7 @@
         android:id="@+id/cardPlus"
         android:layout_width="20dp"
         android:layout_height="18dp"
-        android:layout_below="@+id/cartProductPrice"
+        android:layout_below="@+id/ProductShopName"
         android:layout_marginTop="6dp"
         android:layout_toEndOf="@id/cardQuantity"
         android:src="@drawable/ic_plus" />

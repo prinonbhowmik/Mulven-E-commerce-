@@ -47,7 +47,18 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         CartProductModel cart = list.get(position);
         Database_Helper database_helper = new Database_Helper(context);
         holder.cartProductName.setText(cart.getProduct_name());
-        holder.ProductShopName.setText(cart.getSize()+"--"+cart.getColor()+"--"+cart.getVariant());
+
+        if (cart.getSize()==null || cart.getSize().equals("")){
+            holder.ProductShopName.setText(cart.getColor()+"--"+cart.getVariant());
+        }else if(cart.getColor()==null || cart.getColor().equals("")) {
+            holder.ProductShopName.setText(cart.getSize()+"--"+cart.getVariant());
+        }else if(cart.getVariant()==null || cart.getVariant().equals("")){
+            holder.ProductShopName.setText(cart.getSize()+"--"+cart.getColor());
+        }else if (cart.getSize().equals("") && cart.getColor().equals("") && cart.getVariant().equals("")){
+            holder.ProductShopName.setText("");
+        } else{
+            holder.ProductShopName.setText(cart.getSize()+"--"+cart.getColor()+"--"+cart.getVariant());
+        }
         holder.cartProductPrice.setText(String.valueOf(cart.getUnit_price())+" X "+cart.getQuantity());
        // holder.ProductQuantity.setText(String.valueOf(cart.getQuantity()));
         holder.cardQuantity.setText(""+cart.getQuantity());

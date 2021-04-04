@@ -44,10 +44,6 @@ public class Database_Helper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
-    public void delete(){
-        SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("delete from "+ TABLE_NAME);
-    }
 
     public void addToCart(int id, String name, int mrp_price, int unit_price,String size,String color,String variant, String shop_name, int quantity, String image) {
 
@@ -76,6 +72,18 @@ public class Database_Helper extends SQLiteOpenHelper {
         }
         return false;
     }
+    public boolean checkProductExist(int id, String size, String color, String variant) {
+        SQLiteDatabase sq = getReadableDatabase();
+
+        Cursor cursor = sq.rawQuery("SELECT id FROM new_table WHERE id=? and size=? and color=? and variant=?",
+                new String[] { String.valueOf(id), size,color,variant});
+        if (cursor.getCount()>0){
+            return true;
+        }
+        return false;
+    }
+
+
     public int checkQuantity(int id){
         SQLiteDatabase sq = getReadableDatabase();
         Cursor cursor = sq.rawQuery("select " + QUANTITY + " from " + TABLE_NAME + " where " + ID + " = " + id, (String[]) null);

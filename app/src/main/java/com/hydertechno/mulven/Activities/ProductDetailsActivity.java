@@ -104,7 +104,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
                     variant = "";
                 }
                 Log.d("CheckData",size+","+color+","+variant);
-                if (databaseHelper.checkCart(product_id,size,color,variant)){
+                if (databaseHelper.checkProductExist(product_id,size,color,variant)){
 
                     int count  = databaseHelper.checkQuantity(product_id);
                     databaseHelper.addQuantity(product_id,count+1);
