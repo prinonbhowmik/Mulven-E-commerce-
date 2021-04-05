@@ -145,10 +145,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 chipNavigationBar.setItemSelected(R.id.cart,true);
                 break;
             case R.id.login:
-                fragment=new AccountFragment();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new AccountFragment()).commit();
+                navigationView.getMenu().getItem(0).setChecked(false);
+                navigationView.getMenu().getItem(2).setChecked(true);
+                chipNavigationBar.setItemSelected(R.id.cart,true);
                 break;
             case R.id.logout:
-                String token = sharedPreferences.getString("token",null);
+               /* String token = sharedPreferences.getString("token",null);
                 Call<UserProfile> call = ApiUtils.getUserService().logoutUser(token);
                 call.enqueue(new Callback<UserProfile>() {
                     @Override
@@ -167,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     public void onFailure(Call<UserProfile> call, Throwable t) {
 
                     }
-                });
+                });*/
         }
 
         drawerLayout.closeDrawers();

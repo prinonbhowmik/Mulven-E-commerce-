@@ -26,6 +26,7 @@ import android.widget.TextView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.hydertechno.mulven.Activities.PhoneNumber;
+import com.hydertechno.mulven.Activities.SignUp;
 import com.hydertechno.mulven.Api.ApiInterface;
 import com.hydertechno.mulven.Api.ApiUtils;
 import com.hydertechno.mulven.Models.UserProfile;
@@ -58,7 +59,7 @@ public class AccountFragment extends Fragment {
         newRegisterTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), PhoneNumber.class));
+                startActivity(new Intent(getContext(), SignUp.class));
             }
         });
         navIcon.setOnClickListener(new View.OnClickListener() {

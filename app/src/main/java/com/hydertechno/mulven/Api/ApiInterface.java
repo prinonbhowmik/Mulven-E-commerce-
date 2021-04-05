@@ -38,8 +38,13 @@ public interface ApiInterface {
     Call<UserProfile> userLogin(@Field("phone") String phone,
                                 @Field("password") String password);
 
-    @GET("logout?")
-    Call<UserProfile> logoutUser(@Query("token") String token);
+    @POST("register")
+    @FormUrlEncoded
+    Call<UserProfile> registerUser(@Field("full_name") String name,
+                                 @Field("phone") String phone,
+                                 @Field("birthday") String dob,
+                                 @Field("password") String pass,
+                                 @Field("address") String address);
 
 
 }
