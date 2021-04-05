@@ -18,6 +18,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
+import com.hydertechno.mulven.Api.ApiUtils;
 import com.hydertechno.mulven.DatabaseHelper.Database_Helper;
 import com.hydertechno.mulven.Fragments.AccountFragment;
 import com.hydertechno.mulven.Fragments.CartFragment;
@@ -25,8 +26,13 @@ import com.hydertechno.mulven.Fragments.DreamDealFragment;
 import com.hydertechno.mulven.Fragments.HomeFragment;
 import com.hydertechno.mulven.Fragments.NotificationFragment;
 import com.hydertechno.mulven.Fragments.ProfileFragment;
+import com.hydertechno.mulven.Models.UserProfile;
 import com.hydertechno.mulven.R;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     private DrawerLayout drawerLayout;
@@ -36,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private boolean doubleBackToExitPressedOnce=false;
     private Fragment fragment=null;
     private SharedPreferences sharedPreferences;
+    private int loggedIn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,11 +65,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             chipNavigationBar.showBadge(R.id.cart, count);
         }
         chipNavigationBar.showBadge(R.id.notification,1);
+        if (loggedIn == 0){
+            navigationView.getMenu().removeItem(R.id.logout);
+        }else if(loggedIn == 1){
+            navigationView.getMenu().removeItem(R.id.login);
+
+        }
 
         chipNavigationBar.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
             @Override
             public void onItemSelected(int i) {
                 switch (i){
+
                     case R.id.home:
                         fragment=new HomeFragment();
                         break;
@@ -76,8 +90,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         fragment=new NotificationFragment();
                         break;
                     case R.id.account:
-                        int loggedIn = sharedPreferences.getInt("loggedIn",0);
-
                         if (loggedIn == 0 ){
                             fragment=new AccountFragment();
                             break;
@@ -103,6 +115,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         chipNavigationBar=findViewById(R.id.bottom_menu);
         helper = new Database_Helper(this);
         sharedPreferences = getSharedPreferences("MyRef", MODE_PRIVATE);
+        loggedIn = sharedPreferences.getInt("loggedIn",0);
 
     }
 
@@ -131,6 +144,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 navigationView.getMenu().getItem(2).setChecked(true);
                 chipNavigationBar.setItemSelected(R.id.cart,true);
                 break;
+            case R.id.login:
+                fragment=new AccountFragment();
+                break;
+            case R.id.logout:
+                String token = sharedPreferences.getString("token",null);
+                Call<UserProfile> call = ApiUtils.getUserService().logoutUser(token);
+                call.enqueue(new Callback<UserProfile>() {
+                    @Override
+                    public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
+                        if (response.isSuccessful()){
+                            String status = response.body().getStatus();
+                            Toast.makeText(MainActivity.this, ""+status, Toast.LENGTH_SHORT).show();
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("token", "");
+                            editor.putInt("loggedIn", 0);
+                            editor.commit();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<UserProfile> call, Throwable t) {
+
+                    }
+                });
         }
 
         drawerLayout.closeDrawers();

@@ -5,11 +5,15 @@ import com.hydertechno.mulven.Models.CategoryNamesModel;
 import com.hydertechno.mulven.Models.OrderListModel;
 import com.hydertechno.mulven.Models.ProductDetailsModel;
 import com.hydertechno.mulven.Models.Sliderimage;
+import com.hydertechno.mulven.Models.UserProfile;
 
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public interface ApiInterface {
@@ -28,6 +32,14 @@ public interface ApiInterface {
 
     @GET("order-list?")
     Call<List<OrderListModel>> getOrderList(@Query("customer_id") int customerId);
+
+    @POST("login")
+    @FormUrlEncoded
+    Call<UserProfile> userLogin(@Field("phone") String phone,
+                                @Field("password") String password);
+
+    @GET("logout?")
+    Call<UserProfile> logoutUser(@Query("token") String token);
 
 
 }

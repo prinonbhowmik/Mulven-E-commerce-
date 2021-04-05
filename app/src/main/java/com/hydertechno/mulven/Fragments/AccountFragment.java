@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +26,14 @@ import android.widget.TextView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.hydertechno.mulven.Activities.PhoneNumber;
+import com.hydertechno.mulven.Api.ApiInterface;
+import com.hydertechno.mulven.Api.ApiUtils;
+import com.hydertechno.mulven.Models.UserProfile;
 import com.hydertechno.mulven.R;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -84,18 +92,10 @@ public class AccountFragment extends Fragment {
                 } else {
                     phoneTIL.setErrorEnabled(false);
                     passwordTIL.setErrorEnabled(false);
+                    String phone = phoneTIET.getText().toString();
+                    String password = passwordTIET.getText().toString();
                     hideKeyboardFrom(getContext());
-                    Fragment newFragment = new ProfileFragment();
-                    // consider using Java coding conventions (upper first char class names!!!)
-                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
-
-                    // Replace whatever is in the fragment_container view with this fragment,
-                    // and add the transaction to the back stack
-                    transaction.replace(R.id.fragment_container, newFragment);
-                    transaction.addToBackStack(null);
-
-                    // Commit the transaction
-                    transaction.commit();
+                    userLogin(phone,password);
                 }
                  /*if (phone.length() == 11) {
                     hideKeyboardFrom(getContext());
@@ -104,6 +104,38 @@ public class AccountFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    private void userLogin(String phone, String password) {
+        Call<UserProfile> call = ApiUtils.getUserService().userLogin(phone,password);
+        call.enqueue(new Callback<UserProfile>() {
+            @Override
+            public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
+                String token = response.body().getToken();
+                SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyRef", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("token", token);
+                editor.putInt("loggedIn", 1);
+                editor.commit();
+                Log.d("ShowToken",token);
+                Fragment newFragment = new ProfileFragment();
+                // consider using Java coding conventions (upper first char class names!!!)
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+                // Replace whatever is in the fragment_container view with this fragment,
+                // and add the transaction to the back stack
+                transaction.replace(R.id.fragment_container, newFragment);
+                transaction.addToBackStack(null);
+
+                // Commit the transaction
+                transaction.commit();
+            }
+
+            @Override
+            public void onFailure(Call<UserProfile> call, Throwable t) {
+
+            }
+        });
     }
 
     private void init(View view) {

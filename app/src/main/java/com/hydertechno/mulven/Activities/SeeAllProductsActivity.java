@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.view.inputmethod.EditorInfo;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hydertechno.mulven.Adapters.AllProductsAdapter;
@@ -39,10 +40,9 @@ public class SeeAllProductsActivity extends AppCompatActivity {
     private SearchView searchView;
     private RecyclerView productRecyclerView;
     private AllProductsAdapter all_product_Adapter;
+    private ImageView searchBtn;
     private List<CategoriesModel> allProductsList=new ArrayList<>();
     private ApiInterface apiInterface;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +58,14 @@ public class SeeAllProductsActivity extends AppCompatActivity {
        // titleName.setPaintFlags(titleName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
         getSearchResult();
+
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchView.setVisibility(View.VISIBLE);
+                searchBtn.setVisibility(View.GONE);
+            }
+        });
 
        /* for(int a=12; a>0;a--){
             if(a%2==0){
@@ -97,6 +105,7 @@ public class SeeAllProductsActivity extends AppCompatActivity {
     }
     private void init() {
         searchView = findViewById(R.id.searchET);
+        searchBtn = findViewById(R.id.SearchIV);
         SearchManager manager = (SearchManager) getSystemService(SEARCH_SERVICE);
         searchView.setSearchableInfo(manager.getSearchableInfo(getComponentName()));
         searchView.setSubmitButtonEnabled(true);
