@@ -130,7 +130,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.home:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment()).commit();
                 navigationView.getMenu().getItem(0).setChecked(true);
+                navigationView.getMenu().getItem(1).setChecked(false);
                 navigationView.getMenu().getItem(2).setChecked(false);
+                navigationView.getMenu().getItem(3).setChecked(false);
                 chipNavigationBar.setItemSelected(R.id.home,true);
                 break;
             case R.id.gift:
@@ -141,14 +143,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.cart:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new CartFragment()).commit();
                 navigationView.getMenu().getItem(0).setChecked(false);
+                navigationView.getMenu().getItem(1).setChecked(false);
+                navigationView.getMenu().getItem(3).setChecked(false);
                 navigationView.getMenu().getItem(2).setChecked(true);
                 chipNavigationBar.setItemSelected(R.id.cart,true);
                 break;
             case R.id.login:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new AccountFragment()).commit();
-                navigationView.getMenu().getItem(0).setChecked(true);
-                /*navigationView.getMenu().getItem(2).setChecked(true);*/
-                chipNavigationBar.setItemSelected(R.id.login,true);
+                navigationView.getMenu().getItem(3).setChecked(true);
+                navigationView.getMenu().getItem(0).setChecked(false);
+                navigationView.getMenu().getItem(1).setChecked(false);
+                navigationView.getMenu().getItem(2).setChecked(false);
+                chipNavigationBar.setItemSelected(R.id.account,true);
                 break;
             case R.id.logout:
                 String token = sharedPreferences.getString("token",null);

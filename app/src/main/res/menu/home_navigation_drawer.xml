@@ -3,10 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/login"
-            android:icon="@drawable/ic_account"
-            android:title="Log In" />
-        <item
             android:id="@+id/home"
             android:icon="@drawable/ic_home"
             android:title="Home"/>
@@ -19,6 +15,12 @@
             android:id="@+id/cart"
             android:icon="@drawable/ic_cart"
             android:title="Cart"/>
+
+        <item
+            android:id="@+id/login"
+            android:icon="@drawable/ic_account"
+            android:title="Log In" />
+
         <item
             android:id="@+id/logout"
             android:title="Log Out" />
