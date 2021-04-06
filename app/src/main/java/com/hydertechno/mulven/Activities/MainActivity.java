@@ -146,23 +146,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.login:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new AccountFragment()).commit();
-                navigationView.getMenu().getItem(0).setChecked(false);
-                navigationView.getMenu().getItem(2).setChecked(true);
-                chipNavigationBar.setItemSelected(R.id.cart,true);
+                navigationView.getMenu().getItem(0).setChecked(true);
+                /*navigationView.getMenu().getItem(2).setChecked(true);*/
+                chipNavigationBar.setItemSelected(R.id.login,true);
                 break;
             case R.id.logout:
-               /* String token = sharedPreferences.getString("token",null);
+                String token = sharedPreferences.getString("token",null);
                 Call<UserProfile> call = ApiUtils.getUserService().logoutUser(token);
                 call.enqueue(new Callback<UserProfile>() {
                     @Override
                     public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
                         if (response.isSuccessful()){
-                            String status = response.body().getStatus();
-                            Toast.makeText(MainActivity.this, ""+status, Toast.LENGTH_SHORT).show();
+                            String message = response.body().getMessage();
+                            Toast.makeText(MainActivity.this, ""+message, Toast.LENGTH_SHORT).show();
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString("token", "");
                             editor.putInt("loggedIn", 0);
                             editor.commit();
+
+                           finish();
+                           startActivity(getIntent());
                         }
                     }
 
@@ -170,7 +173,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     public void onFailure(Call<UserProfile> call, Throwable t) {
 
                     }
-                });*/
+                });
         }
 
         drawerLayout.closeDrawers();

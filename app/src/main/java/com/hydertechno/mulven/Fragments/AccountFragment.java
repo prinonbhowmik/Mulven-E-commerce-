@@ -22,9 +22,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.hydertechno.mulven.Activities.MainActivity;
 import com.hydertechno.mulven.Activities.PhoneNumber;
 import com.hydertechno.mulven.Activities.SignUp;
 import com.hydertechno.mulven.Api.ApiInterface;
@@ -112,29 +114,38 @@ public class AccountFragment extends Fragment {
         call.enqueue(new Callback<UserProfile>() {
             @Override
             public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
-                String token = response.body().getToken();
-                SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyRef", MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("token", token);
-                editor.putInt("loggedIn", 1);
-                editor.commit();
-                Log.d("ShowToken",token);
-                Fragment newFragment = new ProfileFragment();
-                // consider using Java coding conventions (upper first char class names!!!)
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                if (response.isSuccessful()){
+                    String status = response.body().getStatus();
+                    String message = response.body().getMessage();
 
-                // Replace whatever is in the fragment_container view with this fragment,
-                // and add the transaction to the back stack
-                transaction.replace(R.id.fragment_container, newFragment);
-                transaction.addToBackStack(null);
-
-                // Commit the transaction
-                transaction.commit();
+                    if (status.equals("1")){
+                        String token = response.body().getToken();
+                        SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyRef", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("token", token);
+                        editor.putInt("loggedIn", 1);
+                        editor.commit();
+                        Log.d("ShowToken",token);
+                        Toast.makeText(getContext(), ""+message, Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getContext(), MainActivity.class);
+                        intent.putExtra("fragment","home");
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        getActivity().finish();
+                    }else if(status.equals("0")){
+                        Toast.makeText(getContext(), ""+message, Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getContext(), MainActivity.class);
+                        intent.putExtra("fragment","home");
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        getActivity().finish();
+                    }
+                }
             }
 
             @Override
             public void onFailure(Call<UserProfile> call, Throwable t) {
-
+                Log.d("ErrorKi",t.getMessage());
             }
         });
     }

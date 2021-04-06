@@ -133,8 +133,8 @@ public class SignUp extends AppCompatActivity {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                 month = month + 1;
-                currentDate = day + "-" + month + "-" + year;
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                currentDate = year + "-" + month + "-" + day;
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 Date date = null;
 
                 try {

@@ -75,6 +75,7 @@
             android:textColor="#000"
             android:textSize="18sp" />
     </com.google.android.material.textfield.TextInputLayout>
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/password_LT"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
@@ -119,6 +120,7 @@
         android:textColor="@color/black"
         android:textSize="15sp"
         android:fontFamily="@font/comfortaa_light"/>
+
     <Button
         android:id="@+id/loginBtn"
         android:layout_width="match_parent"

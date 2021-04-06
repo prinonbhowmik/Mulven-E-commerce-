@@ -46,5 +46,7 @@ public interface ApiInterface {
                                  @Field("password") String pass,
                                  @Field("address") String address);
 
+    @GET("logout?")
+    Call<UserProfile> logoutUser(@Query("token") String token);
 
 }
