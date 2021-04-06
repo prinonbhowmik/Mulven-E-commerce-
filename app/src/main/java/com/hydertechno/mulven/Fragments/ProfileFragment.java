@@ -4,12 +4,14 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
+import android.os.UserHandle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,21 +22,34 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.hydertechno.mulven.Activities.AddressActivity;
 import com.hydertechno.mulven.Activities.ChangePasswordActivity;
 import com.hydertechno.mulven.Activities.PlaceOrderListActivity;
 import com.hydertechno.mulven.Activities.ProfileActivity;
+import com.hydertechno.mulven.Api.ApiUtils;
+import com.hydertechno.mulven.Models.UserProfile;
 import com.hydertechno.mulven.R;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class ProfileFragment extends Fragment {
     private LinearLayout checkBalanceLayout,addressLayout,profileLayout;
     private RelativeLayout bottomRL;
+    private TextView username,phoneNo;
     private DrawerLayout drawerLayout;
     private ImageView navIcon;
     private Dialog dialog;
     private Animation upAnimation,downAnimation;
     private RelativeLayout paymentHistoryRL,changePasswordRL;
+    private SharedPreferences sharedPreferences;
+    private String token,name,phone;
+    private int id;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,6 +57,26 @@ public class ProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_profile, container, false);
         init(view);
+
+        token = sharedPreferences.getString("token",null);
+
+        Call<UserProfile> call = ApiUtils.getUserService().getUserData(token);
+        call.enqueue(new Callback<UserProfile>() {
+            @Override
+            public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
+                if (response.isSuccessful()){
+                    id = response.body().getId();
+                    username.setText(response.body().getFull_name());
+                    phoneNo.setText(response.body().getPhone());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserProfile> call, Throwable t) {
+
+            }
+        });
+
         drawerLayout=getActivity().findViewById(R.id.drawerLayout);
         navIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,7 +117,7 @@ public class ProfileFragment extends Fragment {
         paymentHistoryRL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), PlaceOrderListActivity.class));
+                startActivity(new Intent(getActivity(), PlaceOrderListActivity.class).putExtra("id",id));
             }
         });
 
@@ -101,7 +136,8 @@ public class ProfileFragment extends Fragment {
         navIcon=view.findViewById(R.id.navIcon);
         upAnimation=AnimationUtils.loadAnimation(getContext(),R.anim.slide_up);
         downAnimation=AnimationUtils.loadAnimation(getContext(),R.anim.slide_down);
-
+        username = view.findViewById(R.id.userName);
+        phoneNo = view.findViewById(R.id.userPhoneNo);
         bottomRL=view.findViewById(R.id.bottomRL);
         bottomRL.setAnimation(upAnimation);
         checkBalanceLayout=view.findViewById(R.id.balanceLayout);
@@ -109,6 +145,8 @@ public class ProfileFragment extends Fragment {
         profileLayout=view.findViewById(R.id.profileLayout);
         paymentHistoryRL=view.findViewById(R.id.paymentHistoryRL);
         changePasswordRL=view.findViewById(R.id.changePasswordRL);
+        sharedPreferences = getContext().getSharedPreferences("MyRef", MODE_PRIVATE);
+
     }
     private void hideKeyboardFrom(Context context) {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);

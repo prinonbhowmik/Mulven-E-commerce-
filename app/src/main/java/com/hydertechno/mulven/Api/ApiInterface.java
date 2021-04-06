@@ -49,4 +49,7 @@ public interface ApiInterface {
     @GET("logout?")
     Call<UserProfile> logoutUser(@Query("token") String token);
 
+    @GET("user?")
+    Call<UserProfile> getUserData(@Query("token") String token);
+
 }

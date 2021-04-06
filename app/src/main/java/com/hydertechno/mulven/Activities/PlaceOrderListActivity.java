@@ -33,18 +33,21 @@ public class PlaceOrderListActivity extends AppCompatActivity {
     private ApiInterface apiInterface;
     private List<OrderListModel> orderListModel;
     private OrderListAdapter orderListAdapter;
-
+    private int id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_place_order_list);
         init();
-        getOrderList();
+        Intent intent = getIntent();
+        id = intent.getIntExtra("id",0);
+        Log.d("checkId", String.valueOf(id));
+        getOrderList(id);
     }
 
-    private void getOrderList() {
+    private void getOrderList(int id) {
         orderListModel.clear();
-        Call<List<OrderListModel>> call = apiInterface.getOrderList(73);
+        Call<List<OrderListModel>> call = apiInterface.getOrderList(id);
         call.enqueue(new Callback<List<OrderListModel>>() {
             @Override
             public void onResponse(Call<List<OrderListModel>> call, Response<List<OrderListModel>> response) {
