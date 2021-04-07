@@ -12,6 +12,7 @@
         android:id="@+id/allProductToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
         android:background="@color/themDark">
 
         <ImageView
@@ -40,9 +41,17 @@
             android:layout_height="20dp"
             android:layout_marginTop="20dp"
             android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
             android:layout_marginEnd="20dp"
             android:src="@drawable/ic_home_search" />
+        <ImageView
+            android:id="@+id/closeIV"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="20dp"
+            android:visibility="gone"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/ic_cross" />
 
         <androidx.appcompat.widget.SearchView
             android:id="@+id/searchET"
@@ -51,11 +60,10 @@
             android:maxLines="1"
             android:visibility="gone"
             android:layout_below="@+id/titleName"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="25dp"
             android:layout_marginTop="10dp"
-            android:layout_marginEnd="40dp"
+            android:layout_marginEnd="25dp"
             android:layout_marginBottom="15dp"
-            android:layout_toEndOf="@+id/seeAllBack"
             android:background="@drawable/search_background"
             android:drawableEnd="@drawable/ic_search"
             android:fontFamily="@font/comfortaa_light"

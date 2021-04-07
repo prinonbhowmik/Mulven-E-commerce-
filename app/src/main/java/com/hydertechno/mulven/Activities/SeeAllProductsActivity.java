@@ -40,7 +40,7 @@ public class SeeAllProductsActivity extends AppCompatActivity {
     private SearchView searchView;
     private RecyclerView productRecyclerView;
     private AllProductsAdapter all_product_Adapter;
-    private ImageView searchBtn;
+    private ImageView searchBtn,closeIV;
     private List<CategoriesModel> allProductsList=new ArrayList<>();
     private ApiInterface apiInterface;
 
@@ -63,7 +63,16 @@ public class SeeAllProductsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 searchView.setVisibility(View.VISIBLE);
+                closeIV.setVisibility(View.VISIBLE);
                 searchBtn.setVisibility(View.GONE);
+            }
+        });
+        closeIV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchView.setVisibility(View.GONE);
+                closeIV.setVisibility(View.GONE);
+                searchBtn.setVisibility(View.VISIBLE);
             }
         });
 
@@ -106,6 +115,7 @@ public class SeeAllProductsActivity extends AppCompatActivity {
     private void init() {
         searchView = findViewById(R.id.searchET);
         searchBtn = findViewById(R.id.SearchIV);
+        closeIV = findViewById(R.id.closeIV);
         SearchManager manager = (SearchManager) getSystemService(SEARCH_SERVICE);
         searchView.setSearchableInfo(manager.getSearchableInfo(getComponentName()));
         searchView.setSubmitButtonEnabled(true);

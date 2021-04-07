@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hydertechno.mulven.Adapters.FeatureAddAdapter;
@@ -37,6 +38,7 @@ public class PlaceOrderListActivity extends AppCompatActivity {
     private OrderListAdapter orderListAdapter;
     private int id;
     private String token;
+    private RelativeLayout noOrderLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,10 +60,15 @@ public class PlaceOrderListActivity extends AppCompatActivity {
                 if (response.isSuccessful()){
                     String status = response.body().getStatus();
                     if (status.equals("1")){
-                        List<OrderListModel> models = response.body().getItems();
-                        orderListAdapter = new OrderListAdapter(models,PlaceOrderListActivity.this);
+                        orderListModel = response.body().getItems();
+                        orderListAdapter = new OrderListAdapter(orderListModel,PlaceOrderListActivity.this);
                         orderListRecyclerView.setAdapter(orderListAdapter);
-                        orderListAdapter.notifyDataSetChanged();
+                    }
+                    Collections.reverse(orderListModel);
+                    orderListAdapter.notifyDataSetChanged();
+                    if(orderListModel.size()==0){
+                        noOrderLayout.setVisibility(View.VISIBLE);
+                        orderListRecyclerView.setVisibility(View.GONE);
                     }
                 }
             }
@@ -74,6 +81,7 @@ public class PlaceOrderListActivity extends AppCompatActivity {
     }
 
     private void init() {
+        noOrderLayout=findViewById(R.id.noOrderLayout);
         orderListRecyclerView=findViewById(R.id.orderListRecyclerView);
         orderListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         apiInterface = ApiUtils.getUserService();

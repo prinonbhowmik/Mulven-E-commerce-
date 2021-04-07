@@ -41,5 +41,32 @@
         android:visibility="visible"
         android:background="#f8f9fa"
         android:layout_below="@+id/toolbar"/>
+    <RelativeLayout
+        android:id="@+id/noOrderLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:layout_below="@+id/toolbar">
+
+        <ImageView
+            android:id="@+id/cartLogo"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/ic_package"
+            android:layout_marginBottom="10dp"
+            android:layout_above="@+id/noCart"
+            android:layout_centerInParent="true"/>
+        <TextView
+            android:id="@+id/noCart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="@color/black"
+            android:text="No order records !"
+            android:textSize="18sp"
+            android:fontFamily="@font/comfortaa_light"/>
+
+
+    </RelativeLayout>
 
 </RelativeLayout>
