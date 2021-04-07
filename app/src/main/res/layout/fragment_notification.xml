@@ -55,7 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:textColor="@color/black"
-        android:text="No notification yet!"
+        android:text="No notification yet !"
         android:textSize="18sp"
         android:fontFamily="@font/comfortaa_light"/>
 

@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:textColor="@color/black"
-            android:text="Your cart is empty!"
+            android:text="Your cart is empty !"
             android:textSize="18sp"
             android:fontFamily="@font/comfortaa_light"/>
 

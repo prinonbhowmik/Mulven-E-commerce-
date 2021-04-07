@@ -66,21 +66,21 @@ public class SignUp extends AppCompatActivity {
                 dob = dobTIET.getText().toString();
                 pass = passTIET.getText().toString();
                 address = addressTIET.getText().toString();
-                if (TextUtils.isEmpty(phone)) {
+                if (TextUtils.isEmpty(name)) {
                     nameTIL.setError("Please enter full name!");
                     nameTIET.requestFocus();
+                }if (TextUtils.isEmpty(phone)) {
+                    phnTIET.setError("Please enter phone number!");
+                    phnTIET.requestFocus();
                 } else if (TextUtils.isEmpty(dob)){
-                    dobTIL.setError("Date of Birth!");
+                    dobTIL.setError("Please select Date of Birth!");
                     dobTIET.requestFocus();
                 }else if(TextUtils.isEmpty(pass)){
                     passTIL.setError("Please enter password!");
                     passTIET.requestFocus();
-                }else if(TextUtils.isEmpty(address)){
-                    addressTIL.setError("please enter your address");
+                }else if(TextUtils.isEmpty(address)) {
+                    addressTIL.setError("Please enter your address!");
                     addressTIET.requestFocus();
-                }else if(TextUtils.isEmpty(phone)){
-                    phnTIL.setError("Enter valid phone no!");
-                    phnTIET.requestFocus();
                 }else if(!termsCheckBox.isChecked()){
                 Toast.makeText(SignUp.this, "Please accept terms & conditions!", Toast.LENGTH_SHORT).show();
             }
