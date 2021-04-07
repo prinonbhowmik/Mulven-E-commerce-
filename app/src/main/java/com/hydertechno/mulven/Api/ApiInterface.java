@@ -3,6 +3,7 @@ package com.hydertechno.mulven.Api;
 import com.hydertechno.mulven.Models.CategoriesModel;
 import com.hydertechno.mulven.Models.CategoryNamesModel;
 import com.hydertechno.mulven.Models.OrderListModel;
+import com.hydertechno.mulven.Models.OrderModel;
 import com.hydertechno.mulven.Models.ProductDetailsModel;
 import com.hydertechno.mulven.Models.Sliderimage;
 import com.hydertechno.mulven.Models.UserProfile;
@@ -31,7 +32,8 @@ public interface ApiInterface {
     Call<ProductDetailsModel> getProd_details(@Query("id") int id);
 
     @GET("order-list?")
-    Call<List<OrderListModel>> getOrderList(@Query("customer_id") int customerId);
+    Call<OrderModel> getOrderList(@Query("customer_id") int customerId,
+                                  @Query("token") String token);
 
     @POST("login")
     @FormUrlEncoded

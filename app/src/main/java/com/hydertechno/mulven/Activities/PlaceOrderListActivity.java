@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.hydertechno.mulven.Adapters.FeatureAddAdapter;
 import com.hydertechno.mulven.Adapters.HomePageSliderAdapter;
@@ -15,6 +16,7 @@ import com.hydertechno.mulven.Adapters.OrderListAdapter;
 import com.hydertechno.mulven.Api.ApiInterface;
 import com.hydertechno.mulven.Api.ApiUtils;
 import com.hydertechno.mulven.Models.OrderListModel;
+import com.hydertechno.mulven.Models.OrderModel;
 import com.hydertechno.mulven.Models.Sliderimage;
 import com.hydertechno.mulven.R;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
@@ -34,6 +36,7 @@ public class PlaceOrderListActivity extends AppCompatActivity {
     private List<OrderListModel> orderListModel;
     private OrderListAdapter orderListAdapter;
     private int id;
+    private String token;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,28 +44,31 @@ public class PlaceOrderListActivity extends AppCompatActivity {
         init();
         Intent intent = getIntent();
         id = intent.getIntExtra("id",0);
+        token = intent.getStringExtra("token");
         Log.d("checkId", String.valueOf(id));
         getOrderList(id);
     }
 
     private void getOrderList(int id) {
         orderListModel.clear();
-        Call<List<OrderListModel>> call = apiInterface.getOrderList(id);
-        call.enqueue(new Callback<List<OrderListModel>>() {
+        Call<OrderModel> call = apiInterface.getOrderList(id,token);
+        call.enqueue(new Callback<OrderModel>() {
             @Override
-            public void onResponse(Call<List<OrderListModel>> call, Response<List<OrderListModel>> response) {
-                if(response.isSuccessful()){
-                    orderListModel = response.body();
-                    orderListAdapter=new OrderListAdapter(orderListModel,getApplicationContext());
-                    orderListRecyclerView.setAdapter(orderListAdapter);
+            public void onResponse(Call<OrderModel> call, Response<OrderModel> response) {
+                if (response.isSuccessful()){
+                    String status = response.body().getStatus();
+                    if (status.equals("1")){
+                        List<OrderListModel> models = response.body().getItems();
+                        orderListAdapter = new OrderListAdapter(models,PlaceOrderListActivity.this);
+                        orderListRecyclerView.setAdapter(orderListAdapter);
+                        orderListAdapter.notifyDataSetChanged();
+                    }
                 }
-                Collections.reverse(orderListModel);
-                orderListAdapter.notifyDataSetChanged();
             }
 
             @Override
-            public void onFailure(Call<List<OrderListModel>> call, Throwable t) {
-                Log.d("ErrorKi",t.getMessage());
+            public void onFailure(Call<OrderModel> call, Throwable t) {
+
             }
         });
     }

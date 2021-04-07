@@ -12,8 +12,10 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -36,6 +38,7 @@ public class SignUp extends AppCompatActivity {
     private TextView condition;
     private Button signUpBtn;
     private String currentDate, name, phone, dob, pass, address;
+    private CheckBox termsCheckBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +81,10 @@ public class SignUp extends AppCompatActivity {
                 }else if(TextUtils.isEmpty(phone)){
                     phnTIL.setError("Enter valid phone no!");
                     phnTIET.requestFocus();
-                }else{
+                }else if(!termsCheckBox.isChecked()){
+                Toast.makeText(SignUp.this, "Please accept terms & conditions!", Toast.LENGTH_SHORT).show();
+            }
+                else{
                     registerUser(name,phone,dob,pass,address);
                 }
             }
@@ -92,15 +98,25 @@ public class SignUp extends AppCompatActivity {
             @Override
             public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
                 if (response.isSuccessful()){
-                    String token = response.body().getToken();
-                    SharedPreferences sharedPreferences = getSharedPreferences("MyRef", MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("token", token);
-                    editor.putInt("loggedIn", 1);
-                    editor.commit();
-                    Log.d("ShowToken",token);
-                    startActivity(new Intent(SignUp.this,MainActivity.class).putExtra("home","home"));
-                    finish();
+                    String status = response.body().getStatus();
+
+                    if (status.equals("0")){
+                        String msg = response.body().getMessage();
+                        Toast.makeText(SignUp.this, ""+msg, Toast.LENGTH_LONG).show();
+                    }else{
+                        String token = response.body().getToken();
+                        String msg = response.body().getMessage();
+                        SharedPreferences sharedPreferences = getSharedPreferences("MyRef", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("token", token);
+                        editor.putInt("loggedIn", 1);
+                        editor.commit();
+                        Log.d("ShowToken",token);
+                        Toast.makeText(SignUp.this, ""+msg, Toast.LENGTH_LONG).show();
+                        startActivity(new Intent(SignUp.this,MainActivity.class).putExtra("home","home"));
+                        finish();
+                    }
+
                 }
             }
 
@@ -123,6 +139,7 @@ public class SignUp extends AppCompatActivity {
         phnTIET = findViewById(R.id.phone_Et);
         passTIET = findViewById(R.id.password_Et);
         addressTIET = findViewById(R.id.address_Et);
+        termsCheckBox=findViewById(R.id.termsCheckBox);
         signUpBtn = findViewById(R.id.sign_upBtn);
         condition = findViewById(R.id.conditions);
 

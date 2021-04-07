@@ -117,7 +117,7 @@ public class ProfileFragment extends Fragment {
         paymentHistoryRL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), PlaceOrderListActivity.class).putExtra("id",id));
+                startActivity(new Intent(getActivity(), PlaceOrderListActivity.class).putExtra("id",id).putExtra("token",token));
             }
         });
 

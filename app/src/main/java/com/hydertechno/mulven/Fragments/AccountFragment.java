@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -117,7 +118,7 @@ public class AccountFragment extends Fragment {
                 if (response.isSuccessful()){
                     String status = response.body().getStatus();
                     String message = response.body().getMessage();
-
+                    Log.d("CheckStatus",status);
                     if (status.equals("1")){
                         String token = response.body().getToken();
                         SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyRef", MODE_PRIVATE);
@@ -157,6 +158,7 @@ public class AccountFragment extends Fragment {
         phoneTIET=view.findViewById(R.id.phone_ET);
         passwordTIET=view.findViewById(R.id.password_ET);
         forgetPasswordTV=view.findViewById(R.id.forget_pass_TV);
+
         newRegisterTV=view.findViewById(R.id.registerTV);
         logInBtn=view.findViewById(R.id.loginBtn);
         navIcon=view.findViewById(R.id.navIcon);
