@@ -284,27 +284,7 @@
                     android:layout_weight=".50"
                     android:fontFamily="@font/comfortaa_bold"
                     android:paddingStart="10dp"
-                    android:text="Description"
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight=".25"
-                    android:fontFamily="@font/comfortaa_bold"
-                    android:gravity="center_horizontal"
-                    android:text="Quantity"
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight=".25"
-                    android:fontFamily="@font/comfortaa_bold"
-                    android:gravity="center_horizontal"
-                    android:text="Amount"
+                    android:text="Product"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
             </LinearLayout>

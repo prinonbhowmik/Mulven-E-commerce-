@@ -1,57 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="1"
-        android:orientation="horizontal">
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight=".50">
-            <ImageView
-                android:id="@+id/productImageTV"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginStart="10dp"
-                android:src="@drawable/monitor"/>
-            <TextView
-                android:id="@+id/productNameTV"
-                android:layout_below="@+id/productImageTV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp"
-                android:text="LG 19M38A 18.5 Inch Monitor"
-                android:textSize="15sp"
-                android:fontFamily="@font/comfortaa_light"
-                android:textColor="@color/black"/>
-        </RelativeLayout>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="5dp"
+    android:background="@color/white">
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="৳ 1000 * 1"
-            android:textSize="15sp"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:gravity="center_horizontal"
-            android:fontFamily="@font/comfortaa_light"
-            android:layout_gravity="center_vertical"
-            android:textColor="@color/black"
-            android:layout_weight=".25"/>
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="৳ 1000"
-            android:textSize="15sp"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:layout_gravity="center_vertical"
-            android:gravity="center_horizontal"
-            android:fontFamily="@font/comfortaa_light"
-            android:textColor="@color/black"
-            android:layout_weight=".25"/>
-    </LinearLayout>
+    <ImageView
+        android:id="@+id/cartProductImage"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/monitor"/>
+
+
+    <TextView
+        android:id="@+id/cartProductName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_toEndOf="@+id/cartProductImage"
+        android:fontFamily="@font/comfortaa_bold"
+        android:maxLines="2"
+        android:text="LG 19M38A 18.5 Inch Monitor"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/ProductVariantName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cartProductName"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="5dp"
+        android:layout_toEndOf="@+id/cartProductImage"
+        android:fontFamily="@font/comfortaa_bold"
+        android:maxLines="2"
+        android:text="Blue - 32 - 30 days delivery"
+        android:textColor="@color/ash"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/cartProductPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ProductVariantName"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="2dp"
+        android:layout_toEndOf="@id/cartProductImage"
+        android:fontFamily="@font/comfortaa_bold"
+        android:maxLines="2"
+        android:text="1500"
+        android:textColor="@color/gray"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/ProductQuantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ProductVariantName"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="2dp"
+        android:layout_toEndOf="@id/cartProductPrice"
+        android:fontFamily="@font/comfortaa_bold"
+        android:maxLines="2"
+        android:text=" * 2"
+        android:textColor="@color/gray"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/cartProductTotalPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cartProductPrice"
+        android:layout_toEndOf="@id/cartProductImage"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:fontFamily="@font/comfortaa_light"
+        android:maxLines="2"
+        android:text="3000"
+        android:textColor="@color/black"
+        android:textSize="15sp" />
+
+
+    <TextView
+        android:id="@+id/orderStatusTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/ProductVariantName"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="5dp"
+        android:layout_marginBottom="10dp"
+        android:textSize="12sp"
+        android:text="Paid"
+        android:background="@drawable/status_processing"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="20dp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/comfortaa_bold"/>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/cartProductTotalPrice"
+        android:layout_marginTop="5dp"
+        android:background="@color/gray" />
+
+</RelativeLayout>
