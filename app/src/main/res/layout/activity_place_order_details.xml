@@ -211,7 +211,7 @@
                         android:layout_marginTop="2dp"
                         android:background="@drawable/round_stroke"
                         android:padding="2dp"
-                        android:src="@drawable/imran" />
+                        android:src="@drawable/demo_profile" />
 
                     <TextView
                         android:id="@+id/customerNameTV"
@@ -221,7 +221,6 @@
                         android:layout_marginTop="2dp"
                         android:layout_marginEnd="10dp"
                         android:fontFamily="@font/comfortaa_light"
-                        android:text="Imran Hossian"
                         android:textColor="@color/black"
                         android:textSize="12sp" />
 
@@ -233,7 +232,6 @@
                         android:layout_marginTop="2dp"
                         android:layout_marginEnd="20dp"
                         android:fontFamily="@font/comfortaa_light"
-                        android:text="+88 0 1842 770738"
                         android:textColor="@color/black"
                         android:textSize="12sp" />
 
@@ -301,6 +299,7 @@
                 android:layout_below="@+id/descriptionLinearLayout"
                 android:visibility="visible"
                 android:nestedScrollingEnabled="false"/>
+
 
             <View
                 android:id="@+id/v2"
@@ -482,6 +481,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
+                android:layout_marginTop="10dp"
                 android:layout_below="@+id/v4"
                 android:nestedScrollingEnabled="false"
                 android:visibility="visible"/>

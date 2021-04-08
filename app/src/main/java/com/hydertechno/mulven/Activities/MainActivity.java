@@ -163,8 +163,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     @Override
                     public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
                         if (response.isSuccessful()){
-                            String message = response.body().getMessage();
-                            Toast.makeText(MainActivity.this, ""+message, Toast.LENGTH_SHORT).show();
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString("token", "");
                             editor.putInt("loggedIn", 0);

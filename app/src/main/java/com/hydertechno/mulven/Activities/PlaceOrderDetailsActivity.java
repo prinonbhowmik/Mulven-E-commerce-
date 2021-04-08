@@ -11,17 +11,21 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.hydertechno.mulven.Adapters.OrderItemsAdapter;
 import com.hydertechno.mulven.Adapters.OrderTimelineAdapter;
 import com.hydertechno.mulven.Api.ApiUtils;
+import com.hydertechno.mulven.Api.Config;
 import com.hydertechno.mulven.Models.CategoriesModel;
 import com.hydertechno.mulven.Models.InvoiceDetailsModel;
 import com.hydertechno.mulven.Models.OrderItemsModel;
 import com.hydertechno.mulven.Models.OrderTimelineModel;
+import com.hydertechno.mulven.Models.UserProfile;
 import com.hydertechno.mulven.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,6 +41,7 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity {
     private Dialog dialog;
     private RatingBar ratingBar;
     private String token,OrderId;
+    private ImageView vendorImageIV,customerImageIV;
     private SharedPreferences sharedPreferences;
     private List<InvoiceDetailsModel> invoiceDetailsModelList;
     private RecyclerView timelineRecyclerView,orderItemListRecyclerView;
@@ -61,6 +66,22 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity {
                 window.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             }
         });
+
+        Call<UserProfile> call = ApiUtils.getUserService().getUserData(token);
+        call.enqueue(new Callback<UserProfile>() {
+            @Override
+            public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
+                if (response.isSuccessful()){
+                    customerNameTV.setText(response.body().getFull_name());
+                    customerPhoneTV.setText(response.body().getPhone());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserProfile> call, Throwable t) {
+
+            }
+        });
     }
 
     private void init() {
@@ -69,9 +90,11 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity {
         invoiceIdTV=findViewById(R.id.InvoiceTV);
         orderTimeTV=findViewById(R.id.orderTimeTV);
         vendorNameTV=findViewById(R.id.vendorNameTV);
+        vendorImageIV = findViewById(R.id.vendorImageTV);
         vendorPhoneTV=findViewById(R.id.vendorPhoneTV);
         vendorAddressTV=findViewById(R.id.vendorAddressTV);
         customerNameTV=findViewById(R.id.customerNameTV);
+        customerImageIV=findViewById(R.id.customerImageTV);
         customerPhoneTV=findViewById(R.id.customerPhoneTV);
         customerAddressTV=findViewById(R.id.customerAddressTV);
         customerAddressEditTV=findViewById(R.id.customerAddressEditTV);
@@ -103,12 +126,19 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity {
                 customerAddressTV.setText(customerAddress);
                 totalPaidTV.setText(details.getTotalPay());
 
+                try{
+                    Picasso.get()
+                            .load(Config.IMAGE_LINE+shopImage)
+                            .into(vendorImageIV);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
                 //Order Item
-                List<OrderItemsModel> orderItemsModelList=details.getItems();
+                List<OrderItemsModel> orderItemsModelList=response.body().getItems();
 
-                    OrderItemsAdapter orderItemsAdapter = new OrderItemsAdapter(orderItemsModelList, getApplicationContext());
-                    LinearLayoutManager layoutManager = new LinearLayoutManager(PlaceOrderDetailsActivity.this, LinearLayoutManager.HORIZONTAL, false);
+                    OrderItemsAdapter orderItemsAdapter = new OrderItemsAdapter(orderItemsModelList, PlaceOrderDetailsActivity.this);
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(PlaceOrderDetailsActivity.this, LinearLayoutManager.VERTICAL, false);
                     orderItemListRecyclerView.setLayoutManager(layoutManager);
                     orderItemListRecyclerView.setAdapter(orderItemsAdapter);
                     orderItemsAdapter.notifyDataSetChanged();
@@ -118,7 +148,7 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity {
                 //Time Line
                 List<OrderTimelineModel> orderTimelineModelList=details.getTimeline();
                     OrderTimelineAdapter orderTimelineAdapter = new OrderTimelineAdapter(orderTimelineModelList, getApplicationContext());
-                    LinearLayoutManager layoutManager2 = new LinearLayoutManager(PlaceOrderDetailsActivity.this, LinearLayoutManager.HORIZONTAL, false);
+                    LinearLayoutManager layoutManager2 = new LinearLayoutManager(PlaceOrderDetailsActivity.this, LinearLayoutManager.VERTICAL, false);
                     timelineRecyclerView.setLayoutManager(layoutManager2);
                     timelineRecyclerView.setAdapter(orderTimelineAdapter);
                     Collections.reverse(orderTimelineModelList);
