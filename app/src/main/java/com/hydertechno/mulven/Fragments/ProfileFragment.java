@@ -12,6 +12,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 import android.os.UserHandle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,6 +60,7 @@ public class ProfileFragment extends Fragment {
         init(view);
 
         token = sharedPreferences.getString("token",null);
+        Log.d("ShowToken",token);
 
         Call<UserProfile> call = ApiUtils.getUserService().getUserData(token);
         call.enqueue(new Callback<UserProfile>() {

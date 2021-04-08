@@ -35,7 +35,7 @@ import retrofit2.Response;
 
 public class DreamDealFragment extends Fragment {
     private DrawerLayout drawerLayout;
-    private ImageView navIcon;
+    private ImageView navIcon,searchIv,closeIv;
     private String title,id;
     private int categoryID;
     private TextView titleName;
@@ -58,13 +58,56 @@ public class DreamDealFragment extends Fragment {
                 hideKeyboardFrom(view.getContext());
             }
         });
+
+        searchIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchView.setVisibility(View.VISIBLE);
+                closeIv.setVisibility(View.VISIBLE);
+                searchIv.setVisibility(View.GONE);
+            }
+        });
+
+        closeIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchView.setVisibility(View.GONE);
+                closeIv.setVisibility(View.GONE);
+                searchView.setVisibility(View.VISIBLE);
+            }
+        });
+
         getCategories();
+        getSearchResult();
+
         return view;
+    }
+
+    private void getSearchResult() {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (!newText.equals("")){
+                    all_product_Adapter.getFilter().filter(newText);
+                }else{
+                    getCategories();
+                }
+                return false;
+            }
+        });
     }
 
     private void init(View view) {
         navIcon=view.findViewById(R.id.navIcon);
         dreamDealRecyclerView=view.findViewById(R.id.dream_dealRecyclerView);
+        searchView = view.findViewById(R.id.searchET);
+        searchIv = view.findViewById(R.id.SearchIv);
+        closeIv = view.findViewById(R.id.closeIv);
         all_product_Adapter=new AllProductsAdapter(allProductsList,getContext());
         dreamDealRecyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
         dreamDealRecyclerView.setItemAnimator(new DefaultItemAnimator());
