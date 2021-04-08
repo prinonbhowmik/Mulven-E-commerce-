@@ -336,6 +336,7 @@
                         android:textSize="15sp" />
 
                     <TextView
+                        android:id="@+id/totalPriceTv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/comfortaa_light"
@@ -429,7 +430,6 @@
                 android:layout_toEndOf="@id/statusTxt"
                 android:layout_below="@+id/v3"
                 android:fontFamily="@font/comfortaa_bold"
-                android:text="Unpaid"
                 android:textColor="@color/GRed"
                 android:textSize="15sp" />
 

@@ -15,11 +15,9 @@ public class OrderDetails {
     private String seller_phone;
     private String shop_address;
     private String shop_logo;
+    private String status;
 
-    public OrderDetails(Integer id, String order_id, Integer vendor_id, Integer customer_id,
-                        String date, String time, String orders_status, String delivery_address,
-                        String cancel_reason, String date_time, String shop_name, String seller_phone,
-                        String shop_address, String shop_logo) {
+    public OrderDetails(Integer id, String order_id, Integer vendor_id, Integer customer_id, String date, String time, String orders_status, String delivery_address, String cancel_reason, String date_time, String shop_name, String seller_phone, String shop_address, String shop_logo, String status) {
         this.id = id;
         this.order_id = order_id;
         this.vendor_id = vendor_id;
@@ -34,6 +32,7 @@ public class OrderDetails {
         this.seller_phone = seller_phone;
         this.shop_address = shop_address;
         this.shop_logo = shop_logo;
+        this.status = status;
     }
 
     public OrderDetails() {
@@ -93,5 +92,9 @@ public class OrderDetails {
 
     public String getShop_logo() {
         return shop_logo;
+    }
+
+    public String getStatus() {
+        return status;
     }
 }

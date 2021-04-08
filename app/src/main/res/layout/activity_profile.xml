@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:focusableInTouchMode="false"
+    android:focusableInTouchMode="true"
     tools:context=".Activities.ProfileActivity">
     <RelativeLayout
         android:id="@+id/toolbar"

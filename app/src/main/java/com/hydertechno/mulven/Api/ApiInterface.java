@@ -3,6 +3,7 @@ package com.hydertechno.mulven.Api;
 import com.hydertechno.mulven.Models.CategoriesModel;
 import com.hydertechno.mulven.Models.CategoryNamesModel;
 import com.hydertechno.mulven.Models.InvoiceDetailsModel;
+import com.hydertechno.mulven.Models.OrderDetails;
 import com.hydertechno.mulven.Models.OrderListModel;
 import com.hydertechno.mulven.Models.OrderModel;
 import com.hydertechno.mulven.Models.ProductDetailsModel;
@@ -58,6 +59,12 @@ public interface ApiInterface {
     @GET("order-details?")
     Call<InvoiceDetailsModel> getInvoiceDetails(@Query("invoice_id") String invoice_id,
                                                 @Query("token") String  token);
+
+    @POST("delivery-address?")
+    @FormUrlEncoded
+    Call<OrderDetails> updateDeliverAddress(@Query("invoice_id") String name,
+                                            @Query("token") String token,
+                                            @Field("delivery_address") String address);
 
 
 }

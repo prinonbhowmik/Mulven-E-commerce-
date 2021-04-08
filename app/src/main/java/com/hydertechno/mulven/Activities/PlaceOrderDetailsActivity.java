@@ -8,19 +8,25 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.hydertechno.mulven.Adapters.OrderItemsAdapter;
 import com.hydertechno.mulven.Adapters.OrderTimelineAdapter;
 import com.hydertechno.mulven.Api.ApiUtils;
 import com.hydertechno.mulven.Api.Config;
 import com.hydertechno.mulven.Models.CategoriesModel;
 import com.hydertechno.mulven.Models.InvoiceDetailsModel;
+import com.hydertechno.mulven.Models.OrderDetails;
 import com.hydertechno.mulven.Models.OrderItemsModel;
 import com.hydertechno.mulven.Models.OrderTimelineModel;
 import com.hydertechno.mulven.Models.UserProfile;
@@ -38,6 +44,8 @@ import retrofit2.Response;
 public class PlaceOrderDetailsActivity extends AppCompatActivity {
     private TextView invoiceIdTV,orderTimeTV,vendorNameTV,vendorPhoneTV,vendorAddressTV,customerNameTV,
             customerPhoneTV,customerAddressTV,customerAddressEditTV,totalPaidTV;
+    public static TextView totalPriceTv,dueTV,orderStatusTV;
+    public static int totalPay;
     private Dialog dialog;
     private RatingBar ratingBar;
     private String token,OrderId;
@@ -53,19 +61,9 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity {
         init();
         Intent intent = getIntent();
         OrderId = intent.getStringExtra("OrderId");
+
         getInvoiceDetails();
         ratingBar.getRating();
-        customerAddressEditTV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog = new Dialog(PlaceOrderDetailsActivity.this);
-                dialog.setContentView(R.layout.edit_address_popup_design);
-                dialog.setCancelable(true);
-                dialog.show();
-                Window window = dialog.getWindow();
-                window.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            }
-        });
 
         Call<UserProfile> call = ApiUtils.getUserService().getUserData(token);
         call.enqueue(new Callback<UserProfile>() {
@@ -80,6 +78,50 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<UserProfile> call, Throwable t) {
 
+            }
+        });
+
+        customerAddressEditTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog = new Dialog(PlaceOrderDetailsActivity.this);
+                dialog.setContentView(R.layout.edit_address_popup_design);
+                dialog.setCancelable(true);
+                dialog.show();
+                Window window = dialog.getWindow();
+                window.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                EditText delivery_ET = dialog.findViewById(R.id.delivery_ET);
+                TextView saveAddressTV = dialog.findViewById(R.id.saveAddressTV);
+
+                saveAddressTV.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String address = delivery_ET.getText().toString();
+                        if (TextUtils.isEmpty(address)){
+                            Toast.makeText(PlaceOrderDetailsActivity.this, "Please provide delivery address!", Toast.LENGTH_LONG).show();
+                        }else{
+                            Call<OrderDetails> call = ApiUtils.getUserService().updateDeliverAddress(OrderId,token,address);
+                            call.enqueue(new Callback<OrderDetails>() {
+                                @Override
+                                public void onResponse(Call<OrderDetails> call, Response<OrderDetails> response) {
+                                    if (response.isSuccessful()){
+                                        String status = response.body().getStatus();
+                                        if (status.equals("1")){
+                                            Toast.makeText(PlaceOrderDetailsActivity.this, "Delivery address updated!", Toast.LENGTH_SHORT).show();
+                                            getInvoiceDetails();
+                                            dialog.dismiss();
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<OrderDetails> call, Throwable t) {
+
+                                }
+                            });
+                        }
+                    }
+                });
             }
         });
     }
@@ -99,6 +141,9 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity {
         customerAddressTV=findViewById(R.id.customerAddressTV);
         customerAddressEditTV=findViewById(R.id.customerAddressEditTV);
         totalPaidTV=findViewById(R.id.totalPaidTV);
+        totalPriceTv=findViewById(R.id.totalPriceTv);
+        orderStatusTV=findViewById(R.id.orderStatusTV);
+        dueTV=findViewById(R.id.dueTV);
         ratingBar=findViewById(R.id.ratingBar);
         timelineRecyclerView=findViewById(R.id.timelineRecyclerView);
         orderItemListRecyclerView=findViewById(R.id.orderItemListRecyclerView);
@@ -125,6 +170,7 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity {
                 orderTimeTV.setText(orderDate+" "+orderTime);
                 customerAddressTV.setText(customerAddress);
                 totalPaidTV.setText(details.getTotalPay());
+                totalPay = Integer.parseInt(details.getTotalPay());
 
                 try{
                     Picasso.get()

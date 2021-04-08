@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.hydertechno.mulven.Activities.PlaceOrderDetailsActivity;
 import com.hydertechno.mulven.Api.Config;
 import com.hydertechno.mulven.Models.OrderItemsModel;
 import com.hydertechno.mulven.R;
@@ -22,6 +23,7 @@ import java.util.List;
 public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.ViewHolder> {
     private List<OrderItemsModel> orderItemsModelList;
     private Context context;
+    private PlaceOrderDetailsActivity activity;
 
     public OrderItemsAdapter(List<OrderItemsModel> orderItemsModelList, Context context) {
         this.orderItemsModelList = orderItemsModelList;
@@ -31,36 +33,55 @@ public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.Vi
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.ordered_product_description_design,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ordered_product_description_design, parent, false);
         return new OrderItemsAdapter.ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        OrderItemsModel model=orderItemsModelList.get(position);
+        OrderItemsModel model = orderItemsModelList.get(position);
         holder.OrderProductName.setText(model.getPro_name());
-        String variant=model.getVariant();
-        String color=model.getColor();
-        String size=model.getSize();
-        if (variant != null || color!=null || size!=null){
+        String variant = model.getVariant();
+        String color = model.getColor();
+        String size = model.getSize();
+        if (variant != null || color != null || size != null) {
             holder.ProductVariantName.setVisibility(View.VISIBLE);
-            holder.ProductVariantName.setText(color+size+variant);
+            holder.ProductVariantName.setText(color + size + variant);
         }
-        int price=model.getPrice();
-        int quantity=model.getQuantity();
-        int totalPrice=price*quantity;
-        holder.OderProductPrice.setText("৳ "+ price);
-        holder.OrderProductQuantity.setText(" X "+quantity);
-        holder.OrderProductTotalPrice.setText("৳ "+ totalPrice);
+        int price = model.getPrice();
+        int quantity = model.getQuantity();
+        int totalPrice = price * quantity;
+        holder.OderProductPrice.setText("৳ " + price);
+        holder.OrderProductQuantity.setText(" X " + quantity);
+        holder.OrderProductTotalPrice.setText("৳ " + totalPrice);
 
-        try{
+        int totalSumPrice = 0;
+        for (int i = 0; i < orderItemsModelList.size(); i++) {
+            totalSumPrice += orderItemsModelList.get(i).getPrice();
+        }
+
+        int due = totalSumPrice - activity.totalPay;
+
+        if (due == 0) {
+            activity.orderStatusTV.setText("Paid");
+        } else if (due != 0) {
+            if (activity.totalPay > 0) {
+                activity.orderStatusTV.setText("Partial Paid");
+            } else if (activity.totalPay == 0) {
+                activity.orderStatusTV.setText("Unpaid");
+            }
+        }
+        activity.totalPriceTv.setText("৳ " + totalSumPrice);
+        activity.dueTV.setText("৳ " + due);
+
+        try {
             Picasso.get()
-                    .load(Config.IMAGE_LINE+model.getFeacher_image())
+                    .load(Config.IMAGE_LINE + model.getFeacher_image())
                     .into(holder.OrderProductImageIV);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        String orderStatus=model.getStatus();
+        String orderStatus = model.getStatus();
         switch (orderStatus) {
             case "Pending":
                 holder.orderStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.status_pending));
@@ -93,16 +114,17 @@ public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.Vi
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView OrderProductImageIV;
-        private TextView OrderProductName,ProductVariantName,OderProductPrice,OrderProductQuantity,OrderProductTotalPrice,orderStatusTV;
+        private TextView OrderProductName, ProductVariantName, OderProductPrice, OrderProductQuantity, OrderProductTotalPrice, orderStatusTV;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            OrderProductImageIV=itemView.findViewById(R.id.OrderProductImageIV);
-            OrderProductName=itemView.findViewById(R.id.OrderProductName);
-            ProductVariantName=itemView.findViewById(R.id.ProductVariantName);
-            OderProductPrice=itemView.findViewById(R.id.OderProductPrice);
-            OrderProductQuantity=itemView.findViewById(R.id.OrderProductQuantity);
-            OrderProductTotalPrice=itemView.findViewById(R.id.OrderProductTotalPrice);
-            orderStatusTV=itemView.findViewById(R.id.OrderStatusTV);
+            OrderProductImageIV = itemView.findViewById(R.id.OrderProductImageIV);
+            OrderProductName = itemView.findViewById(R.id.OrderProductName);
+            ProductVariantName = itemView.findViewById(R.id.ProductVariantName);
+            OderProductPrice = itemView.findViewById(R.id.OderProductPrice);
+            OrderProductQuantity = itemView.findViewById(R.id.OrderProductQuantity);
+            OrderProductTotalPrice = itemView.findViewById(R.id.OrderProductTotalPrice);
+            orderStatusTV = itemView.findViewById(R.id.OrderStatusTV);
         }
     }
 }
