@@ -3,29 +3,28 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="5dp"
+    android:animateLayoutChanges="true"
     android:background="@color/white">
 
     <ImageView
-        android:id="@+id/cartProductImage"
+        android:id="@+id/OrderProductImageIV"
         android:layout_width="90dp"
         android:layout_height="90dp"
         android:layout_marginStart="5dp"
         android:layout_marginTop="10dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/monitor"/>
+        android:scaleType="fitXY"/>
 
 
     <TextView
-        android:id="@+id/cartProductName"
+        android:id="@+id/OrderProductName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="15dp"
-        android:layout_toEndOf="@+id/cartProductImage"
+        android:layout_toEndOf="@+id/OrderProductImageIV"
         android:fontFamily="@font/comfortaa_bold"
         android:maxLines="2"
-        android:text="LG 19M38A 18.5 Inch Monitor"
         android:textColor="@color/black"
         android:textSize="16sp" />
 
@@ -33,20 +32,20 @@
         android:id="@+id/ProductVariantName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/cartProductName"
+        android:layout_below="@+id/OrderProductName"
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="5dp"
-        android:layout_toEndOf="@+id/cartProductImage"
+        android:visibility="gone"
+        android:layout_toEndOf="@+id/OrderProductImageIV"
         android:fontFamily="@font/comfortaa_bold"
         android:maxLines="2"
-        android:text="Blue - 32 - 30 days delivery"
         android:textColor="@color/ash"
         android:textSize="13sp" />
 
     <TextView
-        android:id="@+id/cartProductPrice"
+        android:id="@+id/OderProductPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ProductVariantName"
@@ -54,70 +53,63 @@
         android:layout_marginTop="5dp"
         android:layout_marginEnd="2dp"
         android:layout_marginBottom="2dp"
-        android:layout_toEndOf="@id/cartProductImage"
+        android:layout_toEndOf="@id/OrderProductImageIV"
         android:fontFamily="@font/comfortaa_bold"
         android:maxLines="2"
-        android:text="1500"
         android:textColor="@color/gray"
         android:textSize="12sp" />
 
     <TextView
-        android:id="@+id/ProductQuantity"
+        android:id="@+id/OrderProductQuantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ProductVariantName"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="2dp"
-        android:layout_toEndOf="@id/cartProductPrice"
+        android:layout_toEndOf="@id/OderProductPrice"
         android:fontFamily="@font/comfortaa_bold"
         android:maxLines="2"
-        android:text=" * 2"
         android:textColor="@color/gray"
         android:textSize="12sp" />
 
     <TextView
-        android:id="@+id/cartProductTotalPrice"
+        android:id="@+id/OrderProductTotalPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/cartProductPrice"
-        android:layout_toEndOf="@id/cartProductImage"
+        android:layout_below="@+id/OderProductPrice"
+        android:layout_toEndOf="@id/OrderProductImageIV"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="10dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
         android:fontFamily="@font/comfortaa_light"
         android:maxLines="2"
-        android:text="3000"
         android:textColor="@color/black"
         android:textSize="15sp" />
 
 
     <TextView
-        android:id="@+id/orderStatusTV"
+        android:id="@+id/OrderStatusTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_below="@+id/ProductVariantName"
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
-        android:paddingTop="10dp"
+        android:paddingTop="5dp"
         android:paddingBottom="5dp"
         android:layout_marginBottom="10dp"
         android:textSize="12sp"
-        android:text="Paid"
-        android:background="@drawable/status_processing"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="20dp"
         android:textColor="@color/white"
         android:fontFamily="@font/comfortaa_bold"/>
-
-
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@+id/cartProductTotalPrice"
+        android:layout_below="@+id/OrderProductTotalPrice"
         android:layout_marginTop="5dp"
-        android:background="@color/gray" />
+        android:background="#DFDEDE" />
 
 </RelativeLayout>

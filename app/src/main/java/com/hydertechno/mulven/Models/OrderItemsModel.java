@@ -1,5 +1,7 @@
 package com.hydertechno.mulven.Models;
 
+import android.widget.SearchView;
+
 public class OrderItemsModel {
     private Integer id;
     private String session_id;
@@ -7,15 +9,17 @@ public class OrderItemsModel {
     private String pro_name;
     private Integer store_id;
     private Integer quantity;
-    private Object variant;
+    private String  variant;
     private Integer price;
-    private Object size;
-    private Object color;
+    private String size;
+    private String color;
     private String date;
     private String status;
     private String feacher_image;
 
-    public OrderItemsModel(Integer id, String session_id, Integer item_it, String pro_name, Integer store_id, Integer quantity, Object variant, Integer price, Object size, Object color, String date, String status, String feacher_image) {
+    public OrderItemsModel(Integer id, String session_id, Integer item_it, String pro_name,
+                           Integer store_id, Integer quantity, String variant, Integer price,
+                           String size, String color, String date, String status, String feacher_image) {
         this.id = id;
         this.session_id = session_id;
         this.item_it = item_it;
@@ -58,7 +62,7 @@ public class OrderItemsModel {
         return quantity;
     }
 
-    public Object getVariant() {
+    public String getVariant() {
         return variant;
     }
 
@@ -66,11 +70,11 @@ public class OrderItemsModel {
         return price;
     }
 
-    public Object getSize() {
+    public String getSize() {
         return size;
     }
 
-    public Object getColor() {
+    public String getColor() {
         return color;
     }
 

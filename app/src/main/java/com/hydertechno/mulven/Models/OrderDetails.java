@@ -8,15 +8,18 @@ public class OrderDetails {
     private String date;
     private String time;
     private String orders_status;
-    private Object delivery_address;
-    private Object cancel_reason;
+    private String delivery_address;
+    private String cancel_reason;
     private String date_time;
     private String shop_name;
     private String seller_phone;
     private String shop_address;
     private String shop_logo;
 
-    public OrderDetails(Integer id, String order_id, Integer vendor_id, Integer customer_id, String date, String time, String orders_status, Object delivery_address, Object cancel_reason, String date_time, String shop_name, String seller_phone, String shop_address, String shop_logo) {
+    public OrderDetails(Integer id, String order_id, Integer vendor_id, Integer customer_id,
+                        String date, String time, String orders_status, String delivery_address,
+                        String cancel_reason, String date_time, String shop_name, String seller_phone,
+                        String shop_address, String shop_logo) {
         this.id = id;
         this.order_id = order_id;
         this.vendor_id = vendor_id;
@@ -64,11 +67,11 @@ public class OrderDetails {
         return orders_status;
     }
 
-    public Object getDelivery_address() {
+    public String getDelivery_address() {
         return delivery_address;
     }
 
-    public Object getCancel_reason() {
+    public String getCancel_reason() {
         return cancel_reason;
     }
 

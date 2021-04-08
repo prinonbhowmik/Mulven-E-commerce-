@@ -42,20 +42,26 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
         String orderStatus=orderListModel.getOrders_status();
 
         //holder.orderStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.status_cancel));
-        if(orderStatus.equals("Pending")){
-            holder.orderStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.status_pending));
-        }else if(orderStatus.equals("Processing")){
-            holder.orderStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.status_processing));
-        }else if(orderStatus.equals("Cancel")){
-            //holder.orderStatusTV.setBackgroundColor(ContextCompat.getColor(context,R.color.GRed));
-            holder.orderStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.status_cancel));
-        }else if(orderStatus.equals("Delivered")){
-            holder.orderStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.status_delivered));
-        }
-        else if(orderStatus.equals("Partial Paid")){
-            holder.orderStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.status_partial_paid));
-        }else if(orderStatus.equals("Shipped")){
-            holder.orderStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.status_shipped));
+        switch (orderStatus) {
+            case "Pending":
+                holder.orderStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.status_pending));
+                break;
+            case "Processing":
+                holder.orderStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.status_processing));
+                break;
+            case "Cancel":
+                //holder.orderStatusTV.setBackgroundColor(ContextCompat.getColor(context,R.color.GRed));
+                holder.orderStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.status_cancel));
+                break;
+            case "Delivered":
+                holder.orderStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.status_delivered));
+                break;
+            case "Partial Paid":
+                holder.orderStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.status_partial_paid));
+                break;
+            case "Shipped":
+                holder.orderStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.status_shipped));
+                break;
         }
         holder.orderStatusTV.setText(orderStatus);
         holder.itemView.setOnClickListener(new View.OnClickListener() {

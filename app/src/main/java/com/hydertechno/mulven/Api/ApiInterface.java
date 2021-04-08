@@ -2,6 +2,7 @@ package com.hydertechno.mulven.Api;
 
 import com.hydertechno.mulven.Models.CategoriesModel;
 import com.hydertechno.mulven.Models.CategoryNamesModel;
+import com.hydertechno.mulven.Models.InvoiceDetailsModel;
 import com.hydertechno.mulven.Models.OrderListModel;
 import com.hydertechno.mulven.Models.OrderModel;
 import com.hydertechno.mulven.Models.ProductDetailsModel;
@@ -53,5 +54,10 @@ public interface ApiInterface {
 
     @GET("user?")
     Call<UserProfile> getUserData(@Query("token") String token);
+
+    @GET("order-details?")
+    Call<InvoiceDetailsModel> getInvoiceDetails(@Query("invoice_id") String invoice_id,
+                                                @Query("token") String  token);
+
 
 }
