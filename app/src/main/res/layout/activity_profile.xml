@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusableInTouchMode="false"
     tools:context=".Activities.ProfileActivity">
     <RelativeLayout
         android:id="@+id/toolbar"
@@ -100,7 +101,6 @@
             android:background="@drawable/background_stroke"
             android:fontFamily="@font/comfortaa_light"
             android:padding="6dp"
-            android:text="Mulven"
             android:textColor="@color/black" />
 
         <TextView
@@ -126,7 +126,6 @@
             android:background="@drawable/background_stroke"
             android:fontFamily="@font/comfortaa_light"
             android:padding="6dp"
-            android:text="Moti Mahol, Dhalibari Madrasa Road Dhaka-1229"
             android:textColor="@color/black" />
 
         <TextView
@@ -152,7 +151,6 @@
             android:background="@drawable/background_stroke"
             android:fontFamily="@font/comfortaa_light"
             android:padding="6dp"
-            android:text="support@mulven.com"
             android:textColor="@color/black" />
 
         <TextView
@@ -179,7 +177,6 @@
             android:background="@drawable/background_stroke"
             android:fontFamily="@font/comfortaa_light"
             android:padding="6dp"
-            android:text="+88 0 1842 770738"
             android:textColor="@color/black" />
         </RelativeLayout>
     </ScrollView>
