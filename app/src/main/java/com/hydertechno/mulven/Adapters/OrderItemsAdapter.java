@@ -45,10 +45,27 @@ public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.Vi
         String variant = model.getVariant();
         String color = model.getColor();
         String size = model.getSize();
-        if (variant != null || color != null || size != null) {
+        /*if (variant != null || color != null || size != null) {
             holder.ProductVariantName.setVisibility(View.VISIBLE);
             holder.ProductVariantName.setText(color + size + variant);
+        }*/
+
+        if (model.getSize()==null || model.getSize().equals("")){
+            holder.ProductVariantName.setVisibility(View.VISIBLE);
+            holder.ProductVariantName.setText(model.getColor()+"--"+model.getVariant());
+        }else if(model.getColor()==null || model.getColor().equals("")) {
+            holder.ProductVariantName.setVisibility(View.VISIBLE);
+            holder.ProductVariantName.setText(model.getSize()+"--"+model.getVariant());
+        }else if(model.getVariant()==null || model.getVariant().equals("")){
+            holder.ProductVariantName.setVisibility(View.VISIBLE);
+            holder.ProductVariantName.setText(model.getSize()+"--"+model.getColor());
+        }else if (model.getSize().equals("") && model.getColor().equals("") && model.getVariant().equals("")){
+            holder.ProductVariantName.setVisibility(View.GONE);
+        } else{
+            holder.ProductVariantName.setVisibility(View.VISIBLE);
+            holder.ProductVariantName.setText(model.getSize()+"--"+model.getColor()+"--"+model.getVariant());
         }
+
         int price = model.getPrice();
         int quantity = model.getQuantity();
         int totalPrice = price * quantity;

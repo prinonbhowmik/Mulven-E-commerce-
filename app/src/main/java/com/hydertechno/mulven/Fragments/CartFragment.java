@@ -67,7 +67,7 @@ public class CartFragment extends Fragment {
         placeOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), PlaceOrderDetailsActivity.class));
+               // startActivity(new Intent(getActivity(), PlaceOrderDetailsActivity.class));
             }
         });
         return view;

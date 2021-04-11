@@ -57,7 +57,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         }else if(cart.getVariant()==null || cart.getVariant().equals("")){
             holder.ProductShopName.setText(cart.getSize()+"--"+cart.getColor());
         }else if (cart.getSize().equals("") && cart.getColor().equals("") && cart.getVariant().equals("")){
-            holder.ProductShopName.setText("");
+            holder.ProductShopName.setVisibility(View.GONE);
         } else{
             holder.ProductShopName.setText(cart.getSize()+"--"+cart.getColor()+"--"+cart.getVariant());
         }
