@@ -49,8 +49,8 @@ import retrofit2.Response;
 
 public class PlaceOrderDetailsActivity extends AppCompatActivity {
     private TextView invoiceIdTV, orderTimeTV, vendorNameTV, vendorPhoneTV, vendorAddressTV, customerNameTV,
-            customerPhoneTV, customerAddressTV, customerAddressEditTV, totalPaidTV,makePaymentTV;
-    public static TextView totalPriceTv, dueTV, orderStatusTV;
+            customerPhoneTV, customerAddressTV, customerAddressEditTV, totalPaidTV;
+    public static TextView totalPriceTv, dueTV, orderStatusTV,makePaymentTV;
     public static int totalPay;
     private Dialog dialog;
     private RatingBar ratingBar;
@@ -200,7 +200,6 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity {
                 vendorPhoneTV.setText(shopPhone);
                 vendorAddressTV.setText(shopAddress);
                 orderTimeTV.setText(orderDate + " " + orderTime);
-                customerAddressTV.setText(customerAddress);
                 totalPaidTV.setText(details.getTotalPay());
                 totalPay = Integer.parseInt(details.getTotalPay());
 
@@ -210,6 +209,24 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity {
                             .into(vendorImageIV);
                 } catch (Exception e) {
                     e.printStackTrace();
+                }
+
+                if(customerAddress==null){
+                    Call<UserProfile> call2 = ApiUtils.getUserService().getUserData(token);
+                    call2.enqueue(new Callback<UserProfile>() {
+                        @Override
+                        public void onResponse(Call<UserProfile> call2, Response<UserProfile> response) {
+                            if (response.isSuccessful()) {
+                                customerAddressTV.setText(response.body().getAddress());
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<UserProfile> call2, Throwable t) {
+                        }
+                    });
+                }else{
+                    customerAddressTV.setText(customerAddress);
                 }
 
                 //Order Item

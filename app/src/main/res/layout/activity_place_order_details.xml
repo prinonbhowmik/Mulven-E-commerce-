@@ -347,10 +347,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/comfortaa_bold"
-                    android:paddingStart="10dp"
-                    android:text="Order Summery"
+                    android:layout_marginStart="10dp"
+                    android:text="Order Summary"
+                    android:layout_marginTop="10dp"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@color/gray" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -373,7 +381,6 @@
                         android:fontFamily="@font/comfortaa_light"
                         android:layout_alignParentEnd="true"
                         android:layout_marginEnd="20dp"
-                        android:text="৳ 1000"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
                 </RelativeLayout>
@@ -399,7 +406,6 @@
                         android:fontFamily="@font/comfortaa_light"
                         android:layout_alignParentEnd="true"
                         android:layout_marginEnd="20dp"
-                        android:text="৳ 600"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
                 </RelativeLayout>
@@ -427,7 +433,6 @@
                         android:fontFamily="@font/comfortaa_light"
                         android:layout_alignParentEnd="true"
                         android:layout_marginEnd="20dp"
-                        android:text="৳ 400"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
                 </RelativeLayout>
@@ -447,7 +452,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Payment Status :"
-                android:textSize="15sp"
+                android:textSize="18sp"
                 android:textColor="@color/black"
                 android:fontFamily="@font/comfortaa_bold"
                 android:layout_marginStart="10dp"
@@ -462,7 +467,7 @@
                 android:layout_toEndOf="@id/statusTxt"
                 android:fontFamily="@font/comfortaa_bold"
                 android:textColor="@color/GRed"
-                android:textSize="15sp" />
+                android:textSize="18sp" />
 
         </RelativeLayout>
 
@@ -482,7 +487,7 @@
                 android:textColor="@color/black"
                 android:fontFamily="@font/comfortaa_bold"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="20dp"/>
+                android:layout_marginTop="10dp"/>
             <View
                 android:id="@+id/v4"
                 android:layout_width="match_parent"
@@ -521,7 +526,7 @@
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
             android:paddingBottom="4dp"
-            android:visibility="visible"
+            android:visibility="gone"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:layout_marginTop="10dp"
