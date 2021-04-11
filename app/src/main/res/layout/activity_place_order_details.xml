@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F8F8F8"
     tools:context=".Activities.PlaceOrderDetailsActivity">
 
     <RelativeLayout
@@ -32,16 +33,33 @@
             android:textColor="@color/white"
             android:textSize="24sp" />
 
+        <ImageView
+            android:id="@+id/moreIcon"
+            android:layout_width="35sp"
+            android:layout_height="35sp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="20dp"
+            android:onClick="placeOrderDetailsBack"
+            android:src="@drawable/ic_more" />
+
     </RelativeLayout>
 
     <ScrollView
+        android:id="@+id/scrollView1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/frame_layout2"
         android:layout_below="@id/toolbar">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+            <RelativeLayout
+                android:id="@+id/topRelative"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
 
             <TextView
                 android:id="@+id/invoiceTxt"
@@ -75,6 +93,15 @@
                 android:fontFamily="@font/comfortaa_light"
                 android:textColor="@color/black"
                 android:textSize="12sp" />
+                <ImageView
+                    android:id="@+id/copyIcon"
+                    android:layout_width="16sp"
+                    android:layout_height="16sp"
+                    android:layout_toEndOf="@+id/InvoiceTV"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginStart="10dp"
+                    android:onClick="placeOrderIdCopy"
+                    android:src="@drawable/ic_copy" />
 
             <TextView
                 android:id="@+id/cancelOrderTV"
@@ -91,6 +118,7 @@
                 android:paddingTop="5dp"
                 android:paddingEnd="10dp"
                 android:paddingBottom="5dp"
+                android:visibility="gone"
                 android:text="Cancel Order"
                 android:textColor="@color/white"
                 android:textSize="12sp" />
@@ -101,8 +129,9 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/orderTimeTV"
                 android:layout_marginStart="2dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginEnd="2dp"
+                android:layout_marginBottom="10dp"
                 android:background="@drawable/bills_stroke"
                 android:orientation="horizontal"
                 android:weightSum="1">
@@ -261,32 +290,34 @@
                 </LinearLayout>
 
             </LinearLayout>
-
-            <LinearLayout
+            </RelativeLayout>
+            <RelativeLayout
                 android:id="@+id/descriptionLinearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/BillsLinearLayout"
-                android:layout_marginTop="5dp"
+                android:layout_below="@+id/topRelative"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal"
+                android:background="@color/white"
                 android:weightSum="1">
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:id="@+id/productTxt"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight=".50"
                     android:fontFamily="@font/comfortaa_bold"
-                    android:paddingStart="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
                     android:text="Product"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
-            </LinearLayout>
+
 
             <View
                 android:id="@+id/v1"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_below="@+id/descriptionLinearLayout"
+                android:layout_below="@+id/productTxt"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="10dp"
@@ -296,43 +327,43 @@
                 android:id="@+id/orderItemListRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/descriptionLinearLayout"
+                android:layout_below="@+id/v1"
                 android:visibility="visible"
-                android:nestedScrollingEnabled="false"/>
-
-
-            <View
-                android:id="@+id/v2"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@+id/orderItemListRecyclerView"
-                android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-                android:background="@color/gray" />
+                android:layout_marginBottom="10dp"
+                android:background="@color/white"
+                android:nestedScrollingEnabled="false"/>
+            </RelativeLayout>
 
             <LinearLayout
                 android:id="@+id/priceLinearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/v2"
+                android:layout_below="@+id/descriptionLinearLayout"
                 android:layout_marginTop="10dp"
-                android:orientation="horizontal"
-                android:weightSum="3">
-
-                <LinearLayout
-                    android:layout_width="0dp"
+                android:background="@color/white"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:fontFamily="@font/comfortaa_bold"
+                    android:paddingStart="10dp"
+                    android:text="Order Summery"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/comfortaa_light"
-                        android:layout_gravity="center_horizontal"
                         android:text="Total Price"
                         android:textColor="@color/black"
+                        android:layout_marginStart="20dp"
                         android:textSize="15sp" />
 
                     <TextView
@@ -340,22 +371,22 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/comfortaa_light"
-                        android:layout_gravity="center_horizontal"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="20dp"
                         android:text="৳ 1000"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
-                </LinearLayout>
+                </RelativeLayout>
 
-                <LinearLayout
-                    android:layout_width="0dp"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:layout_marginTop="10dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
+                        android:layout_marginStart="20dp"
                         android:fontFamily="@font/comfortaa_light"
                         android:text="Total Pay"
                         android:textColor="@color/black"
@@ -366,22 +397,23 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/comfortaa_light"
-                        android:layout_gravity="center_horizontal"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="20dp"
                         android:text="৳ 600"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
-                </LinearLayout>
+                </RelativeLayout>
 
-                <LinearLayout
-                    android:layout_width="0dp"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
+                        android:layout_marginStart="20dp"
                         android:fontFamily="@font/comfortaa_light"
                         android:gravity="center_horizontal"
                         android:text="Due"
@@ -393,34 +425,34 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/comfortaa_light"
-                        android:layout_gravity="center_horizontal"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="20dp"
                         android:text="৳ 400"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
-                </LinearLayout>
+                </RelativeLayout>
 
             </LinearLayout>
-            <View
-                android:id="@+id/v3"
+            <RelativeLayout
+                android:id="@+id/statusRelative"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/priceLinearLayout"
-                android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-                android:background="@color/gray" />
+                android:layout_marginBottom="10dp"
+                android:background="@color/white" >
 
             <TextView
                 android:id="@+id/statusTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Status :"
-                android:layout_below="@+id/v3"
+                android:text="Payment Status :"
                 android:textSize="15sp"
                 android:textColor="@color/black"
                 android:fontFamily="@font/comfortaa_bold"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="20dp"/>
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"/>
             <TextView
                 android:id="@+id/orderStatusTV"
                 android:layout_width="wrap_content"
@@ -428,39 +460,25 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="20dp"
                 android:layout_toEndOf="@id/statusTxt"
-                android:layout_below="@+id/v3"
                 android:fontFamily="@font/comfortaa_bold"
                 android:textColor="@color/GRed"
                 android:textSize="15sp" />
 
-            <TextView
-                android:id="@+id/makePaymentTV"
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:layout_below="@+id/v3"
-                android:text="Make Payment"
-                android:layout_alignParentEnd="true"
-                android:gravity="center"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:paddingBottom="4dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="20dp"
+        </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
                 android:layout_marginBottom="5dp"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/btn_background_blue"
-                android:textColor="@color/white"
-                android:textSize="17sp"
-                android:fontFamily="@font/comfortaa"
-                android:textAllCaps="false"/>
+                android:layout_below="@+id/statusRelative">
 
             <TextView
                 android:id="@+id/timelineTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Order Timeline "
-                android:layout_below="@+id/statusTxt"
-                android:textSize="15sp"
+                android:textSize="18sp"
                 android:textColor="@color/black"
                 android:fontFamily="@font/comfortaa_bold"
                 android:layout_marginStart="10dp"
@@ -479,30 +497,39 @@
                 android:id="@+id/timelineRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="5dp"
                 android:layout_marginTop="10dp"
                 android:layout_below="@+id/v4"
                 android:nestedScrollingEnabled="false"
                 android:visibility="visible"/>
-
-            <LinearLayout
-                android:id="@+id/teee2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/v4"
-                android:layout_marginTop="5dp"
-                android:visibility="gone"
-                android:orientation="vertical"
-                android:layout_marginBottom="20dp">
-
-                <include
-                    android:id="@+id/i1"
-                    layout="@layout/order_timeline_layout_design" />
-                <include
-                    android:id="@+id/i2"
-                    layout="@layout/order_timeline_layout_design" />
-            </LinearLayout>
+            </RelativeLayout>
 
         </RelativeLayout>
     </ScrollView>
+    <FrameLayout
+        android:id="@+id/frame_layout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_alignParentBottom="true">
+        <TextView
+            android:id="@+id/makePaymentTV"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:text="Make Payment"
+            android:gravity="center"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="4dp"
+            android:visibility="visible"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/btn_background_blue"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            android:fontFamily="@font/comfortaa"
+            android:textAllCaps="false"/>
+    </FrameLayout>
 </RelativeLayout>
