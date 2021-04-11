@@ -32,4 +32,9 @@
         <item name="colorAccent">#000</item>
     </style>
 
+    <style name="NavigationView" >
+        <item name="fontFamily">@font/comfortaa</item>
+    </style>
+
+
 </resources>

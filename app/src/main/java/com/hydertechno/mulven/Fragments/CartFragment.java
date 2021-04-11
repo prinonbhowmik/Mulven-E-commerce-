@@ -25,6 +25,7 @@ import com.hydertechno.mulven.Adapters.CartAdapter;
 import com.hydertechno.mulven.DatabaseHelper.Database_Helper;
 import com.hydertechno.mulven.Models.CartProductModel;
 import com.hydertechno.mulven.R;
+import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,7 @@ public class CartFragment extends Fragment {
     private ImageView navIcon;
     private TextView placeOrder;
     public static TextView cardSubtotalAmount;
+
     private RecyclerView cartRecycler;
     private Database_Helper databaseHelper;
     private List<CartProductModel> list;
@@ -47,6 +49,10 @@ public class CartFragment extends Fragment {
         View view= inflater.inflate(R.layout.fragment_cart, container, false);
         init(view);
         drawerLayout=getActivity().findViewById(R.id.drawerLayout);
+
+        cardSubtotalAmount.setText("৳ "+databaseHelper.columnSum());
+
+        int count = databaseHelper.numberOfrows().getCount();
 
         getCartProducts();
 

@@ -37,7 +37,7 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
-    private ChipNavigationBar chipNavigationBar;
+    public static ChipNavigationBar chipNavigationBar;
     private Database_Helper helper;
     private boolean doubleBackToExitPressedOnce=false;
     private Fragment fragment=null;
