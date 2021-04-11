@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:focusableInTouchMode="true"
+    android:animateLayoutChanges="true"
     android:background="@color/white"
+    android:focusableInTouchMode="true"
     tools:context=".Activities.SeeAllProductsActivity">
 
     <RelativeLayout
@@ -29,9 +30,10 @@
             android:layout_width="wrap_content"
             android:layout_height="35dp"
             android:layout_marginStart="10dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginBottom="10dp"
             android:layout_toEndOf="@+id/seeAllBack"
             android:fontFamily="@font/comfortaa_light"
-            android:layout_marginTop="18dp"
             android:textColor="@color/white"
             android:textSize="18sp" />
 
@@ -39,52 +41,58 @@
             android:id="@+id/SearchIV"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_marginTop="20dp"
             android:layout_alignParentEnd="true"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
             android:src="@drawable/ic_home_search" />
+
         <ImageView
             android:id="@+id/closeIV"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_marginTop="20dp"
-            android:visibility="gone"
             android:layout_alignParentEnd="true"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
-            android:src="@drawable/ic_cross" />
+            android:src="@drawable/ic_cross"
+            android:visibility="gone" />
 
         <androidx.appcompat.widget.SearchView
             android:id="@+id/searchET"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:maxLines="1"
-            android:visibility="gone"
             android:layout_below="@+id/titleName"
             android:layout_marginStart="25dp"
-            android:layout_marginTop="10dp"
             android:layout_marginEnd="25dp"
             android:layout_marginBottom="15dp"
             android:background="@drawable/search_background"
             android:drawableEnd="@drawable/ic_search"
             android:fontFamily="@font/comfortaa_light"
             android:gravity="center_vertical"
+            android:maxLines="1"
             android:paddingStart="10dp"
             android:paddingEnd="15dp"
             android:textColor="@color/themDark"
             android:textSize="18sp"
+            android:visibility="gone"
             tools:ignore="RtlSymmetry" />
 
     </RelativeLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/allProductRecyclerView"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="2dp"
-        android:layoutAnimation="@anim/layout_animation"
-        android:background="#F1F1F1"
-        android:scrollbars="vertical"
-        android:fitsSystemWindows="true"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:layout_below="@+id/allProductToolbar" />
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/allProductToolbar"
+        android:animateLayoutChanges="true">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/allProductRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#F1F1F1"
+            android:fitsSystemWindows="true"
+            android:layoutAnimation="@anim/layout_animation"
+            android:padding="2dp"
+            android:scrollbars="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+    </RelativeLayout>
 </RelativeLayout>
