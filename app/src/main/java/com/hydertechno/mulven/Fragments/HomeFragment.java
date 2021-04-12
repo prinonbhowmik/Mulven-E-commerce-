@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.hydertechno.mulven.Activities.SearchActivity;
 import com.hydertechno.mulven.Activities.SeeAllProductsActivity;
 import com.hydertechno.mulven.Adapters.CategoryNamesAdapter;
 import com.hydertechno.mulven.Adapters.FeatureAddAdapter;
@@ -55,7 +56,7 @@ public class HomeFragment extends Fragment {
     private VerticalProductsAdapter verticalProductsAdapter;
     private FeatureAddAdapter feature_Add_Adapter;
     private DrawerLayout drawerLayout;
-    private ImageView navIcon;
+    private ImageView navIcon,homeSearchIv;
     private List<CategoryNamesModel> categoryNamesModelList =new ArrayList<>();
     private List<Sliderimage> featureAddList =new ArrayList<>();
     private List<CategoriesModel> category1ModelList =new ArrayList<>();
@@ -83,6 +84,13 @@ public class HomeFragment extends Fragment {
         getCategories2();
         getCategories3();
         getCategories4();
+
+        homeSearchIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), SearchActivity.class));
+            }
+        });
 
         navIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -305,6 +313,8 @@ public class HomeFragment extends Fragment {
         seeAll2=view.findViewById(R.id.seeAll_2);
         seeAll3=view.findViewById(R.id.seeAll_3);
         seeAll4=view.findViewById(R.id.seeAll_4);
+
+        homeSearchIv = view.findViewById(R.id.homeSearchIV);
 
         categoryNamesAdapter =new CategoryNamesAdapter(categoryNamesModelList,getContext());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);

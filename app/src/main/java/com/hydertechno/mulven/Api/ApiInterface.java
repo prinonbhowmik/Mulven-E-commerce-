@@ -66,5 +66,6 @@ public interface ApiInterface {
                                             @Query("token") String token,
                                             @Field("delivery_address") String address);
 
-
+    @GET("all-product")
+    Call<List<CategoriesModel>> searchProduct();
 }

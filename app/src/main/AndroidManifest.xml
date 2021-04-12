@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Mulven">
-        <activity android:name=".Activities.ChangePasswordActivity"></activity>
+        <activity android:name=".Activities.SearchActivity"></activity>
+        <activity android:name=".Activities.ChangePasswordActivity" />
         <activity android:name=".Activities.PlaceOrderDetailsActivity" />
         <activity android:name=".Activities.PlaceOrderListActivity" />
         <activity android:name=".Activities.ProfileActivity" />
