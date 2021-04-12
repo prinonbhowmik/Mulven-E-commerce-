@@ -30,7 +30,7 @@ public interface ApiInterface {
     @GET("home?")
     Call<List<CategoriesModel>> getCategories(@Query("category") int categoryId);
 
-     @GET("product-detais?")
+    @GET("product-detais?")
     Call<ProductDetailsModel> getProd_details(@Query("id") int id);
 
     @GET("order-list?")
@@ -45,10 +45,10 @@ public interface ApiInterface {
     @POST("register")
     @FormUrlEncoded
     Call<UserProfile> registerUser(@Field("full_name") String name,
-                                 @Field("phone") String phone,
-                                 @Field("birthday") String dob,
-                                 @Field("password") String pass,
-                                 @Field("address") String address);
+                                   @Field("phone") String phone,
+                                   @Field("birthday") String dob,
+                                   @Field("password") String pass,
+                                   @Field("address") String address);
 
     @GET("logout?")
     Call<UserProfile> logoutUser(@Query("token") String token);
@@ -58,13 +58,20 @@ public interface ApiInterface {
 
     @GET("order-details?")
     Call<InvoiceDetailsModel> getInvoiceDetails(@Query("invoice_id") String invoice_id,
-                                                @Query("token") String  token);
+                                                @Query("token") String token);
 
     @POST("delivery-address?")
     @FormUrlEncoded
     Call<OrderDetails> updateDeliverAddress(@Query("invoice_id") String name,
                                             @Query("token") String token,
                                             @Field("delivery_address") String address);
+
+    @POST("profile-update")
+    @FormUrlEncoded
+    Call<UserProfile> updateProfileData(@Query("token") String token,
+                                         @Field("full_name") String name,
+                                         @Field("email") String email,
+                                         @Field("address") String address);
 
     @GET("all-product")
     Call<List<CategoriesModel>> searchProduct();

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.hydertechno.mulven.Api.ApiUtils;
@@ -28,6 +29,7 @@ public class ProfileActivity extends AppCompatActivity {
     private CircleImageView profileImageTV;
     private EditText nameET,addressET,emailET,phoneET;
     private Uri imageUri;
+    private ImageView saveIcon;
     private SharedPreferences sharedPreferences;
     private String token;
 
@@ -68,6 +70,33 @@ public class ProfileActivity extends AppCompatActivity {
                         .start(ProfileActivity.this);
             }
         });
+
+        saveIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Call<UserProfile> call1 = ApiUtils.getUserService().updateProfileData(token,nameET.getText().toString(),
+                        emailET.getText().toString(),addressET.getText().toString());
+                call1.enqueue(new Callback<UserProfile>() {
+                    @Override
+                    public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
+                        if (response.isSuccessful()){
+                            String status = response.body().getStatus();
+                            if (status.equals("1")){
+                                Toast.makeText(ProfileActivity.this, "Update Successful", Toast.LENGTH_LONG).show();
+                                finish();
+                            }else{
+                                Toast.makeText(ProfileActivity.this, "Update Failed", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<UserProfile> call, Throwable t) {
+
+                    }
+                });
+            }
+        });
     }
 
     private void init() {
@@ -75,6 +104,7 @@ public class ProfileActivity extends AppCompatActivity {
         profileImageTV=findViewById(R.id.profileImageTV);
         sharedPreferences = getSharedPreferences("MyRef", MODE_PRIVATE);
         nameET = findViewById(R.id.nameET);
+        saveIcon = findViewById(R.id.saveIcon);
         addressET = findViewById(R.id.addressET);
         emailET = findViewById(R.id.emailET);
         phoneET = findViewById(R.id.phoneET);
