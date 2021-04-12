@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     tools:context=".Fragments.CartFragment">
 
@@ -40,10 +41,21 @@
         android:visibility="gone"
         android:layout_below="@+id/toolbar">
 
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/emptyCartLottie"
+            android:layout_width="150dp"
+            android:layout_height="200dp"
+            android:layout_centerInParent="true"
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="empty_cart.json"
+            app:lottie_loop="true"
+            tools:ignore="MissingConstraints" />
+
         <ImageView
             android:id="@+id/cartLogo"
             android:layout_width="35dp"
             android:layout_height="35dp"
+            android:visibility="gone"
             android:src="@drawable/ic_round_cart"
             android:layout_marginBottom="10dp"
             android:layout_above="@+id/noCart"
@@ -54,6 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:textColor="@color/black"
+            android:visibility="gone"
             android:text="Your cart is empty !"
             android:textSize="18sp"
             android:fontFamily="@font/comfortaa_light"/>
