@@ -81,5 +81,7 @@ dependencies {
     //lottie animation
     implementation 'com.airbnb.android:lottie:3.4.0'
 
+    // Material Dialog Library
+    implementation 'dev.shreyaspatil.MaterialDialog:MaterialDialog:2.1.1'
 
 }

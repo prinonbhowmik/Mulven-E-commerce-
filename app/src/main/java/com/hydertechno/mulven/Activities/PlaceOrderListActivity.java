@@ -41,23 +41,24 @@ public class PlaceOrderListActivity extends AppCompatActivity {
     private int id;
     private String token;
     private RelativeLayout noOrderLayout;
-    private TextView sAll,sDelivered,sShipped,sPartialPaid,sPending,sCanceled;
+    private TextView sAll, sDelivered, sShipped, sPartialPaid, sPending, sCanceled;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_place_order_list);
         init();
         Intent intent = getIntent();
-        id = intent.getIntExtra("id",0);
+        id = intent.getIntExtra("id", 0);
         token = intent.getStringExtra("token");
         Log.d("checkId", String.valueOf(id));
         getOrderList(id);
 
 
-
         sAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                orderListModel.clear();
                 sAll.setTextColor(Color.parseColor("#FFFFFF"));
                 sAll.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag_all));
 
@@ -71,12 +72,14 @@ public class PlaceOrderListActivity extends AppCompatActivity {
                 sPending.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
                 sCanceled.setTextColor(Color.parseColor("#DB4437"));
                 sCanceled.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
+                getOrderList(id);
             }
         });
 
         sDelivered.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                orderListModel.clear();
                 sDelivered.setTextColor(Color.parseColor("#FFFFFF"));
                 sDelivered.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_delivered));
 
@@ -90,12 +93,39 @@ public class PlaceOrderListActivity extends AppCompatActivity {
                 sPending.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
                 sCanceled.setTextColor(Color.parseColor("#DB4437"));
                 sCanceled.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
+                Call<OrderModel> call = apiInterface.getOrderList(id, token);
+                call.enqueue(new Callback<OrderModel>() {
+                    @Override
+                    public void onResponse(Call<OrderModel> call, Response<OrderModel> response) {
+                        if (response.isSuccessful()) {
+                            String status = response.body().getStatus();
+                            if (status.equals("1")) {
+                                orderListModel = response.body().getItems();
+                                orderListAdapter = new OrderListAdapter(orderListModel, PlaceOrderListActivity.this);
+                                orderListRecyclerView.setAdapter(orderListAdapter);
+                                orderListAdapter.getFilter().filter("Delivered");
+                            }
+                            Collections.reverse(orderListModel);
+                            orderListAdapter.notifyDataSetChanged();
+                            if (orderListModel.size() == 0) {
+                                noOrderLayout.setVisibility(View.VISIBLE);
+                                orderListRecyclerView.setVisibility(View.GONE);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<OrderModel> call, Throwable t) {
+
+                    }
+                });
             }
         });
 
         sShipped.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                orderListModel.clear();
                 sShipped.setTextColor(Color.parseColor("#FFFFFF"));
                 sShipped.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_shipped));
 
@@ -109,12 +139,39 @@ public class PlaceOrderListActivity extends AppCompatActivity {
                 sPending.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
                 sCanceled.setTextColor(Color.parseColor("#DB4437"));
                 sCanceled.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
+                Call<OrderModel> call = apiInterface.getOrderList(id, token);
+                call.enqueue(new Callback<OrderModel>() {
+                    @Override
+                    public void onResponse(Call<OrderModel> call, Response<OrderModel> response) {
+                        if (response.isSuccessful()) {
+                            String status = response.body().getStatus();
+                            if (status.equals("1")) {
+                                orderListModel = response.body().getItems();
+                                orderListAdapter = new OrderListAdapter(orderListModel, PlaceOrderListActivity.this);
+                                orderListRecyclerView.setAdapter(orderListAdapter);
+                                orderListAdapter.getFilter().filter("Shipped");
+                            }
+                            Collections.reverse(orderListModel);
+                            orderListAdapter.notifyDataSetChanged();
+                            if (orderListModel.size() == 0) {
+                                noOrderLayout.setVisibility(View.VISIBLE);
+                                orderListRecyclerView.setVisibility(View.GONE);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<OrderModel> call, Throwable t) {
+
+                    }
+                });
             }
         });
 
         sPartialPaid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                orderListModel.clear();
                 sPartialPaid.setTextColor(Color.parseColor("#FFFFFF"));
                 sPartialPaid.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_partial_paid));
 
@@ -128,12 +185,39 @@ public class PlaceOrderListActivity extends AppCompatActivity {
                 sPending.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
                 sCanceled.setTextColor(Color.parseColor("#DB4437"));
                 sCanceled.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
+                Call<OrderModel> call = apiInterface.getOrderList(id, token);
+                call.enqueue(new Callback<OrderModel>() {
+                    @Override
+                    public void onResponse(Call<OrderModel> call, Response<OrderModel> response) {
+                        if (response.isSuccessful()) {
+                            String status = response.body().getStatus();
+                            if (status.equals("1")) {
+                                orderListModel = response.body().getItems();
+                                orderListAdapter = new OrderListAdapter(orderListModel, PlaceOrderListActivity.this);
+                                orderListRecyclerView.setAdapter(orderListAdapter);
+                                orderListAdapter.getFilter().filter("Partial Paid");
+                            }
+                            Collections.reverse(orderListModel);
+                            orderListAdapter.notifyDataSetChanged();
+                            if (orderListModel.size() == 0) {
+                                noOrderLayout.setVisibility(View.VISIBLE);
+                                orderListRecyclerView.setVisibility(View.GONE);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<OrderModel> call, Throwable t) {
+
+                    }
+                });
             }
         });
 
         sPending.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                orderListModel.clear();
                 sPending.setTextColor(Color.parseColor("#FFFFFF"));
                 sPending.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_pending));
 
@@ -147,15 +231,43 @@ public class PlaceOrderListActivity extends AppCompatActivity {
                 sShipped.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
                 sCanceled.setTextColor(Color.parseColor("#DB4437"));
                 sCanceled.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
+
+                Call<OrderModel> call = apiInterface.getOrderList(id, token);
+                call.enqueue(new Callback<OrderModel>() {
+                    @Override
+                    public void onResponse(Call<OrderModel> call, Response<OrderModel> response) {
+                        if (response.isSuccessful()) {
+                            String status = response.body().getStatus();
+                            if (status.equals("1")) {
+                                orderListModel = response.body().getItems();
+                                orderListAdapter = new OrderListAdapter(orderListModel, PlaceOrderListActivity.this);
+                                orderListAdapter.getFilter().filter("Pending");
+                                orderListRecyclerView.setAdapter(orderListAdapter);
+
+                            }
+                            Collections.reverse(orderListModel);
+                            orderListAdapter.notifyDataSetChanged();
+                            if (orderListModel.size() == 0) {
+                                noOrderLayout.setVisibility(View.VISIBLE);
+                                orderListRecyclerView.setVisibility(View.GONE);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<OrderModel> call, Throwable t) {
+
+                    }
+                });
             }
         });
 
         sCanceled.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                orderListModel.clear();
                 sCanceled.setTextColor(Color.parseColor("#FFFFFF"));
                 sCanceled.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_cancel));
-
                 sAll.setTextColor(Color.parseColor("#FF03DAC5"));
                 sAll.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
                 sDelivered.setTextColor(Color.parseColor("#808080"));
@@ -166,6 +278,34 @@ public class PlaceOrderListActivity extends AppCompatActivity {
                 sShipped.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
                 sPending.setTextColor(Color.parseColor("#F4B400"));
                 sPending.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
+
+                Call<OrderModel> call = apiInterface.getOrderList(id, token);
+                call.enqueue(new Callback<OrderModel>() {
+                    @Override
+                    public void onResponse(Call<OrderModel> call, Response<OrderModel> response) {
+                        if (response.isSuccessful()) {
+                            String status = response.body().getStatus();
+                            if (status.equals("1")) {
+                                orderListModel = response.body().getItems();
+                                orderListAdapter = new OrderListAdapter(orderListModel, PlaceOrderListActivity.this);
+                                orderListAdapter.getFilter().filter("Cancel");
+                                orderListRecyclerView.setAdapter(orderListAdapter);
+                            }
+                            Collections.reverse(orderListModel);
+                            orderListAdapter.notifyDataSetChanged();
+                            if (orderListModel.size() == 0) {
+                                noOrderLayout.setVisibility(View.VISIBLE);
+                                orderListRecyclerView.setVisibility(View.GONE);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<OrderModel> call, Throwable t) {
+
+                    }
+                });
+
             }
         });
 
@@ -173,20 +313,20 @@ public class PlaceOrderListActivity extends AppCompatActivity {
 
     private void getOrderList(int id) {
         orderListModel.clear();
-        Call<OrderModel> call = apiInterface.getOrderList(id,token);
+        Call<OrderModel> call = apiInterface.getOrderList(id, token);
         call.enqueue(new Callback<OrderModel>() {
             @Override
             public void onResponse(Call<OrderModel> call, Response<OrderModel> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
                     String status = response.body().getStatus();
-                    if (status.equals("1")){
+                    if (status.equals("1")) {
                         orderListModel = response.body().getItems();
-                        orderListAdapter = new OrderListAdapter(orderListModel,PlaceOrderListActivity.this);
+                        orderListAdapter = new OrderListAdapter(orderListModel, PlaceOrderListActivity.this);
                         orderListRecyclerView.setAdapter(orderListAdapter);
                     }
                     Collections.reverse(orderListModel);
                     orderListAdapter.notifyDataSetChanged();
-                    if(orderListModel.size()==0){
+                    if (orderListModel.size() == 0) {
                         noOrderLayout.setVisibility(View.VISIBLE);
                         orderListRecyclerView.setVisibility(View.GONE);
                     }
@@ -201,18 +341,18 @@ public class PlaceOrderListActivity extends AppCompatActivity {
     }
 
     private void init() {
-        sAll=findViewById(R.id.sAll);
-        sDelivered=findViewById(R.id.sDelivered);
-        sShipped=findViewById(R.id.sShipped);
-        sPartialPaid=findViewById(R.id.sPartialPaid);
-        sPending=findViewById(R.id.sPending);
-        sCanceled=findViewById(R.id.sCanceled);
+        sAll = findViewById(R.id.sAll);
+        sDelivered = findViewById(R.id.sDelivered);
+        sShipped = findViewById(R.id.sShipped);
+        sPartialPaid = findViewById(R.id.sPartialPaid);
+        sPending = findViewById(R.id.sPending);
+        sCanceled = findViewById(R.id.sCanceled);
 
-        noOrderLayout=findViewById(R.id.noOrderLayout);
-        orderListRecyclerView=findViewById(R.id.orderListRecyclerView);
+        noOrderLayout = findViewById(R.id.noOrderLayout);
+        orderListRecyclerView = findViewById(R.id.orderListRecyclerView);
         orderListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         apiInterface = ApiUtils.getUserService();
-        orderListModel=new ArrayList<>();
+        orderListModel = new ArrayList<>();
 
         sAll.setTextColor(Color.parseColor("#FFFFFF"));
         sAll.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag_all));

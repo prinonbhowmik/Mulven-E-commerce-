@@ -1,6 +1,7 @@
 package com.hydertechno.mulven.Activities;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -17,6 +18,7 @@ import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.navigation.NavigationView;
 import com.hydertechno.mulven.Api.ApiUtils;
 import com.hydertechno.mulven.DatabaseHelper.Database_Helper;
@@ -30,6 +32,9 @@ import com.hydertechno.mulven.Models.UserProfile;
 import com.hydertechno.mulven.R;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
+import dev.shreyaspatil.MaterialDialog.AbstractDialog;
+import dev.shreyaspatil.MaterialDialog.MaterialDialog;
+import dev.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -43,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Fragment fragment=null;
     private SharedPreferences sharedPreferences;
     private int loggedIn;
+    private MaterialDialog mAnimatedDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -160,27 +166,49 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 chipNavigationBar.setItemSelected(R.id.account,true);
                 break;
             case R.id.logout:
-                String token = sharedPreferences.getString("token",null);
-                Call<UserProfile> call = ApiUtils.getUserService().logoutUser(token);
-                call.enqueue(new Callback<UserProfile>() {
-                    @Override
-                    public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
-                        if (response.isSuccessful()){
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putString("token", "");
-                            editor.putInt("loggedIn", 0);
-                            editor.commit();
 
-                           finish();
-                           startActivity(getIntent());
-                        }
-                    }
+                mAnimatedDialog = new MaterialDialog.Builder(this)
+                        .setTitle("Logout?")
+                        .setMessage("Are you sure want to logout?")
+                        .setCancelable(false)
+                        .setPositiveButton("Logout", R.drawable.ic_logout, new MaterialDialog.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                String token = sharedPreferences.getString("token",null);
+                                Call<UserProfile> call = ApiUtils.getUserService().logoutUser(token);
+                                call.enqueue(new Callback<UserProfile>() {
+                                    @Override
+                                    public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
+                                        if (response.isSuccessful()){
+                                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                                            editor.putString("token", "");
+                                            editor.putInt("loggedIn", 0);
+                                            editor.commit();
+                                            Toast.makeText(MainActivity.this, "Logout successful!", Toast.LENGTH_SHORT).show();
 
-                    @Override
-                    public void onFailure(Call<UserProfile> call, Throwable t) {
+                                            finish();
+                                            startActivity(getIntent());
+                                            dialogInterface.dismiss();
+                                        }
+                                    }
 
-                    }
-                });
+                                    @Override
+                                    public void onFailure(Call<UserProfile> call, Throwable t) {
+
+                                    }
+                                });
+                            }
+                        })
+                        .setNegativeButton("Cancel", R.drawable.ic_close, new MaterialDialog.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int which) {
+                                dialogInterface.dismiss();
+                            }
+                        })
+                        .setAnimation("logout.json")
+                        .build();
+                mAnimatedDialog.show();
+
         }
 
         drawerLayout.closeDrawers();

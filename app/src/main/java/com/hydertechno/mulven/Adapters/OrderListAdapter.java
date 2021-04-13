@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -13,12 +14,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.hydertechno.mulven.Activities.PlaceOrderDetailsActivity;
 import com.hydertechno.mulven.Activities.ProductDetailsActivity;
+import com.hydertechno.mulven.Models.CategoriesModel;
 import com.hydertechno.mulven.Models.OrderListModel;
 import com.hydertechno.mulven.R;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.ViewHolder> {
     private List<OrderListModel> orderListModelList;
+    private List<OrderListModel> orderListModelListFiltered;
     private Context context;
 
     public OrderListAdapter(List<OrderListModel> orderListModelList, Context context) {
@@ -40,7 +45,6 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
         holder.orderDateTV.setText(orderListModel.getDate());
         holder.orderTimeTV.setText(orderListModel.getTime());
         String orderStatus=orderListModel.getOrders_status();
-
         //holder.orderStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.status_cancel));
         switch (orderStatus) {
             case "Pending":
@@ -78,6 +82,35 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
             }
         });
     }
+
+    public Filter getFilter() {
+        return exampleFilter;
+    }
+    private Filter exampleFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<OrderListModel> filteredList = new ArrayList<>();
+            if (constraint == null || constraint.length() == 0) {
+                filteredList.addAll(orderListModelListFiltered);
+            } else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+                for (OrderListModel item : orderListModelList) {
+                    if (item.getOrders_status().toLowerCase().contains(filterPattern)) {
+                        filteredList.add(item);
+                    }
+                }
+            }
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+            return results;
+        }
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            orderListModelList.clear();
+            orderListModelList.addAll((List) results.values);
+            notifyDataSetChanged();
+        }
+    };
 
     @Override
     public int getItemCount() {
