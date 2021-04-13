@@ -58,6 +58,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }else if(lodeFragment.equals("cart")){
             chipNavigationBar.setItemSelected(R.id.cart,true);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new CartFragment()).commit();
+        }else if(lodeFragment.equals("profile")){
+            chipNavigationBar.setItemSelected(R.id.account,true);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new ProfileFragment()).commit();
         }
 
         int count = helper.numberOfrows().getCount();

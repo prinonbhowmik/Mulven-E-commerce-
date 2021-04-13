@@ -245,7 +245,7 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity {
                 LinearLayoutManager layoutManager2 = new LinearLayoutManager(PlaceOrderDetailsActivity.this, LinearLayoutManager.VERTICAL, false);
                 timelineRecyclerView.setLayoutManager(layoutManager2);
                 timelineRecyclerView.setAdapter(orderTimelineAdapter);
-                Collections.reverse(orderTimelineModelList);
+               // Collections.reverse(orderTimelineModelList);
                 orderTimelineAdapter.notifyDataSetChanged();
 
             }

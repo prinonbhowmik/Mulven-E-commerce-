@@ -83,6 +83,7 @@ public class ProfileActivity extends AppCompatActivity {
                             String status = response.body().getStatus();
                             if (status.equals("1")){
                                 Toast.makeText(ProfileActivity.this, "Update Successful", Toast.LENGTH_LONG).show();
+                                startActivity(new Intent(ProfileActivity.this,MainActivity.class).putExtra("fragment","profile"));
                                 finish();
                             }else{
                                 Toast.makeText(ProfileActivity.this, "Update Failed", Toast.LENGTH_LONG).show();

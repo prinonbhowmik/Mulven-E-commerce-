@@ -71,9 +71,9 @@ public class DreamDealFragment extends Fragment {
         closeIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                searchView.setVisibility(View.GONE);
+                searchIv.setVisibility(View.VISIBLE);
                 closeIv.setVisibility(View.GONE);
-                searchView.setVisibility(View.VISIBLE);
+                searchView.setVisibility(View.GONE);
             }
         });
 
