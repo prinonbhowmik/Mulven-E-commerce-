@@ -49,18 +49,17 @@ public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.Vi
             holder.ProductVariantName.setVisibility(View.VISIBLE);
             holder.ProductVariantName.setText(color + size + variant);
         }*/
-
-        if (model.getSize()==null || model.getSize().equals("")){
+        if (model.getSize()==null && model.getColor()==null  && model.getVariant()==null){
+            holder.ProductVariantName.setVisibility(View.GONE);
+        }else if (model.getSize()==null || model.getSize().equals("") && model.getColor()!=null  && model.getVariant()!=null){
             holder.ProductVariantName.setVisibility(View.VISIBLE);
             holder.ProductVariantName.setText(model.getColor()+"--"+model.getVariant());
-        }else if(model.getColor()==null || model.getColor().equals("")) {
+        }else if(model.getColor()==null || model.getColor().equals("") && model.getSize()!=null  && model.getVariant()!=null) {
             holder.ProductVariantName.setVisibility(View.VISIBLE);
             holder.ProductVariantName.setText(model.getSize()+"--"+model.getVariant());
-        }else if(model.getVariant()==null || model.getVariant().equals("")){
+        }else if(model.getVariant()==null || model.getVariant().equals("") && model.getColor()!=null && model.getSize()!=null){
             holder.ProductVariantName.setVisibility(View.VISIBLE);
             holder.ProductVariantName.setText(model.getSize()+"--"+model.getColor());
-        }else if (model.getSize().equals("") && model.getColor().equals("") && model.getVariant().equals("")){
-            holder.ProductVariantName.setVisibility(View.GONE);
         } else{
             holder.ProductVariantName.setVisibility(View.VISIBLE);
             holder.ProductVariantName.setText(model.getSize()+"--"+model.getColor()+"--"+model.getVariant());
