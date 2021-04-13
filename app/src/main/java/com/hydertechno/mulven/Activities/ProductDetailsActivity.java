@@ -124,7 +124,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
             public void onClick(View v) {
                 Intent intent = new Intent(ProductDetailsActivity.this, MainActivity.class);
                 intent.putExtra("fragment","cart");
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
                // startActivity(new Intent(ProductDetailsActivity.this,MainActivity.class).putExtra("fragment","cart"));
