@@ -37,11 +37,12 @@ public class PlaceOrderListActivity extends AppCompatActivity {
     private RecyclerView orderListRecyclerView;
     private ApiInterface apiInterface;
     private List<OrderListModel> orderListModel;
+    private List<OrderListModel> orderList;
     private OrderListAdapter orderListAdapter;
     private int id;
     private String token;
     private RelativeLayout noOrderLayout;
-    private TextView sAll, sDelivered, sShipped, sPartialPaid, sPending, sCanceled;
+    private TextView sAll,sProcessing, sDelivered, sShipped, sPartialPaid, sPending, sCanceled;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +63,8 @@ public class PlaceOrderListActivity extends AppCompatActivity {
                 sAll.setTextColor(Color.parseColor("#FFFFFF"));
                 sAll.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag_all));
 
+                sProcessing.setTextColor(Color.parseColor("#0F9D58"));
+                sProcessing.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
                 sDelivered.setTextColor(Color.parseColor("#808080"));
                 sDelivered.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
                 sShipped.setTextColor(Color.parseColor("#FF5722"));
@@ -75,6 +78,52 @@ public class PlaceOrderListActivity extends AppCompatActivity {
                 getOrderList(id);
             }
         });
+        sProcessing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                orderListModel.clear();
+                sProcessing.setTextColor(Color.parseColor("#FFFFFF"));
+                sProcessing.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_processing));
+
+                sDelivered.setTextColor(Color.parseColor("#808080"));
+                sDelivered.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
+                sShipped.setTextColor(Color.parseColor("#FF5722"));
+                sShipped.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
+                sPartialPaid.setTextColor(Color.parseColor("#4285F4"));
+                sPartialPaid.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
+                sPending.setTextColor(Color.parseColor("#F4B400"));
+                sPending.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
+                sCanceled.setTextColor(Color.parseColor("#DB4437"));
+                sCanceled.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
+                Call<OrderModel> call = apiInterface.getOrderList(id, token);
+                call.enqueue(new Callback<OrderModel>() {
+                    @Override
+                    public void onResponse(Call<OrderModel> call, Response<OrderModel> response) {
+                        if (response.isSuccessful()) {
+                            String status = response.body().getStatus();
+                            if (status.equals("1")) {
+                                orderListModel = response.body().getItems();
+                                orderListAdapter = new OrderListAdapter(orderListModel, PlaceOrderListActivity.this);
+                                orderListAdapter.getFilter().filter("Processing");
+                                orderListRecyclerView.setAdapter(orderListAdapter);
+
+                            }
+                            Collections.reverse(orderListModel);
+                            orderListAdapter.notifyDataSetChanged();
+                            if (orderListModel.size() == 0) {
+                                noOrderLayout.setVisibility(View.VISIBLE);
+                                orderListRecyclerView.setVisibility(View.GONE);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<OrderModel> call, Throwable t) {
+
+                    }
+                });
+            }
+        });
 
         sDelivered.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,6 +132,8 @@ public class PlaceOrderListActivity extends AppCompatActivity {
                 sDelivered.setTextColor(Color.parseColor("#FFFFFF"));
                 sDelivered.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_delivered));
 
+                sProcessing.setTextColor(Color.parseColor("#0F9D58"));
+                sProcessing.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
                 sAll.setTextColor(Color.parseColor("#FF03DAC5"));
                 sAll.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
                 sShipped.setTextColor(Color.parseColor("#FF5722"));
@@ -129,6 +180,8 @@ public class PlaceOrderListActivity extends AppCompatActivity {
                 sShipped.setTextColor(Color.parseColor("#FFFFFF"));
                 sShipped.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_shipped));
 
+                sProcessing.setTextColor(Color.parseColor("#0F9D58"));
+                sProcessing.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
                 sAll.setTextColor(Color.parseColor("#FF03DAC5"));
                 sAll.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
                 sDelivered.setTextColor(Color.parseColor("#808080"));
@@ -175,6 +228,8 @@ public class PlaceOrderListActivity extends AppCompatActivity {
                 sPartialPaid.setTextColor(Color.parseColor("#FFFFFF"));
                 sPartialPaid.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_partial_paid));
 
+                sProcessing.setTextColor(Color.parseColor("#0F9D58"));
+                sProcessing.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
                 sAll.setTextColor(Color.parseColor("#FF03DAC5"));
                 sAll.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
                 sDelivered.setTextColor(Color.parseColor("#808080"));
@@ -221,6 +276,8 @@ public class PlaceOrderListActivity extends AppCompatActivity {
                 sPending.setTextColor(Color.parseColor("#FFFFFF"));
                 sPending.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_pending));
 
+                sProcessing.setTextColor(Color.parseColor("#0F9D58"));
+                sProcessing.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
                 sAll.setTextColor(Color.parseColor("#FF03DAC5"));
                 sAll.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
                 sDelivered.setTextColor(Color.parseColor("#808080"));
@@ -268,6 +325,9 @@ public class PlaceOrderListActivity extends AppCompatActivity {
                 orderListModel.clear();
                 sCanceled.setTextColor(Color.parseColor("#FFFFFF"));
                 sCanceled.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_cancel));
+
+                sProcessing.setTextColor(Color.parseColor("#0F9D58"));
+                sProcessing.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
                 sAll.setTextColor(Color.parseColor("#FF03DAC5"));
                 sAll.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
                 sDelivered.setTextColor(Color.parseColor("#808080"));
@@ -342,6 +402,7 @@ public class PlaceOrderListActivity extends AppCompatActivity {
 
     private void init() {
         sAll = findViewById(R.id.sAll);
+        sProcessing = findViewById(R.id.sProcessing);
         sDelivered = findViewById(R.id.sDelivered);
         sShipped = findViewById(R.id.sShipped);
         sPartialPaid = findViewById(R.id.sPartialPaid);
