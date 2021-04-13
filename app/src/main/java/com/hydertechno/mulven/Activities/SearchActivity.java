@@ -24,7 +24,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SearchActivity extends AppCompatActivity {
-    private RecyclerView allproductRecycler;
+    private RecyclerView allProductRecycler;
     private List<CategoriesModel> list;
     private SearchAdapter adapter;
     private SearchView searchView;
@@ -59,10 +59,10 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(final String newText) {
-                if (!newText.equals("")){
-                    adapter.getFilter().filter(newText);
-                }else{
+                if (newText.equals("")){
                     getAllProducts();
+                }else{
+                    adapter.getFilter().filter(newText);
                 }
                 return false;
             }
@@ -77,7 +77,7 @@ public class SearchActivity extends AppCompatActivity {
                 if (response.isSuccessful()){
                     list = response.body();
                     adapter = new SearchAdapter(list,SearchActivity.this);
-                    allproductRecycler.setAdapter(adapter);
+                    allProductRecycler.setAdapter(adapter);
                 }
                 adapter.notifyDataSetChanged();
             }
@@ -90,9 +90,9 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void init() {
-        allproductRecycler = findViewById(R.id.allproductRecycler);
-        allproductRecycler.setLayoutManager(new GridLayoutManager(this,2));
-        allproductRecycler.setItemAnimator(new DefaultItemAnimator());
+        allProductRecycler = findViewById(R.id.allproductRecycler);
+        allProductRecycler.setLayoutManager(new GridLayoutManager(this,2));
+        allProductRecycler.setItemAnimator(new DefaultItemAnimator());
         searchView = findViewById(R.id.searchAllET);
         SearchManager manager = (SearchManager) getSystemService(SEARCH_SERVICE);
         searchView.setSearchableInfo(manager.getSearchableInfo(getComponentName()));
