@@ -1,5 +1,6 @@
 package com.hydertechno.mulven.Adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -26,11 +28,14 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import dev.shreyaspatil.MaterialDialog.BottomSheetMaterialDialog;
+import dev.shreyaspatil.MaterialDialog.MaterialDialog;
+
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     private List<CartProductModel> list;
     private Context context;
     private CartFragment cartFragment;
-    private androidx.appcompat.app.AlertDialog.Builder alert;
+    private BottomSheetMaterialDialog mAnimatedDialog;
 
     public CartAdapter(List<CartProductModel> list, Context context) {
         this.list = list;
@@ -116,28 +121,30 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             @Override
             public void onClick(View v) {
 
-                alert = new androidx.appcompat.app.AlertDialog.Builder(context);
-                alert.setTitle("Delete!");
-                alert.setMessage("Want to delete this product??");
-                alert.setIcon(R.drawable.applogo);
-
-                alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.cancel();
-                    }
-                });
-                alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        database_helper.deleteData(list.get(position).getId());
-                        list.remove(position);
-                        notifyDataSetChanged();
-                        cartFragment.cardSubtotalAmount.setText("৳ "+database_helper.columnSum());
-                    }
-                });
-                AlertDialog alertDialog = alert.create();
-                alertDialog.show();
+                mAnimatedDialog = new BottomSheetMaterialDialog.Builder((Activity) context)
+                        .setTitle("Delete?")
+                        .setMessage("Are you sure want to delete this file?")
+                        .setCancelable(false)
+                        .setPositiveButton("Delete", R.drawable.ic_delete, new BottomSheetMaterialDialog.OnClickListener() {
+                            @Override
+                            public void onClick(dev.shreyaspatil.MaterialDialog.interfaces.DialogInterface dialogInterface, int i) {
+                                database_helper.deleteData(list.get(position).getId());
+                                list.remove(position);
+                                notifyDataSetChanged();
+                                cartFragment.cardSubtotalAmount.setText("৳ "+database_helper.columnSum());
+                                dialogInterface.dismiss();
+                            }
+                        })
+                        .setNegativeButton("Cancel", R.drawable.ic_close, new BottomSheetMaterialDialog.OnClickListener() {
+                            @Override
+                            public void onClick(dev.shreyaspatil.MaterialDialog.interfaces.DialogInterface dialogInterface, int which) {
+                                Toast.makeText(context, "Cancelled!", Toast.LENGTH_SHORT).show();
+                                dialogInterface.dismiss();
+                            }
+                        })
+                        .setAnimation("trash.json")
+                        .build();
+                mAnimatedDialog.show();
             }
         });
     }
