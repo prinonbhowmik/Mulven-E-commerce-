@@ -127,7 +127,7 @@ public class ProfileFragment extends Fragment {
         changePasswordRL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), ChangePasswordActivity.class));
+                startActivity(new Intent(getActivity(), ChangePasswordActivity.class).putExtra("id",id).putExtra("token",token));
             }
         });
 

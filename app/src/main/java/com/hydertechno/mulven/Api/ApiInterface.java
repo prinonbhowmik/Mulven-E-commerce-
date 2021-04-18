@@ -2,6 +2,7 @@ package com.hydertechno.mulven.Api;
 
 import com.hydertechno.mulven.Models.CategoriesModel;
 import com.hydertechno.mulven.Models.CategoryNamesModel;
+import com.hydertechno.mulven.Models.ChangePasswordModel;
 import com.hydertechno.mulven.Models.InvoiceDetailsModel;
 import com.hydertechno.mulven.Models.OrderDetails;
 import com.hydertechno.mulven.Models.OrderListModel;
@@ -75,4 +76,12 @@ public interface ApiInterface {
 
     @GET("all-product")
     Call<List<CategoriesModel>> searchProduct();
+
+
+    @POST("change-password")
+    @FormUrlEncoded
+    Call<ChangePasswordModel> changePassword(@Query("token") String token,
+                                             @Field("old_pass") String old_pass,
+                                             @Field("new_pass") String new_pass,
+                                             @Field("con_pass") String con_pass);
 }
