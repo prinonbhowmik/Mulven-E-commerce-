@@ -154,7 +154,7 @@
                         android:textColor="@color/white"
                         android:layout_toEndOf="@+id/historyLogo"
                         android:layout_marginStart="10dp"
-                        android:text="Payment History"
+                        android:text="Order History"
                         android:textSize="18sp"
                         android:fontFamily="@font/comfortaa_bold"
                         android:layout_centerVertical="true" />

@@ -19,6 +19,7 @@ import com.hydertechno.mulven.Models.OrderListModel;
 import com.hydertechno.mulven.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.ViewHolder> {
@@ -68,6 +69,9 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
                 break;
         }
         holder.orderStatusTV.setText(orderStatus);
+
+        holder.paymentStatusTV.setText("Partial Paid");
+        holder.paymentStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.status_partial_paid));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,6 +112,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
         protected void publishResults(CharSequence constraint, FilterResults results) {
             orderListModelList.clear();
             orderListModelList.addAll((List) results.values);
+            Collections.reverse(orderListModelList);
             notifyDataSetChanged();
         }
     };
@@ -118,13 +123,14 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView orderIDTV,orderDateTV,orderTimeTV,orderStatusTV;
+        private TextView orderIDTV,orderDateTV,orderTimeTV,orderStatusTV,paymentStatusTV;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             orderIDTV=itemView.findViewById(R.id.orderIDTV);
             orderDateTV=itemView.findViewById(R.id.orderDateTV);
             orderTimeTV=itemView.findViewById(R.id.orderTimeTV);
             orderStatusTV=itemView.findViewById(R.id.orderStatusTV);
+            paymentStatusTV=itemView.findViewById(R.id.paymentStatusTV);
         }
     }
 }
