@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:focusableInTouchMode="true"
     tools:context=".Activities.ProfileActivity">
+
     <RelativeLayout
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -42,10 +43,12 @@
             android:src="@drawable/ic_tik" />
 
     </RelativeLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -55,129 +58,134 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="5dp"
-                android:layout_gravity="center">
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/profileImageTV"
-                        android:layout_width="130dp"
-                        android:layout_height="130dp"
-                        android:padding="4dp"
-                        android:layout_gravity="bottom|center_horizontal"
-                        android:background="@drawable/round_stroke"
-                        android:src="@drawable/demo_profile" />
-                    <ImageView
-                        android:id="@+id/cameraIV"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_gravity="bottom|end"
-                        android:layout_marginEnd="5dp"
-                        android:layout_marginBottom="5dp"
-                        android:background="@drawable/custom_round2"
-                        android:padding="10dp"
-                        android:src="@drawable/ic_camera" />
+                android:layout_marginBottom="5dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profileImageTV"
+                    android:layout_width="130dp"
+                    android:layout_height="130dp"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:background="@drawable/round_stroke"
+                    android:padding="4dp"
+                    android:src="@drawable/demo_profile" />
+
+                <ImageView
+                    android:id="@+id/cameraIV"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="bottom|end"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/custom_round2"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_camera" />
             </FrameLayout>
 
-        <TextView
-            android:id="@+id/NameTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/frame_layout1"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:fontFamily="@font/comfortaa_light"
-            android:text="Name"
-            android:textColor="@color/black"
-            android:textSize="15sp" />
+            <TextView
+                android:id="@+id/NameTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/frame_layout1"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:fontFamily="@font/comfortaa_light"
+                android:text="Name"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
 
-        <EditText
-            android:id="@+id/nameET"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/NameTV"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:background="@drawable/background_stroke"
-            android:fontFamily="@font/comfortaa_light"
-            android:padding="6dp"
-            android:textColor="@color/black" />
+            <EditText
+                android:id="@+id/nameET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/NameTV"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/background_stroke2"
+                android:focusable="false"
+                android:fontFamily="@font/comfortaa_light"
+                android:padding="6dp"
+                android:textColor="@color/black" />
 
-        <TextView
-            android:id="@+id/addressTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/nameET"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="5dp"
-            android:fontFamily="@font/comfortaa_light"
-            android:text="Address"
-            android:textColor="@color/black"
-            android:textSize="15sp" />
+            <TextView
+                android:id="@+id/phoneTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/nameET"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:fontFamily="@font/comfortaa_light"
+                android:text="Phone"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
 
-        <EditText
-            android:id="@+id/addressET"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/addressTV"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:background="@drawable/background_stroke"
-            android:fontFamily="@font/comfortaa_light"
-            android:padding="6dp"
-            android:textColor="@color/black" />
+            <EditText
+                android:id="@+id/phoneET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/phoneTV"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/background_stroke2"
+                android:focusable="false"
+                android:fontFamily="@font/comfortaa_light"
+                android:padding="6dp"
+                android:textColor="@color/black" />
 
-        <TextView
-            android:id="@+id/emailTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/addressET"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="5dp"
-            android:fontFamily="@font/comfortaa_light"
-            android:text="E-mail"
-            android:textColor="@color/black"
-            android:textSize="15sp" />
+            <TextView
+                android:id="@+id/addressTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/phoneET"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:fontFamily="@font/comfortaa_light"
+                android:text="Address"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
 
-        <EditText
-            android:id="@+id/emailET"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/emailTV"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:background="@drawable/background_stroke"
-            android:fontFamily="@font/comfortaa_light"
-            android:padding="6dp"
-            android:textColor="@color/black" />
+            <EditText
+                android:id="@+id/addressET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/addressTV"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/background_stroke"
+                android:fontFamily="@font/comfortaa_light"
+                android:padding="6dp"
+                android:textColor="@color/black" />
 
-        <TextView
-            android:id="@+id/phoneTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/emailET"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="5dp"
-            android:fontFamily="@font/comfortaa_light"
-            android:text="Phone"
-            android:textColor="@color/black"
-            android:textSize="15sp" />
+            <TextView
+                android:id="@+id/emailTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/addressET"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:fontFamily="@font/comfortaa_light"
+                android:text="E-mail"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
 
-        <EditText
-            android:id="@+id/phoneET"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/phoneTV"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="30dp"
-            android:background="@drawable/background_stroke"
-            android:fontFamily="@font/comfortaa_light"
-            android:padding="6dp"
-            android:textColor="@color/black" />
+            <EditText
+                android:id="@+id/emailET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/emailTV"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="30dp"
+                android:background="@drawable/background_stroke"
+                android:fontFamily="@font/comfortaa_light"
+                android:padding="6dp"
+                android:textColor="@color/black" />
+
         </RelativeLayout>
     </ScrollView>
 

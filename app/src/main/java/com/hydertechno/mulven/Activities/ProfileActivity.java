@@ -112,6 +112,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void profileBack(View view) {
+        startActivity(new Intent(ProfileActivity.this,MainActivity.class).putExtra("fragment","profile"));
         finish();
     }
 
@@ -130,5 +131,12 @@ public class ProfileActivity extends AppCompatActivity {
                 Toast.makeText(ProfileActivity.this, "Failed"+error, Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(ProfileActivity.this,MainActivity.class).putExtra("fragment","profile"));
+        finish();
     }
 }
