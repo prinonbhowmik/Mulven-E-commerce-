@@ -3,25 +3,25 @@ package com.hydertechno.mulven.Models;
 public class ChangePasswordModel {
     private String token;
     private String old_pass;
-    private String new_pass;
+    private String new_psss;
     private String con_pass;
     private int status;
     private String message;
 
 
-    public ChangePasswordModel(String old_pass, String new_pass, String con_pass, String token, int status, String message) {
+    public ChangePasswordModel(String old_pass, String new_psss, String con_pass, String token, int status, String message) {
         this.old_pass = old_pass;
-        this.new_pass = new_pass;
+        this.new_psss = new_psss;
         this.con_pass = con_pass;
         this.token = token;
         this.status = status;
         this.message = message;
     }
 
-    public ChangePasswordModel(String token, String old_pass, String new_pass, String con_pass) {
+    public ChangePasswordModel(String token, String old_pass, String new_psss, String con_pass) {
         this.token = token;
         this.old_pass = old_pass;
-        this.new_pass = new_pass;
+        this.new_psss = new_psss;
         this.con_pass = con_pass;
     }
 
@@ -37,11 +37,11 @@ public class ChangePasswordModel {
     }
 
     public String getNew_pass() {
-        return new_pass;
+        return new_psss;
     }
 
     public void setNew_pass(String new_pass) {
-        this.new_pass = new_pass;
+        this.new_psss = new_pass;
     }
 
     public String getCon_pass() {

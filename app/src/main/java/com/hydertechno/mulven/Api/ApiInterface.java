@@ -82,6 +82,6 @@ public interface ApiInterface {
     @FormUrlEncoded
     Call<ChangePasswordModel> changePassword(@Query("token") String token,
                                              @Field("old_pass") String old_pass,
-                                             @Field("new_pass") String new_pass,
+                                             @Field("new_psss") String new_pass,
                                              @Field("con_pass") String con_pass);
 }
