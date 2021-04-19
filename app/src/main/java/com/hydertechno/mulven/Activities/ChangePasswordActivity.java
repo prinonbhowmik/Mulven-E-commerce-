@@ -100,6 +100,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
                     message=response.body().getMessage();
                     if(status==1){
                         Toast.makeText(ChangePasswordActivity.this, ""+message, Toast.LENGTH_SHORT).show();
+                        finish();
                     }else if(status==0){
                         Toast.makeText(ChangePasswordActivity.this, ""+message, Toast.LENGTH_SHORT).show();
                     }
