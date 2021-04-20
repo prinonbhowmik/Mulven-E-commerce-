@@ -20,6 +20,7 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -82,11 +83,11 @@ public class ProfileActivity extends AppCompatActivity {
                         if (response.isSuccessful()){
                             String status = response.body().getStatus();
                             if (status.equals("1")){
-                                Toast.makeText(ProfileActivity.this, "Update Successful", Toast.LENGTH_LONG).show();
+                                Toasty.success(ProfileActivity.this, "Update Success!", Toast.LENGTH_SHORT, true).show();
                                 startActivity(new Intent(ProfileActivity.this,MainActivity.class).putExtra("fragment","profile"));
                                 finish();
                             }else{
-                                Toast.makeText(ProfileActivity.this, "Update Failed", Toast.LENGTH_LONG).show();
+                                Toasty.error(ProfileActivity.this, "Update Failed", Toast.LENGTH_LONG,true).show();
                             }
                         }
                     }
