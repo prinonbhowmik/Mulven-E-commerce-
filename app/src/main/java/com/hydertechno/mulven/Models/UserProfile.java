@@ -12,8 +12,9 @@ public class UserProfile {
     private String created_at;
     private String token;
     private String message;
+    private int otp;
 
-    public UserProfile(int id, String full_name, String phone, String email, String birthday, String status, String address, String updated_at, String created_at, String token, String message) {
+    public UserProfile(int id, String full_name, String phone, String email, String birthday, String status, String address, String updated_at, String created_at, String token, String message, int otp) {
         this.id = id;
         this.full_name = full_name;
         this.phone = phone;
@@ -25,6 +26,7 @@ public class UserProfile {
         this.created_at = created_at;
         this.token = token;
         this.message = message;
+        this.otp = otp;
     }
 
     public UserProfile() {
@@ -72,5 +74,9 @@ public class UserProfile {
 
     public String getMessage() {
         return message;
+    }
+
+    public int getOtp() {
+        return otp;
     }
 }

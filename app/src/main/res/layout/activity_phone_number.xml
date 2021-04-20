@@ -75,7 +75,7 @@
                 android:id="@+id/phone_no_Et"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:inputType="text"
+                android:inputType="phone"
                 android:maxLines="1"
                 android:fontFamily="@font/comfortaa_light"
                 android:paddingStart="20dp"

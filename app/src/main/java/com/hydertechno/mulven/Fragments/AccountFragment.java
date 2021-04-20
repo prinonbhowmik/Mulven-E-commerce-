@@ -107,6 +107,14 @@ public class AccountFragment extends Fragment {
                 }*/
             }
         });
+
+        forgetPasswordTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(),PhoneNumber.class));
+                getActivity().finish();
+            }
+        });
         return view;
     }
 

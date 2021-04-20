@@ -84,4 +84,12 @@ public interface ApiInterface {
                                              @Field("old_pass") String old_pass,
                                              @Field("new_psss") String new_pass,
                                              @Field("con_pass") String con_pass);
+
+    @GET("forgot-password-otp?phone")
+    Call<UserProfile> matchOTP(@Query("phone") String phone);
+
+    @POST("forgot-password")
+    @FormUrlEncoded
+    Call<ChangePasswordModel> changePassword(@Query("phone") String phone,
+                                     @Field("password") String password);
 }

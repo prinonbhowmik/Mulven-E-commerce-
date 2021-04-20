@@ -19,6 +19,7 @@ import com.hydertechno.mulven.Api.ApiUtils;
 import com.hydertechno.mulven.Models.ChangePasswordModel;
 import com.hydertechno.mulven.Models.UserProfile;
 import com.hydertechno.mulven.R;
+import com.smarteist.autoimageslider.Transformations.TossTransformation;
 
 import java.util.List;
 
@@ -30,6 +31,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
     private TextInputLayout currentPasswordTl,newPasswordTl,confirmPasswordTl;
     private TextInputEditText currentPassword,newPassword,confirmPassword;
     private TextView changePasswordTV;
+    private String activity,phone;
     private int id,status;
     private String old_pass,new_pass,con_pass, token,message;
     private ApiInterface api;
@@ -41,42 +43,99 @@ public class ChangePasswordActivity extends AppCompatActivity {
         init();
 
         Intent intent = getIntent();
-        id = intent.getIntExtra("id", 0);
-        token = intent.getStringExtra("token");
+        activity = intent.getStringExtra("activity");
+
+        if (activity.equals("profile")){
+            id = intent.getIntExtra("id", 0);
+            token = intent.getStringExtra("token");
+        }else if(activity.equals("forgot")){
+            currentPasswordTl.setVisibility(View.GONE);
+            phone = intent.getStringExtra("phone");
+        }
 
         changePasswordTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                old_pass = currentPassword.getText().toString();
-                new_pass = newPassword.getText().toString();
-                con_pass = confirmPassword.getText().toString();
-                hideKeyboardFrom(ChangePasswordActivity.this);
-                if (TextUtils.isEmpty(old_pass)) {
-                    currentPasswordTl.setError("Enter Current Password!");
-                    currentPassword.requestFocus();
-                }/* else if (currentPassword.length() < 6) {
+                if (activity.equals("profile")){
+                    old_pass = currentPassword.getText().toString();
+                    new_pass = newPassword.getText().toString();
+                    con_pass = confirmPassword.getText().toString();
+                    hideKeyboardFrom(ChangePasswordActivity.this);
+                    if (TextUtils.isEmpty(old_pass)) {
+                        currentPasswordTl.setError("Enter Current Password!");
+                        currentPassword.requestFocus();
+                    }/* else if (currentPassword.length() < 6) {
                     currentPasswordTl.setError("At least 6 characters!");
                     currentPassword.requestFocus();
                 }*/ else if (TextUtils.isEmpty(new_pass)) {
-                    newPasswordTl.setError("Enter New Password!");
-                    newPassword.requestFocus();
-                } else if (new_pass.length() < 6) {
-                    newPasswordTl.setError("At least 6 characters!");
-                    newPassword.requestFocus();
-                } else if (TextUtils.isEmpty(con_pass)) {
-                    confirmPasswordTl.setError("Enter Re-Password!");
-                    confirmPassword.requestFocus();
-                } else if (con_pass.length() < 6) {
-                    confirmPasswordTl.setError("At least 6 characters!");
-                    confirmPassword.requestFocus();
-                }/* else if (!confirmPassword.getText().toString().equals(newPassword.getText().toString())) {
+                        newPasswordTl.setError("Enter New Password!");
+                        newPassword.requestFocus();
+                    } else if (new_pass.length() < 6) {
+                        newPasswordTl.setError("At least 6 characters!");
+                        newPassword.requestFocus();
+                    } else if (TextUtils.isEmpty(con_pass)) {
+                        confirmPasswordTl.setError("Enter Re-Password!");
+                        confirmPassword.requestFocus();
+                    } else if (con_pass.length() < 6) {
+                        confirmPasswordTl.setError("At least 6 characters!");
+                        confirmPassword.requestFocus();
+                    }/* else if (!confirmPassword.getText().toString().equals(newPassword.getText().toString())) {
                     confirmPasswordTl.setError("New password doesn't matched!");
                 }*/ else {
-                    changePassword(old_pass, new_pass, con_pass);
+                        changePassword(old_pass, new_pass, con_pass);
+                    }
+                }
+                else if (activity.equals("forgot")){
+                    new_pass = newPassword.getText().toString();
+                    con_pass = confirmPassword.getText().toString();
+                    if (TextUtils.isEmpty(new_pass)) {
+                        newPasswordTl.setError("Enter New Password!");
+                        newPassword.requestFocus();
+                    } else if (new_pass.length() < 6) {
+                        newPasswordTl.setError("At least 6 characters!");
+                        newPassword.requestFocus();
+                    } else if (TextUtils.isEmpty(con_pass)) {
+                        confirmPasswordTl.setError("Enter Re-Password!");
+                        confirmPassword.requestFocus();
+                    } else if (con_pass.length() < 6) {
+                        confirmPasswordTl.setError("At least 6 characters!");
+                        confirmPassword.requestFocus();
+                    }/* else if (!confirmPassword.getText().toString().equals(newPassword.getText().toString())) {
+                    confirmPasswordTl.setError("New password doesn't matched!");
+                }*/ else {
+                        forgotPass(new_pass, con_pass);
+                    }
                 }
             }
         });
+    }
+
+    private void forgotPass(String new_pass, String con_pass) {
+        if (new_pass.equals(con_pass)){
+            Call<ChangePasswordModel> call = api.changePassword(phone,con_pass);
+            call.enqueue(new Callback<ChangePasswordModel>() {
+                @Override
+                public void onResponse(Call<ChangePasswordModel> call, Response<ChangePasswordModel> response) {
+                    if (response.isSuccessful()){
+                        int status = response.body().getStatus();
+                        if(status==1){
+                            Toast.makeText(ChangePasswordActivity.this, ""+response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(ChangePasswordActivity.this,MainActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            intent.putExtra("fragment","login");
+                            startActivity(intent);
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ChangePasswordModel> call, Throwable t) {
+
+                }
+            });
+        }else{
+            Toast.makeText(this, "Confirm password doesn't match!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void init() {
