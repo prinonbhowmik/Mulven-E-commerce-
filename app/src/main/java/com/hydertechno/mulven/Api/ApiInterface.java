@@ -1,5 +1,7 @@
 package com.hydertechno.mulven.Api;
 
+import com.hydertechno.mulven.Models.Campaign;
+import com.hydertechno.mulven.Models.CampaignModel;
 import com.hydertechno.mulven.Models.CategoriesModel;
 import com.hydertechno.mulven.Models.CategoryNamesModel;
 import com.hydertechno.mulven.Models.ChangePasswordModel;
@@ -92,4 +94,8 @@ public interface ApiInterface {
     @FormUrlEncoded
     Call<ChangePasswordModel> changePassword(@Query("phone") String phone,
                                      @Field("password") String password);
+
+
+    @GET("campaigns")
+    Call<Campaign> getAllCampaigns();
 }

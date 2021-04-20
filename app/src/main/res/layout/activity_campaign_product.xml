@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Fragments.DreamDealFragment">
+    tools:context=".Activities.CampaignProductActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -13,21 +13,21 @@
         android:background="@color/themDark">
 
         <ImageView
-            android:id="@+id/navIcon"
+            android:id="@+id/backIcon"
             android:layout_width="35sp"
             android:layout_height="35sp"
             android:layout_alignParentTop="true"
             android:layout_marginStart="15dp"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="10dp"
-            android:src="@drawable/ic_menu"/>
+            android:src="@drawable/ic_arrow"/>
 
         <TextView
             android:id="@+id/titleName"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
-            android:text="Campaign"
-            android:layout_toEndOf="@+id/navIcon"
+            android:text="Dream Deal"
+            android:layout_toEndOf="@+id/backIcon"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:layout_marginStart="10dp"
@@ -77,7 +77,7 @@
 
     </RelativeLayout>
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/campaignRecyclerView"
+        android:id="@+id/campaignProductRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="2dp"
@@ -88,4 +88,11 @@
         android:fitsSystemWindows="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_below="@+id/toolbar" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
+        android:visibility="gone">
+
+    </RelativeLayout>
 </RelativeLayout>

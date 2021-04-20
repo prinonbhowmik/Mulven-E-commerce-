@@ -11,7 +11,7 @@
         <item
             android:id="@+id/dream_deal"
             android:icon="@drawable/ic_d"
-            android:title="Dream Deal"
+            android:title="Campaign"
             app:cnb_iconColor="@color/GYellow"/>
         <item
             android:id="@+id/cart"

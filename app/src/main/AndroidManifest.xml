@@ -15,7 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Mulven">
-        <activity android:name=".Activities.SearchActivity"/>
+        <activity android:name=".Activities.CampaignProductActivity"></activity>
+        <activity android:name=".Activities.SearchActivity" />
         <activity android:name=".Activities.ChangePasswordActivity" />
         <activity android:name=".Activities.PlaceOrderDetailsActivity" />
         <activity android:name=".Activities.PlaceOrderListActivity" />
@@ -39,6 +40,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <receiver
             android:name=".Internet.ConnectivityReceiver"
             android:enabled="true">

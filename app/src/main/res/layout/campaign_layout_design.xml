@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout
+        android:id="@+id/campaignRL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/GGreen">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:textSize="21sp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/comfortaa_bold"/>
+
+        <TextView
+            android:id="@+id/cam"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=">"
+            android:layout_marginEnd="20dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:textSize="21sp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/comfortaa_bold"/>
+    </RelativeLayout>
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_below="@+id/campaignRL"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        app:cardCornerRadius="10dp"
+        android:elevation="6dp"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/campaignTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:textSize="32sp"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/themDark"
+                android:fontFamily="@font/comfortaa_bold"/>
+
+            <TextView
+                android:id="@+id/liveTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/campaignTitle"
+                android:layout_centerHorizontal="true"
+                android:textSize="18sp"
+                android:textColor="@color/themDark"
+                android:fontFamily="@font/comfortaa_bold"/>
+
+
+            <TextView
+                android:id="@+id/campaignTimeDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/liveTxt"
+                android:layout_centerHorizontal="true"
+                android:textSize="18sp"
+                android:textColor="@color/themDark"
+                android:fontFamily="@font/comfortaa_bold"/>
+
+            <cn.iwgang.countdownview.CountdownView
+                android:id="@+id/countdown"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/campaignTimeDate"
+                app:isHideTimeBackground="false"
+                app:timeBgSize="50dp"
+                app:timeBgColor="@color/GBlue"
+                app:isShowDay="true"
+                app:isShowHour="true"
+                app:isShowMinute="true"
+                app:isShowSecond="true"
+                app:timeTextColor="#ffffff"
+                app:timeTextSize="28sp"
+                app:isTimeTextBold="true"
+                app:suffixGravity="bottom"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="15dp"
+                app:suffixTextColor="#000000"
+                app:suffixTextSize="15sp"
+                app:suffixDay="day"
+                app:suffixHour="hr"
+                app:suffixMinute="min"
+                app:suffixSecond="sec"/>
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>
