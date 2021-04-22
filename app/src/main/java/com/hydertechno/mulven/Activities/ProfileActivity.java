@@ -84,7 +84,10 @@ public class ProfileActivity extends AppCompatActivity {
                             String status = response.body().getStatus();
                             if (status.equals("1")){
                                 Toasty.success(ProfileActivity.this, "Update Success!", Toast.LENGTH_SHORT, true).show();
-                                startActivity(new Intent(ProfileActivity.this,MainActivity.class).putExtra("fragment","profile"));
+                                Intent intent=new Intent( ProfileActivity.this,MainActivity.class);
+                                intent.putExtra("fragment","profile");
+                                startActivity(intent);
+                                overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
                                 finish();
                             }else{
                                 Toasty.error(ProfileActivity.this, "Update Failed", Toast.LENGTH_LONG,true).show();
@@ -113,7 +116,10 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void profileBack(View view) {
-        startActivity(new Intent(ProfileActivity.this,MainActivity.class).putExtra("fragment","profile"));
+        Intent intent=new Intent( ProfileActivity.this,MainActivity.class);
+        intent.putExtra("fragment","profile");
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
         finish();
     }
 
@@ -137,7 +143,10 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        startActivity(new Intent(ProfileActivity.this,MainActivity.class).putExtra("fragment","profile"));
+        Intent intent=new Intent( ProfileActivity.this,MainActivity.class);
+        intent.putExtra("fragment","profile");
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
         finish();
     }
 }

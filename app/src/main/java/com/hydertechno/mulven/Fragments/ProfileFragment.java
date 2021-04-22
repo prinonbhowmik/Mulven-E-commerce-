@@ -27,6 +27,7 @@ import android.widget.TextView;
 
 import com.hydertechno.mulven.Activities.AddressActivity;
 import com.hydertechno.mulven.Activities.ChangePasswordActivity;
+import com.hydertechno.mulven.Activities.MainActivity;
 import com.hydertechno.mulven.Activities.PlaceOrderListActivity;
 import com.hydertechno.mulven.Activities.ProfileActivity;
 import com.hydertechno.mulven.Api.ApiUtils;
@@ -105,14 +106,21 @@ public class ProfileFragment extends Fragment {
         addressLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), AddressActivity.class));
+               // startActivity(new Intent(getActivity(), AddressActivity.class));
+                Intent intent=new Intent(getActivity(), AddressActivity.class);
+                startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+                getActivity().finish();
+
             }
         });
 
         profileLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), ProfileActivity.class));
+                Intent intent=new Intent(getActivity(), ProfileActivity.class);
+                startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
                 getActivity().finish();
             }
         });
@@ -120,15 +128,26 @@ public class ProfileFragment extends Fragment {
         paymentHistoryRL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), PlaceOrderListActivity.class).putExtra("id",id).putExtra("token",token));
+                Intent intent=new Intent(getActivity(), PlaceOrderListActivity.class);
+                intent.putExtra("id",id);
+                intent.putExtra("token",token);
+                startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+                //getActivity().finish();
+                //startActivity(new Intent(getActivity(), PlaceOrderListActivity.class).putExtra("id",id).putExtra("token",token));
             }
         });
 
         changePasswordRL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), ChangePasswordActivity.class).putExtra("id",id)
-                        .putExtra("token",token).putExtra("activity","profile"));
+                Intent intent=new Intent(getActivity(), PlaceOrderListActivity.class);
+                intent.putExtra("token",token);
+                intent.putExtra("activity","profile");
+                startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+                /*startActivity(new Intent(getActivity(), ChangePasswordActivity.class).putExtra("id",id)
+                        .putExtra("token",token).putExtra("activity","profile"));*/
             }
         });
 

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,9 +15,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.hydertechno.mulven.Models.CampaignModel;
 import com.hydertechno.mulven.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import cn.iwgang.countdownview.CountdownView;
+import es.dmoral.toasty.Toasty;
 
 public class CampaignAdapter extends RecyclerView.Adapter<CampaignAdapter.ViewHolder> {
     private List<CampaignModel> campaignModelList;
@@ -41,7 +47,7 @@ public class CampaignAdapter extends RecyclerView.Adapter<CampaignAdapter.ViewHo
         holder.title.setText(model.getCampaign_name());
         holder.campaignTitle.setText(model.getCampaign_name());
         holder.campaignTimeDate.setText(model.getStart_date()+" "+model.getStart_time());
-        holder.campaignCountdown.start(555550000); // Millisecond
+        //holder.campaignCountdown.start(555550000); // Millisecond
         int status=model.getPublication_status();
         if(status==0){
             holder.liveTxt.setText("coming live on");
@@ -50,6 +56,31 @@ public class CampaignAdapter extends RecyclerView.Adapter<CampaignAdapter.ViewHo
             holder.liveTxt.setText("is live now.");
         }
 
+        String n=model.getStart_time();
+        String a=new String();
+        for(int i=0;i<n.length();i++){
+            a+=n.charAt(i);
+            if(i==4){
+                a+=":00";
+            }
+        }
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
+
+        String start_Date=model.getStart_date()+a;
+        //String start_Date="2021-04-23 "+a;
+
+        String currentDate =sdf.format(new Date());
+        //String currentDate ="2021-04-22 08:00 PM";
+
+        Date date1,date2;
+        try {
+            date1=sdf.parse(start_Date);
+            date2=sdf.parse(currentDate);
+            long millieSecond=date2.getTime()-date1.getTime();
+            holder.campaignCountdown.start(millieSecond); // Millisecond
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
     }
 

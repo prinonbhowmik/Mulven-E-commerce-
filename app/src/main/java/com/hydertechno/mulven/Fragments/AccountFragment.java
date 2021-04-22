@@ -29,6 +29,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.hydertechno.mulven.Activities.MainActivity;
 import com.hydertechno.mulven.Activities.PhoneNumber;
+import com.hydertechno.mulven.Activities.ProfileActivity;
 import com.hydertechno.mulven.Activities.SignUp;
 import com.hydertechno.mulven.Api.ApiInterface;
 import com.hydertechno.mulven.Api.ApiUtils;
@@ -111,8 +112,10 @@ public class AccountFragment extends Fragment {
         forgetPasswordTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(),PhoneNumber.class));
-                getActivity().finish();
+                Intent intent=new Intent(getActivity(), PhoneNumber.class);
+                startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+                //getActivity().finish();
             }
         });
         return view;

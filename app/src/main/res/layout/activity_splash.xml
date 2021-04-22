@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,11 +13,34 @@
         android:layout_width="250dp"
         android:layout_height="150dp"
         android:layout_centerInParent="true"
-        android:src="@drawable/mvlogo"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.4" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_above="@+id/textViewLine1"
+        android:src="@drawable/mvlogo"/>
+    <com.hanks.htextview.typer.TyperTextView
+        android:id="@+id/textViewLine1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:fontFamily="@font/comfortaa"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="-20dp"
+        app:charIncrease="1"
+        app:typerSpeed="50"
+        tools:ignore="MissingConstraints" />
+<!--
+    <com.hanks.htextview.typer.TyperTextView
+        android:id="@+id/textViewLine2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="Making Your Life Easier"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:fontFamily="@font/comfortaa"
+        android:layout_centerInParent="true"
+        android:layout_below="@id/textViewLine1"
+        app:charIncrease="1"
+        app:typerSpeed="80"
+        tools:ignore="MissingConstraints" />-->
+</RelativeLayout>
