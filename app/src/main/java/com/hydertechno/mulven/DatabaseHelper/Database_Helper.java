@@ -101,8 +101,9 @@ public class Database_Helper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    public void deleteData(int id) {
-        getWritableDatabase().delete(TABLE_NAME, "id=?", new String[]{String.valueOf(id)});
+    public void deleteData(int id, String size, String color, String variant) {
+        getWritableDatabase().delete(TABLE_NAME, "id=? and size=? and color=? and variant=?",
+                new String[]{String.valueOf(id), size,color,variant});
     }
 
     public void addQuantity(int id, int quantity) {

@@ -128,7 +128,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                         .setPositiveButton("Delete", R.drawable.ic_delete, new BottomSheetMaterialDialog.OnClickListener() {
                             @Override
                             public void onClick(dev.shreyaspatil.MaterialDialog.interfaces.DialogInterface dialogInterface, int i) {
-                                database_helper.deleteData(list.get(position).getId());
+                                database_helper.deleteData(list.get(position).getId(),list.get(position).getSize(),
+                                        list.get(position).getColor(),list.get(position).getVariant());
                                 list.remove(position);
                                 notifyDataSetChanged();
                                 cartFragment.cardSubtotalAmount.setText("৳ "+database_helper.columnSum());

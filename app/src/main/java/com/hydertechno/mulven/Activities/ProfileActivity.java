@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -95,14 +96,17 @@ public class ProfileActivity extends AppCompatActivity {
                 if (imageUri!=null){
                     File file = new File(imageUri.getPath());
 
+                    Log.d("checkToken",token+" , "+imageUri.toString());
+
                     RequestBody userImage = RequestBody.create(MediaType.parse("image/*"), file);
 
-                    MultipartBody.Part photo = MultipartBody.Part.createFormData("image", file.getName(), userImage);
+                    MultipartBody.Part user_photo = MultipartBody.Part.createFormData("user_photo", file.getName(), userImage);
 
                     RequestBody  fullName = RequestBody .create(MediaType.parse("text/plain"), nameET.getText().toString());
+                    RequestBody  tokenPart = RequestBody .create(MediaType.parse("text/plain"), token);
                     RequestBody  email = RequestBody .create(MediaType.parse("text/plain"), emailET.getText().toString());
                     RequestBody  address = RequestBody .create(MediaType.parse("text/plain"), addressET.getText().toString());
-                    Call<UserProfile> call1 = ApiUtils.getUserService().updateProfileDataWithImage(token, photo,fullName,email,address);
+                    Call<UserProfile> call1 = ApiUtils.getUserService().updateProfileDataWithImage(tokenPart,fullName,email,address,user_photo);
                     call1.enqueue(new Callback<UserProfile>() {
                         @Override
                         public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
@@ -111,7 +115,7 @@ public class ProfileActivity extends AppCompatActivity {
                                 if (status.equals("1")) {
                                     Toasty.success(ProfileActivity.this, "Update Success!", Toast.LENGTH_SHORT, true).show();
                                     Intent intent = new Intent(ProfileActivity.this, MainActivity.class);
-                                    intent.putExtra("fragment", "profile");
+                                    intent.putExtra("fragment", "home");
                                     startActivity(intent);
                                     overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                                     finish();
@@ -124,6 +128,7 @@ public class ProfileActivity extends AppCompatActivity {
                         @Override
                         public void onFailure(Call<UserProfile> call, Throwable t) {
 
+                            Toast.makeText(ProfileActivity.this, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
                 }else {

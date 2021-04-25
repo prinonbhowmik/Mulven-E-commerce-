@@ -81,12 +81,11 @@ public interface ApiInterface {
                                          @Field("address") String address);
     @Multipart
     @POST("profile-update")
-    @FormUrlEncoded
-    Call<UserProfile> updateProfileDataWithImage(@Part("token") String token,
-                                                 @Part MultipartBody.Part image,
+    Call<UserProfile> updateProfileDataWithImage(@Part("token") RequestBody token,
                                                  @Part("full_name") RequestBody full_name,
                                                  @Part("email") RequestBody email,
-                                                 @Part("address") RequestBody address);
+                                                 @Part("address") RequestBody address,
+                                                 @Part MultipartBody.Part user_photo);
 
     @GET("all-product")
     Call<List<CategoriesModel>> searchProduct();
