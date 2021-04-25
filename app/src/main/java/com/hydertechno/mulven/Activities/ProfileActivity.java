@@ -14,13 +14,20 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.hydertechno.mulven.Api.ApiUtils;
+import com.hydertechno.mulven.Api.Config;
 import com.hydertechno.mulven.Models.UserProfile;
 import com.hydertechno.mulven.R;
+import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import java.io.File;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 import es.dmoral.toasty.Toasty;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -46,11 +53,20 @@ public class ProfileActivity extends AppCompatActivity {
         call.enqueue(new Callback<UserProfile>() {
             @Override
             public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
                     nameET.setText(response.body().getFull_name());
                     phoneET.setText(response.body().getPhone());
                     addressET.setText(response.body().getAddress());
                     emailET.setText(response.body().getEmail());
+                    if (response.body().getUser_photo() != null) {
+                        try {
+                            Picasso.get()
+                                    .load(Config.IMAGE_LINE + response.body().getUser_photo())
+                                    .into(profileImageTV);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
             }
 
@@ -75,31 +91,68 @@ public class ProfileActivity extends AppCompatActivity {
         saveIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Call<UserProfile> call1 = ApiUtils.getUserService().updateProfileData(token,nameET.getText().toString(),
-                        emailET.getText().toString(),addressET.getText().toString());
-                call1.enqueue(new Callback<UserProfile>() {
-                    @Override
-                    public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
-                        if (response.isSuccessful()){
-                            String status = response.body().getStatus();
-                            if (status.equals("1")){
-                                Toasty.success(ProfileActivity.this, "Update Success!", Toast.LENGTH_SHORT, true).show();
-                                Intent intent=new Intent( ProfileActivity.this,MainActivity.class);
-                                intent.putExtra("fragment","profile");
-                                startActivity(intent);
-                                overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
-                                finish();
-                            }else{
-                                Toasty.error(ProfileActivity.this, "Update Failed", Toast.LENGTH_LONG,true).show();
+
+                if (imageUri!=null){
+                    File file = new File(imageUri.getPath());
+
+                    RequestBody userImage = RequestBody.create(MediaType.parse("image/*"), file);
+
+                    MultipartBody.Part photo = MultipartBody.Part.createFormData("image", file.getName(), userImage);
+
+                    RequestBody  fullName = RequestBody .create(MediaType.parse("text/plain"), nameET.getText().toString());
+                    RequestBody  email = RequestBody .create(MediaType.parse("text/plain"), emailET.getText().toString());
+                    RequestBody  address = RequestBody .create(MediaType.parse("text/plain"), addressET.getText().toString());
+                    Call<UserProfile> call1 = ApiUtils.getUserService().updateProfileDataWithImage(token, photo,fullName,email,address);
+                    call1.enqueue(new Callback<UserProfile>() {
+                        @Override
+                        public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
+                            if (response.isSuccessful()) {
+                                String status = response.body().getStatus();
+                                if (status.equals("1")) {
+                                    Toasty.success(ProfileActivity.this, "Update Success!", Toast.LENGTH_SHORT, true).show();
+                                    Intent intent = new Intent(ProfileActivity.this, MainActivity.class);
+                                    intent.putExtra("fragment", "profile");
+                                    startActivity(intent);
+                                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                                    finish();
+                                } else {
+                                    Toasty.error(ProfileActivity.this, "Update Failed", Toast.LENGTH_LONG, true).show();
+                                }
                             }
                         }
-                    }
 
-                    @Override
-                    public void onFailure(Call<UserProfile> call, Throwable t) {
+                        @Override
+                        public void onFailure(Call<UserProfile> call, Throwable t) {
 
-                    }
-                });
+                        }
+                    });
+                }else {
+                    Call<UserProfile> call1 = ApiUtils.getUserService().updateProfileData(token, nameET.getText().toString(),
+                            emailET.getText().toString(), addressET.getText().toString());
+                    call1.enqueue(new Callback<UserProfile>() {
+                        @Override
+                        public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
+                            if (response.isSuccessful()) {
+                                String status = response.body().getStatus();
+                                if (status.equals("1")) {
+                                    Toasty.success(ProfileActivity.this, "Update Success!", Toast.LENGTH_SHORT, true).show();
+                                    Intent intent = new Intent(ProfileActivity.this, MainActivity.class);
+                                    intent.putExtra("fragment", "profile");
+                                    startActivity(intent);
+                                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                                    finish();
+                                } else {
+                                    Toasty.error(ProfileActivity.this, "Update Failed", Toast.LENGTH_LONG, true).show();
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<UserProfile> call, Throwable t) {
+
+                        }
+                    });
+                }
             }
         });
     }

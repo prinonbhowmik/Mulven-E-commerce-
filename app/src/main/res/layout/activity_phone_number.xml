@@ -29,6 +29,7 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:text="Sign Up"
+                android:visibility="gone"
                 android:textColor="@color/white"
                 android:textSize="24sp"
                 android:fontFamily="@font/comfortaa_light"

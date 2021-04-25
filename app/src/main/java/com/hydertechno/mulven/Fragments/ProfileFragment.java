@@ -31,9 +31,12 @@ import com.hydertechno.mulven.Activities.MainActivity;
 import com.hydertechno.mulven.Activities.PlaceOrderListActivity;
 import com.hydertechno.mulven.Activities.ProfileActivity;
 import com.hydertechno.mulven.Api.ApiUtils;
+import com.hydertechno.mulven.Api.Config;
 import com.hydertechno.mulven.Models.UserProfile;
 import com.hydertechno.mulven.R;
+import com.squareup.picasso.Picasso;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -46,6 +49,7 @@ public class ProfileFragment extends Fragment {
     private TextView username,phoneNo;
     private DrawerLayout drawerLayout;
     private ImageView navIcon;
+    private CircleImageView userImageIv;
     private Dialog dialog;
     private Animation upAnimation,downAnimation;
     private RelativeLayout paymentHistoryRL,changePasswordRL;
@@ -71,6 +75,15 @@ public class ProfileFragment extends Fragment {
                     id = response.body().getId();
                     username.setText(response.body().getFull_name());
                     phoneNo.setText(response.body().getPhone());
+                    if(response.body().getUser_photo()!=null) {
+                        try {
+                            Picasso.get()
+                                    .load(Config.IMAGE_LINE + response.body().getUser_photo())
+                                    .into(userImageIv);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
             }
 
@@ -141,7 +154,7 @@ public class ProfileFragment extends Fragment {
         changePasswordRL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(getActivity(), PlaceOrderListActivity.class);
+                Intent intent=new Intent(getActivity(), ChangePasswordActivity.class);
                 intent.putExtra("token",token);
                 intent.putExtra("activity","profile");
                 startActivity(intent);
@@ -160,6 +173,7 @@ public class ProfileFragment extends Fragment {
         upAnimation=AnimationUtils.loadAnimation(getContext(),R.anim.slide_up);
         downAnimation=AnimationUtils.loadAnimation(getContext(),R.anim.slide_down);
         username = view.findViewById(R.id.userName);
+        userImageIv = view.findViewById(R.id.userImageIV);
         phoneNo = view.findViewById(R.id.userPhoneNo);
         bottomRL=view.findViewById(R.id.bottomRL);
         bottomRL.setAnimation(upAnimation);

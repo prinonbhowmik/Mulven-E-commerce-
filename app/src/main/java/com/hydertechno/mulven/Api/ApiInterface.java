@@ -15,11 +15,15 @@ import com.hydertechno.mulven.Models.UserProfile;
 
 import java.util.List;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Query;
 
 public interface ApiInterface {
@@ -75,6 +79,14 @@ public interface ApiInterface {
                                          @Field("full_name") String name,
                                          @Field("email") String email,
                                          @Field("address") String address);
+    @Multipart
+    @POST("profile-update")
+    @FormUrlEncoded
+    Call<UserProfile> updateProfileDataWithImage(@Part("token") String token,
+                                                 @Part MultipartBody.Part image,
+                                                 @Part("full_name") RequestBody full_name,
+                                                 @Part("email") RequestBody email,
+                                                 @Part("address") RequestBody address);
 
     @GET("all-product")
     Call<List<CategoriesModel>> searchProduct();

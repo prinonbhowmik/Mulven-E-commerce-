@@ -27,6 +27,7 @@
             android:src="@drawable/ic_menu" />
 
         <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/userImageIV"
             android:layout_width="130dp"
             android:layout_height="130dp"
             android:layout_alignParentEnd="true"
