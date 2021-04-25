@@ -87,6 +87,15 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     customerNameTV.setText(response.body().getFull_name());
                     customerPhoneTV.setText(response.body().getPhone());
+                    if (response.body().getUser_photo() != null) {
+                        try {
+                            Picasso.get()
+                                    .load(Config.IMAGE_LINE + response.body().getUser_photo())
+                                    .into(customerImageIV);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
             }
 
