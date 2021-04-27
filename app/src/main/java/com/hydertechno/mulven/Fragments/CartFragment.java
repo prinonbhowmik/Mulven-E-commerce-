@@ -101,12 +101,21 @@ public class CartFragment extends Fragment {
                         String campaign_id = cursor.getString(cursor.getColumnIndex(databaseHelper.CAMPAIGN_ID));
                         int store_id = cursor.getInt(cursor.getColumnIndex(databaseHelper.STORE_ID));
 
-                        PlaceItemModel model = new PlaceItemModel(String.valueOf(id),name,variant,size,color,
-                                String.valueOf(unit_price),campaign_id,String.valueOf(store_id),String.valueOf(quantity));
-
-                        item.add(model);
 
                         Map<String, String> parms = new HashMap<String, String>();
+                        for (int i = 0; i < list.size(); i++) {
+                            parms.put("item_id",String.valueOf(id));
+                            parms.put("pro_name",name);
+                            parms.put("variant",variant);
+                            parms.put("size",size);
+                            parms.put("color",color);
+                            parms.put("price",String.valueOf(unit_price));
+                            parms.put("order_from",campaign_id);
+                            parms.put("store_id", String.valueOf(store_id));
+                            parms.put("quantity", String.valueOf(quantity));
+                        }
+
+                      /*  Map<String, String> parms = new HashMap<String, String>();
                         parms.put("item_id",String.valueOf(id));
                         parms.put("pro_name",name);
                         parms.put("variant",variant);
@@ -115,7 +124,7 @@ public class CartFragment extends Fragment {
                         parms.put("price",String.valueOf(unit_price));
                         parms.put("order_from",campaign_id);
                         parms.put("store_id", String.valueOf(store_id));
-                        parms.put("quantity", String.valueOf(quantity));
+                        parms.put("quantity", String.valueOf(quantity));*/
 
 
                         Call<PlaceOrderModel> call = ApiUtils.getUserService().placeOrder(token,parms);
@@ -132,7 +141,7 @@ public class CartFragment extends Fragment {
 
                             @Override
                             public void onFailure(Call<PlaceOrderModel> call, Throwable t) {
-
+                                Toast.makeText(getContext(), ""+t.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
 

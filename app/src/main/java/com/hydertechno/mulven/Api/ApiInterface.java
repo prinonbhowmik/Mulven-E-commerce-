@@ -121,7 +121,7 @@ public interface ApiInterface {
 
     @POST("order")
     @FormUrlEncoded
-    Call<PlaceOrderModel> placeOrder(@Field("token") String token,
-                                     @FieldMap Map<String,String> item);
+    Call<PlaceOrderModel> placeOrder(@Query("token") String token,
+                                     @Field("item") Map<String,String> item);
 
 }
