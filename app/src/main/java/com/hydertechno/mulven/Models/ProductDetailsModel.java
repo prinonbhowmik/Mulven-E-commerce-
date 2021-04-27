@@ -10,6 +10,8 @@ public class ProductDetailsModel {
     private String product_name;
     private int mrp_price;
     private int unit_price;
+    private int store_id;
+    private String campaign_id;
     private String shop_name;
     private String shop_logo;
     private String shop_address;
@@ -43,6 +45,14 @@ public class ProductDetailsModel {
 
     public int getUnit_price() {
         return unit_price;
+    }
+
+    public int getStore_id() {
+        return store_id;
+    }
+
+    public String getCampaign_id() {
+        return campaign_id;
     }
 
     public String getShop_name() {
@@ -81,7 +91,7 @@ public class ProductDetailsModel {
         return product_color;
     }
 
-    public List<ProductVariantModel> getProductVariantModel() {
+    public List<ProductVariantModel> getVariant() {
         return variant;
     }
 }

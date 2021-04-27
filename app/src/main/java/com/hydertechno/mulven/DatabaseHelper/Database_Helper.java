@@ -10,7 +10,7 @@ import androidx.annotation.Nullable;
 
 public class Database_Helper extends SQLiteOpenHelper {
 
-    private static String DB_NAME = "cart_table";
+    private static String DB_NAME = "cartTable";
     private static String TABLE_NAME = "new_table";
     public static String ID = "id";
     public static String PRODUCT_NAME = "product_name";
@@ -23,12 +23,15 @@ public class Database_Helper extends SQLiteOpenHelper {
     public static String SHOP_NAME = "shop_name";
     public static String QUANTITY = "quantity";
     public static String IMAGE = "image";
+    public static String CAMPAIGN_ID = "campaign_id";
+    public static String STORE_ID = "store_id";
     private static int VERSION = 4;
     private Context context;
     private String table = "CREATE TABLE " + TABLE_NAME + " (" + ID + " INTEGER," + SKU + " VARCHAR(255),"
             + MRP_PRICE + " VARCHAR(255)," + UNIT_PRICE + " INTEGER,"+ SIZE + " VARCHAR(255),"+COLOR + " VARCHAR(255),"
             +VARIANT + " VARCHAR(255),"+ PRODUCT_NAME + " VARCHAR(255),"
-            + SHOP_NAME + " VARCHAR(255)," + QUANTITY + " INTEGER," + IMAGE + " VARCHAR)";
+            + SHOP_NAME + " VARCHAR(255)," + QUANTITY + " INTEGER,"+ CAMPAIGN_ID + " VARCHAR(255),"
+            + STORE_ID + " INTEGER,"+ IMAGE + " VARCHAR)";
 
     public Database_Helper(@Nullable Context context) {
         super(context, DB_NAME, null, VERSION);
@@ -45,7 +48,9 @@ public class Database_Helper extends SQLiteOpenHelper {
 
     }
 
-    public void addToCart(int id, String name, int mrp_price, int unit_price,String size,String color,String variant, String shop_name, int quantity, String image) {
+    public void addToCart(int id, String name, int mrp_price, int unit_price,String size,String color,
+                          String variant, String shop_name, int quantity,String campaign_id,
+                          int store_id, String image) {
 
         SQLiteDatabase sq = getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -58,6 +63,8 @@ public class Database_Helper extends SQLiteOpenHelper {
         values.put(VARIANT, variant);
         values.put(SHOP_NAME, shop_name);
         values.put(QUANTITY, quantity);
+        values.put(CAMPAIGN_ID, campaign_id);
+        values.put(STORE_ID, store_id);
         values.put(IMAGE, image);
         sq.insert(TABLE_NAME, null, values);
 

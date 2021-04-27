@@ -61,7 +61,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
     private List<ProductDetailsModel> list;
     private int product_id,quantity,category_id;
     private WebView webView;
-    private String url = "https://mulven.com/pro-det-for-app/",imageString,size,color,variant;
+    private String url = "https://mulven.com/pro-det-for-app/",imageString,size,color,variant,capmpagin_id;
     private ImageView shopLogoIV,card_Minus,card_Plus;
     private List<CategoriesModel> relatedProductList =new ArrayList<>();
     private ArrayList<String> productColor = new ArrayList<String>();
@@ -71,7 +71,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
     private ApiInterface apiInterface;
     private RelatedProductAdapter relatedProductAdapter;
     private RelativeLayout feature_RelativeLayout,soldByRelativeLayout;
-    private int productMrpPrice,productUnitPrice;
+    private int productMrpPrice,productUnitPrice,store_id;
 
 
     @Override
@@ -103,6 +103,9 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
                 }else{
                     variant = "";
                 }
+                if (capmpagin_id==null){
+                    capmpagin_id = "";
+                }
                 Log.d("CheckData",size+","+color+","+variant);
                 if (databaseHelper.checkProductExist(product_id,size,color,variant)){
 
@@ -113,7 +116,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
                 else{
                     databaseHelper.addToCart(product_id,product_Name.getText().toString(),
                             productMrpPrice,productUnitPrice,size,color,variant,
-                            shop_Name.getText().toString(),Integer.parseInt(cardQuantity.getText().toString()),imageString);
+                            shop_Name.getText().toString(),Integer.parseInt(cardQuantity.getText().toString()),
+                            capmpagin_id,store_id,imageString);
                     Toast.makeText(ProductDetailsActivity.this, "Product Added To Cart", Toast.LENGTH_LONG).show();
                 }
             }
@@ -164,6 +168,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
                 brand_Name.setText(""+detailsList.getBrand());
                 imageString = detailsList.getFeacher_image();
                 category_id = detailsList.getCategory_id();
+                store_id = detailsList.getStore_id();
+                capmpagin_id = detailsList.getCampaign_id();
                 try{
                     Picasso.get()
                             .load(Config.IMAGE_LINE+detailsList.getFeacher_image())
@@ -231,7 +237,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
                 }
 
                 //Get Product Variants
-                List<ProductVariantModel> productVariantModelList = detailsList.getProductVariantModel();
+                List<ProductVariantModel> productVariantModelList = detailsList.getVariant();
                 if(productVariantModelList.get(0) != null){
                     variant_menu.setVisibility(View.VISIBLE);
                     productVariant.clear();
