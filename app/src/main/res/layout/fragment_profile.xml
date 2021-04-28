@@ -200,6 +200,7 @@
                 android:id="@+id/changePasswordCV2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_below="@+id/changePasswordCV"
                 android:layout_margin="5dp"
                 app:cardCornerRadius="10dp"

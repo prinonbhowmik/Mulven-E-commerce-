@@ -66,17 +66,15 @@ public class CampaignAdapter extends RecyclerView.Adapter<CampaignAdapter.ViewHo
         }
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
 
-        String start_Date=model.getStart_date()+a;
+        String start_Date=model.getStart_date()+" "+a;
         //String start_Date="2021-04-23 "+a;
-
         String currentDate =sdf.format(new Date());
         //String currentDate ="2021-04-22 08:00 PM";
-
         Date date1,date2;
         try {
             date1=sdf.parse(start_Date);
             date2=sdf.parse(currentDate);
-            long millieSecond=date2.getTime()-date1.getTime();
+            long millieSecond=date1.getTime()-date2.getTime();
             holder.campaignCountdown.start(millieSecond); // Millisecond
         } catch (ParseException e) {
             e.printStackTrace();
