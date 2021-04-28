@@ -1,6 +1,7 @@
 package com.hydertechno.mulven.Models;
 
 public class OrderDetails {
+    public String token;
     private Integer id;
     private String order_id;
     private Integer vendor_id;
@@ -16,6 +17,7 @@ public class OrderDetails {
     private String shop_address;
     private String shop_logo;
     private String status;
+
 
     public OrderDetails(Integer id, String order_id, Integer vendor_id, Integer customer_id, String date, String time, String orders_status, String delivery_address, String cancel_reason, String date_time, String shop_name, String seller_phone, String shop_address, String shop_logo, String status) {
         this.id = id;
@@ -36,6 +38,12 @@ public class OrderDetails {
     }
 
     public OrderDetails() {
+    }
+
+    public OrderDetails(String token, String order_id, String cancel_reason) {
+        this.token = token;
+        this.order_id = order_id;
+        this.cancel_reason = cancel_reason;
     }
 
     public Integer getId() {
@@ -96,5 +104,21 @@ public class OrderDetails {
 
     public String getStatus() {
         return status;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public void setOrder_id(String order_id) {
+        this.order_id = order_id;
+    }
+
+    public void setCancel_reason(String cancel_reason) {
+        this.cancel_reason = cancel_reason;
     }
 }

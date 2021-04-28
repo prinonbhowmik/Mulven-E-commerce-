@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/cancelTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancel Reason"
+        android:layout_marginTop="15dp"
+        android:textSize="24sp"
+        android:textColor="@color/GRed"
+        android:fontFamily="@font/comfortaa_bold"
+        android:layout_centerHorizontal="true"/>
+    <CheckBox
+        android:id="@+id/reason1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/cancelTxt"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:fontFamily="@font/comfortaa"
+        android:text="@string/reason1"/>
+
+    <CheckBox
+        android:id="@+id/reason2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/reason1"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:fontFamily="@font/comfortaa"
+        android:text="@string/reason2"/>
+    <CheckBox
+        android:id="@+id/reason3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/reason2"
+        android:fontFamily="@font/comfortaa"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:text="@string/reason3"/>
+    <CheckBox
+        android:id="@+id/reason4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/reason3"
+        android:fontFamily="@font/comfortaa"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:text="@string/reason4"/>
+    <CheckBox
+        android:id="@+id/reason5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/reason4"
+        android:fontFamily="@font/comfortaa"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:text="@string/reason5"/>
+    <CheckBox
+        android:id="@+id/reason6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/reason5"
+        android:fontFamily="@font/comfortaa"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:text="@string/reason6"/>
+
+    <TextView
+        android:id="@+id/submitReasonTV"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="Submit"
+        android:gravity="center"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="4dp"
+        android:visibility="visible"
+        android:layout_below="@id/reason6"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/btn_background_red"
+        android:textColor="@color/white"
+        android:textSize="17sp"
+        android:fontFamily="@font/comfortaa"
+        android:textAllCaps="false"/>
+
+</RelativeLayout>

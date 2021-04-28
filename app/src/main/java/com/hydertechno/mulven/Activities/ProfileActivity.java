@@ -4,7 +4,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,10 +15,14 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.hydertechno.mulven.Api.ApiUtils;
 import com.hydertechno.mulven.Api.Config;
+import com.hydertechno.mulven.Internet.Connection;
+import com.hydertechno.mulven.Internet.ConnectivityReceiver;
 import com.hydertechno.mulven.Models.UserProfile;
 import com.hydertechno.mulven.R;
 import com.squareup.picasso.Picasso;
@@ -33,7 +40,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener {
     private FrameLayout frameLayout;
     private CircleImageView profileImageTV;
     private EditText nameET,addressET,emailET,phoneET;
@@ -41,6 +48,11 @@ public class ProfileActivity extends AppCompatActivity {
     private ImageView saveIcon;
     private SharedPreferences sharedPreferences;
     private String token;
+    private RelativeLayout rootLayout;
+    private Snackbar snackbar;
+    private boolean isConnected;
+    private ConnectivityReceiver connectivityReceiver;
+    private IntentFilter intentFilter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +60,10 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         init();
+        checkConnection();
+        if (!isConnected) {
+            snackBar(isConnected);
+        }
 
         token = sharedPreferences.getString("token",null);
         Call<UserProfile> call = ApiUtils.getUserService().getUserData(token);
@@ -81,32 +97,40 @@ public class ProfileActivity extends AppCompatActivity {
         frameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CropImage.activity()
-                        .setFixAspectRatio(true)
-                        .setGuidelines(CropImageView.Guidelines.ON)
-                        .setCropShape(CropImageView.CropShape.OVAL)
-                        .start(ProfileActivity.this);
+                checkConnection();
+                if (!isConnected) {
+                    snackBar(isConnected);
+                }else {
+                    CropImage.activity()
+                            .setFixAspectRatio(true)
+                            .setGuidelines(CropImageView.Guidelines.ON)
+                            .setCropShape(CropImageView.CropShape.OVAL)
+                            .start(ProfileActivity.this);
+                }
             }
         });
 
         saveIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if (imageUri!=null){
+                checkConnection();
+                if (!isConnected) {
+                    snackBar(isConnected);
+                } else {
+                if (imageUri != null) {
                     File file = new File(imageUri.getPath());
 
-                    Log.d("checkToken",token+" , "+imageUri.toString());
+                    Log.d("checkToken", token + " , " + imageUri.toString());
 
                     RequestBody userImage = RequestBody.create(MediaType.parse("image/*"), file);
 
                     MultipartBody.Part user_photo = MultipartBody.Part.createFormData("user_photo", file.getName(), userImage);
 
-                    RequestBody  fullName = RequestBody .create(MediaType.parse("text/plain"), nameET.getText().toString());
-                    RequestBody  tokenPart = RequestBody .create(MediaType.parse("text/plain"), token);
-                    RequestBody  email = RequestBody .create(MediaType.parse("text/plain"), emailET.getText().toString());
-                    RequestBody  address = RequestBody .create(MediaType.parse("text/plain"), addressET.getText().toString());
-                    Call<UserProfile> call1 = ApiUtils.getUserService().updateProfileDataWithImage(tokenPart,fullName,email,address,user_photo);
+                    RequestBody fullName = RequestBody.create(MediaType.parse("text/plain"), nameET.getText().toString());
+                    RequestBody tokenPart = RequestBody.create(MediaType.parse("text/plain"), token);
+                    RequestBody email = RequestBody.create(MediaType.parse("text/plain"), emailET.getText().toString());
+                    RequestBody address = RequestBody.create(MediaType.parse("text/plain"), addressET.getText().toString());
+                    Call<UserProfile> call1 = ApiUtils.getUserService().updateProfileDataWithImage(tokenPart, fullName, email, address, user_photo);
                     call1.enqueue(new Callback<UserProfile>() {
                         @Override
                         public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
@@ -128,10 +152,10 @@ public class ProfileActivity extends AppCompatActivity {
                         @Override
                         public void onFailure(Call<UserProfile> call, Throwable t) {
 
-                            Toast.makeText(ProfileActivity.this, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ProfileActivity.this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
-                }else {
+                } else {
                     Call<UserProfile> call1 = ApiUtils.getUserService().updateProfileData(token, nameET.getText().toString(),
                             emailET.getText().toString(), addressET.getText().toString());
                     call1.enqueue(new Callback<UserProfile>() {
@@ -159,10 +183,15 @@ public class ProfileActivity extends AppCompatActivity {
                     });
                 }
             }
+        }
         });
     }
 
     private void init() {
+        rootLayout=findViewById(R.id.activity_profile_rootLayout);
+        intentFilter = new IntentFilter();
+        intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        connectivityReceiver = new ConnectivityReceiver();
         frameLayout=findViewById(R.id.frame_layout1);
         profileImageTV=findViewById(R.id.profileImageTV);
         sharedPreferences = getSharedPreferences("MyRef", MODE_PRIVATE);
@@ -207,4 +236,64 @@ public class ProfileActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
         finish();
     }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        snackBar(isConnected);
+    }
+
+    private void checkConnection() {
+        isConnected = ConnectivityReceiver.isConnected();
+    }
+    private void snackBar(boolean isConnected) {
+        if(!isConnected) {
+            snackbar = Snackbar.make(rootLayout, "No Internet Connection!", Snackbar.LENGTH_INDEFINITE).setAction("ReTry", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    recreate();
+                }
+            });
+            snackbar.setDuration(5000);
+            snackbar.setActionTextColor(Color.WHITE);
+            View sbView = snackbar.getView();
+            sbView.setBackgroundColor(Color.RED);
+            snackbar.show();
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        registerReceiver(connectivityReceiver, intentFilter);
+    }
+    @Override
+    protected void onResume() {
+
+        // register connection status listener
+        Connection.getInstance().setConnectivityListener(this);
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        try{
+            if(connectivityReceiver!=null)
+                unregisterReceiver(connectivityReceiver);
+
+        }catch(Exception e){}
+
+    }
+
+    @Override
+    protected void onStop() {
+        try{
+            if(connectivityReceiver!=null)
+                unregisterReceiver(connectivityReceiver);
+
+        }catch(Exception e){}
+
+        super.onStop();
+    }
+
 }

@@ -2,6 +2,7 @@ package com.hydertechno.mulven.Api;
 
 import com.hydertechno.mulven.Models.Campaign;
 import com.hydertechno.mulven.Models.CampaignModel;
+import com.hydertechno.mulven.Models.CancellationReasonModel;
 import com.hydertechno.mulven.Models.CategoriesModel;
 import com.hydertechno.mulven.Models.CategoryNamesModel;
 import com.hydertechno.mulven.Models.ChangePasswordModel;
@@ -123,5 +124,12 @@ public interface ApiInterface {
     @FormUrlEncoded
     Call<PlaceOrderModel> placeOrder(@Query("token") String token,
                                      @Field("item") Map<String,String> item);
+
+
+
+    @POST("order-cancel")
+    Call<CancellationReasonModel> setCancelReason(@Query("token") String token,
+                                                  @Query("order_id") String order_id,
+                                                  @Query("cancel_reason") String cancel_reason);
 
 }
