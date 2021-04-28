@@ -127,7 +127,7 @@ public interface ApiInterface {
 
 
 
-    @POST("order-cancel")
+    @GET("order-cancel")
     Call<CancellationReasonModel> setCancelReason(@Query("token") String token,
                                                   @Query("order_id") String order_id,
                                                   @Query("cancel_reason") String cancel_reason);

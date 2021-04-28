@@ -411,10 +411,11 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
                             @Override
                             public void onResponse(Call<CancellationReasonModel> call, Response<CancellationReasonModel> response) {
                                 if (response.body().getStatus()==1){
-                                    Toasty.normal(PlaceOrderDetailsActivity.this, "Order has canceled."+response.body().getStatus(), Toasty.LENGTH_SHORT).show();
+                                    Toasty.normal(PlaceOrderDetailsActivity.this, "Order has canceled.", Toasty.LENGTH_SHORT).show();
+                                    recreate();
                                 }
                                 else {
-                                    Toast.makeText(PlaceOrderDetailsActivity.this, "error ", Toast.LENGTH_SHORT).show();
+                                    Toasty.error(PlaceOrderDetailsActivity.this, "Something went wrong", Toasty.LENGTH_SHORT).show();
                                 }
                             }
 
