@@ -123,7 +123,7 @@ public interface ApiInterface {
     @POST("order")
     @FormUrlEncoded
     Call<PlaceOrderModel> placeOrder(@Query("token") String token,
-                                     @Field("item") Map<String,String> item);
+                                     @Field("item") JSONArray item);
 
 
 

@@ -51,7 +51,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class CartFragment extends Fragment {
     private DrawerLayout drawerLayout;
-    private RelativeLayout noCartLayout,cartLayout;
+    private RelativeLayout noCartLayout, cartLayout;
     private ImageView navIcon;
     private TextView placeOrder;
     public static TextView cardSubtotalAmount;
@@ -67,11 +67,11 @@ public class CartFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view= inflater.inflate(R.layout.fragment_cart, container, false);
+        View view = inflater.inflate(R.layout.fragment_cart, container, false);
         init(view);
-        drawerLayout=getActivity().findViewById(R.id.drawerLayout);
+        drawerLayout = getActivity().findViewById(R.id.drawerLayout);
 
-        cardSubtotalAmount.setText("৳ "+databaseHelper.columnSum());
+        cardSubtotalAmount.setText("৳ " + databaseHelper.columnSum());
 
         int count = databaseHelper.numberOfrows().getCount();
 
@@ -101,8 +101,23 @@ public class CartFragment extends Fragment {
                         String campaign_id = cursor.getString(cursor.getColumnIndex(databaseHelper.CAMPAIGN_ID));
                         int store_id = cursor.getInt(cursor.getColumnIndex(databaseHelper.STORE_ID));
 
+                        List<Map<String, String>> list1 = new ArrayList<>();
+                        Map<String, String> parms = new HashMap<String,String>();
 
-                        Map<String, String> parms = new HashMap<String, String>();
+                        for (int i = 0; i < list.size(); i++) {
+                            parms.put("item_id", String.valueOf(id));
+                            parms.put("pro_name", name);
+                            parms.put("variant", variant);
+                            parms.put("size", size);
+                            parms.put("color", color);
+                            parms.put("price", String.valueOf(unit_price));
+                            parms.put("order_from", campaign_id);
+                            parms.put("store_id", String.valueOf(store_id));
+                            parms.put("quantity", String.valueOf(quantity));
+                            list1.add(parms);
+                        }
+
+                       /* Map<String, String> parms = new HashMap<String, String>();
                         for (int i = 0; i < list.size(); i++) {
                             parms.put("item_id",String.valueOf(id));
                             parms.put("pro_name",name);
@@ -113,27 +128,18 @@ public class CartFragment extends Fragment {
                             parms.put("order_from",campaign_id);
                             parms.put("store_id", String.valueOf(store_id));
                             parms.put("quantity", String.valueOf(quantity));
-                        }
+                        }*/
 
-                      /*  Map<String, String> parms = new HashMap<String, String>();
-                        parms.put("item_id",String.valueOf(id));
-                        parms.put("pro_name",name);
-                        parms.put("variant",variant);
-                        parms.put("size",size);
-                        parms.put("color",color);
-                        parms.put("price",String.valueOf(unit_price));
-                        parms.put("order_from",campaign_id);
-                        parms.put("store_id", String.valueOf(store_id));
-                        parms.put("quantity", String.valueOf(quantity));*/
+                        JSONArray array = new JSONArray(list1);
+                        Log.d("checkList", String.valueOf(array));
 
-
-                        Call<PlaceOrderModel> call = ApiUtils.getUserService().placeOrder(token,parms);
+                        Call<PlaceOrderModel> call = ApiUtils.getUserService().placeOrder(token, array);
                         call.enqueue(new Callback<PlaceOrderModel>() {
                             @Override
                             public void onResponse(Call<PlaceOrderModel> call, Response<PlaceOrderModel> response) {
-                                if (response.isSuccessful()){
+                                if (response.isSuccessful()) {
                                     int status = response.body().getStatus();
-                                    if (status==1){
+                                    if (status == 1) {
                                         Toast.makeText(getContext(), "Order Placed Successfully!", Toast.LENGTH_SHORT).show();
                                     }
                                 }
@@ -141,9 +147,10 @@ public class CartFragment extends Fragment {
 
                             @Override
                             public void onFailure(Call<PlaceOrderModel> call, Throwable t) {
-                                Toast.makeText(getContext(), ""+t.getMessage(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
+
 
                     }
                 }
@@ -169,14 +176,14 @@ public class CartFragment extends Fragment {
                 String color = cursor.getString(cursor.getColumnIndex(databaseHelper.COLOR));
                 String variant = cursor.getString(cursor.getColumnIndex(databaseHelper.VARIANT));
 
-                CartProductModel cartProductsModel = new CartProductModel(id,name,mrp_price,unit_price,size,color,variant,shop_name ,quantity, image);
+                CartProductModel cartProductsModel = new CartProductModel(id, name, mrp_price, unit_price, size, color, variant, shop_name, quantity, image);
 
                 list.add(cartProductsModel);
                 adapter = new CartAdapter(list, getContext());
                 cartRecycler.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
             }
-            if(list.size()==0){
+            if (list.size() == 0) {
                 noCartLayout.setVisibility(View.VISIBLE);
                 cartLayout.setVisibility(View.GONE);
             }
@@ -184,8 +191,8 @@ public class CartFragment extends Fragment {
     }
 
     private void init(View view) {
-        navIcon=view.findViewById(R.id.navIcon);
-        placeOrder=view.findViewById(R.id.placeOrderTV);
+        navIcon = view.findViewById(R.id.navIcon);
+        placeOrder = view.findViewById(R.id.placeOrderTV);
         noCartLayout = view.findViewById(R.id.noCartLayout);
         cartLayout = view.findViewById(R.id.cartLayout);
         cardSubtotalAmount = view.findViewById(R.id.cardSubtotalAmount);
@@ -195,9 +202,10 @@ public class CartFragment extends Fragment {
         cartRecycler = view.findViewById(R.id.cartRecycler);
         cartRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         sharedPreferences = getContext().getSharedPreferences("MyRef", MODE_PRIVATE);
-        token = sharedPreferences.getString("token",null);
-        Log.d("ShowToken",token);
+        token = sharedPreferences.getString("token", null);
+        Log.d("ShowToken", token);
     }
+
     private void hideKeyboardFrom(Context context) {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(this.getActivity().getWindow().getDecorView().getRootView().getWindowToken(), 0);
