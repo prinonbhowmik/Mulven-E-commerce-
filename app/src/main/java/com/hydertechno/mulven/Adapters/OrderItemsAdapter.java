@@ -81,16 +81,13 @@ public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.Vi
 
         if (due == 0) {
             activity.orderStatusTV.setText("Paid");
-            activity.makePaymentTV.setVisibility(View.GONE);
             activity.orderStatusTV.setTextColor(Color.parseColor("#0F9D58"));
         } else if (due != 0) {
             if (activity.totalPay > 0) {
                 activity.orderStatusTV.setText("Partial Paid");
-                activity.makePaymentTV.setVisibility(View.VISIBLE);
                 activity.orderStatusTV.setTextColor(Color.parseColor("#4285F4"));
             } else if (activity.totalPay == 0) {
                 activity.orderStatusTV.setText("Unpaid");
-                activity.makePaymentTV.setVisibility(View.VISIBLE);
                 activity.orderStatusTV.setTextColor(Color.parseColor("#DB4437"));
             }
         }
@@ -124,6 +121,9 @@ public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.Vi
                 break;
             case "Shipped":
                 holder.orderStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.status_shipped));
+                break;
+            case "Picked":
+                holder.orderStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.status_picked));
                 break;
         }
         holder.orderStatusTV.setText(model.getStatus());

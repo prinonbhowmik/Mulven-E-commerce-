@@ -106,10 +106,12 @@ public class SignUp extends AppCompatActivity {
                     }else{
                         String token = response.body().getToken();
                         String msg = response.body().getMessage();
+                        int userId=response.body().getId();
                         SharedPreferences sharedPreferences = getSharedPreferences("MyRef", MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("token", token);
                         editor.putInt("loggedIn", 1);
+                        editor.putInt("userId",userId);
                         editor.commit();
                         Log.d("ShowToken",token);
                         Toast.makeText(SignUp.this, ""+msg, Toast.LENGTH_LONG).show();

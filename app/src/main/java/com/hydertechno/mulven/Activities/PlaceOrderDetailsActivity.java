@@ -1,13 +1,14 @@
 package com.hydertechno.mulven.Activities;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -65,8 +66,9 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
     public static int totalPay;
     private Dialog dialog;
     private RatingBar ratingBar;
-    private String token, OrderId,paymentOrderStatus;
-    private ImageView vendorImageIV, customerImageIV, moreIcon;
+    private String token, OrderId,paymentOrderStatus,orderStatus;
+    private int userId;
+    private ImageView vendorImageIV, customerImageIV, moreIcon,deliveredIcon;
     private SharedPreferences sharedPreferences;
     private List<InvoiceDetailsModel> invoiceDetailsModelList;
     private FrameLayout frame_layout2;
@@ -76,6 +78,7 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
     private boolean isConnected;
     private ConnectivityReceiver connectivityReceiver;
     private IntentFilter intentFilter;
+    private PopupMenu popup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,16 +93,36 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
         OrderId = intent.getStringExtra("OrderId");
 
         getInvoiceDetails();
+
+        switch (paymentOrderStatus) {
+            case "Unpaid":
+            case "Partial Paid":
+                if(orderStatus.equals("Cancel")){
+                    makePaymentTV.setVisibility(View.GONE);
+                }else {
+                    makePaymentTV.setVisibility(View.VISIBLE);
+                }
+                break;
+            case "Paid":
+                makePaymentTV.setVisibility(View.GONE);
+                break;
+        }
         moreIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!isConnected) {
                     snackBar(isConnected);
                 }else{
-                PopupMenu popup = new PopupMenu(PlaceOrderDetailsActivity.this, moreIcon);
-                popup.setOnMenuItemClickListener(PlaceOrderDetailsActivity.this);
-                popup.getMenuInflater().inflate(R.menu.cancel_product_menu, popup.getMenu());
-                popup.show();
+                    popup = new PopupMenu(PlaceOrderDetailsActivity.this, moreIcon);
+                    popup.setOnMenuItemClickListener(PlaceOrderDetailsActivity.this);
+                    popup.getMenuInflater().inflate(R.menu.cancel_product_menu, popup.getMenu());
+                    if(orderStatus.equals("Pending") || orderStatus.equals("Partial Paid")){
+                        popup.getMenu().removeItem(R.id.deliveredOrder);
+                    } else if(orderStatus.equals("Shipped")){
+                    popup.getMenu().removeItem(R.id.cancelOrder);
+                }
+                    popup.show();
+
                 }
             }
         });
@@ -177,6 +200,7 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
     private void init() {
         sharedPreferences = getSharedPreferences("MyRef", MODE_PRIVATE);
         token = sharedPreferences.getString("token", null);
+        userId =sharedPreferences.getInt("userId",0);
         rootLayout = findViewById(R.id.place_order_details_rootLayout);
         intentFilter = new IntentFilter();
         intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
@@ -198,20 +222,7 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
         orderStatusTV = findViewById(R.id.orderStatusTV);
         makePaymentTV = findViewById(R.id.makePaymentTV);
         paymentOrderStatus=orderStatusTV.getText().toString();
-        switch (paymentOrderStatus) {
-            case "Unpaid":
-                makePaymentTV.setVisibility(View.VISIBLE);
-                orderStatusTV.setTextColor(Color.parseColor("#DB4437"));
-                break;
-            case "Partial Paid":
-                makePaymentTV.setVisibility(View.VISIBLE);
-                orderStatusTV.setTextColor(Color.parseColor("#4285F4"));
-                break;
-            case "Paid":
-                makePaymentTV.setVisibility(View.GONE);
-                orderStatusTV.setTextColor(Color.parseColor("#0F9D58"));
-                break;
-        }
+
         dueTV = findViewById(R.id.dueTV);
         ratingBar = findViewById(R.id.ratingBar);
         timelineRecyclerView = findViewById(R.id.timelineRecyclerView);
@@ -233,6 +244,7 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
                 String orderTime = details.getOrderDetails().getTime();
                 String orderDate = details.getOrderDetails().getDate();
                 String customerAddress = details.getOrderDetails().getDelivery_address();
+                orderStatus = details.getOrderDetails().getOrders_status();
                 vendorNameTV.setText(shopName);
                 vendorPhoneTV.setText(shopPhone);
                 vendorAddressTV.setText(shopAddress);
@@ -247,7 +259,14 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
+                if(orderStatus.equals("Pending") || orderStatus.equals("Partial Paid") ||(orderStatus.equals("Shipped"))){
+                    moreIcon.setVisibility(View.VISIBLE);
+                   // popup.getMenu().removeItem(R.id.deliveredOrder);
+                }
+                /*if(orderStatus.equals("Shipped")){
+                    moreIcon.setVisibility(View.VISIBLE);
+                    popup.getMenu().removeItem(R.id.cancelOrder);
+                }*/
                 if(customerAddress==null){
                     Call<UserProfile> call2 = ApiUtils.getUserService().getUserData(token);
                     call2.enqueue(new Callback<UserProfile>() {
@@ -296,6 +315,10 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
 
 
     public void placeOrderDetailsBack(View view) {
+        Intent intent=new Intent( PlaceOrderDetailsActivity.this,PlaceOrderListActivity.class);
+        intent.putExtra("id",userId);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
         finish();
     }
 
@@ -306,7 +329,8 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
 
     @Override
     public boolean onMenuItemClick(MenuItem menuItem) {
-        if (menuItem.getItemId() == R.id.cancelOrder) {
+        switch(menuItem.getItemId()){
+            case R.id.cancelOrder:
             //Toast.makeText(PlaceOrderDetailsActivity.this, "Item 1 Selected", Toast.LENGTH_SHORT).show();
 
             dialog = new Dialog(PlaceOrderDetailsActivity.this);
@@ -437,7 +461,49 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
 
             Window window = dialog.getWindow();
             window.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            break;
+            case R.id.deliveredOrder:
+                androidx.appcompat.app.AlertDialog.Builder dialog2 = new androidx.appcompat.app.AlertDialog.Builder(this);
+                dialog2.setTitle("Order Delivered");
+                dialog2.setIcon(R.drawable.applogo);
+                dialog2.setMessage("Do you get your delivery?");
+                dialog2.setCancelable(false);
+                dialog2.setPositiveButton("Yes I Get", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog2, int which) {
+                        Call<CancellationReasonModel> call = ApiUtils.getUserService().setOrderDelivered(token,OrderId);
+                        call.enqueue(new Callback<CancellationReasonModel>() {
+                            @Override
+                            public void onResponse(Call<CancellationReasonModel> call, Response<CancellationReasonModel> response) {
+                                if (response.body().getStatus()==1){
+                                    Toasty.normal(PlaceOrderDetailsActivity.this, "Order has delivered.", Toasty.LENGTH_SHORT).show();
+                                    recreate();
+                                }
+                                else {
+                                    Toasty.error(PlaceOrderDetailsActivity.this,
+                                            "Confirm us by pressing the received button once you " +
+                                                    "receive your product. This is the only proof that you" +
+                                                    " got the product in hand", Toasty.LENGTH_SHORT).show();
+                                }
+                            }
 
+                            @Override
+                            public void onFailure(Call<CancellationReasonModel> call, Throwable t) {
+                                Toasty.error(PlaceOrderDetailsActivity.this, "Something went wrong", Toasty.LENGTH_SHORT).show();
+                            }
+                        });
+                        dialog2.dismiss();
+                    }
+                });
+                dialog2.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog2, int which) {
+                        dialog2.dismiss();
+                    }
+                });
+                AlertDialog alertDialog2 = dialog2.create();
+                alertDialog2.show();
+                break;
         }
         return false;
     }
@@ -499,5 +565,15 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
         }catch(Exception e){}
 
         super.onStop();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent=new Intent( PlaceOrderDetailsActivity.this,PlaceOrderListActivity.class);
+        intent.putExtra("id",userId);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+        finish();
     }
 }

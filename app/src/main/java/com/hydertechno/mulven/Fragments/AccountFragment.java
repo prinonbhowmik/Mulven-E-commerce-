@@ -132,10 +132,12 @@ public class AccountFragment extends Fragment {
                     Log.d("CheckStatus",status);
                     if (status.equals("1")){
                         String token = response.body().getToken();
+                        int userId=response.body().getId();
                         SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyRef", MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("token", token);
                         editor.putInt("loggedIn", 1);
+                        editor.putInt("userId",userId);
                         editor.commit();
                         Log.d("ShowToken",token);
                         Toast.makeText(getContext(), ""+message, Toast.LENGTH_SHORT).show();

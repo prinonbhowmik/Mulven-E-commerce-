@@ -27,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.hydertechno.mulven.Activities.AddressActivity;
@@ -172,7 +173,6 @@ public class ProfileFragment extends Fragment implements ConnectivityReceiver.Co
                 } else {
                 Intent intent=new Intent(getActivity(), PlaceOrderListActivity.class);
                 intent.putExtra("id",id);
-                intent.putExtra("token",token);
                 startActivity(intent);
                 getActivity().overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
                 //getActivity().finish();

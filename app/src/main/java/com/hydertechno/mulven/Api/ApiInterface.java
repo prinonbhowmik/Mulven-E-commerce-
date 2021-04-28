@@ -132,4 +132,8 @@ public interface ApiInterface {
                                                   @Query("order_id") String order_id,
                                                   @Query("cancel_reason") String cancel_reason);
 
+    @GET("order-delivered")
+    Call<CancellationReasonModel> setOrderDelivered(@Query("token") String token,
+                                                  @Query("order_id") String order_id);
+
 }

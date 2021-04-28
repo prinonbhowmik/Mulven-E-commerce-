@@ -3,5 +3,8 @@
     <item
         android:id="@+id/cancelOrder"
         android:title="Cancel Order"/>
+    <item
+        android:id="@+id/deliveredOrder"
+        android:title="Delivered Order"/>
 
 </menu>

@@ -112,6 +112,22 @@
                 android:textSize="12sp" />
 
             <TextView
+                android:id="@+id/sPicked"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/status_tag"
+                android:fontFamily="@font/comfortaa_bold"
+                android:gravity="center"
+                android:paddingStart="25dp"
+                android:paddingEnd="25dp"
+                android:text="Picked"
+                android:textColor="@color/purple_500"
+                android:textSize="12sp" />
+
+            <TextView
                 android:id="@+id/sDelivered"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"

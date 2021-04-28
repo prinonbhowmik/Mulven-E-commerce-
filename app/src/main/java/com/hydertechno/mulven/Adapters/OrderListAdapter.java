@@ -1,5 +1,6 @@
 package com.hydertechno.mulven.Adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -67,6 +68,9 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
             case "Shipped":
                 holder.orderStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.status_shipped));
                 break;
+            case "Picked":
+                holder.orderStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.status_picked));
+                break;
         }
         holder.orderStatusTV.setText(orderStatus);
 
@@ -80,6 +84,9 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
                     intent.putExtra("OrderId",orderListModel.getOrder_id());
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
+                    ((Activity)context).overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                    ((Activity)context).finish();
+
                 } catch (Exception e) {
                     Log.d("Error",e.getMessage());
                 }

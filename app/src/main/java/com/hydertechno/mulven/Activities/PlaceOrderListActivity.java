@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
@@ -49,10 +50,11 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
     private RelativeLayout noOrderLayout;
     private boolean isConnected;
     private Snackbar snackbar;
+    private SharedPreferences sharedPreferences;
     private RelativeLayout rootLayout;
     private ConnectivityReceiver connectivityReceiver;
     private IntentFilter intentFilter;
-    private TextView sAll,sProcessing, sDelivered, sShipped, sPartialPaid, sPending, sCanceled;
+    private TextView sAll,sProcessing, sDelivered, sShipped, sPartialPaid, sPending,sPicked, sCanceled;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +63,9 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
         init();
         Intent intent = getIntent();
         id = intent.getIntExtra("id", 0);
-        token = intent.getStringExtra("token");
+
+        token = sharedPreferences.getString("token",null);
+        //token = intent.getStringExtra("token");
         Log.d("checkId", String.valueOf(id));
         getOrderList(id);
         checkConnection();
@@ -83,6 +87,8 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
 
                     sProcessing.setTextColor(Color.parseColor("#0F9D58"));
                     sProcessing.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
+                    sPicked.setTextColor(Color.parseColor("#FF6200EE"));
+                    sPicked.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
                     sDelivered.setTextColor(Color.parseColor("#808080"));
                     sDelivered.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
                     sShipped.setTextColor(Color.parseColor("#FF5722"));
@@ -111,6 +117,8 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
 
                     sAll.setTextColor(Color.parseColor("#FF03DAC5"));
                     sAll.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
+                    sPicked.setTextColor(Color.parseColor("#FF6200EE"));
+                    sPicked.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
                     sDelivered.setTextColor(Color.parseColor("#808080"));
                     sDelivered.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
                     sShipped.setTextColor(Color.parseColor("#FF5722"));
@@ -165,6 +173,8 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
 
                     sProcessing.setTextColor(Color.parseColor("#0F9D58"));
                     sProcessing.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
+                    sPicked.setTextColor(Color.parseColor("#FF6200EE"));
+                    sPicked.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
                     sAll.setTextColor(Color.parseColor("#FF03DAC5"));
                     sAll.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
                     sShipped.setTextColor(Color.parseColor("#FF5722"));
@@ -218,6 +228,8 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
 
                     sProcessing.setTextColor(Color.parseColor("#0F9D58"));
                     sProcessing.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
+                    sPicked.setTextColor(Color.parseColor("#FF6200EE"));
+                    sPicked.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
                     sAll.setTextColor(Color.parseColor("#FF03DAC5"));
                     sAll.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
                     sDelivered.setTextColor(Color.parseColor("#808080"));
@@ -271,6 +283,8 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
 
                     sProcessing.setTextColor(Color.parseColor("#0F9D58"));
                     sProcessing.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
+                    sPicked.setTextColor(Color.parseColor("#FF6200EE"));
+                    sPicked.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
                     sAll.setTextColor(Color.parseColor("#FF03DAC5"));
                     sAll.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
                     sDelivered.setTextColor(Color.parseColor("#808080"));
@@ -311,6 +325,62 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
             }
         });
 
+
+        sPicked.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkConnection();
+                if (!isConnected) {
+                    snackBar(isConnected);
+                } else {
+                    orderListModel.clear();
+                    sPicked.setTextColor(Color.parseColor("#FFFFFF"));
+                    sPicked.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_picked));
+
+                    sProcessing.setTextColor(Color.parseColor("#0F9D58"));
+                    sProcessing.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
+                    sPartialPaid.setTextColor(Color.parseColor("#4285F4"));
+                    sPartialPaid.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
+                    sAll.setTextColor(Color.parseColor("#FF03DAC5"));
+                    sAll.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
+                    sDelivered.setTextColor(Color.parseColor("#808080"));
+                    sDelivered.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
+                    sShipped.setTextColor(Color.parseColor("#FF5722"));
+                    sShipped.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
+                    sPending.setTextColor(Color.parseColor("#F4B400"));
+                    sPending.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
+                    sCanceled.setTextColor(Color.parseColor("#DB4437"));
+                    sCanceled.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
+                    Call<OrderModel> call = apiInterface.getOrderList(id, token);
+                    call.enqueue(new Callback<OrderModel>() {
+                        @Override
+                        public void onResponse(Call<OrderModel> call, Response<OrderModel> response) {
+                            if (response.isSuccessful()) {
+                                String status = response.body().getStatus();
+                                if (status.equals("1")) {
+                                    orderListModel = response.body().getItems();
+                                    orderListAdapter = new OrderListAdapter(orderListModel, PlaceOrderListActivity.this);
+                                    orderListRecyclerView.setAdapter(orderListAdapter);
+                                    orderListAdapter.getFilter().filter("Picked");
+                                }
+                                Collections.reverse(orderListModel);
+                                orderListAdapter.notifyDataSetChanged();
+                                if (orderListModel.size() == 0) {
+                                    noOrderLayout.setVisibility(View.VISIBLE);
+                                    orderListRecyclerView.setVisibility(View.GONE);
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<OrderModel> call, Throwable t) {
+
+                        }
+                    });
+                }
+            }
+        });
+
         sPending.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -324,6 +394,8 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
 
                     sProcessing.setTextColor(Color.parseColor("#0F9D58"));
                     sProcessing.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
+                    sPicked.setTextColor(Color.parseColor("#FF6200EE"));
+                    sPicked.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
                     sAll.setTextColor(Color.parseColor("#FF03DAC5"));
                     sAll.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
                     sDelivered.setTextColor(Color.parseColor("#808080"));
@@ -379,6 +451,8 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
 
                     sProcessing.setTextColor(Color.parseColor("#0F9D58"));
                     sProcessing.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
+                    sPicked.setTextColor(Color.parseColor("#FF6200EE"));
+                    sPicked.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
                     sAll.setTextColor(Color.parseColor("#FF03DAC5"));
                     sAll.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
                     sDelivered.setTextColor(Color.parseColor("#808080"));
@@ -458,8 +532,11 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
         sShipped = findViewById(R.id.sShipped);
         sPartialPaid = findViewById(R.id.sPartialPaid);
         sPending = findViewById(R.id.sPending);
+        sPicked = findViewById(R.id.sPicked);
         sCanceled = findViewById(R.id.sCanceled);
         rootLayout = findViewById(R.id.placeOrderListRootLayout);
+
+        sharedPreferences =getSharedPreferences("MyRef", MODE_PRIVATE);
 
         intentFilter = new IntentFilter();
         intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
