@@ -162,7 +162,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                         .setNegativeButton("Cancel", R.drawable.ic_close, new BottomSheetMaterialDialog.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int which) {
-                                Toast.makeText(context, "Cancelled!", Toast.LENGTH_SHORT).show();
                                 dialogInterface.dismiss();
                             }
                         })

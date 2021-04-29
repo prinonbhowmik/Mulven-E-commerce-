@@ -36,6 +36,7 @@ import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 import dev.shreyaspatil.MaterialDialog.AbstractDialog;
 import dev.shreyaspatil.MaterialDialog.MaterialDialog;
 import dev.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
+import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -187,8 +188,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                             editor.putString("token", "");
                                             editor.putInt("loggedIn", 0);
                                             editor.commit();
-                                            Toast.makeText(MainActivity.this, "Logout successful!", Toast.LENGTH_SHORT).show();
-
+                                            Toasty.success(MainActivity.this, "Logout successful!", Toasty.LENGTH_SHORT).show();
                                             finish();
                                             startActivity(getIntent());
                                             dialogInterface.dismiss();
