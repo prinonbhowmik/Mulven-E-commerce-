@@ -42,28 +42,37 @@ public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.Vi
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         OrderItemsModel model = orderItemsModelList.get(position);
         holder.OrderProductName.setText(model.getPro_name());
-        String variant = model.getVariant();
-        String color = model.getColor();
-        String size = model.getSize();
-        /*if (variant != null || color != null || size != null) {
-            holder.ProductVariantName.setVisibility(View.VISIBLE);
-            holder.ProductVariantName.setText(color + size + variant);
-        }*/
-        if (model.getSize()==null && model.getColor()==null  && model.getVariant()==null){
-            holder.ProductVariantName.setVisibility(View.GONE);
-        }else if (model.getSize()==null || model.getSize().equals("") && model.getColor()!=null  && model.getVariant()!=null){
-            holder.ProductVariantName.setVisibility(View.VISIBLE);
-            holder.ProductVariantName.setText(model.getColor()+"--"+model.getVariant());
-        }else if(model.getColor()==null || model.getColor().equals("") && model.getSize()!=null  && model.getVariant()!=null) {
-            holder.ProductVariantName.setVisibility(View.VISIBLE);
-            holder.ProductVariantName.setText(model.getSize()+"--"+model.getVariant());
-        }else if(model.getVariant()==null || model.getVariant().equals("") && model.getColor()!=null && model.getSize()!=null){
-            holder.ProductVariantName.setVisibility(View.VISIBLE);
-            holder.ProductVariantName.setText(model.getSize()+"--"+model.getColor());
-        } else{
-            holder.ProductVariantName.setVisibility(View.VISIBLE);
-            holder.ProductVariantName.setText(model.getSize()+"--"+model.getColor()+"--"+model.getVariant());
+
+        if (model.getSize()==null || model.getSize().equals("")){
+            if(model.getColor()==null || model.getColor().equals("")){
+                if(model.getVariant()==null || model.getVariant().equals("")) {
+                    holder.ProductVariantName.setVisibility(View.GONE);
+                }else {
+                    holder.ProductVariantName.setText(model.getVariant());
+                }
+            } else {
+                if(model.getVariant()==null || model.getVariant().equals("")) {
+                    holder.ProductVariantName.setText(model.getColor());
+                }else {
+                    holder.ProductVariantName.setText(model.getColor() + "--" + model.getVariant());
+                }
+            }
+        }else{
+            if(model.getColor()==null || model.getColor().equals("")){
+                if(model.getVariant()==null || model.getVariant().equals("")) {
+                    holder.ProductVariantName.setText(model.getSize());
+                }else {
+                    holder.ProductVariantName.setText(model.getSize() + "--" +model.getVariant());
+                }
+            } else {
+                if(model.getVariant()==null || model.getVariant().equals("")) {
+                    holder.ProductVariantName.setText(model.getSize() + "--" +model.getColor());
+                }else {
+                    holder.ProductVariantName.setText(model.getSize() + "--" +model.getColor() + "--" + model.getVariant());
+                }
+            }
         }
+
 
         int price = model.getPrice();
         int quantity = model.getQuantity();

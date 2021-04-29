@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
@@ -74,8 +76,27 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
         }
         holder.orderStatusTV.setText(orderStatus);
 
-        holder.paymentStatusTV.setText("Partial Paid");
-        holder.paymentStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.status_partial_paid));
+        String total=orderListModel.getTotal();
+        String pay=orderListModel.getPay();
+        int totalAmount=Integer.parseInt(total);
+        int payAmount;
+        if(pay==null){
+            payAmount=0;
+        }else{
+            payAmount=Integer.parseInt(pay);
+        }
+
+        if(payAmount==0){
+            holder.paymentStatusTV.setText("Unpaid");
+            holder.paymentStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.payment_unpaid));
+        }else if((payAmount==totalAmount)) {
+            holder.paymentStatusTV.setText("Paid");
+            holder.paymentStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.payment_paid));
+        } else if(payAmount<totalAmount && payAmount>0){
+            holder.paymentStatusTV.setText("Partial Paid");
+            holder.paymentStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.payment_partial_paid));
+        }
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

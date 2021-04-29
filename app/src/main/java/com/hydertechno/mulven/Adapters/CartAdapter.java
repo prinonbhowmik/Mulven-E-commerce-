@@ -2,7 +2,6 @@ package com.hydertechno.mulven.Adapters;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,8 +27,10 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import dev.shreyaspatil.MaterialDialog.AbstractDialog;
 import dev.shreyaspatil.MaterialDialog.BottomSheetMaterialDialog;
 import dev.shreyaspatil.MaterialDialog.MaterialDialog;
+import dev.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     private List<CartProductModel> list;
@@ -55,19 +56,41 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         Database_Helper database_helper = new Database_Helper(context);
         holder.cartProductName.setText(cart.getProduct_name());
 
+
         if (cart.getSize()==null || cart.getSize().equals("")){
-            holder.ProductShopName.setText(cart.getColor()+"--"+cart.getVariant());
-        }else if(cart.getColor()==null || cart.getColor().equals("")) {
-            holder.ProductShopName.setText(cart.getSize()+"--"+cart.getVariant());
-        }else if(cart.getVariant()==null || cart.getVariant().equals("")){
-            holder.ProductShopName.setText(cart.getSize()+"--"+cart.getColor());
-        }else if (cart.getSize().equals("") && cart.getColor().equals("") && cart.getVariant().equals("")){
-            holder.ProductShopName.setVisibility(View.GONE);
-        } else{
-            holder.ProductShopName.setText(cart.getSize()+"--"+cart.getColor()+"--"+cart.getVariant());
+            if(cart.getColor()==null || cart.getColor().equals("")){
+                if(cart.getVariant()==null || cart.getVariant().equals("")) {
+                    holder.ProductShopName.setVisibility(View.GONE);
+                }else {
+                    holder.ProductShopName.setText(cart.getVariant());
+                }
+            } else {
+                if(cart.getVariant()==null || cart.getVariant().equals("")) {
+                    holder.ProductShopName.setText(cart.getColor());
+                }else {
+                    holder.ProductShopName.setText(cart.getColor() + "--" + cart.getVariant());
+                }
+            }
+        }else{
+            if(cart.getColor()==null || cart.getColor().equals("")){
+                if(cart.getVariant()==null || cart.getVariant().equals("")) {
+                    holder.ProductShopName.setText(cart.getSize());
+                }else {
+                    holder.ProductShopName.setText(cart.getSize() + "--" +cart.getVariant());
+                }
+            } else {
+                if(cart.getVariant()==null || cart.getVariant().equals("")) {
+                    holder.ProductShopName.setText(cart.getSize() + "--" +cart.getColor());
+                }else {
+                    holder.ProductShopName.setText(cart.getSize() + "--" +cart.getColor() + "--" + cart.getVariant());
+                }
+            }
         }
+
+
+
+
         holder.cartProductPrice.setText(String.valueOf(cart.getUnit_price())+" X "+cart.getQuantity());
-       // holder.ProductQuantity.setText(String.valueOf(cart.getQuantity()));
         holder.cardQuantity.setText(""+cart.getQuantity());
         holder.cartProductTotalPrice.setText("৳ "+cart.getUnit_price()*Integer.parseInt(holder.cardQuantity.getText().toString()));
 
@@ -127,7 +150,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                         .setCancelable(false)
                         .setPositiveButton("Delete", R.drawable.ic_delete, new BottomSheetMaterialDialog.OnClickListener() {
                             @Override
-                            public void onClick(dev.shreyaspatil.MaterialDialog.interfaces.DialogInterface dialogInterface, int i) {
+                            public void onClick(DialogInterface dialogInterface, int i) {
                                 database_helper.deleteData(list.get(position).getId(),list.get(position).getSize(),
                                         list.get(position).getColor(),list.get(position).getVariant());
                                 list.remove(position);
@@ -138,7 +161,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                         })
                         .setNegativeButton("Cancel", R.drawable.ic_close, new BottomSheetMaterialDialog.OnClickListener() {
                             @Override
-                            public void onClick(dev.shreyaspatil.MaterialDialog.interfaces.DialogInterface dialogInterface, int which) {
+                            public void onClick(DialogInterface dialogInterface, int which) {
                                 Toast.makeText(context, "Cancelled!", Toast.LENGTH_SHORT).show();
                                 dialogInterface.dismiss();
                             }
