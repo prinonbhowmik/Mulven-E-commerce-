@@ -63,6 +63,7 @@ public class CartFragment extends Fragment {
     private SharedPreferences sharedPreferences;
     private String token;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -103,8 +104,10 @@ public class CartFragment extends Fragment {
 
                         List<Map<String, String>> list1 = new ArrayList<>();
                         Map<String, String> parms = new HashMap<String,String>();
+                        JSONArray array = new JSONArray();
+                        ArrayList<JSONArray> jsonArrayList = new ArrayList<>();
 
-                        for (int i = 0; i < list.size(); i++) {
+                        for (int i = 1; i < list.size(); i++) {
                             parms.put("item_id", String.valueOf(id));
                             parms.put("pro_name", name);
                             parms.put("variant", variant);
@@ -114,26 +117,16 @@ public class CartFragment extends Fragment {
                             parms.put("order_from", campaign_id);
                             parms.put("store_id", String.valueOf(store_id));
                             parms.put("quantity", String.valueOf(quantity));
+
                             list1.add(parms);
+                            databaseHelper.deleteData(id,size,color,variant);
+                            array = new JSONArray(list1);
+                            jsonArrayList.add(array);
                         }
 
-                       /* Map<String, String> parms = new HashMap<String, String>();
-                        for (int i = 0; i < list.size(); i++) {
-                            parms.put("item_id",String.valueOf(id));
-                            parms.put("pro_name",name);
-                            parms.put("variant",variant);
-                            parms.put("size",size);
-                            parms.put("color",color);
-                            parms.put("price",String.valueOf(unit_price));
-                            parms.put("order_from",campaign_id);
-                            parms.put("store_id", String.valueOf(store_id));
-                            parms.put("quantity", String.valueOf(quantity));
-                        }*/
+                        Log.d("checkList", String.valueOf(jsonArrayList));
 
-                        JSONArray array = new JSONArray(list1);
-                        Log.d("checkList", String.valueOf(array));
-
-                        Call<PlaceOrderModel> call = ApiUtils.getUserService().placeOrder(token, array);
+                        Call<PlaceOrderModel> call = ApiUtils.getUserService().placeOrder(token, jsonArrayList);
                         call.enqueue(new Callback<PlaceOrderModel>() {
                             @Override
                             public void onResponse(Call<PlaceOrderModel> call, Response<PlaceOrderModel> response) {
