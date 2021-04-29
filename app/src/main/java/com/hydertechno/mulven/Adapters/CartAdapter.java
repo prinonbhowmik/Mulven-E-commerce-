@@ -146,7 +146,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
                 mAnimatedDialog = new BottomSheetMaterialDialog.Builder((Activity) context)
                         .setTitle("Delete?")
-                        .setMessage("Are you sure want to delete this file?")
+                        .setMessage("Are you sure want to delete this product?")
                         .setCancelable(false)
                         .setPositiveButton("Delete", R.drawable.ic_delete, new BottomSheetMaterialDialog.OnClickListener() {
                             @Override

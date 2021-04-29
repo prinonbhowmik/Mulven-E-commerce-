@@ -145,18 +145,49 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
         buyNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkConnection();
-                if (!isConnected) {
-                    snackBar(isConnected);
-                }else{
+                    checkConnection();
+                    if (!isConnected) {
+                        snackBar(isConnected);
+                    }else{
+                        if (sizeTV.getText().toString() != null) {
+                            size = sizeTV.getText().toString();
+                        } else {
+                            size = "";
+                        }
+                        if (colorTV.getText().toString() != null) {
+                            color = colorTV.getText().toString();
+                        } else {
+                            color = "";
+                        }
+                        if (variantTV.getText().toString() != null) {
+                            variant = variantTV.getText().toString();
+                        } else {
+                            variant = "";
+                        }
+                        if (capmpagin_id == null) {
+                            capmpagin_id = "";
+                        }
+                        Log.d("CheckData", size + "," + color + "," + variant);
+                        if (databaseHelper.checkProductExist(product_id, size, color, variant)) {
+
+                            int count = databaseHelper.checkQuantity(product_id);
+                            databaseHelper.addQuantity(product_id, count + 1);
+                            Toast.makeText(ProductDetailsActivity.this, "Product Added To Cart", Toast.LENGTH_SHORT).show();
+                        } else {
+                            databaseHelper.addToCart(product_id, product_Name.getText().toString(),
+                                    productMrpPrice, productUnitPrice, size, color, variant,
+                                    shop_Name.getText().toString(), Integer.parseInt(cardQuantity.getText().toString()),
+                                    capmpagin_id, store_id, imageString);
+                            Toast.makeText(ProductDetailsActivity.this, "Product Added To Cart", Toast.LENGTH_LONG).show();
+                        }
+                    }
                 Intent intent = new Intent(ProductDetailsActivity.this, MainActivity.class);
                 intent.putExtra("fragment", "cart");
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
-                // startActivity(new Intent(ProductDetailsActivity.this,MainActivity.class).putExtra("fragment","cart"));
             }
-        }
+
         });
 
         variantTV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
