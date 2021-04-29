@@ -8,6 +8,7 @@
     android:background="@color/lightWhite"
     tools:context=".Activities.OTP">
     <RelativeLayout
+        android:id="@+id/otp_rootLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

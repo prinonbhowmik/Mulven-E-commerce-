@@ -107,6 +107,17 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
                 makePaymentTV.setVisibility(View.GONE);
                 break;
         }
+        makePaymentTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                checkConnection();
+                if (!isConnected) {
+                    snackBar(isConnected);
+                }else{
+                    Toast.makeText(PlaceOrderDetailsActivity.this, "Not ready yet", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         moreIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -163,10 +174,15 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
                 window.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 EditText delivery_ET = dialog.findViewById(R.id.delivery_ET);
                 TextView saveAddressTV = dialog.findViewById(R.id.saveAddressTV);
-
+                delivery_ET.setText(customerAddressTV.getText());
                 saveAddressTV.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        checkConnection();
+                        if (!isConnected) {
+                            snackBar(isConnected);
+                            dialog.dismiss();
+                        }else{
                         String address = delivery_ET.getText().toString();
                         if (TextUtils.isEmpty(address)) {
                             Toast.makeText(PlaceOrderDetailsActivity.this, "Please provide delivery address!", Toast.LENGTH_LONG).show();
@@ -191,6 +207,7 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
                                 }
                             });
                         }
+                    }
                     }
                 });
             }
@@ -429,16 +446,20 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
             submitReasonTV.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(reason1.isChecked() || reason2.isChecked() ||reason3.isChecked() || reason4.isChecked() || reason5.isChecked() ||reason6.isChecked() ) {
-                        Call<CancellationReasonModel> call = ApiUtils.getUserService().setCancelReason(token,OrderId,reason[0]);
+                    checkConnection();
+                    if (!isConnected) {
+                        snackBar(isConnected);
+                        dialog.dismiss();
+                    }else{
+                    if (reason1.isChecked() || reason2.isChecked() || reason3.isChecked() || reason4.isChecked() || reason5.isChecked() || reason6.isChecked()) {
+                        Call<CancellationReasonModel> call = ApiUtils.getUserService().setCancelReason(token, OrderId, reason[0]);
                         call.enqueue(new Callback<CancellationReasonModel>() {
                             @Override
                             public void onResponse(Call<CancellationReasonModel> call, Response<CancellationReasonModel> response) {
-                                if (response.body().getStatus()==1){
+                                if (response.body().getStatus() == 1) {
                                     Toasty.normal(PlaceOrderDetailsActivity.this, "Order has canceled.", Toasty.LENGTH_SHORT).show();
                                     recreate();
-                                }
-                                else {
+                                } else {
                                     Toasty.error(PlaceOrderDetailsActivity.this, "Something went wrong", Toasty.LENGTH_SHORT).show();
                                 }
                             }
@@ -450,10 +471,11 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
                         });
 
                         dialog.dismiss();
-                    }else{
+                    } else {
                         Toasty.info(PlaceOrderDetailsActivity.this, "Please select your cancel reason.", Toasty.LENGTH_SHORT).show();
                     }
                 }
+            }
             });
 
             dialog.show();
@@ -471,15 +493,19 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
                 dialog2.setPositiveButton("Yes I Get", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog2, int which) {
-                        Call<CancellationReasonModel> call = ApiUtils.getUserService().setOrderDelivered(token,OrderId);
+                        checkConnection();
+                        if (!isConnected) {
+                            snackBar(isConnected);
+                            dialog2.dismiss();
+                        }else{
+                        Call<CancellationReasonModel> call = ApiUtils.getUserService().setOrderDelivered(token, OrderId);
                         call.enqueue(new Callback<CancellationReasonModel>() {
                             @Override
                             public void onResponse(Call<CancellationReasonModel> call, Response<CancellationReasonModel> response) {
-                                if (response.body().getStatus()==1){
+                                if (response.body().getStatus() == 1) {
                                     Toasty.normal(PlaceOrderDetailsActivity.this, "Order has delivered.", Toasty.LENGTH_SHORT).show();
                                     recreate();
-                                }
-                                else {
+                                } else {
                                     Toasty.error(PlaceOrderDetailsActivity.this,
                                             "Confirm us by pressing the received button once you " +
                                                     "receive your product. This is the only proof that you" +
@@ -494,6 +520,7 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
                         });
                         dialog2.dismiss();
                     }
+                }
                 });
                 dialog2.setNegativeButton("No", new DialogInterface.OnClickListener() {
                     @Override
@@ -518,12 +545,7 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
     }
     private void snackBar(boolean isConnected) {
         if(!isConnected) {
-            snackbar = Snackbar.make(rootLayout, "No Internet Connection!", Snackbar.LENGTH_INDEFINITE).setAction("ReTry", new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    recreate();
-                }
-            });
+            snackbar = Snackbar.make(rootLayout, "No Internet Connection!", Snackbar.LENGTH_INDEFINITE);
             snackbar.setDuration(5000);
             snackbar.setActionTextColor(Color.WHITE);
             View sbView = snackbar.getView();

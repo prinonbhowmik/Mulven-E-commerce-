@@ -6,7 +6,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +23,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.hydertechno.mulven.Adapters.ProductAdapter;
 import com.hydertechno.mulven.Adapters.ProductFeatureAdapter;
@@ -30,6 +34,8 @@ import com.hydertechno.mulven.Api.ApiUtils;
 import com.hydertechno.mulven.Api.Config;
 import com.hydertechno.mulven.DatabaseHelper.Database_Helper;
 import com.hydertechno.mulven.Interface.ProductImageClickInterface;
+import com.hydertechno.mulven.Internet.Connection;
+import com.hydertechno.mulven.Internet.ConnectivityReceiver;
 import com.hydertechno.mulven.Models.CategoriesModel;
 import com.hydertechno.mulven.Models.ImageGalleryModel;
 import com.hydertechno.mulven.Models.ProductColorModel;
@@ -49,7 +55,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ProductDetailsActivity extends AppCompatActivity implements ProductImageClickInterface {
+public class ProductDetailsActivity extends AppCompatActivity implements ProductImageClickInterface, ConnectivityReceiver.ConnectivityReceiverListener {
     private AutoCompleteTextView sizeTV,colorTV,variantTV;
     private TextInputLayout size_menu,color_menu,variant_menu;
     private ZoomageView product_Image;
@@ -72,6 +78,11 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
     private RelatedProductAdapter relatedProductAdapter;
     private RelativeLayout feature_RelativeLayout,soldByRelativeLayout;
     private int productMrpPrice,productUnitPrice,store_id;
+    private RelativeLayout rootLayout;
+    private Snackbar snackbar;
+    private boolean isConnected;
+    private ConnectivityReceiver connectivityReceiver;
+    private IntentFilter intentFilter;
 
 
     @Override
@@ -82,57 +93,70 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
         product_id = intent.getIntExtra("id",0);
 
         init();
+        checkConnection();
+        if (!isConnected) {
+            snackBar(isConnected);
+        }
         quantity=Integer.parseInt(cardQuantity.getText().toString());
         getProductDetails();
 
         addToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (sizeTV.getText().toString()!=null){
-                    size = sizeTV.getText().toString();
+                checkConnection();
+                if (!isConnected) {
+                    snackBar(isConnected);
                 }else{
+                if (sizeTV.getText().toString() != null) {
+                    size = sizeTV.getText().toString();
+                } else {
                     size = "";
                 }
-                if (colorTV.getText().toString()!=null){
+                if (colorTV.getText().toString() != null) {
                     color = colorTV.getText().toString();
-                }else{
-                     color = "";
+                } else {
+                    color = "";
                 }
-                if (variantTV.getText().toString()!=null){
+                if (variantTV.getText().toString() != null) {
                     variant = variantTV.getText().toString();
-                }else{
+                } else {
                     variant = "";
                 }
-                if (capmpagin_id==null){
+                if (capmpagin_id == null) {
                     capmpagin_id = "";
                 }
-                Log.d("CheckData",size+","+color+","+variant);
-                if (databaseHelper.checkProductExist(product_id,size,color,variant)){
+                Log.d("CheckData", size + "," + color + "," + variant);
+                if (databaseHelper.checkProductExist(product_id, size, color, variant)) {
 
-                    int count  = databaseHelper.checkQuantity(product_id);
-                    databaseHelper.addQuantity(product_id,count+1);
+                    int count = databaseHelper.checkQuantity(product_id);
+                    databaseHelper.addQuantity(product_id, count + 1);
                     Toast.makeText(ProductDetailsActivity.this, "Product Added To Cart", Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    databaseHelper.addToCart(product_id,product_Name.getText().toString(),
-                            productMrpPrice,productUnitPrice,size,color,variant,
-                            shop_Name.getText().toString(),Integer.parseInt(cardQuantity.getText().toString()),
-                            capmpagin_id,store_id,imageString);
+                } else {
+                    databaseHelper.addToCart(product_id, product_Name.getText().toString(),
+                            productMrpPrice, productUnitPrice, size, color, variant,
+                            shop_Name.getText().toString(), Integer.parseInt(cardQuantity.getText().toString()),
+                            capmpagin_id, store_id, imageString);
                     Toast.makeText(ProductDetailsActivity.this, "Product Added To Cart", Toast.LENGTH_LONG).show();
                 }
             }
+        }
         });
 
         buyNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkConnection();
+                if (!isConnected) {
+                    snackBar(isConnected);
+                }else{
                 Intent intent = new Intent(ProductDetailsActivity.this, MainActivity.class);
-                intent.putExtra("fragment","cart");
+                intent.putExtra("fragment", "cart");
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
-               // startActivity(new Intent(ProductDetailsActivity.this,MainActivity.class).putExtra("fragment","cart"));
+                // startActivity(new Intent(ProductDetailsActivity.this,MainActivity.class).putExtra("fragment","cart"));
             }
+        }
         });
 
         variantTV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -287,6 +311,10 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
     }
 
     private void init() {
+        rootLayout = findViewById(R.id.product_details_rootLayout);
+        intentFilter = new IntentFilter();
+        intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        connectivityReceiver = new ConnectivityReceiver();
         product_Name = findViewById(R.id.product_Name);
         shop_Name = findViewById(R.id.shop_Name);
         brand_Name = findViewById(R.id.brand_Name);
@@ -356,4 +384,60 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
         quantity++;
         cardQuantity.setText("" +quantity);
     }
+
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        snackBar(isConnected);
+    }
+
+    private void checkConnection() {
+        isConnected = ConnectivityReceiver.isConnected();
+    }
+    private void snackBar(boolean isConnected) {
+        if(!isConnected) {
+            snackbar = Snackbar.make(rootLayout, "No Internet Connection!", Snackbar.LENGTH_INDEFINITE);
+            snackbar.setDuration(5000);
+            snackbar.setActionTextColor(Color.WHITE);
+            View sbView = snackbar.getView();
+            sbView.setBackgroundColor(Color.RED);
+            snackbar.show();
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        registerReceiver(connectivityReceiver, intentFilter);
+    }
+    @Override
+    protected void onResume() {
+
+        // register connection status listener
+        Connection.getInstance().setConnectivityListener(this);
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        try{
+            if(connectivityReceiver!=null)
+                unregisterReceiver(connectivityReceiver);
+
+        }catch(Exception e){}
+
+    }
+
+    @Override
+    protected void onStop() {
+        try{
+            if(connectivityReceiver!=null)
+                unregisterReceiver(connectivityReceiver);
+
+        }catch(Exception e){}
+
+        super.onStop();
+    }
+
 }

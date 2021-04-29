@@ -8,6 +8,7 @@
     android:background="@color/lightWhite"
     tools:context=".Activities.PhoneNumber">
     <RelativeLayout
+        android:id="@+id/phone_number_rootLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

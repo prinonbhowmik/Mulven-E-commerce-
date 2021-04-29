@@ -9,6 +9,7 @@
     tools:context=".Activities.SignUp">
 
     <RelativeLayout
+        android:id="@+id/sign_up_rootLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

@@ -6,7 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -14,12 +17,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.hydertechno.mulven.Api.ApiUtils;
+import com.hydertechno.mulven.Internet.Connection;
+import com.hydertechno.mulven.Internet.ConnectivityReceiver;
 import com.hydertechno.mulven.Models.UserProfile;
 import com.hydertechno.mulven.R;
 
@@ -32,19 +39,28 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SignUp extends AppCompatActivity {
+public class SignUp extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener {
     private TextInputLayout nameTIL, dobTIL, passTIL,addressTIL,phnTIL;
     private TextInputEditText nameTIET, dobTIET, passTIET, phnTIET, addressTIET;
     private TextView condition;
     private Button signUpBtn;
     private String currentDate, name, phone, dob, pass, address;
     private CheckBox termsCheckBox;
+    private RelativeLayout rootLayout;
+    private Snackbar snackbar;
+    private boolean isConnected;
+    private ConnectivityReceiver connectivityReceiver;
+    private IntentFilter intentFilter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         init();
+        checkConnection();
+        if (!isConnected) {
+            snackBar(isConnected);
+        }
         dobTIET.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,13 +70,22 @@ public class SignUp extends AppCompatActivity {
         condition.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkConnection();
+                if (!isConnected) {
+                    snackBar(isConnected);
+                }else{
                 startActivity(new Intent(SignUp.this, WebViewActivity.class).putExtra("url", "https://mulven.com/terms-conditions"));
+                }
             }
         });
 
         signUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkConnection();
+                if (!isConnected) {
+                    snackBar(isConnected);
+                }else{
                 name = nameTIET.getText().toString();
                 phone = phnTIET.getText().toString();
                 dob = dobTIET.getText().toString();
@@ -69,24 +94,25 @@ public class SignUp extends AppCompatActivity {
                 if (TextUtils.isEmpty(name)) {
                     nameTIL.setError("Please enter full name!");
                     nameTIET.requestFocus();
-                }if (TextUtils.isEmpty(phone)) {
+                }
+                if (TextUtils.isEmpty(phone)) {
                     phnTIET.setError("Please enter phone number!");
                     phnTIET.requestFocus();
-                } else if (TextUtils.isEmpty(dob)){
+                } else if (TextUtils.isEmpty(dob)) {
                     dobTIL.setError("Please select Date of Birth!");
                     dobTIET.requestFocus();
-                }else if(TextUtils.isEmpty(pass)){
+                } else if (TextUtils.isEmpty(pass)) {
                     passTIL.setError("Please enter password!");
                     passTIET.requestFocus();
-                }else if(TextUtils.isEmpty(address)) {
+                } else if (TextUtils.isEmpty(address)) {
                     addressTIL.setError("Please enter your address!");
                     addressTIET.requestFocus();
-                }else if(!termsCheckBox.isChecked()){
-                Toast.makeText(SignUp.this, "Please accept terms & conditions!", Toast.LENGTH_SHORT).show();
-            }
-                else{
-                    registerUser(name,phone,dob,pass,address);
+                } else if (!termsCheckBox.isChecked()) {
+                    Toast.makeText(SignUp.this, "Please accept terms & conditions!", Toast.LENGTH_SHORT).show();
+                } else {
+                    registerUser(name, phone, dob, pass, address);
                 }
+            }
             }
         });
 
@@ -131,6 +157,10 @@ public class SignUp extends AppCompatActivity {
 
 
     private void init() {
+        rootLayout = findViewById(R.id.sign_up_rootLayout);
+        intentFilter = new IntentFilter();
+        intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        connectivityReceiver = new ConnectivityReceiver();
         nameTIL = findViewById(R.id.name_LT);
         dobTIL = findViewById(R.id.date_LT);
         passTIL = findViewById(R.id.password_LT);
@@ -198,4 +228,64 @@ public class SignUp extends AppCompatActivity {
         alertDialog2.show();
 
     }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        snackBar(isConnected);
+    }
+
+    private void checkConnection() {
+        isConnected = ConnectivityReceiver.isConnected();
+    }
+    private void snackBar(boolean isConnected) {
+        if(!isConnected) {
+            snackbar = Snackbar.make(rootLayout, "No Internet Connection!", Snackbar.LENGTH_INDEFINITE).setAction("ReTry", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    recreate();
+                }
+            });
+            snackbar.setDuration(5000);
+            snackbar.setActionTextColor(Color.WHITE);
+            View sbView = snackbar.getView();
+            sbView.setBackgroundColor(Color.RED);
+            snackbar.show();
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        registerReceiver(connectivityReceiver, intentFilter);
+    }
+    @Override
+    protected void onResume() {
+
+        // register connection status listener
+        Connection.getInstance().setConnectivityListener(this);
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        try{
+            if(connectivityReceiver!=null)
+                unregisterReceiver(connectivityReceiver);
+
+        }catch(Exception e){}
+
+    }
+
+    @Override
+    protected void onStop() {
+        try{
+            if(connectivityReceiver!=null)
+                unregisterReceiver(connectivityReceiver);
+
+        }catch(Exception e){}
+
+        super.onStop();
+    }
+
 }

@@ -3,8 +3,11 @@ package com.hydertechno.mulven.Fragments;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.media.Image;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 
 import androidx.core.view.GravityCompat;
@@ -25,6 +28,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.hydertechno.mulven.Activities.MainActivity;
@@ -33,6 +37,7 @@ import com.hydertechno.mulven.Activities.ProfileActivity;
 import com.hydertechno.mulven.Activities.SignUp;
 import com.hydertechno.mulven.Api.ApiInterface;
 import com.hydertechno.mulven.Api.ApiUtils;
+import com.hydertechno.mulven.Internet.ConnectivityReceiver;
 import com.hydertechno.mulven.Models.UserProfile;
 import com.hydertechno.mulven.R;
 
@@ -42,7 +47,7 @@ import retrofit2.Response;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public class AccountFragment extends Fragment {
+public class AccountFragment extends Fragment implements ConnectivityReceiver.ConnectivityReceiverListener {
     private RelativeLayout loginRelative;
     private TextInputLayout phoneTIL,passwordTIL;
     private TextInputEditText phoneTIET,passwordTIET;
@@ -53,6 +58,11 @@ public class AccountFragment extends Fragment {
     private ImageView navIcon;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
+    private RelativeLayout rootLayout;
+    private Snackbar snackbar;
+    private boolean isConnected;
+    private ConnectivityReceiver connectivityReceiver;
+    private IntentFilter intentFilter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -63,7 +73,12 @@ public class AccountFragment extends Fragment {
         newRegisterTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), SignUp.class));
+                checkConnection();
+                if (!isConnected) {
+                    snackBar(isConnected);
+                } else {
+                    startActivity(new Intent(getContext(), SignUp.class));
+                }
             }
         });
         navIcon.setOnClickListener(new View.OnClickListener() {
@@ -76,6 +91,10 @@ public class AccountFragment extends Fragment {
         logInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkConnection();
+                if (!isConnected) {
+                    snackBar(isConnected);
+                } else {
                 phone = phoneTIET.getText().toString();
                 password = passwordTIET.getText().toString();
                 if (TextUtils.isEmpty(phone)) {
@@ -86,7 +105,7 @@ public class AccountFragment extends Fragment {
                     hideKeyboardFrom(getContext());
                     phoneTIL.setError("Please Provide Correct Phone Number");
                     phoneTIET.requestFocus();
-                }*/else if (TextUtils.isEmpty(password)) {
+                }*/ else if (TextUtils.isEmpty(password)) {
                     hideKeyboardFrom(getContext());
                     passwordTIL.setError("Please Enter Password");
                     passwordTIET.requestFocus();
@@ -100,13 +119,14 @@ public class AccountFragment extends Fragment {
                     String phone = phoneTIET.getText().toString();
                     String password = passwordTIET.getText().toString();
                     hideKeyboardFrom(getContext());
-                    userLogin(phone,password);
+                    userLogin(phone, password);
                 }
                  /*if (phone.length() == 11) {
                     hideKeyboardFrom(getContext());
                     phoneTIL.setErrorEnabled(false);
                 }*/
             }
+        }
         });
 
         forgetPasswordTV.setOnClickListener(new View.OnClickListener() {
@@ -165,6 +185,10 @@ public class AccountFragment extends Fragment {
     }
 
     private void init(View view) {
+        rootLayout=view.findViewById(R.id.account_rootLayout);
+        intentFilter = new IntentFilter();
+        intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        connectivityReceiver = new ConnectivityReceiver();
         loginRelative=view.findViewById(R.id.logInRelative);
         phoneTIL=view.findViewById(R.id.phone_LT);
         passwordTIL=view.findViewById(R.id.password_LT);
@@ -184,4 +208,63 @@ public class AccountFragment extends Fragment {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(this.getActivity().getWindow().getDecorView().getRootView().getWindowToken(), 0);
     }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        snackBar(isConnected);
+    }
+
+    private void checkConnection() {
+        isConnected = ConnectivityReceiver.isConnected();
+    }
+    private void snackBar(boolean isConnected) {
+        if(!isConnected) {
+            snackbar = Snackbar.make(rootLayout, "No Internet Connection!", Snackbar.LENGTH_INDEFINITE).setAction("ReTry", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //recreate();
+                }
+            });
+            snackbar.setDuration(5000);
+            snackbar.setActionTextColor(Color.WHITE);
+            View sbView = snackbar.getView();
+            sbView.setBackgroundColor(Color.RED);
+            snackbar.show();
+        }
+    }
+/*
+    @Override
+    protected void onStart() {
+        super.onStart();
+        registerReceiver(connectivityReceiver, intentFilter);
+    }
+    @Override
+    protected void onResume() {
+
+        // register connection status listener
+        Connection.getInstance().setConnectivityListener(this);
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        try{
+            if(connectivityReceiver!=null)
+                unregisterReceiver(connectivityReceiver);
+
+        }catch(Exception e){}
+
+    }
+
+    @Override
+    protected void onStop() {
+        try{
+            if(connectivityReceiver!=null)
+                unregisterReceiver(connectivityReceiver);
+
+        }catch(Exception e){}
+
+        super.onStop();
+    }*/
 }
