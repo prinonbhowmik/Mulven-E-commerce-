@@ -41,6 +41,7 @@ import com.hydertechno.mulven.Internet.ConnectivityReceiver;
 import com.hydertechno.mulven.Models.UserProfile;
 import com.hydertechno.mulven.R;
 
+import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -160,14 +161,14 @@ public class AccountFragment extends Fragment implements ConnectivityReceiver.Co
                         editor.putInt("userId",userId);
                         editor.commit();
                         Log.d("ShowToken",token);
-                        Toast.makeText(getContext(), ""+message, Toast.LENGTH_SHORT).show();
+                        Toasty.success(getContext(), ""+message).show();
                         Intent intent = new Intent(getContext(), MainActivity.class);
                         intent.putExtra("fragment","home");
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                         getActivity().finish();
                     }else if(status.equals("0")){
-                        Toast.makeText(getContext(), ""+message, Toast.LENGTH_SHORT).show();
+                        Toasty.success(getContext(), ""+message).show();
                         Intent intent = new Intent(getContext(), MainActivity.class);
                         intent.putExtra("fragment","home");
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);

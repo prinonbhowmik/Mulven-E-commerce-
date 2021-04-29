@@ -35,6 +35,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -108,7 +109,7 @@ public class SignUp extends AppCompatActivity implements ConnectivityReceiver.Co
                     addressTIL.setError("Please enter your address!");
                     addressTIET.requestFocus();
                 } else if (!termsCheckBox.isChecked()) {
-                    Toast.makeText(SignUp.this, "Please accept terms & conditions!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUp.this, "", Toast.LENGTH_SHORT).show();
                 } else {
                     registerUser(name, phone, dob, pass, address);
                 }
@@ -128,7 +129,7 @@ public class SignUp extends AppCompatActivity implements ConnectivityReceiver.Co
 
                     if (status.equals("0")){
                         String msg = response.body().getMessage();
-                        Toast.makeText(SignUp.this, ""+msg, Toast.LENGTH_LONG).show();
+                        Toasty.error(SignUp.this, ""+msg).show();
                     }else{
                         String token = response.body().getToken();
                         String msg = response.body().getMessage();
@@ -140,7 +141,7 @@ public class SignUp extends AppCompatActivity implements ConnectivityReceiver.Co
                         editor.putInt("userId",userId);
                         editor.commit();
                         Log.d("ShowToken",token);
-                        Toast.makeText(SignUp.this, ""+msg, Toast.LENGTH_LONG).show();
+                        Toasty.success(SignUp.this, ""+msg).show();
                         startActivity(new Intent(SignUp.this,MainActivity.class).putExtra("home","home"));
                         finish();
                     }

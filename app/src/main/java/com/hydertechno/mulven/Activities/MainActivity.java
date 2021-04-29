@@ -77,7 +77,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (count>0) {
             chipNavigationBar.showBadge(R.id.cart, count);
         }
-        chipNavigationBar.showBadge(R.id.notification,1);
         if (loggedIn == 0){
             navigationView.getMenu().removeItem(R.id.logout);
         }else if(loggedIn == 1){
