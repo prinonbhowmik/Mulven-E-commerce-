@@ -75,24 +75,15 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
                 break;
         }
         holder.orderStatusTV.setText(orderStatus);
+        String payStatus=orderListModel.getPay_status();
 
-        String total=orderListModel.getTotal();
-        String pay=orderListModel.getPay();
-        int totalAmount=Integer.parseInt(total);
-        int payAmount;
-        if(pay==null){
-            payAmount=0;
-        }else{
-            payAmount=Integer.parseInt(pay);
-        }
-
-        if(payAmount==0){
+        if(payStatus.equals("Unpaid")){
             holder.paymentStatusTV.setText("Unpaid");
             holder.paymentStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.payment_unpaid));
-        }else if((payAmount==totalAmount)) {
+        }else if(payStatus.equals("Paid")) {
             holder.paymentStatusTV.setText("Paid");
             holder.paymentStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.payment_paid));
-        } else if(payAmount<totalAmount && payAmount>0){
+        } else if(payStatus.equals("Partial Paid")){
             holder.paymentStatusTV.setText("Partial Paid");
             holder.paymentStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.payment_partial_paid));
         }

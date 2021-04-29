@@ -17,19 +17,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
-import com.hydertechno.mulven.Adapters.FeatureAddAdapter;
-import com.hydertechno.mulven.Adapters.HomePageSliderAdapter;
 import com.hydertechno.mulven.Adapters.OrderListAdapter;
 import com.hydertechno.mulven.Api.ApiInterface;
 import com.hydertechno.mulven.Api.ApiUtils;
 import com.hydertechno.mulven.Internet.Connection;
 import com.hydertechno.mulven.Internet.ConnectivityReceiver;
 import com.hydertechno.mulven.Models.OrderListModel;
-import com.hydertechno.mulven.Models.OrderModel;
-import com.hydertechno.mulven.Models.Sliderimage;
 import com.hydertechno.mulven.R;
-import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
-import com.smarteist.autoimageslider.SliderAnimations;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -129,19 +123,16 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
                     sPending.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
                     sCanceled.setTextColor(Color.parseColor("#DB4437"));
                     sCanceled.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
-                    Call<OrderModel> call = apiInterface.getOrderList(id, token);
-                    call.enqueue(new Callback<OrderModel>() {
-                        @Override
-                        public void onResponse(Call<OrderModel> call, Response<OrderModel> response) {
-                            if (response.isSuccessful()) {
-                                String status = response.body().getStatus();
-                                if (status.equals("1")) {
-                                    orderListModel = response.body().getItems();
-                                    orderListAdapter = new OrderListAdapter(orderListModel, PlaceOrderListActivity.this);
-                                    orderListAdapter.getFilter().filter("Processing");
-                                    orderListRecyclerView.setAdapter(orderListAdapter);
 
-                                }
+                    Call<List<OrderListModel>> call = apiInterface.getOrderList(token);
+                    call.enqueue(new Callback<List<OrderListModel>>() {
+                        @Override
+                        public void onResponse(Call<List<OrderListModel>> call, Response<List<OrderListModel>> response) {
+                            if (response.isSuccessful()) {
+                                orderListModel = response.body();
+                                orderListAdapter = new OrderListAdapter(orderListModel, PlaceOrderListActivity.this);
+                                orderListRecyclerView.setAdapter(orderListAdapter);
+                                orderListAdapter.getFilter().filter("Processing");
                                 Collections.reverse(orderListModel);
                                 orderListAdapter.notifyDataSetChanged();
                                 if (orderListModel.size() == 0) {
@@ -152,7 +143,7 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
                         }
 
                         @Override
-                        public void onFailure(Call<OrderModel> call, Throwable t) {
+                        public void onFailure(Call<List<OrderListModel>> call, Throwable t) {
 
                         }
                     });
@@ -185,18 +176,16 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
                     sPending.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
                     sCanceled.setTextColor(Color.parseColor("#DB4437"));
                     sCanceled.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
-                    Call<OrderModel> call = apiInterface.getOrderList(id, token);
-                    call.enqueue(new Callback<OrderModel>() {
+
+                    Call<List<OrderListModel>> call = apiInterface.getOrderList(token);
+                    call.enqueue(new Callback<List<OrderListModel>>() {
                         @Override
-                        public void onResponse(Call<OrderModel> call, Response<OrderModel> response) {
+                        public void onResponse(Call<List<OrderListModel>> call, Response<List<OrderListModel>> response) {
                             if (response.isSuccessful()) {
-                                String status = response.body().getStatus();
-                                if (status.equals("1")) {
-                                    orderListModel = response.body().getItems();
-                                    orderListAdapter = new OrderListAdapter(orderListModel, PlaceOrderListActivity.this);
-                                    orderListRecyclerView.setAdapter(orderListAdapter);
-                                    orderListAdapter.getFilter().filter("Delivered");
-                                }
+                                orderListModel = response.body();
+                                orderListAdapter = new OrderListAdapter(orderListModel, PlaceOrderListActivity.this);
+                                orderListRecyclerView.setAdapter(orderListAdapter);
+                                orderListAdapter.getFilter().filter("Delivered");
                                 Collections.reverse(orderListModel);
                                 orderListAdapter.notifyDataSetChanged();
                                 if (orderListModel.size() == 0) {
@@ -207,7 +196,7 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
                         }
 
                         @Override
-                        public void onFailure(Call<OrderModel> call, Throwable t) {
+                        public void onFailure(Call<List<OrderListModel>> call, Throwable t) {
 
                         }
                     });
@@ -240,18 +229,15 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
                     sPending.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
                     sCanceled.setTextColor(Color.parseColor("#DB4437"));
                     sCanceled.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
-                    Call<OrderModel> call = apiInterface.getOrderList(id, token);
-                    call.enqueue(new Callback<OrderModel>() {
+                    Call<List<OrderListModel>> call = apiInterface.getOrderList(token);
+                    call.enqueue(new Callback<List<OrderListModel>>() {
                         @Override
-                        public void onResponse(Call<OrderModel> call, Response<OrderModel> response) {
+                        public void onResponse(Call<List<OrderListModel>> call, Response<List<OrderListModel>> response) {
                             if (response.isSuccessful()) {
-                                String status = response.body().getStatus();
-                                if (status.equals("1")) {
-                                    orderListModel = response.body().getItems();
-                                    orderListAdapter = new OrderListAdapter(orderListModel, PlaceOrderListActivity.this);
-                                    orderListRecyclerView.setAdapter(orderListAdapter);
-                                    orderListAdapter.getFilter().filter("Shipped");
-                                }
+                                orderListModel = response.body();
+                                orderListAdapter = new OrderListAdapter(orderListModel, PlaceOrderListActivity.this);
+                                orderListRecyclerView.setAdapter(orderListAdapter);
+                                orderListAdapter.getFilter().filter("Shipped");
                                 Collections.reverse(orderListModel);
                                 orderListAdapter.notifyDataSetChanged();
                                 if (orderListModel.size() == 0) {
@@ -262,7 +248,7 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
                         }
 
                         @Override
-                        public void onFailure(Call<OrderModel> call, Throwable t) {
+                        public void onFailure(Call<List<OrderListModel>> call, Throwable t) {
 
                         }
                     });
@@ -295,18 +281,16 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
                     sPending.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
                     sCanceled.setTextColor(Color.parseColor("#DB4437"));
                     sCanceled.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
-                    Call<OrderModel> call = apiInterface.getOrderList(id, token);
-                    call.enqueue(new Callback<OrderModel>() {
+
+                    Call<List<OrderListModel>> call = apiInterface.getOrderList(token);
+                    call.enqueue(new Callback<List<OrderListModel>>() {
                         @Override
-                        public void onResponse(Call<OrderModel> call, Response<OrderModel> response) {
+                        public void onResponse(Call<List<OrderListModel>> call, Response<List<OrderListModel>> response) {
                             if (response.isSuccessful()) {
-                                String status = response.body().getStatus();
-                                if (status.equals("1")) {
-                                    orderListModel = response.body().getItems();
-                                    orderListAdapter = new OrderListAdapter(orderListModel, PlaceOrderListActivity.this);
-                                    orderListRecyclerView.setAdapter(orderListAdapter);
-                                    orderListAdapter.getFilter().filter("Partial Paid");
-                                }
+                                orderListModel = response.body();
+                                orderListAdapter = new OrderListAdapter(orderListModel, PlaceOrderListActivity.this);
+                                orderListRecyclerView.setAdapter(orderListAdapter);
+                                orderListAdapter.getFilter().filter("Partial Paid");
                                 Collections.reverse(orderListModel);
                                 orderListAdapter.notifyDataSetChanged();
                                 if (orderListModel.size() == 0) {
@@ -317,7 +301,7 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
                         }
 
                         @Override
-                        public void onFailure(Call<OrderModel> call, Throwable t) {
+                        public void onFailure(Call<List<OrderListModel>> call, Throwable t) {
 
                         }
                     });
@@ -351,18 +335,16 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
                     sPending.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
                     sCanceled.setTextColor(Color.parseColor("#DB4437"));
                     sCanceled.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
-                    Call<OrderModel> call = apiInterface.getOrderList(id, token);
-                    call.enqueue(new Callback<OrderModel>() {
+
+                    Call<List<OrderListModel>> call = apiInterface.getOrderList(token);
+                    call.enqueue(new Callback<List<OrderListModel>>() {
                         @Override
-                        public void onResponse(Call<OrderModel> call, Response<OrderModel> response) {
+                        public void onResponse(Call<List<OrderListModel>> call, Response<List<OrderListModel>> response) {
                             if (response.isSuccessful()) {
-                                String status = response.body().getStatus();
-                                if (status.equals("1")) {
-                                    orderListModel = response.body().getItems();
-                                    orderListAdapter = new OrderListAdapter(orderListModel, PlaceOrderListActivity.this);
-                                    orderListRecyclerView.setAdapter(orderListAdapter);
-                                    orderListAdapter.getFilter().filter("Picked");
-                                }
+                                orderListModel = response.body();
+                                orderListAdapter = new OrderListAdapter(orderListModel, PlaceOrderListActivity.this);
+                                orderListRecyclerView.setAdapter(orderListAdapter);
+                                orderListAdapter.getFilter().filter("Picked");
                                 Collections.reverse(orderListModel);
                                 orderListAdapter.notifyDataSetChanged();
                                 if (orderListModel.size() == 0) {
@@ -373,7 +355,7 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
                         }
 
                         @Override
-                        public void onFailure(Call<OrderModel> call, Throwable t) {
+                        public void onFailure(Call<List<OrderListModel>> call, Throwable t) {
 
                         }
                     });
@@ -407,19 +389,15 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
                     sCanceled.setTextColor(Color.parseColor("#DB4437"));
                     sCanceled.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
 
-                    Call<OrderModel> call = apiInterface.getOrderList(id, token);
-                    call.enqueue(new Callback<OrderModel>() {
+                    Call<List<OrderListModel>> call = apiInterface.getOrderList(token);
+                    call.enqueue(new Callback<List<OrderListModel>>() {
                         @Override
-                        public void onResponse(Call<OrderModel> call, Response<OrderModel> response) {
+                        public void onResponse(Call<List<OrderListModel>> call, Response<List<OrderListModel>> response) {
                             if (response.isSuccessful()) {
-                                String status = response.body().getStatus();
-                                if (status.equals("1")) {
-                                    orderListModel = response.body().getItems();
-                                    orderListAdapter = new OrderListAdapter(orderListModel, PlaceOrderListActivity.this);
-                                    orderListAdapter.getFilter().filter("Pending");
-                                    orderListRecyclerView.setAdapter(orderListAdapter);
-
-                                }
+                                orderListModel = response.body();
+                                orderListAdapter = new OrderListAdapter(orderListModel, PlaceOrderListActivity.this);
+                                orderListRecyclerView.setAdapter(orderListAdapter);
+                                orderListAdapter.getFilter().filter("Pending");
                                 Collections.reverse(orderListModel);
                                 orderListAdapter.notifyDataSetChanged();
                                 if (orderListModel.size() == 0) {
@@ -430,7 +408,7 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
                         }
 
                         @Override
-                        public void onFailure(Call<OrderModel> call, Throwable t) {
+                        public void onFailure(Call<List<OrderListModel>> call, Throwable t) {
 
                         }
                     });
@@ -464,18 +442,15 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
                     sPending.setTextColor(Color.parseColor("#F4B400"));
                     sPending.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
 
-                    Call<OrderModel> call = apiInterface.getOrderList(id, token);
-                    call.enqueue(new Callback<OrderModel>() {
+                    Call<List<OrderListModel>> call = apiInterface.getOrderList(token);
+                    call.enqueue(new Callback<List<OrderListModel>>() {
                         @Override
-                        public void onResponse(Call<OrderModel> call, Response<OrderModel> response) {
+                        public void onResponse(Call<List<OrderListModel>> call, Response<List<OrderListModel>> response) {
                             if (response.isSuccessful()) {
-                                String status = response.body().getStatus();
-                                if (status.equals("1")) {
-                                    orderListModel = response.body().getItems();
-                                    orderListAdapter = new OrderListAdapter(orderListModel, PlaceOrderListActivity.this);
-                                    orderListAdapter.getFilter().filter("Cancel");
-                                    orderListRecyclerView.setAdapter(orderListAdapter);
-                                }
+                                orderListModel = response.body();
+                                orderListAdapter = new OrderListAdapter(orderListModel, PlaceOrderListActivity.this);
+                                orderListRecyclerView.setAdapter(orderListAdapter);
+                                orderListAdapter.getFilter().filter("Cancel");
                                 Collections.reverse(orderListModel);
                                 orderListAdapter.notifyDataSetChanged();
                                 if (orderListModel.size() == 0) {
@@ -486,7 +461,7 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
                         }
 
                         @Override
-                        public void onFailure(Call<OrderModel> call, Throwable t) {
+                        public void onFailure(Call<List<OrderListModel>> call, Throwable t) {
 
                         }
                     });
@@ -498,17 +473,14 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
 
     private void getOrderList(int id) {
         orderListModel.clear();
-        Call<OrderModel> call = apiInterface.getOrderList(id, token);
-        call.enqueue(new Callback<OrderModel>() {
+        Call<List<OrderListModel>> call = apiInterface.getOrderList(token);
+        call.enqueue(new Callback<List<OrderListModel>>() {
             @Override
-            public void onResponse(Call<OrderModel> call, Response<OrderModel> response) {
+            public void onResponse(Call<List<OrderListModel>> call, Response<List<OrderListModel>> response) {
                 if (response.isSuccessful()) {
-                    String status = response.body().getStatus();
-                    if (status.equals("1")) {
-                        orderListModel = response.body().getItems();
-                        orderListAdapter = new OrderListAdapter(orderListModel, PlaceOrderListActivity.this);
-                        orderListRecyclerView.setAdapter(orderListAdapter);
-                    }
+                    orderListModel = response.body();
+                    orderListAdapter = new OrderListAdapter(orderListModel, PlaceOrderListActivity.this);
+                    orderListRecyclerView.setAdapter(orderListAdapter);
                     Collections.reverse(orderListModel);
                     orderListAdapter.notifyDataSetChanged();
                     if (orderListModel.size() == 0) {
@@ -519,7 +491,7 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
             }
 
             @Override
-            public void onFailure(Call<OrderModel> call, Throwable t) {
+            public void onFailure(Call<List<OrderListModel>> call, Throwable t) {
 
             }
         });

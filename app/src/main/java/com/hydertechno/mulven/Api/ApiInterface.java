@@ -1,7 +1,6 @@
 package com.hydertechno.mulven.Api;
 
 import com.hydertechno.mulven.Models.Campaign;
-import com.hydertechno.mulven.Models.CampaignModel;
 import com.hydertechno.mulven.Models.CancellationReasonModel;
 import com.hydertechno.mulven.Models.CategoriesModel;
 import com.hydertechno.mulven.Models.CategoryNamesModel;
@@ -9,32 +8,25 @@ import com.hydertechno.mulven.Models.ChangePasswordModel;
 import com.hydertechno.mulven.Models.InvoiceDetailsModel;
 import com.hydertechno.mulven.Models.OrderDetails;
 import com.hydertechno.mulven.Models.OrderListModel;
-import com.hydertechno.mulven.Models.OrderModel;
-import com.hydertechno.mulven.Models.PlaceItemModel;
 import com.hydertechno.mulven.Models.PlaceOrderModel;
 import com.hydertechno.mulven.Models.ProductDetailsModel;
 import com.hydertechno.mulven.Models.Sliderimage;
 import com.hydertechno.mulven.Models.UserProfile;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
-import retrofit2.http.Body;
 import retrofit2.http.Field;
-import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ApiInterface {
@@ -52,8 +44,7 @@ public interface ApiInterface {
     Call<ProductDetailsModel> getProd_details(@Query("id") int id);
 
     @GET("order-list?")
-    Call<OrderModel> getOrderList(@Query("customer_id") int customerId,
-                                  @Query("token") String token);
+    Call<List<OrderListModel>> getOrderList(@Query("token") String token);
 
     @POST("login")
     @FormUrlEncoded

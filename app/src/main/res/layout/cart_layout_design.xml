@@ -100,9 +100,9 @@
         android:id="@+id/cardMinus"
         android:layout_width="20dp"
         android:layout_height="18dp"
-        android:layout_below="@+id/ProductShopName"
+        android:layout_above="@+id/v123"
+        android:layout_marginBottom="5dp"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="6dp"
         android:layout_toEndOf="@id/cartProductImage"
         android:src="@drawable/ic_minus" />
 
@@ -110,8 +110,8 @@
         android:id="@+id/cardQuantity"
         android:layout_width="wrap_content"
         android:layout_height="18dp"
-        android:layout_below="@+id/ProductShopName"
-        android:layout_marginTop="5dp"
+        android:layout_above="@+id/v123"
+        android:layout_marginBottom="6dp"
         android:layout_toEndOf="@id/cardMinus"
         android:gravity="center"
         android:paddingStart="10dp"
@@ -124,16 +124,17 @@
         android:id="@+id/cardPlus"
         android:layout_width="20dp"
         android:layout_height="18dp"
-        android:layout_below="@+id/ProductShopName"
-        android:layout_marginTop="6dp"
+        android:layout_above="@+id/v123"
+        android:layout_marginBottom="5dp"
         android:layout_toEndOf="@id/cardQuantity"
         android:src="@drawable/ic_plus" />
 
     <View
+        android:id="@+id/v123"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@+id/cardQuantity"
-        android:layout_marginTop="10dp"
+        android:layout_below="@+id/cartProductTotalPrice"
+        android:layout_marginTop="5dp"
         android:background="@color/gray" />
 
 </RelativeLayout>
