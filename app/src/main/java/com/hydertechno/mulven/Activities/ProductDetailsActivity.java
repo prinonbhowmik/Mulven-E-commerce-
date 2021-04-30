@@ -51,6 +51,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -130,13 +131,19 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
 
                     int count = databaseHelper.checkQuantity(product_id);
                     databaseHelper.addQuantity(product_id, count + 1);
-                    Toast.makeText(ProductDetailsActivity.this, "Product Added To Cart", Toast.LENGTH_SHORT).show();
+                    Toasty.success(ProductDetailsActivity.this, "Product Added To Cart").show();
+                    startActivity(new Intent(ProductDetailsActivity.this,MainActivity.class)
+                            .putExtra("fragment","home"));
+                    finish();
                 } else {
                     databaseHelper.addToCart(product_id, product_Name.getText().toString(),
                             productMrpPrice, productUnitPrice, size, color, variant,
                             shop_Name.getText().toString(), Integer.parseInt(cardQuantity.getText().toString()),
                             capmpagin_id, store_id, imageString);
-                    Toast.makeText(ProductDetailsActivity.this, "Product Added To Cart", Toast.LENGTH_LONG).show();
+                    Toasty.success(ProductDetailsActivity.this, "Product Added To Cart").show();
+                    startActivity(new Intent(ProductDetailsActivity.this,MainActivity.class)
+                            .putExtra("fragment","home"));
+                    finish();
                 }
             }
         }
