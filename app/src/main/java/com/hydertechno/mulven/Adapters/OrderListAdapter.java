@@ -94,6 +94,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
                 try {
                     Intent intent = new Intent(context, PlaceOrderDetailsActivity.class);
                     intent.putExtra("OrderId",orderListModel.getOrder_id());
+                    intent.putExtra("PaymentStatus",orderListModel.getPay_status());
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
                     ((Activity)context).overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);

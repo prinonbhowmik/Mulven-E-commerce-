@@ -518,12 +518,12 @@
         android:id="@+id/frame_layout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="#F8F8F8"
         android:layout_alignParentBottom="true">
         <TextView
             android:id="@+id/makePaymentTV"
             android:layout_width="match_parent"
-            android:layout_height="35dp"
+            android:layout_height="40dp"
             android:text="Make Payment"
             android:gravity="center"
             android:paddingStart="10dp"

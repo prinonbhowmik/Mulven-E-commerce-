@@ -88,18 +88,6 @@ public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.Vi
 
         int due = totalSumPrice - activity.totalPay;
 
-        if (due == 0) {
-            activity.orderStatusTV.setText("Paid");
-            activity.orderStatusTV.setTextColor(Color.parseColor("#0F9D58"));
-        } else if (due != 0) {
-            if (activity.totalPay > 0) {
-                activity.orderStatusTV.setText("Partial Paid");
-                activity.orderStatusTV.setTextColor(Color.parseColor("#4285F4"));
-            } else if (activity.totalPay == 0) {
-                activity.orderStatusTV.setText("Unpaid");
-                activity.orderStatusTV.setTextColor(Color.parseColor("#DB4437"));
-            }
-        }
         activity.totalPriceTv.setText("৳ " + totalSumPrice);
         activity.dueTV.setText("৳ " + due);
 

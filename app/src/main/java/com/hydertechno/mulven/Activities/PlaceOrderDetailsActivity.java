@@ -61,8 +61,8 @@ import retrofit2.Response;
 
 public class PlaceOrderDetailsActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener,ConnectivityReceiver.ConnectivityReceiverListener {
     private TextView invoiceIdTV, orderTimeTV, vendorNameTV, vendorPhoneTV, vendorAddressTV, customerNameTV,
-            customerPhoneTV, customerAddressTV, customerAddressEditTV, totalPaidTV;
-    public static TextView totalPriceTv, dueTV, orderStatusTV,makePaymentTV;
+            customerPhoneTV, customerAddressTV, customerAddressEditTV, totalPaidTV,orderStatusTV;
+    public static TextView totalPriceTv, dueTV,makePaymentTV;
     public static int totalPay;
     private Dialog dialog;
     private RatingBar ratingBar;
@@ -91,22 +91,11 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
         }
         Intent intent = getIntent();
         OrderId = intent.getStringExtra("OrderId");
-
+        paymentOrderStatus=intent.getStringExtra("PaymentStatus");
+        orderStatusTV.setText(paymentOrderStatus);
         getInvoiceDetails();
 
-        switch (paymentOrderStatus) {
-            case "Unpaid":
-            case "Partial Paid":
-                if(orderStatus.equals("Cancel")){
-                    makePaymentTV.setVisibility(View.GONE);
-                }else {
-                    makePaymentTV.setVisibility(View.VISIBLE);
-                }
-                break;
-            case "Paid":
-                makePaymentTV.setVisibility(View.GONE);
-                break;
-        }
+
         makePaymentTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -320,6 +309,31 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
                 timelineRecyclerView.setAdapter(orderTimelineAdapter);
                // Collections.reverse(orderTimelineModelList);
                 orderTimelineAdapter.notifyDataSetChanged();
+
+
+
+                switch (paymentOrderStatus) {
+                    case "Unpaid":
+                        orderStatusTV.setTextColor(Color.parseColor("#DB4437"));
+                        if(orderStatus.equals("Cancel")){
+                            makePaymentTV.setVisibility(View.GONE);
+                        }else {
+                            makePaymentTV.setVisibility(View.VISIBLE);
+                        }
+                        break;
+                    case "Partial Paid":
+                        orderStatusTV.setTextColor(Color.parseColor("#4285F4"));
+                        if(orderStatus.equals("Cancel")){
+                            makePaymentTV.setVisibility(View.GONE);
+                        }else {
+                            makePaymentTV.setVisibility(View.VISIBLE);
+                        }
+                        break;
+                    case "Paid":
+                        orderStatusTV.setTextColor(Color.parseColor("#DB4437"));
+                        makePaymentTV.setVisibility(View.GONE);
+                        break;
+                }
 
             }
 
