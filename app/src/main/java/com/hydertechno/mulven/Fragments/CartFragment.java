@@ -64,7 +64,6 @@ public class CartFragment extends Fragment {
     private SharedPreferences sharedPreferences;
     private String token;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -198,7 +197,7 @@ public class CartFragment extends Fragment {
         cartRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         sharedPreferences = getContext().getSharedPreferences("MyRef", MODE_PRIVATE);
         token = sharedPreferences.getString("token", null);
-        Log.d("ShowToken", token);
+        //Log.d("ShowToken", token);
     }
 
     private void hideKeyboardFrom(Context context) {
