@@ -10,7 +10,7 @@
             app:cnb_iconColor="@color/GGreen"/>
         <item
             android:id="@+id/campaign"
-            android:icon="@drawable/ic_d"
+            android:icon="@drawable/ic_campaign"
             android:title="Campaign"
             app:cnb_iconColor="@color/GYellow"/>
         <item

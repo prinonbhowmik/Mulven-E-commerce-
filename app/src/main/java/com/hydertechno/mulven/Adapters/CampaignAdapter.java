@@ -5,6 +5,8 @@ import android.service.autofill.TextValueSanitizer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -12,8 +14,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.hydertechno.mulven.Api.Config;
 import com.hydertechno.mulven.Models.CampaignModel;
 import com.hydertechno.mulven.R;
+import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,6 +31,7 @@ import es.dmoral.toasty.Toasty;
 public class CampaignAdapter extends RecyclerView.Adapter<CampaignAdapter.ViewHolder> {
     private List<CampaignModel> campaignModelList;
     private Context context;
+    long millieSecond;
 
     public CampaignAdapter(List<CampaignModel> campaignModelList, Context context) {
         this.campaignModelList = campaignModelList;
@@ -45,16 +50,14 @@ public class CampaignAdapter extends RecyclerView.Adapter<CampaignAdapter.ViewHo
     public void onBindViewHolder(@NonNull CampaignAdapter.ViewHolder holder, int position) {
         CampaignModel model=campaignModelList.get(position);
         holder.title.setText(model.getCampaign_name());
-        holder.campaignTitle.setText(model.getCampaign_name());
-        holder.campaignTimeDate.setText(model.getStart_date()+" "+model.getStart_time());
+        try{
+            Picasso.get()
+                    .load(Config.IMAGE_LINE+model.getCampaign_image())
+                    .into(holder.campaignImage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         //holder.campaignCountdown.start(555550000); // Millisecond
-        int status=model.getPublication_status();
-        if(status==0){
-            holder.liveTxt.setText("coming live on");
-        }
-        else if(status==1){
-            holder.liveTxt.setText("is live now.");
-        }
 
         String n=model.getStart_time();
         String a=new String();
@@ -71,13 +74,26 @@ public class CampaignAdapter extends RecyclerView.Adapter<CampaignAdapter.ViewHo
         String currentDate =sdf.format(new Date());
         //String currentDate ="2021-04-22 08:00 PM";
         Date date1,date2;
+
         try {
             date1=sdf.parse(start_Date);
             date2=sdf.parse(currentDate);
-            long millieSecond=date1.getTime()-date2.getTime();
+            millieSecond=date1.getTime()-date2.getTime();
             holder.campaignCountdown.start(millieSecond); // Millisecond
         } catch (ParseException e) {
             e.printStackTrace();
+        }
+
+        int status=model.getPublication_status();
+        if(status==0){
+            holder.overLL.setVisibility(View.VISIBLE);
+            holder.campaignCountdown.setVisibility(View.GONE);
+        }
+        else if(status==1){
+            if(millieSecond<0) {
+                holder.liveLL.setVisibility(View.VISIBLE);
+                holder.campaignCountdown.setVisibility(View.GONE);
+            }
         }
 
     }
@@ -89,16 +105,18 @@ public class CampaignAdapter extends RecyclerView.Adapter<CampaignAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private RelativeLayout campaignRl;
-        private TextView title, campaignTitle,liveTxt,campaignTimeDate;
+        private TextView title,liveTxt,campaignTimeDate;
+        private ImageView campaignImage;
         private CountdownView campaignCountdown;
+        private LinearLayout liveLL,overLL;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             campaignRl=itemView.findViewById(R.id.campaignRL);
             title=itemView.findViewById(R.id.title);
-            campaignTitle=itemView.findViewById(R.id.campaignTitle);
-            liveTxt=itemView.findViewById(R.id.liveTxt);
-            campaignTimeDate=itemView.findViewById(R.id.campaignTimeDate);
+            campaignImage=itemView.findViewById(R.id.campaignImage);
             campaignCountdown=itemView.findViewById(R.id.countdown);
+            liveLL=itemView.findViewById(R.id.liveLL);
+            overLL=itemView.findViewById(R.id.overLL);
         }
     }
 }

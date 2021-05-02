@@ -9,7 +9,7 @@
 
         <item
             android:id="@+id/campaignMenu"
-            android:icon="@drawable/ic_d"
+            android:icon="@drawable/ic_campaign"
             android:title="Campaign"/>
 
         <item
