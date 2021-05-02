@@ -1,12 +1,10 @@
 package com.hydertechno.mulven.Activities;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.app.Activity;
 import android.content.Context;
@@ -18,14 +16,12 @@ import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
-import com.airbnb.lottie.LottieAnimationView;
-import com.airbnb.lottie.LottieComposition;
 import com.google.android.material.navigation.NavigationView;
 import com.hydertechno.mulven.Api.ApiUtils;
 import com.hydertechno.mulven.DatabaseHelper.Database_Helper;
 import com.hydertechno.mulven.Fragments.AccountFragment;
 import com.hydertechno.mulven.Fragments.CartFragment;
-import com.hydertechno.mulven.Fragments.DreamDealFragment;
+import com.hydertechno.mulven.Fragments.CampaignFragment;
 import com.hydertechno.mulven.Fragments.HomeFragment;
 import com.hydertechno.mulven.Fragments.NotificationFragment;
 import com.hydertechno.mulven.Fragments.ProfileFragment;
@@ -33,7 +29,6 @@ import com.hydertechno.mulven.Models.UserProfile;
 import com.hydertechno.mulven.R;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
-import dev.shreyaspatil.MaterialDialog.AbstractDialog;
 import dev.shreyaspatil.MaterialDialog.MaterialDialog;
 import dev.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
 import es.dmoral.toasty.Toasty;
@@ -57,26 +52,39 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         init();
 
-        Intent getFragment=getIntent();
-        String lodeFragment=getFragment.getStringExtra("fragment");
-        if(lodeFragment.equals("home")){
-            chipNavigationBar.setItemSelected(R.id.home,true);
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment()).commit();
+        Intent getFragment = getIntent();
+        String lodeFragment = getFragment.getStringExtra("fragment");
+        if (lodeFragment.equals("home")) {
+            chipNavigationBar.setItemSelected(R.id.home, true);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
 
-        }else if(lodeFragment.equals("cart")){
-            chipNavigationBar.setItemSelected(R.id.cart,true);
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new CartFragment()).commit();
-        }else if(lodeFragment.equals("profile")){
-            chipNavigationBar.setItemSelected(R.id.account,true);
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new ProfileFragment()).commit();
-        }else if(lodeFragment.equals("login")){
-            chipNavigationBar.setItemSelected(R.id.account,true);
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new AccountFragment()).commit();
+            navigationView.getMenu().getItem(0).setChecked(true);
+            navigationView.getMenu().getItem(1).setChecked(false);
+            navigationView.getMenu().getItem(2).setChecked(false);
+            navigationView.getMenu().getItem(3).setChecked(false);
+            navigationView.getMenu().getItem(4).setChecked(false);
+        } else if (lodeFragment.equals("cart")) {
+            chipNavigationBar.setItemSelected(R.id.cart, true);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new CartFragment()).commit();
+
+            navigationView.getMenu().getItem(0).setChecked(false);
+            navigationView.getMenu().getItem(1).setChecked(false);
+            navigationView.getMenu().getItem(2).setChecked(true);
+            navigationView.getMenu().getItem(3).setChecked(false);
+            navigationView.getMenu().getItem(4).setChecked(false);
+        } else if (lodeFragment.equals("profile")) {
+            chipNavigationBar.setItemSelected(R.id.account, true);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ProfileFragment()).commit();
+        } else if (lodeFragment.equals("login")) {
+            chipNavigationBar.setItemSelected(R.id.account, true);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AccountFragment()).commit();
         }
 
         int count = helper.numberOfrows().getCount();
-        if (count>0) {
+        if (count > 0) {
             chipNavigationBar.showBadge(R.id.cart, count);
+        } else{
+            chipNavigationBar.dismissBadge(R.id.cart);
         }
         if (loggedIn == 0){
             navigationView.getMenu().removeItem(R.id.logout);
@@ -92,24 +100,43 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                     case R.id.home:
                         fragment=new HomeFragment();
+                        navigationView.getMenu().getItem(0).setChecked(true);
+                        navigationView.getMenu().getItem(1).setChecked(false);
+                        navigationView.getMenu().getItem(2).setChecked(false);
+                        navigationView.getMenu().getItem(3).setChecked(false);
+                        navigationView.getMenu().getItem(4).setChecked(false);
                         break;
-                    case R.id.dream_deal:
-                        fragment=new DreamDealFragment();
+                    case R.id.campaign:
+                        fragment=new CampaignFragment();
+                        navigationView.getMenu().getItem(0).setChecked(false);
+                        navigationView.getMenu().getItem(1).setChecked(true);
+                        navigationView.getMenu().getItem(2).setChecked(false);
+                        navigationView.getMenu().getItem(3).setChecked(false);
+                        navigationView.getMenu().getItem(4).setChecked(false);
                         break;
                     case R.id.cart:
                         fragment=new CartFragment();
+                        navigationView.getMenu().getItem(0).setChecked(false);
+                        navigationView.getMenu().getItem(1).setChecked(false);
+                        navigationView.getMenu().getItem(2).setChecked(true);
+                        navigationView.getMenu().getItem(3).setChecked(false);
+                        navigationView.getMenu().getItem(4).setChecked(false);
                         break;
                     case R.id.notification:
                         fragment=new NotificationFragment();
+                        navigationView.getMenu().getItem(0).setChecked(false);
+                        navigationView.getMenu().getItem(1).setChecked(false);
+                        navigationView.getMenu().getItem(2).setChecked(false);
+                        navigationView.getMenu().getItem(3).setChecked(true);
+                        navigationView.getMenu().getItem(4).setChecked(false);
                         break;
                     case R.id.account:
                         if (loggedIn == 0 ){
                             fragment=new AccountFragment();
-                            break;
                         }else{
                             fragment=new ProfileFragment();
-                            break;
                         }
+                        break;
                 }
                 if(fragment!=null){
 
@@ -140,26 +167,48 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
-            case R.id.home:
+            case R.id.homeMenu:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment()).commit();
                 navigationView.getMenu().getItem(0).setChecked(true);
                 navigationView.getMenu().getItem(1).setChecked(false);
                 navigationView.getMenu().getItem(2).setChecked(false);
                 navigationView.getMenu().getItem(3).setChecked(false);
+                navigationView.getMenu().getItem(4).setChecked(false);
                 chipNavigationBar.setItemSelected(R.id.home,true);
                 break;
-            case R.id.gift:
-                //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new CartFragment()).commit();
-
-                startActivity(new Intent(getApplicationContext(),GiftVoucherActivity.class));
+            case R.id.campaignMenu:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new CampaignFragment()).commit();
+                navigationView.getMenu().getItem(0).setChecked(false);
+                navigationView.getMenu().getItem(1).setChecked(true);
+                navigationView.getMenu().getItem(2).setChecked(false);
+                navigationView.getMenu().getItem(3).setChecked(false);
+                navigationView.getMenu().getItem(4).setChecked(false);
+                chipNavigationBar.setItemSelected(R.id.campaign,true);
                 break;
-            case R.id.cart:
+
+            case R.id.cartMenu:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new CartFragment()).commit();
                 navigationView.getMenu().getItem(0).setChecked(false);
                 navigationView.getMenu().getItem(1).setChecked(false);
-                navigationView.getMenu().getItem(3).setChecked(false);
                 navigationView.getMenu().getItem(2).setChecked(true);
+                navigationView.getMenu().getItem(3).setChecked(false);
+                navigationView.getMenu().getItem(4).setChecked(false);
                 chipNavigationBar.setItemSelected(R.id.cart,true);
+                break;
+            case R.id.notificationMenu:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new NotificationFragment()).commit();
+                navigationView.getMenu().getItem(0).setChecked(false);
+                navigationView.getMenu().getItem(1).setChecked(false);
+                navigationView.getMenu().getItem(2).setChecked(false);
+                navigationView.getMenu().getItem(3).setChecked(true);
+                navigationView.getMenu().getItem(4).setChecked(false);
+                chipNavigationBar.setItemSelected(R.id.notification,true);
+                break;
+
+            case R.id.giftMenu:
+                //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new CartFragment()).commit();
+
+                startActivity(new Intent(getApplicationContext(),GiftVoucherActivity.class));
                 break;
             case R.id.login:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new AccountFragment()).commit();

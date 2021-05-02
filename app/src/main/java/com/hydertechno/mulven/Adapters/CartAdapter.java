@@ -37,6 +37,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     private Context context;
     private CartFragment cartFragment;
     private BottomSheetMaterialDialog mAnimatedDialog;
+    private MainActivity mainActivity;
 
     public CartAdapter(List<CartProductModel> list, Context context) {
         this.list = list;
@@ -157,6 +158,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                                 notifyDataSetChanged();
                                 cartFragment.cardSubtotalAmount.setText("৳ "+database_helper.columnSum());
                                 dialogInterface.dismiss();
+                                int count=database_helper.numberOfrows().getCount();
+                                if (count>0) {
+                                    mainActivity. chipNavigationBar.showBadge(R.id.cart, count);
+                                } else{
+                                    mainActivity.chipNavigationBar.dismissBadge(R.id.cart);
+                                    cartFragment.totalLayout.setVisibility(View.GONE);
+                                    cartFragment.noCartLayout.setVisibility(View.VISIBLE);
+                                }
                             }
                         })
                         .setNegativeButton("Cancel", R.drawable.ic_close, new BottomSheetMaterialDialog.OnClickListener() {

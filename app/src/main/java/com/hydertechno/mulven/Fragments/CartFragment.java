@@ -51,7 +51,8 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class CartFragment extends Fragment {
     private DrawerLayout drawerLayout;
-    private RelativeLayout noCartLayout, cartLayout;
+    private RelativeLayout  cartLayout;
+    public static RelativeLayout totalLayout,noCartLayout;
     private ImageView navIcon;
     private TextView placeOrder;
     public static TextView cardSubtotalAmount;
@@ -188,6 +189,7 @@ public class CartFragment extends Fragment {
         placeOrder = view.findViewById(R.id.placeOrderTV);
         noCartLayout = view.findViewById(R.id.noCartLayout);
         cartLayout = view.findViewById(R.id.cartLayout);
+        totalLayout = view.findViewById(R.id.totalLayout);
         cardSubtotalAmount = view.findViewById(R.id.cardSubtotalAmount);
         databaseHelper = new Database_Helper(getContext());
         list = new ArrayList<>();

@@ -9,7 +9,6 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,7 +33,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class DreamDealFragment extends Fragment {
+public class CampaignFragment extends Fragment {
     private DrawerLayout drawerLayout;
     private ImageView navIcon,searchIv,closeIv;
     private String title,id;
@@ -49,7 +48,7 @@ public class DreamDealFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view= inflater.inflate(R.layout.fragment_dream_deal, container, false);
+        View view= inflater.inflate(R.layout.fragment_campaign, container, false);
         init(view);
         drawerLayout=getActivity().findViewById(R.id.drawerLayout);
         navIcon.setOnClickListener(new View.OnClickListener() {

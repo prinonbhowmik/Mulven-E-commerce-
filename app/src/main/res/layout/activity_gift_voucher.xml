@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/gift_voucher_rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activities.GiftVoucherActivity">
@@ -82,12 +83,21 @@
         android:visibility="gone"
         android:layout_height="match_parent" />
 
+    <RelativeLayout
+        android:id="@+id/noCartLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        android:layout_below="@+id/radioGroup">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/radioGroup">
-    <include layout="@layout/gift_voucher_layout_design"/>
-    </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="No gift voucher available."
+            android:fontFamily="@font/comfortaa"
+            android:textSize="15sp"
+            android:textColor="@color/themDark"/>
+    </RelativeLayout>
 
 </RelativeLayout>
