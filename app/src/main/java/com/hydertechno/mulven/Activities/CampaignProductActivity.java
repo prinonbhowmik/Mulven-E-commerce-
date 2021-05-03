@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -31,7 +32,7 @@ public class CampaignProductActivity extends AppCompatActivity {
 
     private ImageView navIcon,searchIv,closeIv;
     private String title,id;
-    private int categoryID;
+    private int campaignID;
     private TextView titleName;
     private SearchView searchView;
     private RecyclerView campaignProductRecyclerView;
@@ -44,6 +45,8 @@ public class CampaignProductActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_campaign_product);
         init();
+        Intent intent=getIntent();
+        campaignID=intent.getIntExtra("id",0);
 
         searchIv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,7 +109,7 @@ public class CampaignProductActivity extends AppCompatActivity {
     }
     private void getCategories() {
         allProductsList.clear();
-        Call<List<CategoriesModel>> call = apiInterface.getCategories(95);
+        Call<List<CategoriesModel>> call = apiInterface.getCampaignItem(campaignID);
         call.enqueue(new Callback<List<CategoriesModel>>() {
             @Override
             public void onResponse(Call<List<CategoriesModel>> call, Response<List<CategoriesModel>> response) {

@@ -1,7 +1,9 @@
 package com.hydertechno.mulven.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.service.autofill.TextValueSanitizer;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.hydertechno.mulven.Activities.CampaignProductActivity;
+import com.hydertechno.mulven.Activities.ProductDetailsActivity;
 import com.hydertechno.mulven.Api.Config;
 import com.hydertechno.mulven.Models.CampaignModel;
 import com.hydertechno.mulven.R;
@@ -32,7 +36,7 @@ public class CampaignAdapter extends RecyclerView.Adapter<CampaignAdapter.ViewHo
     private List<CampaignModel> campaignModelList;
     private Context context;
     long millieSecond;
-
+    int status;
     public CampaignAdapter(List<CampaignModel> campaignModelList, Context context) {
         this.campaignModelList = campaignModelList;
         this.context = context;
@@ -84,7 +88,7 @@ public class CampaignAdapter extends RecyclerView.Adapter<CampaignAdapter.ViewHo
             e.printStackTrace();
         }
 
-        int status=model.getPublication_status();
+        status=model.getPublication_status();
         if(status==0){
             holder.overLL.setVisibility(View.VISIBLE);
             holder.campaignCountdown.setVisibility(View.GONE);
@@ -95,6 +99,28 @@ public class CampaignAdapter extends RecyclerView.Adapter<CampaignAdapter.ViewHo
                 holder.campaignCountdown.setVisibility(View.GONE);
             }
         }
+
+        holder.campaignRl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                /*if(status==1) {
+                    if(millieSecond<0) {*/
+                        try {
+                            Intent intent = new Intent(context, CampaignProductActivity.class);
+                            intent.putExtra("id", 6);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
+                            /*    ((Activity)context).finish();*/
+                        } catch (Exception e) {
+                        }
+                 /*   }else {
+                        Toasty.normal(context,"Coming live soon!",Toasty.LENGTH_SHORT).show();
+                    }
+                }else {
+                    Toasty.normal(context,"Campaign over.",Toasty.LENGTH_SHORT).show();
+                }*/
+            }
+        });
 
     }
 

@@ -91,42 +91,42 @@ public class CartFragment extends Fragment {
             public void onClick(View v) {
                 Cursor cursor = databaseHelper.getCart();
                 if (cursor != null) {
+
+                    JSONArray array = new JSONArray();
+                    ArrayList<JSONArray> jsonArrayList = new ArrayList<>();
+                    List<Map<String, String>> list1 = new ArrayList<>();
                     while (cursor.moveToNext()) {
-                        int id = cursor.getInt(cursor.getColumnIndex(databaseHelper.ID));
-                        String name = cursor.getString(cursor.getColumnIndex(databaseHelper.PRODUCT_NAME));
-                        int unit_price = cursor.getInt(cursor.getColumnIndex(databaseHelper.UNIT_PRICE));
-                        int quantity = cursor.getInt(cursor.getColumnIndex(databaseHelper.QUANTITY));
-                        String size = cursor.getString(cursor.getColumnIndex(databaseHelper.SIZE));
-                        String color = cursor.getString(cursor.getColumnIndex(databaseHelper.COLOR));
-                        String variant = cursor.getString(cursor.getColumnIndex(databaseHelper.VARIANT));
-                        String campaign_id = cursor.getString(cursor.getColumnIndex(databaseHelper.CAMPAIGN_ID));
-                        int store_id = cursor.getInt(cursor.getColumnIndex(databaseHelper.STORE_ID));
+                            int id = cursor.getInt(cursor.getColumnIndex(databaseHelper.ID));
+                            String name = cursor.getString(cursor.getColumnIndex(databaseHelper.PRODUCT_NAME));
+                            int unit_price = cursor.getInt(cursor.getColumnIndex(databaseHelper.UNIT_PRICE));
+                            int quantity = cursor.getInt(cursor.getColumnIndex(databaseHelper.QUANTITY));
+                            String size = cursor.getString(cursor.getColumnIndex(databaseHelper.SIZE));
+                            String color = cursor.getString(cursor.getColumnIndex(databaseHelper.COLOR));
+                            String variant = cursor.getString(cursor.getColumnIndex(databaseHelper.VARIANT));
+                            String campaign_id = cursor.getString(cursor.getColumnIndex(databaseHelper.CAMPAIGN_ID));
+                            int store_id = cursor.getInt(cursor.getColumnIndex(databaseHelper.STORE_ID));
 
-                        List<Map<String, String>> list1 = new ArrayList<>();
-                        Map<String, String> parms = new HashMap<String,String>();
-                        JSONArray array = new JSONArray();
-                        ArrayList<JSONArray> jsonArrayList = new ArrayList<>();
 
-                        for (int i = 1; i < list.size(); i++) {
-                            parms.put("item_id", String.valueOf(id));
-                            parms.put("pro_name", name);
-                            parms.put("variant", variant);
-                            parms.put("size", size);
-                            parms.put("color", color);
-                            parms.put("price", String.valueOf(unit_price));
-                            parms.put("order_from", campaign_id);
-                            parms.put("store_id", String.valueOf(store_id));
-                            parms.put("quantity", String.valueOf(quantity));
+                            Map<String, String> parms = new HashMap<String, String>();
 
-                            list1.add(parms);
-                            databaseHelper.deleteData(id,size,color,variant);
-                            array = new JSONArray(list1);
-                            jsonArrayList.add(array);
-                        }
+                                parms.put("item_id", String.valueOf(id));
+                                parms.put("pro_name", name);
+                                parms.put("variant", variant);
+                                parms.put("size", size);
+                                parms.put("color", color);
+                                parms.put("price", String.valueOf(unit_price));
+                                parms.put("order_from", campaign_id);
+                                parms.put("store_id", String.valueOf(store_id));
+                                parms.put("quantity", String.valueOf(quantity));
 
-                        Log.d("checkList", String.valueOf(jsonArrayList));
+                                list1.add(parms);
+                                //databaseHelper.deleteData(id,size,color,variant);
+                                array = new JSONArray(list1);
+                                jsonArrayList.add(array);
 
-                        Call<PlaceOrderModel> call = ApiUtils.getUserService().placeOrder(token, jsonArrayList);
+                    }
+                    Log.d("checkList", String.valueOf(jsonArrayList));
+                    Call<PlaceOrderModel> call = ApiUtils.getUserService().placeOrder(token, jsonArrayList);
                         call.enqueue(new Callback<PlaceOrderModel>() {
                             @Override
                             public void onResponse(Call<PlaceOrderModel> call, Response<PlaceOrderModel> response) {
@@ -143,9 +143,6 @@ public class CartFragment extends Fragment {
                                 Toast.makeText(getContext(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
-
-
-                    }
                 }
             }
         });

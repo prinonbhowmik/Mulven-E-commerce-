@@ -111,6 +111,9 @@ public interface ApiInterface {
     @GET("campaigns")
     Call<Campaign> getAllCampaigns();
 
+    @GET("campaigns-all-item")
+    Call<List<CategoriesModel>> getCampaignItem(@Query("id") int order_id);
+
     @POST("order")
     @FormUrlEncoded
     Call<PlaceOrderModel> placeOrder(@Query("token") String token,

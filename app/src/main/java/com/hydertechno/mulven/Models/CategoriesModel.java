@@ -23,6 +23,15 @@ public class CategoriesModel {
         this.feacher_image = feacher_image;
     }
 
+    public CategoriesModel(int id, String sku, String product_name, int mrp_price, int unit_price, String feacher_image) {
+        this.id = id;
+        this.sku = sku;
+        this.product_name = product_name;
+        this.mrp_price = mrp_price;
+        this.unit_price = unit_price;
+        this.feacher_image = feacher_image;
+    }
+
     public CategoriesModel() {
     }
 
