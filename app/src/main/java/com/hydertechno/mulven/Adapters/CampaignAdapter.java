@@ -89,13 +89,13 @@ public class CampaignAdapter extends RecyclerView.Adapter<CampaignAdapter.ViewHo
         }
 
         status=model.getPublication_status();
-        if(status==0){
-            holder.overLL.setVisibility(View.VISIBLE);
+        if(status==1) {
+            holder.liveLL.setVisibility(View.VISIBLE);
             holder.campaignCountdown.setVisibility(View.GONE);
-        }
-        else if(status==1){
+
+        } else if(status==0){
             if(millieSecond<0) {
-                holder.liveLL.setVisibility(View.VISIBLE);
+                holder.overLL.setVisibility(View.VISIBLE);
                 holder.campaignCountdown.setVisibility(View.GONE);
             }
         }
@@ -103,22 +103,24 @@ public class CampaignAdapter extends RecyclerView.Adapter<CampaignAdapter.ViewHo
         holder.campaignRl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*if(status==1) {
-                    if(millieSecond<0) {*/
+                if(status==1) {
                         try {
                             Intent intent = new Intent(context, CampaignProductActivity.class);
                             intent.putExtra("id", 6);
+                            intent.putExtra("title", model.getCampaign_name());
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(intent);
                             /*    ((Activity)context).finish();*/
                         } catch (Exception e) {
                         }
-                 /*   }else {
+
+                }else {
+                    if(millieSecond<0) {
+                        Toasty.normal(context, "Campaign over.", Toasty.LENGTH_SHORT).show();
+                    }else if(millieSecond>0) {
                         Toasty.normal(context,"Coming live soon!",Toasty.LENGTH_SHORT).show();
                     }
-                }else {
-                    Toasty.normal(context,"Campaign over.",Toasty.LENGTH_SHORT).show();
-                }*/
+                }
             }
         });
 

@@ -47,6 +47,8 @@ public class CampaignProductActivity extends AppCompatActivity {
         init();
         Intent intent=getIntent();
         campaignID=intent.getIntExtra("id",0);
+        title=intent.getStringExtra("title");
+        titleName.setText(title);
 
         searchIv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,6 +97,7 @@ public class CampaignProductActivity extends AppCompatActivity {
         searchView = findViewById(R.id.searchET);
         searchIv = findViewById(R.id.SearchIv);
         closeIv = findViewById(R.id.backIcon);
+        titleName = findViewById(R.id.titleName);
         all_product_Adapter=new AllProductsAdapter(allProductsList,CampaignProductActivity.this);
         campaignProductRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(),2));
         campaignProductRecyclerView.setItemAnimator(new DefaultItemAnimator());
