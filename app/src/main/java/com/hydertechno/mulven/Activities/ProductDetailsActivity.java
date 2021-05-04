@@ -65,7 +65,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
     private AutoCompleteTextView sizeTV,colorTV,variantTV;
     private TextInputLayout size_menu,color_menu,variant_menu;
     private ZoomageView product_Image;
-    private TextView productOldPrice,addToCart,buyNow,product_Name,shop_Name,brand_Name,product_Price,shop_Address,cardQuantity;
+    private TextView productOldPrice,addToCart,buyNow,product_Name,shop_Name,
+            brand_Name,product_Price,shop_Address,cardQuantity,skuTV;
     private RecyclerView productImagesRecycler,productFeatureRecyclerView,relatedProductRecyclerView;
     private ProductImagesAdapter productImagesAdapter;
     private ProductFeatureAdapter productFeatureAdapter;
@@ -73,7 +74,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
     private List<ProductDetailsModel> list;
     private int product_id,quantity,category_id;
     private WebView webView;
-    private String url = "https://mulven.com/pro-det-for-app/",imageString,size,color,variant,capmpagin_id,from,sku;
+    private String url = "https://mulven.com/pro-det-for-app/",imageString,size,color,variant,capmpagin_id,from,sku,sku2;
     private ImageView shopLogoIV,card_Minus,card_Plus;
     private List<CategoriesModel> relatedProductList =new ArrayList<>();
     private ArrayList<String> productColor = new ArrayList<String>();
@@ -97,6 +98,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_details);
+        init();
         Intent intent = getIntent();
         product_id = intent.getIntExtra("id",0);
         from=intent.getStringExtra("from");
@@ -108,7 +110,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
         }
 
 
-        init();
+
         checkConnection();
         if (!isConnected) {
             snackBar(isConnected);
@@ -245,6 +247,9 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
                 shop_Name.setText(""+detailsList.getShop_name());
                 shop_Address.setText(""+detailsList.getShop_address());
                 brand_Name.setText(""+detailsList.getBrand());
+                skuTV.setText(""+detailsList.getSku());
+                sku2=detailsList.getSku();
+                webView.loadUrl(url+""+sku2);
                 imageString = detailsList.getFeacher_image();
                 category_id = detailsList.getCategory_id();
                 store_id = detailsList.getStore_id();
@@ -374,6 +379,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
         shop_Name = findViewById(R.id.shop_Name);
         brand_Name = findViewById(R.id.brand_Name);
         product_Price = findViewById(R.id.product_Price);
+        skuTV = findViewById(R.id.skuTV);
         sizeTV=findViewById(R.id.sizeMenu);
         colorTV=findViewById(R.id.colorMenu);
         variantTV=findViewById(R.id.variantMenu);
@@ -400,7 +406,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
         soldByRelativeLayout=findViewById(R.id.soldByRelativeLayout);
         webView = findViewById(R.id.description);
         webView.setWebViewClient(new WebViewClient());
-        webView.loadUrl(url+""+sku);
+        //webView.loadUrl(url+""+sku);
 
         LinearLayoutManager layoutManager1 = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
         layoutManager1.setSmoothScrollbarEnabled(true);
@@ -434,6 +440,9 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
                 shop_Name.setText(""+detailsList.getShop_name());
                 shop_Address.setText(""+detailsList.getShop_address());
                 brand_Name.setText(""+detailsList.getBrand());
+                skuTV.setText(""+detailsList.getSku());
+                sku2=detailsList.getSku();
+                webView.loadUrl(url+""+sku2);
                 imageString = detailsList.getFeacher_image();
                 category_id = detailsList.getCategory_id();
                 store_id = detailsList.getStore_id();

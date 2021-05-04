@@ -131,12 +131,37 @@
                     android:fontFamily="@font/comfortaa"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
+                <TextView
+                    android:id="@+id/skuTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/brandTxt"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="15dp"
+                    android:fontFamily="@font/comfortaa_bold"
+                    android:text="SKU :"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/skuTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/brand_Name"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_toEndOf="@+id/skuTxt"
+                    android:fontFamily="@font/comfortaa"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
 
                 <LinearLayout
                     android:id="@+id/quantity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/brandTxt"
+                    android:layout_below="@id/skuTxt"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"

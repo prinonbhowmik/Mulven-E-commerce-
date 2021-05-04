@@ -106,7 +106,7 @@ public class CampaignAdapter extends RecyclerView.Adapter<CampaignAdapter.ViewHo
                 if(status==1) {
                         try {
                             Intent intent = new Intent(context, CampaignProductActivity.class);
-                            intent.putExtra("id", 6);
+                            intent.putExtra("id", model.getId());
                             intent.putExtra("title", model.getCampaign_name());
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(intent);
