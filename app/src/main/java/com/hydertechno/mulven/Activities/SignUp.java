@@ -142,7 +142,7 @@ public class SignUp extends AppCompatActivity implements ConnectivityReceiver.Co
                         editor.commit();
                         Log.d("ShowToken",token);
                         Toasty.success(SignUp.this, ""+msg).show();
-                        startActivity(new Intent(SignUp.this,MainActivity.class).putExtra("home","home"));
+                        startActivity(new Intent(SignUp.this,MainActivity.class).putExtra("fragment","home"));
                         finish();
                     }
 
