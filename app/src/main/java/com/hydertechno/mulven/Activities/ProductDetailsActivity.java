@@ -5,6 +5,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
@@ -13,6 +15,7 @@ import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.AdapterView;
@@ -25,6 +28,7 @@ import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
+import com.hydertechno.mulven.Adapters.CampaignRelatedProductAdapter;
 import com.hydertechno.mulven.Adapters.ProductAdapter;
 import com.hydertechno.mulven.Adapters.ProductFeatureAdapter;
 import com.hydertechno.mulven.Adapters.ProductImagesAdapter;
@@ -69,7 +73,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
     private List<ProductDetailsModel> list;
     private int product_id,quantity,category_id;
     private WebView webView;
-    private String url = "https://mulven.com/pro-det-for-app/",imageString,size,color,variant,capmpagin_id;
+    private String url = "https://mulven.com/pro-det-for-app/",imageString,size,color,variant,capmpagin_id,from,sku;
     private ImageView shopLogoIV,card_Minus,card_Plus;
     private List<CategoriesModel> relatedProductList =new ArrayList<>();
     private ArrayList<String> productColor = new ArrayList<String>();
@@ -78,6 +82,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
     private ArrayList<Integer> productVariantPrice = new ArrayList<Integer>();
     private ApiInterface apiInterface;
     private RelatedProductAdapter relatedProductAdapter;
+    private CampaignRelatedProductAdapter campaignRelatedProductAdapter;
     private RelativeLayout feature_RelativeLayout,soldByRelativeLayout;
     private int productMrpPrice,productUnitPrice,store_id;
     private RelativeLayout rootLayout;
@@ -94,6 +99,14 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
         setContentView(R.layout.activity_product_details);
         Intent intent = getIntent();
         product_id = intent.getIntExtra("id",0);
+        from=intent.getStringExtra("from");
+        sku=intent.getStringExtra("sku");
+        if(from.equals("regular")){
+            getProductDetails();
+        }else if(from.equals("campaign")){
+            getCampaignProductDetails();
+        }
+
 
         init();
         checkConnection();
@@ -101,7 +114,6 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
             snackBar(isConnected);
         }
         quantity=Integer.parseInt(cardQuantity.getText().toString());
-        getProductDetails();
 
         addToCart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,14 +145,14 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
 
                     int count = databaseHelper.checkQuantity(product_id);
                     databaseHelper.addQuantity(product_id, count + 1);
-                    Toasty.success(ProductDetailsActivity.this, "Product Added To Cart").show();
+                    Toasty.normal(ProductDetailsActivity.this, "Product Added To Cart").show();
 
                 } else {
                     databaseHelper.addToCart(product_id, product_Name.getText().toString(),
                             productMrpPrice, productUnitPrice, size, color, variant,
                             shop_Name.getText().toString(), Integer.parseInt(cardQuantity.getText().toString()),
                             capmpagin_id, store_id, imageString);
-                    Toasty.success(ProductDetailsActivity.this, "Product Added To Cart").show();
+                    Toasty.normal(ProductDetailsActivity.this, "Product Added To Cart").show();
 
                 }
                     int count=databaseHelper.numberOfrows().getCount();
@@ -185,13 +197,11 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
 
                             int count = databaseHelper.checkQuantity(product_id);
                             databaseHelper.addQuantity(product_id, count + 1);
-                            Toast.makeText(ProductDetailsActivity.this, "Product Added To Cart", Toast.LENGTH_SHORT).show();
                         } else {
                             databaseHelper.addToCart(product_id, product_Name.getText().toString(),
                                     productMrpPrice, productUnitPrice, size, color, variant,
                                     shop_Name.getText().toString(), Integer.parseInt(cardQuantity.getText().toString()),
                                     capmpagin_id, store_id, imageString);
-                            Toast.makeText(ProductDetailsActivity.this, "Product Added To Cart", Toast.LENGTH_LONG).show();
                         }
                     }
                 Intent intent = new Intent(ProductDetailsActivity.this, MainActivity.class);
@@ -215,6 +225,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
 
 
     }
+
 
     private void getProductDetails() {
         Call<ProductDetailsModel> call = ApiUtils.getUserService().getProd_details(product_id);
@@ -389,17 +400,161 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
         soldByRelativeLayout=findViewById(R.id.soldByRelativeLayout);
         webView = findViewById(R.id.description);
         webView.setWebViewClient(new WebViewClient());
-        webView.loadUrl(url+""+product_id);
+        webView.loadUrl(url+""+sku);
 
         LinearLayoutManager layoutManager1 = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
         layoutManager1.setSmoothScrollbarEnabled(true);
         relatedProductRecyclerView.setLayoutManager(layoutManager1);
-        relatedProductRecyclerView.setAdapter(relatedProductAdapter);
+       // relatedProductRecyclerView.setAdapter(relatedProductAdapter);
     }
 
     public void productDetailsBack(View view) {
         finish();
     }
+
+
+
+
+
+    private void getCampaignProductDetails() {
+        Call<ProductDetailsModel> call = ApiUtils.getUserService().getCampaignProd_details(product_id,sku);
+        call.enqueue(new Callback<ProductDetailsModel>() {
+            @Override
+            public void onResponse(Call<ProductDetailsModel> call, Response<ProductDetailsModel> response) {
+                ProductDetailsModel detailsList = response.body();
+                product_Name.setText(""+detailsList.getProduct_name());
+                productMrpPrice=detailsList.getMrp_price();
+                if(productMrpPrice==0){
+                    productOldPrice.setVisibility(View.GONE);
+                }else{
+                    productOldPrice.setText("৳ "+productMrpPrice);
+                }
+                productUnitPrice=detailsList.getUnit_price();
+                product_Price.setText("৳ "+productUnitPrice);
+                shop_Name.setText(""+detailsList.getShop_name());
+                shop_Address.setText(""+detailsList.getShop_address());
+                brand_Name.setText(""+detailsList.getBrand());
+                imageString = detailsList.getFeacher_image();
+                category_id = detailsList.getCategory_id();
+                store_id = detailsList.getStore_id();
+                capmpagin_id = detailsList.getCampaign_id();
+                try{
+                    Picasso.get()
+                            .load(Config.IMAGE_LINE+detailsList.getFeacher_image())
+                            .into(product_Image);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try{
+                    Picasso.get()
+                            .load(Config.IMAGE_LINE+detailsList.getShop_logo())
+                            .into(shopLogoIV);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                //Get Product features
+                List<ProductFeatureModel> productFeatureModelList = detailsList.getProduct_feature();
+                if(productFeatureModelList.get(0) != null) {
+                    feature_RelativeLayout.setVisibility(View.VISIBLE);
+                    productFeatureAdapter = new ProductFeatureAdapter(productFeatureModelList, ProductDetailsActivity.this);
+                    productFeatureRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
+                    productFeatureRecyclerView.setAdapter(productFeatureAdapter);
+                }
+                if(!shop_Name.equals("")){
+                    soldByRelativeLayout.setVisibility(View.VISIBLE);
+                }
+
+                //Get Product Images
+                List<ImageGalleryModel> productImagesModelList = detailsList.getImage_gallery();
+
+                productImagesAdapter=new ProductImagesAdapter(productImagesModelList,ProductDetailsActivity.this);
+                LinearLayoutManager layoutManager = new LinearLayoutManager(ProductDetailsActivity.this, LinearLayoutManager.HORIZONTAL, false);
+                productImagesRecycler.setLayoutManager(layoutManager);
+                productImagesRecycler.setAdapter(productImagesAdapter);
+
+                //Get Product Colors
+                List<ProductColorModel> productColorModelList = detailsList.getProduct_color();
+                if(productColorModelList.get(0) != null){
+                    color_menu.setVisibility(View.VISIBLE);
+                    productColor.clear();
+                    for (int i = 0; i < productColorModelList.size(); i++) {
+                        productColor.add(productColorModelList.get(i).getColor_name());
+                    }
+                    ArrayAdapter<String> product_color = new ArrayAdapter<String>(ProductDetailsActivity.this, R.layout.spinner_item_design, R.id.simpleSpinner, productColor);
+                    product_color.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                    colorTV.setText(product_color.getItem(0),false);
+                    colorTV.setAdapter(product_color);
+                /*int index=productColorModelList.indexOf(product_color.getColor_name());
+                colorTV.setSelection(productColor.indexOf(1));*/
+                }
+
+                //Get Product Sizes
+                List<ProductSizeModel> productSizeModelList = detailsList.getProduct_size();
+                if(productSizeModelList.get(0) != null){
+                    size_menu.setVisibility(View.VISIBLE);
+                    productSize.clear();
+                    for (int i = 0; i < productSizeModelList.size(); i++) {
+                        productSize.add(productSizeModelList.get(i).getSize_name());
+                    }
+                    ArrayAdapter<String> product_size = new ArrayAdapter<String>(ProductDetailsActivity.this, R.layout.spinner_item_design, R.id.simpleSpinner, productSize);
+                    product_size.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                    sizeTV.setText(product_size.getItem(0),false);
+                    sizeTV.setAdapter(product_size);
+                /*int index=productColorModelList.indexOf(product_color.getColor_name());
+                colorTV.setSelection(productColor.indexOf(1));*/
+                }
+
+                //Get Product Variants
+                List<ProductVariantModel> productVariantModelList = detailsList.getVariant();
+                if(productVariantModelList.get(0) != null){
+                    variant_menu.setVisibility(View.VISIBLE);
+                    productVariant.clear();
+                    for (int i = 0; i < productVariantModelList.size(); i++) {
+                        productVariant.add(productVariantModelList.get(i).getFeature_name());
+                        productVariantPrice.add(Integer.parseInt(productVariantModelList.get(i).getPrice()));
+                    }
+                    int lowestPrice=productVariantPrice.indexOf((Collections.min(productVariantPrice)));
+                    ArrayAdapter<String> product_variant = new ArrayAdapter<String>(ProductDetailsActivity.this, R.layout.spinner_item_design, R.id.simpleSpinner, productVariant);
+                    product_variant.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                    variantTV.setText(product_variant.getItem(lowestPrice),false);
+                    variantTV.setAdapter(product_variant);
+                /*int index=productColorModelList.indexOf(product_color.getColor_name());
+                colorTV.setSelection(productColor.indexOf(1));*/
+                }
+                getCampaignRelatedProduct(category_id);
+            }
+
+            @Override
+            public void onFailure(Call<ProductDetailsModel> call, Throwable t) {
+
+            }
+        });
+
+    }
+    private void getCampaignRelatedProduct(int category_id) {
+        relatedProductList.clear();
+        Call<List<CategoriesModel>> call = apiInterface.getCampaignItem(category_id);
+        call.enqueue(new Callback<List<CategoriesModel>>() {
+            @Override
+            public void onResponse(Call<List<CategoriesModel>> call, Response<List<CategoriesModel>> response) {
+                if (response.isSuccessful()){
+                    relatedProductList = response.body();
+                    campaignRelatedProductAdapter = new CampaignRelatedProductAdapter(relatedProductList, getApplicationContext());
+                    relatedProductRecyclerView.setAdapter(campaignRelatedProductAdapter);
+                }
+                campaignRelatedProductAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onFailure(Call<List<CategoriesModel>> call, Throwable t) {
+                Log.d("ErrorKi",t.getMessage());
+            }
+        });
+    }
+
+
+
 /*
     @Override
     public void OnClick(int image) {

@@ -24,14 +24,14 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AllProductsAdapter extends RecyclerView.Adapter<AllProductsAdapter.ViewHolder> {
+public class CampaignProductsAdapter extends RecyclerView.Adapter<CampaignProductsAdapter.ViewHolder> {
 
     private List<CategoriesModel> categoriesModelList;
     private List<ImageGalleryModel> productImagesModelList = new ArrayList<>();
     private List<CategoriesModel> categoriesModelFiltered;
     private Context context;
 
-    public AllProductsAdapter(List<CategoriesModel> categoriesModelList, Context context) {
+    public CampaignProductsAdapter(List<CategoriesModel> categoriesModelList, Context context) {
         this.categoriesModelList = categoriesModelList;
         this.context = context;
 //        categoriesModelFiltered = new ArrayList<>(categoriesModelFiltered);
@@ -41,7 +41,7 @@ public class AllProductsAdapter extends RecyclerView.Adapter<AllProductsAdapter.
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.all_product_layout_design, parent, false);
-        return new AllProductsAdapter.ViewHolder(view);
+        return new CampaignProductsAdapter.ViewHolder(view);
     }
 
     @Override
@@ -68,8 +68,8 @@ public class AllProductsAdapter extends RecyclerView.Adapter<AllProductsAdapter.
                 try {
                     Intent intent = new Intent(context, ProductDetailsActivity.class);
                     intent.putExtra("id",model.getId());
-                    intent.putExtra("from","regular");
                     intent.putExtra("sku",model.getSku());
+                    intent.putExtra("from","campaign");
                     Log.d("productId", String.valueOf(model.getId()));
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);

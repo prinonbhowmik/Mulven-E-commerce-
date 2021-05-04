@@ -43,6 +43,10 @@ public interface ApiInterface {
     @GET("product-detais?")
     Call<ProductDetailsModel> getProd_details(@Query("id") int id);
 
+    @GET("campaigns-product-detais?")
+    Call<ProductDetailsModel> getCampaignProd_details(@Query("id") int id,
+                                                      @Query("sku") String  sku);
+
     @GET("order-list?")
     Call<List<OrderListModel>> getOrderList(@Query("token") String token);
 

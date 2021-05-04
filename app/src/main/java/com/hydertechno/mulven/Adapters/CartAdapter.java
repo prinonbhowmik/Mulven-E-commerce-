@@ -128,7 +128,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         Picasso.get()
                 .load(Config.IMAGE_LINE+cart.getImage())
                 .into(holder.cartProductImage);
-        holder.cartProductImage.setOnClickListener(new View.OnClickListener() {
+        /*holder.cartProductImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ProductDetailsActivity.class);
@@ -137,7 +137,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }
-        });
+        });*/
         holder.cartProductDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -161,6 +161,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                                 } else{
                                     mainActivity.chipNavigationBar.dismissBadge(R.id.cart);
                                     cartFragment.totalLayout.setVisibility(View.GONE);
+                                    cartFragment.cartLayout.setVisibility(View.GONE);
                                     cartFragment.noCartLayout.setVisibility(View.VISIBLE);
                                 }
                             }

@@ -40,7 +40,7 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
     private List<OrderListModel> orderList;
     private OrderListAdapter orderListAdapter;
     private int id;
-    private String token;
+    private String token,from;
     private RelativeLayout noOrderLayout;
     private boolean isConnected;
     private Snackbar snackbar;
@@ -55,7 +55,8 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_place_order_list);
         init();
-
+        Intent intent=getIntent();
+        from=intent.getStringExtra("from");
 
         token = sharedPreferences.getString("token",null);
         //token = intent.getStringExtra("token");
@@ -584,12 +585,16 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        startActivity(new Intent(PlaceOrderListActivity.this,MainActivity.class).putExtra("fragment","home"));
+        if(from.equals("cart")) {
+            startActivity(new Intent(PlaceOrderListActivity.this, MainActivity.class).putExtra("fragment", "home"));
+        }
         finish();
     }
 
     public void placeOrderBack(View view) {
-        startActivity(new Intent(PlaceOrderListActivity.this,MainActivity.class).putExtra("fragment","home"));
+        if(from.equals("cart")) {
+            startActivity(new Intent(PlaceOrderListActivity.this, MainActivity.class).putExtra("fragment", "home"));
+        }
         finish();
     }
 

@@ -63,7 +63,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
                 try {
                     Intent intent = new Intent(context, ProductDetailsActivity.class);
                     intent.putExtra("id",model.getId());
-                    Log.d("productId", String.valueOf(model.getId()));
+                    intent.putExtra("from","regular");
+                    intent.putExtra("sku",model.getSku());
                     context.startActivity(intent);
                 } catch (Exception e) {
                 }

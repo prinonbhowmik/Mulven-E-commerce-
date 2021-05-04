@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hydertechno.mulven.Adapters.AllProductsAdapter;
+import com.hydertechno.mulven.Adapters.CampaignProductsAdapter;
 import com.hydertechno.mulven.Api.ApiInterface;
 import com.hydertechno.mulven.Api.ApiUtils;
 import com.hydertechno.mulven.Models.CategoriesModel;
@@ -36,7 +37,7 @@ public class CampaignProductActivity extends AppCompatActivity {
     private TextView titleName;
     private SearchView searchView;
     private RecyclerView campaignProductRecyclerView;
-    private AllProductsAdapter all_product_Adapter;
+    private CampaignProductsAdapter campaignProductsAdapter;
     private List<CategoriesModel> allProductsList=new ArrayList<>();
     private ApiInterface apiInterface;
 
@@ -83,7 +84,7 @@ public class CampaignProductActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 if (!newText.equals("")){
-                    all_product_Adapter.getFilter().filter(newText);
+                    campaignProductsAdapter.getFilter().filter(newText);
                 }else{
                     getCategories();
                 }
@@ -95,13 +96,13 @@ public class CampaignProductActivity extends AppCompatActivity {
 
         campaignProductRecyclerView =findViewById(R.id.campaignProductRecyclerView);
         searchView = findViewById(R.id.searchET);
-        searchIv = findViewById(R.id.SearchIv);
-        closeIv = findViewById(R.id.backIcon);
+        searchIv = findViewById(R.id.SearchIvs);
+        closeIv = findViewById(R.id.closeIvs);
         titleName = findViewById(R.id.titleName);
-        all_product_Adapter=new AllProductsAdapter(allProductsList,CampaignProductActivity.this);
+        campaignProductsAdapter=new CampaignProductsAdapter(allProductsList,CampaignProductActivity.this);
         campaignProductRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(),2));
         campaignProductRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        campaignProductRecyclerView.setAdapter(all_product_Adapter);
+        campaignProductRecyclerView.setAdapter(campaignProductsAdapter);
         apiInterface= ApiUtils.getUserService();
     }
 
@@ -118,17 +119,21 @@ public class CampaignProductActivity extends AppCompatActivity {
             public void onResponse(Call<List<CategoriesModel>> call, Response<List<CategoriesModel>> response) {
                 if (response.isSuccessful()){
                     allProductsList = response.body();
-                    all_product_Adapter = new AllProductsAdapter(allProductsList, CampaignProductActivity.this);
-                    campaignProductRecyclerView.setAdapter(all_product_Adapter);
+                    campaignProductsAdapter = new CampaignProductsAdapter(allProductsList, CampaignProductActivity.this);
+                    campaignProductRecyclerView.setAdapter(campaignProductsAdapter);
                     if (allProductsList.size() == 0) {
                         campaignProductRecyclerView.setVisibility(View.GONE);
                     }
                 }
-                all_product_Adapter.notifyDataSetChanged();
+                campaignProductsAdapter.notifyDataSetChanged();
             }
             @Override
             public void onFailure(Call<List<CategoriesModel>> call, Throwable t) {
             }
         });
+    }
+
+    public void backCampaign(View view) {
+        finish();
     }
 }

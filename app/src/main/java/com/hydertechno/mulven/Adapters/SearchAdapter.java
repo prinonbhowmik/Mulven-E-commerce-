@@ -65,6 +65,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
                 try {
                     Intent intent = new Intent(context, ProductDetailsActivity.class);
                     intent.putExtra("id",model.getId());
+                    intent.putExtra("from","regular");
+                    intent.putExtra("sku",model.getSku());
                     Log.d("productId", String.valueOf(model.getId()));
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);

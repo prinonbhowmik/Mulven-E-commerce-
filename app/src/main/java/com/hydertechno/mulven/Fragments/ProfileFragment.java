@@ -173,6 +173,7 @@ public class ProfileFragment extends Fragment implements ConnectivityReceiver.Co
                     snackBar(isConnected);
                 } else {
                 Intent intent=new Intent(getActivity(), PlaceOrderListActivity.class);
+                intent.putExtra("from","profile");
                 startActivity(intent);
                 getActivity().overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
                 //getActivity().finish();
