@@ -33,6 +33,7 @@ import com.hydertechno.mulven.Api.ApiInterface;
 import com.hydertechno.mulven.Api.ApiUtils;
 import com.hydertechno.mulven.Api.Config;
 import com.hydertechno.mulven.DatabaseHelper.Database_Helper;
+import com.hydertechno.mulven.Fragments.CartFragment;
 import com.hydertechno.mulven.Interface.ProductImageClickInterface;
 import com.hydertechno.mulven.Internet.Connection;
 import com.hydertechno.mulven.Internet.ConnectivityReceiver;
@@ -84,7 +85,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
     private boolean isConnected;
     private ConnectivityReceiver connectivityReceiver;
     private IntentFilter intentFilter;
-
+    private MainActivity mainActivity;
+    private CartFragment cartFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,6 +143,14 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
                     Toasty.success(ProductDetailsActivity.this, "Product Added To Cart").show();
 
                 }
+                    int count=databaseHelper.numberOfrows().getCount();
+                    if (count>0) {
+                        mainActivity. chipNavigationBar.showBadge(R.id.cart, count);
+                    } else{
+                        mainActivity.chipNavigationBar.dismissBadge(R.id.cart);
+                        cartFragment.totalLayout.setVisibility(View.GONE);
+                        cartFragment.noCartLayout.setVisibility(View.VISIBLE);
+                    }
             }
         }
         });

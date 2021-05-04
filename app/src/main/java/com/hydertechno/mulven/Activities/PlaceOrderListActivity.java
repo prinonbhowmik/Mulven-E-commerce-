@@ -581,9 +581,15 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
         super.onStop();
     }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(PlaceOrderListActivity.this,MainActivity.class).putExtra("fragment","home"));
+        finish();
+    }
 
     public void placeOrderBack(View view) {
+        startActivity(new Intent(PlaceOrderListActivity.this,MainActivity.class).putExtra("fragment","home"));
         finish();
     }
 
