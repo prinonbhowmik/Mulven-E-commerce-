@@ -83,7 +83,7 @@ public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.Vi
 
         int totalSumPrice = 0;
         for (int i = 0; i < orderItemsModelList.size(); i++) {
-            totalSumPrice += orderItemsModelList.get(i).getPrice();
+            totalSumPrice += (orderItemsModelList.get(i).getPrice()*orderItemsModelList.get(i).getQuantity());
         }
 
         int due = totalSumPrice - activity.totalPay;

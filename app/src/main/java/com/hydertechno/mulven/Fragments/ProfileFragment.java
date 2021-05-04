@@ -85,6 +85,7 @@ public class ProfileFragment extends Fragment implements ConnectivityReceiver.Co
             public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
                 if (response.isSuccessful()){
                     id = response.body().getId();
+                    Log.d("getId", String.valueOf(id));
                     username.setText(response.body().getFull_name());
                     phoneNo.setText(response.body().getPhone());
                     if(response.body().getUser_photo()!=null) {
@@ -172,7 +173,6 @@ public class ProfileFragment extends Fragment implements ConnectivityReceiver.Co
                     snackBar(isConnected);
                 } else {
                 Intent intent=new Intent(getActivity(), PlaceOrderListActivity.class);
-                intent.putExtra("id",id);
                 startActivity(intent);
                 getActivity().overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
                 //getActivity().finish();

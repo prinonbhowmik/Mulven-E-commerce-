@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hydertechno.mulven.Activities.PlaceOrderDetailsActivity;
+import com.hydertechno.mulven.Activities.PlaceOrderListActivity;
 import com.hydertechno.mulven.Adapters.CartAdapter;
 import com.hydertechno.mulven.Api.ApiUtils;
 import com.hydertechno.mulven.DatabaseHelper.Database_Helper;
@@ -106,7 +107,6 @@ public class CartFragment extends Fragment {
                             String campaign_id = cursor.getString(cursor.getColumnIndex(databaseHelper.CAMPAIGN_ID));
                             int store_id = cursor.getInt(cursor.getColumnIndex(databaseHelper.STORE_ID));
 
-
                             Map<String, String> parms = new HashMap<String, String>();
 
                                 parms.put("item_id", String.valueOf(id));
@@ -120,9 +120,10 @@ public class CartFragment extends Fragment {
                                 parms.put("quantity", String.valueOf(quantity));
 
                                 list1.add(parms);
-                                //databaseHelper.deleteData(id,size,color,variant);
+                                databaseHelper.deleteData(id,size,color,variant);
                                 array = new JSONArray(list1);
                                 jsonArrayList.add(array);
+
 
                     }
                     Log.d("checkList", String.valueOf(jsonArrayList));
@@ -134,13 +135,16 @@ public class CartFragment extends Fragment {
                                     int status = response.body().getStatus();
                                     if (status == 1) {
                                         Toast.makeText(getContext(), "Order Placed Successfully!", Toast.LENGTH_SHORT).show();
+                                        Intent intent=new Intent(getActivity(), PlaceOrderListActivity.class);
+                                        startActivity(intent);
+                                        getActivity().overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+                                        getActivity().finish();
                                     }
                                 }
                             }
 
                             @Override
                             public void onFailure(Call<PlaceOrderModel> call, Throwable t) {
-                                Toast.makeText(getContext(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
                 }

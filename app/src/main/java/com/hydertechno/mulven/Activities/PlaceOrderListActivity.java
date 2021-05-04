@@ -55,13 +55,11 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_place_order_list);
         init();
-        Intent intent = getIntent();
-        id = intent.getIntExtra("id", 0);
+
 
         token = sharedPreferences.getString("token",null);
         //token = intent.getStringExtra("token");
-        Log.d("checkId", String.valueOf(id));
-        getOrderList(id);
+        getOrderList();
         checkConnection();
         if (!isConnected) {
             snackBar(isConnected);
@@ -93,7 +91,7 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
                     sPending.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
                     sCanceled.setTextColor(Color.parseColor("#DB4437"));
                     sCanceled.setBackground(ContextCompat.getDrawable(PlaceOrderListActivity.this, R.drawable.status_tag));
-                    getOrderList(id);
+                    getOrderList();
                 }
             }
         });
@@ -471,7 +469,7 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
 
     }
 
-    private void getOrderList(int id) {
+    private void getOrderList() {
         orderListModel.clear();
         Call<List<OrderListModel>> call = apiInterface.getOrderList(token);
         call.enqueue(new Callback<List<OrderListModel>>() {

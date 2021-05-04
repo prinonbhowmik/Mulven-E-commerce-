@@ -132,18 +132,14 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
                     int count = databaseHelper.checkQuantity(product_id);
                     databaseHelper.addQuantity(product_id, count + 1);
                     Toasty.success(ProductDetailsActivity.this, "Product Added To Cart").show();
-                    startActivity(new Intent(ProductDetailsActivity.this,MainActivity.class)
-                            .putExtra("fragment","home"));
-                    finish();
+
                 } else {
                     databaseHelper.addToCart(product_id, product_Name.getText().toString(),
                             productMrpPrice, productUnitPrice, size, color, variant,
                             shop_Name.getText().toString(), Integer.parseInt(cardQuantity.getText().toString()),
                             capmpagin_id, store_id, imageString);
                     Toasty.success(ProductDetailsActivity.this, "Product Added To Cart").show();
-                    startActivity(new Intent(ProductDetailsActivity.this,MainActivity.class)
-                            .putExtra("fragment","home"));
-                    finish();
+
                 }
             }
         }

@@ -88,9 +88,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             }
         }
 
-
-
-
         holder.cartProductPrice.setText(String.valueOf(cart.getUnit_price())+" X "+cart.getQuantity());
         holder.cardQuantity.setText(""+cart.getQuantity());
         holder.cartProductTotalPrice.setText("৳ "+cart.getUnit_price()*Integer.parseInt(holder.cardQuantity.getText().toString()));
