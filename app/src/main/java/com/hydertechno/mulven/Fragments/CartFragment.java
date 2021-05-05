@@ -1,6 +1,7 @@
 package com.hydertechno.mulven.Fragments;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,17 +14,17 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.hydertechno.mulven.Activities.PlaceOrderDetailsActivity;
 import com.hydertechno.mulven.Activities.PlaceOrderListActivity;
 import com.hydertechno.mulven.Adapters.CartAdapter;
 import com.hydertechno.mulven.Api.ApiUtils;
@@ -31,13 +32,9 @@ import com.hydertechno.mulven.DatabaseHelper.Database_Helper;
 import com.hydertechno.mulven.Models.CartProductModel;
 import com.hydertechno.mulven.Models.PlaceItemModel;
 import com.hydertechno.mulven.Models.PlaceOrderModel;
-import com.hydertechno.mulven.Models.ProductDetailsModel;
 import com.hydertechno.mulven.R;
-import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -65,6 +62,7 @@ public class CartFragment extends Fragment {
     private SharedPreferences sharedPreferences;
     private String token;
     private int loggedIn;
+    private Dialog dialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -138,12 +136,29 @@ public class CartFragment extends Fragment {
                             if (response.isSuccessful()) {
                                 int status = response.body().getStatus();
                                 if (status == 1) {
-                                    Toast.makeText(getContext(), "Order Placed Successfully!", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(getActivity(), PlaceOrderListActivity.class);
-                                    intent.putExtra("from","cart");
-                                    startActivity(intent);
-                                    getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                                    getActivity().finish();
+
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            dialog.dismiss();
+                                            Intent intent = new Intent(getActivity(), PlaceOrderListActivity.class);
+                                            intent.putExtra("from","cart");
+                                            startActivity(intent);
+                                            getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                                            getActivity().finish();
+
+                                        }
+                                    },5000);
+
+                                    dialog = new Dialog(view.getContext());
+                                    dialog.setContentView(R.layout.place_order_successful_design);
+
+                                    dialog.setCancelable(false);
+
+                                    dialog.show();
+                                    Window window = dialog.getWindow();
+                                    window.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
                                 }
                             }
                         }

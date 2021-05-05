@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Activities.CampaignProductActivity">
 
     <RelativeLayout
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/toolbar"
         android:background="@color/themDark">
 
         <ImageView
@@ -19,76 +19,79 @@
             android:layout_alignParentTop="true"
             android:layout_marginStart="15dp"
             android:layout_marginTop="15dp"
-            android:onClick="backCampaign"
             android:layout_marginBottom="10dp"
-            android:src="@drawable/ic_arrow"/>
+            android:onClick="backCampaign"
+            android:src="@drawable/ic_arrow" />
 
         <TextView
             android:id="@+id/titleName"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
-            android:text="Dream Deal"
-            android:layout_toEndOf="@+id/backIcon"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:layout_marginStart="10dp"
-            android:textSize="24sp"
+            android:layout_toEndOf="@+id/backIcon"
             android:fontFamily="@font/comfortaa_light"
-            android:textColor="@color/white"/>
+            android:text="Dream Deal"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
 
         <ImageView
             android:id="@+id/SearchIvs"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_marginTop="20dp"
             android:layout_alignParentEnd="true"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
             android:src="@drawable/ic_home_search" />
+
         <ImageView
             android:id="@+id/closeIvs"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_marginTop="20dp"
-            android:visibility="gone"
             android:layout_alignParentEnd="true"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
-            android:src="@drawable/ic_cross" />
+            android:src="@drawable/ic_cross"
+            android:visibility="gone" />
 
-        <androidx.appcompat.widget.SearchView
+        <EditText
             android:id="@+id/searchET"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:maxLines="1"
-            android:visibility="gone"
             android:layout_below="@+id/titleName"
             android:layout_marginStart="25dp"
-            android:layout_marginTop="10dp"
             android:layout_marginEnd="25dp"
             android:layout_marginBottom="15dp"
             android:background="@drawable/search_background"
             android:drawableEnd="@drawable/ic_search"
             android:fontFamily="@font/comfortaa_light"
             android:gravity="center_vertical"
+            android:hint="Search here"
+            android:maxLines="1"
             android:paddingStart="10dp"
             android:paddingEnd="15dp"
             android:textColor="@color/themDark"
             android:textSize="18sp"
+            android:visibility="gone"
             tools:ignore="RtlSymmetry" />
 
 
     </RelativeLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/campaignProductRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="2dp"
-        android:layoutAnimation="@anim/layout_animation"
+        android:layout_below="@+id/toolbar"
         android:background="#F1F1F1"
+        android:fitsSystemWindows="true"
+        android:layoutAnimation="@anim/layout_animation"
+        android:padding="2dp"
         android:scrollbars="vertical"
         android:visibility="visible"
-        android:fitsSystemWindows="true"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:layout_below="@+id/toolbar" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

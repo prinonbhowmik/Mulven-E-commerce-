@@ -10,8 +10,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -35,7 +38,7 @@ public class CampaignProductActivity extends AppCompatActivity {
     private String title,id;
     private int campaignID;
     private TextView titleName;
-    private SearchView searchView;
+    private EditText searchView;
     private RecyclerView campaignProductRecyclerView;
     private CampaignProductsAdapter campaignProductsAdapter;
     private List<CategoriesModel> allProductsList=new ArrayList<>();
@@ -66,6 +69,7 @@ public class CampaignProductActivity extends AppCompatActivity {
                 searchIv.setVisibility(View.VISIBLE);
                 closeIv.setVisibility(View.GONE);
                 searchView.setVisibility(View.GONE);
+                hideKeyboardFrom(CampaignProductActivity.this);
             }
         });
 
@@ -75,20 +79,24 @@ public class CampaignProductActivity extends AppCompatActivity {
 
 
     private void getSearchResult() {
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        searchView.addTextChangedListener(new TextWatcher() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
-                if (!newText.equals("")){
-                    campaignProductsAdapter.getFilter().filter(newText);
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!searchView.getText().toString().equals("")){
+                    campaignProductsAdapter.getFilter().filter(searchView.getText().toString());
                 }else{
                     getCategories();
                 }
-                return false;
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
     }
@@ -134,6 +142,14 @@ public class CampaignProductActivity extends AppCompatActivity {
     }
 
     public void backCampaign(View view) {
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
         finish();
     }
 }

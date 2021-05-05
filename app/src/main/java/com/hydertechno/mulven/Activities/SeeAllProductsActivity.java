@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -21,6 +22,7 @@ import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -92,6 +94,7 @@ public class SeeAllProductsActivity extends AppCompatActivity implements Connect
                 searchView.setVisibility(View.GONE);
                 closeIV.setVisibility(View.GONE);
                 searchBtn.setVisibility(View.VISIBLE);
+                hideKeyboardFrom(SeeAllProductsActivity.this);
             }
         });
 
@@ -177,6 +180,13 @@ public class SeeAllProductsActivity extends AppCompatActivity implements Connect
             }
         });
     }
+
+
+    private void hideKeyboardFrom(Context context) {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(this.getWindow().getDecorView().getRootView().getWindowToken(), 0);
+    }
+
     public void seeAllProductBack(View view) {
         finish();
     }

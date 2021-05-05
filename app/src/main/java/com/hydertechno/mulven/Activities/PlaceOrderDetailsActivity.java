@@ -344,15 +344,6 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
         });
     }
 
-
-    public void placeOrderDetailsBack(View view) {
-        Intent intent=new Intent( PlaceOrderDetailsActivity.this,PlaceOrderListActivity.class);
-        intent.putExtra("id",userId);
-        startActivity(intent);
-        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
-        finish();
-    }
-
     public void placeOrderIdCopy(View view) {
         ClipboardManager cm = (ClipboardManager) PlaceOrderDetailsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
         cm.setText(invoiceIdTV.getText());
@@ -603,12 +594,14 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
         super.onStop();
     }
 
+    public void placeOrderDetailsBack(View view) {
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+        finish();
+    }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent intent=new Intent( PlaceOrderDetailsActivity.this,PlaceOrderListActivity.class);
-        intent.putExtra("id",userId);
-        startActivity(intent);
         overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
         finish();
     }

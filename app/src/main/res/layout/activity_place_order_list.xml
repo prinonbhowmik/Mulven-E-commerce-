@@ -15,7 +15,7 @@
         android:background="@color/themDark">
 
         <ImageView
-            android:id="@+id/navIcon"
+            android:id="@+id/navIcon11321"
             android:layout_width="35sp"
             android:layout_height="35sp"
             android:layout_centerVertical="true"
@@ -28,7 +28,7 @@
             android:layout_height="35dp"
             android:layout_centerVertical="true"
             android:layout_marginStart="10dp"
-            android:layout_toEndOf="@+id/navIcon"
+            android:layout_toEndOf="@+id/navIcon11321"
             android:fontFamily="@font/comfortaa_light"
             android:text="Place Order"
             android:textColor="@color/white"

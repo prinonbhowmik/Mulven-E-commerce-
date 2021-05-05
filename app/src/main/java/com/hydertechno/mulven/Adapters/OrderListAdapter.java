@@ -98,7 +98,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
                     ((Activity)context).overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                    ((Activity)context).finish();
+                    //((Activity)context).finish();
 
                 } catch (Exception e) {
                     Log.d("Error",e.getMessage());
