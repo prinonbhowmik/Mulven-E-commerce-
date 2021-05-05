@@ -13,12 +13,15 @@ import android.content.IntentFilter;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -44,7 +47,7 @@ public class SeeAllProductsActivity extends AppCompatActivity implements Connect
     private String title,id;
     private int categoryID;
     private TextView titleName;
-    private SearchView searchView;
+    private EditText searchView;
     private RecyclerView productRecyclerView;
     private AllProductsAdapter all_product_Adapter;
     private ImageView searchBtn,closeIV;
@@ -104,20 +107,24 @@ public class SeeAllProductsActivity extends AppCompatActivity implements Connect
     }
 
     private void getSearchResult() {
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        searchView.addTextChangedListener(new TextWatcher() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
             }
 
             @Override
-            public boolean onQueryTextChange(final String newText) {
-                if (!newText.equals("")){
-                    all_product_Adapter.getFilter().filter(newText);
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!searchView.getText().toString().equals("")){
+                    all_product_Adapter.getFilter().filter(searchView.getText().toString());
                 }else{
                     getCategories();
                 }
-                return false;
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
     }
@@ -137,9 +144,7 @@ public class SeeAllProductsActivity extends AppCompatActivity implements Connect
         searchView = findViewById(R.id.searchET);
         searchBtn = findViewById(R.id.SearchIV);
         closeIV = findViewById(R.id.closeIV);
-        SearchManager manager = (SearchManager) getSystemService(SEARCH_SERVICE);
-        searchView.setSearchableInfo(manager.getSearchableInfo(getComponentName()));
-        searchView.setSubmitButtonEnabled(true);
+
         searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
         titleName=findViewById(R.id.titleName);
         productRecyclerView=findViewById(R.id.allProductRecyclerView);

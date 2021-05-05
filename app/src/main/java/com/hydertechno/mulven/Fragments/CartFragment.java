@@ -53,7 +53,6 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class CartFragment extends Fragment {
     private DrawerLayout drawerLayout;
-
     public static RelativeLayout totalLayout,noCartLayout,cartLayout;
     private ImageView navIcon;
     private TextView placeOrder;

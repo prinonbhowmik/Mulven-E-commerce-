@@ -12,6 +12,7 @@
         android:layout_height="90dp"
         android:layout_marginStart="5dp"
         android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:scaleType="fitXY" />
 
     <ImageView
@@ -133,7 +134,7 @@
         android:id="@+id/v123"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@+id/cartProductTotalPrice"
+        android:layout_below="@+id/cartProductImage"
         android:layout_marginTop="5dp"
         android:background="@color/gray" />
 

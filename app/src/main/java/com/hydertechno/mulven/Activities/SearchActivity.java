@@ -8,8 +8,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.SearchManager;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.hydertechno.mulven.Adapters.SearchAdapter;
@@ -27,7 +31,7 @@ public class SearchActivity extends AppCompatActivity {
     private RecyclerView allProductRecycler;
     private List<CategoriesModel> list;
     private SearchAdapter adapter;
-    private SearchView searchView;
+    private EditText searchView;
     private ImageView backBtn;
 
     @Override
@@ -39,44 +43,43 @@ public class SearchActivity extends AppCompatActivity {
 
         getAllProducts();
 
-        getSearchResult();
-
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-    }
 
-    private void getSearchResult() {
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        searchView.addTextChangedListener(new TextWatcher() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-                adapter.getFilter().filter(query);
-                return false;
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
 
             @Override
-            public boolean onQueryTextChange(final String newText) {
-                if (newText.equals("")){
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (searchView.getText().toString().equals("")) {
                     getAllProducts();
-                }else{
-                    adapter.getFilter().filter(newText);
+                } else {
+                    adapter.getFilter().filter(searchView.getText().toString());
                 }
-                return false;
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
     }
+
 
     private void getAllProducts() {
         Call<List<CategoriesModel>> call = ApiUtils.getUserService().searchProduct();
         call.enqueue(new Callback<List<CategoriesModel>>() {
             @Override
             public void onResponse(Call<List<CategoriesModel>> call, Response<List<CategoriesModel>> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
                     list = response.body();
-                    adapter = new SearchAdapter(list,SearchActivity.this);
+                    adapter = new SearchAdapter(list, SearchActivity.this);
                     allProductRecycler.setAdapter(adapter);
                 }
                 adapter.notifyDataSetChanged();
@@ -91,13 +94,9 @@ public class SearchActivity extends AppCompatActivity {
 
     private void init() {
         allProductRecycler = findViewById(R.id.allproductRecycler);
-        allProductRecycler.setLayoutManager(new GridLayoutManager(this,2));
+        allProductRecycler.setLayoutManager(new GridLayoutManager(this, 2));
         allProductRecycler.setItemAnimator(new DefaultItemAnimator());
         searchView = findViewById(R.id.searchAllET);
-        SearchManager manager = (SearchManager) getSystemService(SEARCH_SERVICE);
-        searchView.setSearchableInfo(manager.getSearchableInfo(getComponentName()));
-        searchView.setSubmitButtonEnabled(true);
-        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
         backBtn = findViewById(R.id.backBtn);
 
     }
