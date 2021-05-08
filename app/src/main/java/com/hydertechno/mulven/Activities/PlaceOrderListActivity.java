@@ -45,7 +45,7 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
     private boolean isConnected;
     private Snackbar snackbar;
     private SharedPreferences sharedPreferences;
-    private RelativeLayout rootLayout;
+    public static RelativeLayout rootLayout;
     private ConnectivityReceiver connectivityReceiver;
     private IntentFilter intentFilter;
     private TextView sAll,sProcessing, sDelivered, sShipped, sPartialPaid, sPending,sPicked, sCanceled;
@@ -533,18 +533,12 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
     }
     private void snackBar(boolean isConnected) {
         if(!isConnected) {
-            snackbar = Snackbar.make(rootLayout, "No Internet Connection!", Snackbar.LENGTH_INDEFINITE).setAction("ReTry", new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    recreate();
-                }
-            });
+            snackbar = Snackbar.make(rootLayout, "No Internet Connection! Please Try Again.", Snackbar.LENGTH_INDEFINITE);
             snackbar.setDuration(5000);
             snackbar.setActionTextColor(Color.WHITE);
             View sbView = snackbar.getView();
             sbView.setBackgroundColor(Color.RED);
             snackbar.show();
-
         }
     }
 

@@ -38,5 +38,16 @@
             android:title="Log Out" />
     </group>
 
+    <group
+        android:id="@+id/bottom"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/about"
+            android:title="About"/>
+    </group>
+
+    <item android:id="@+id/support"
+        android:title="support@mulven.com"/>
+
 
 </menu>

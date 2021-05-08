@@ -550,7 +550,7 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
     }
     private void snackBar(boolean isConnected) {
         if(!isConnected) {
-            snackbar = Snackbar.make(rootLayout, "No Internet Connection!", Snackbar.LENGTH_INDEFINITE);
+            snackbar = Snackbar.make(rootLayout, "No Internet Connection! Please Try Again.", Snackbar.LENGTH_INDEFINITE);
             snackbar.setDuration(5000);
             snackbar.setActionTextColor(Color.WHITE);
             View sbView = snackbar.getView();

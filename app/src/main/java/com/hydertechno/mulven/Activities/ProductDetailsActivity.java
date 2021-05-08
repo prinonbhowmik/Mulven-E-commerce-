@@ -84,8 +84,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
     private ApiInterface apiInterface;
     private RelatedProductAdapter relatedProductAdapter;
     private CampaignRelatedProductAdapter campaignRelatedProductAdapter;
-    private RelativeLayout feature_RelativeLayout,soldByRelativeLayout;
-    private int productMrpPrice,productUnitPrice,store_id;
+    private RelativeLayout feature_RelativeLayout,soldByRelativeLayout,relatedProduct_layout;
+    private int productMrpPrice,productUnitPrice,store_id,campId;
     private RelativeLayout rootLayout;
     private Snackbar snackbar;
     private boolean isConnected;
@@ -247,7 +247,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
                 shop_Name.setText(""+detailsList.getShop_name());
                 shop_Address.setText(""+detailsList.getShop_address());
                 brand_Name.setText(""+detailsList.getBrand());
-                skuTV.setText(""+detailsList.getSku());
+                String sk=detailsList.getSku();
+                skuTV.setText(""+sk.toUpperCase());
                 sku2=detailsList.getSku();
                 webView.loadUrl(url+""+sku2);
                 imageString = detailsList.getFeacher_image();
@@ -395,6 +396,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
         productOldPrice=findViewById(R.id.product_Old_Price);
         shopLogoIV=findViewById(R.id.shopLogoIV);
         shop_Address=findViewById(R.id.shop_Address);
+        relatedProduct_layout=findViewById(R.id.relatedProduct_layout);
         databaseHelper = new Database_Helper(this);
         apiInterface = ApiUtils.getUserService();
 
@@ -440,13 +442,15 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
                 shop_Name.setText(""+detailsList.getShop_name());
                 shop_Address.setText(""+detailsList.getShop_address());
                 brand_Name.setText(""+detailsList.getBrand());
-                skuTV.setText(""+detailsList.getSku());
+                String sk=detailsList.getSku();
+                skuTV.setText(""+sk.toUpperCase());
                 sku2=detailsList.getSku();
                 webView.loadUrl(url+""+sku2);
                 imageString = detailsList.getFeacher_image();
                 category_id = detailsList.getCategory_id();
                 store_id = detailsList.getStore_id();
                 capmpagin_id = detailsList.getCampaign_id();
+                campId=Integer.parseInt(capmpagin_id);
                 try{
                     Picasso.get()
                             .load(Config.IMAGE_LINE+detailsList.getFeacher_image())
@@ -530,7 +534,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
                 /*int index=productColorModelList.indexOf(product_color.getColor_name());
                 colorTV.setSelection(productColor.indexOf(1));*/
                 }
-                getCampaignRelatedProduct(category_id);
+                getCampaignRelatedProduct(campId);
             }
 
             @Override
@@ -550,9 +554,12 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
                     relatedProductList = response.body();
                     campaignRelatedProductAdapter = new CampaignRelatedProductAdapter(relatedProductList, getApplicationContext());
                     relatedProductRecyclerView.setAdapter(campaignRelatedProductAdapter);
-                }
-                campaignRelatedProductAdapter.notifyDataSetChanged();
 
+                campaignRelatedProductAdapter.notifyDataSetChanged();
+            }
+                else {
+                    relatedProduct_layout.setVisibility(View.GONE);
+                }
             }
 
             @Override

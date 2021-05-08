@@ -3,6 +3,9 @@ package com.hydertechno.mulven.Adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.graphics.Color;
+import android.net.ConnectivityManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,8 +18,11 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.hydertechno.mulven.Activities.PlaceOrderDetailsActivity;
+import com.hydertechno.mulven.Activities.PlaceOrderListActivity;
 import com.hydertechno.mulven.Activities.ProductDetailsActivity;
+import com.hydertechno.mulven.Internet.ConnectivityReceiver;
 import com.hydertechno.mulven.Models.CategoriesModel;
 import com.hydertechno.mulven.Models.OrderListModel;
 import com.hydertechno.mulven.R;
@@ -25,10 +31,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.ViewHolder> {
+public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.ViewHolder> implements ConnectivityReceiver.ConnectivityReceiverListener  {
     private List<OrderListModel> orderListModelList;
     private List<OrderListModel> orderListModelListFiltered;
     private Context context;
+    private Snackbar snackbar;
+    private boolean isConnected;
+    private ConnectivityReceiver connectivityReceiver;
+    private IntentFilter intentFilter;
+    public PlaceOrderListActivity activity;
 
     public OrderListAdapter(List<OrderListModel> orderListModelList, Context context) {
         this.orderListModelList = orderListModelList;
@@ -88,21 +99,30 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
             holder.paymentStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.payment_partial_paid));
         }
 
+        intentFilter = new IntentFilter();
+        intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        connectivityReceiver = new ConnectivityReceiver();
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkConnection();
+                if (!isConnected) {
+                    toastShow(isConnected);
+                }else{
                 try {
                     Intent intent = new Intent(context, PlaceOrderDetailsActivity.class);
-                    intent.putExtra("OrderId",orderListModel.getOrder_id());
-                    intent.putExtra("PaymentStatus",orderListModel.getPay_status());
+                    intent.putExtra("OrderId", orderListModel.getOrder_id());
+                    intent.putExtra("PaymentStatus", orderListModel.getPay_status());
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
-                    ((Activity)context).overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                    ((Activity) context).overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                     //((Activity)context).finish();
 
                 } catch (Exception e) {
-                    Log.d("Error",e.getMessage());
+                    Log.d("Error", e.getMessage());
                 }
+            }
             }
         });
     }
@@ -140,6 +160,27 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
     @Override
     public int getItemCount() {
         return orderListModelList.size();
+    }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        toastShow(isConnected);
+    }
+
+    private void toastShow(boolean isConnected) {
+        if(!isConnected) {
+            snackbar = Snackbar.make(activity.rootLayout, "No Internet Connection! Please Try Again.", Snackbar.LENGTH_INDEFINITE);
+            snackbar.setDuration(5000);
+            snackbar.setActionTextColor(Color.WHITE);
+            View sbView = snackbar.getView();
+            sbView.setBackgroundColor(Color.RED);
+            snackbar.show();
+            }
+    }
+
+
+    private void checkConnection() {
+        isConnected = ConnectivityReceiver.isConnected();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

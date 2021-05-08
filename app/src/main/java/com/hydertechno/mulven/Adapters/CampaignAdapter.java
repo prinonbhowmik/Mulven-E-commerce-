@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hydertechno.mulven.Activities.CampaignProductActivity;
@@ -54,7 +55,6 @@ public class CampaignAdapter extends RecyclerView.Adapter<CampaignAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull CampaignAdapter.ViewHolder holder, int position) {
         CampaignModel model=campaignModelList.get(position);
-        holder.title.setText(model.getCampaign_name());
         try{
             Picasso.get()
                     .load(Config.IMAGE_LINE+model.getCampaign_image())
@@ -101,7 +101,7 @@ public class CampaignAdapter extends RecyclerView.Adapter<CampaignAdapter.ViewHo
             }
         }
 
-        holder.campaignRl.setOnClickListener(new View.OnClickListener() {
+        holder.campaignCV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(status==1) {
@@ -133,15 +133,14 @@ public class CampaignAdapter extends RecyclerView.Adapter<CampaignAdapter.ViewHo
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private RelativeLayout campaignRl;
-        private TextView title,liveTxt,campaignTimeDate;
+        private CardView campaignCV;
+        private TextView liveTxt,campaignTimeDate;
         private ImageView campaignImage;
         private CountdownView campaignCountdown;
         private LinearLayout liveLL,overLL;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            campaignRl=itemView.findViewById(R.id.campaignRL);
-            title=itemView.findViewById(R.id.title);
+            campaignCV=itemView.findViewById(R.id.campaignCV);
             campaignImage=itemView.findViewById(R.id.campaignImage);
             campaignCountdown=itemView.findViewById(R.id.countdown);
             liveLL=itemView.findViewById(R.id.liveLL);

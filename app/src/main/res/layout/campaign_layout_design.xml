@@ -19,7 +19,8 @@
             <ImageView
                 android:id="@+id/campaignImage"
                 android:layout_width="match_parent"
-                android:layout_height="250dp"/>
+                android:padding="5dp"
+                android:layout_height="230dp"/>
 
             <cn.iwgang.countdownview.CountdownView
                 android:id="@+id/countdown"
@@ -189,35 +190,5 @@
 
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
-    <RelativeLayout
-        android:id="@+id/campaignRL"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/campaignCV"
-        android:background="@color/GGreen">
-
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:textSize="21sp"
-            android:textColor="@color/white"
-            android:fontFamily="@font/comfortaa_bold"/>
-
-        <TextView
-            android:id="@+id/cam"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=">"
-            android:layout_marginEnd="20dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:textSize="21sp"
-            android:textColor="@color/white"
-            android:fontFamily="@font/comfortaa_bold"/>
-    </RelativeLayout>
 
 </RelativeLayout>

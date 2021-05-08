@@ -79,7 +79,7 @@
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="15dp"
-                    android:fontFamily="@font/comfortaa_light"
+                    android:fontFamily="@font/comfortaa"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
 
@@ -103,9 +103,9 @@
                     android:layout_marginTop="6dp"
                     android:layout_marginEnd="15dp"
                     android:layout_toEndOf="@+id/product_Old_Price"
-                    android:fontFamily="@font/comfortaa"
+                    android:fontFamily="@font/comfortaa_bold"
                     android:textColor="@color/GRed"
-                    android:textSize="20sp" />
+                    android:textSize="21sp" />
 
                 <TextView
                     android:id="@+id/brandTxt"
@@ -115,10 +115,10 @@
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="15dp"
-                    android:fontFamily="@font/comfortaa_bold"
+                    android:fontFamily="@font/comfortaa_light"
                     android:text="Brand :"
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    android:textColor="@color/gray"
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/brand_Name"
@@ -129,9 +129,9 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="15dp"
                     android:layout_toEndOf="@+id/brandTxt"
-                    android:fontFamily="@font/comfortaa"
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    android:fontFamily="@font/comfortaa_light"
+                    android:textColor="@color/gray"
+                    android:textSize="16sp" />
                 <TextView
                     android:id="@+id/skuTxt"
                     android:layout_width="wrap_content"
@@ -140,23 +140,23 @@
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="15dp"
-                    android:fontFamily="@font/comfortaa_bold"
+                    android:fontFamily="@font/comfortaa_light"
                     android:text="SKU :"
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    android:textColor="@color/gray"
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/skuTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/brand_Name"
-                    android:layout_marginStart="15dp"
+                    android:layout_marginStart="35dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="15dp"
                     android:layout_toEndOf="@+id/skuTxt"
-                    android:fontFamily="@font/comfortaa"
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    android:fontFamily="@font/comfortaa_light"
+                    android:textColor="@color/gray"
+                    android:textSize="16sp" />
 
                 <LinearLayout
                     android:id="@+id/quantity"
@@ -172,10 +172,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:fontFamily="@font/comfortaa_bold"
+                        android:fontFamily="@font/comfortaa_light"
                         android:text="Quantity : "
-                        android:textColor="@color/black"
-                        android:textSize="18sp" />
+                        android:textColor="@color/gray"
+                        android:textSize="16sp" />
 
                     <ImageView
                         android:id="@+id/card_Minus"
@@ -196,7 +196,7 @@
                         android:paddingStart="20dp"
                         android:paddingEnd="20dp"
                         android:text="1"
-                        android:textColor="@color/black"
+                        android:textColor="@color/gray"
                         android:textSize="13sp" />
 
                     <ImageView
