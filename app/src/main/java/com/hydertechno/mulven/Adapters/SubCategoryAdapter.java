@@ -27,9 +27,9 @@ public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.
     private SubCatIdInterface idInterface;
     private Context context;
 
-    public SubCategoryAdapter(List<SubCatModel> list, Context context) {
+    public SubCategoryAdapter(List<SubCatModel> list, SubCatIdInterface idInterface) {
         this.list = list;
-        this.context = context;
+        this.idInterface = idInterface;
     }
 
     @NonNull

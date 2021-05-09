@@ -52,7 +52,7 @@ import retrofit2.Response;
 public class SeeAllProductsActivity extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener, SubCatIdInterface {
     private String title,id;
     private int categoryID;
-    private TextView titleName;
+    private TextView titleName,sAll;
     private EditText searchView;
     private RecyclerView productRecyclerView,subCatRecycler;
     private AllProductsAdapter all_product_Adapter;
@@ -86,6 +86,13 @@ public class SeeAllProductsActivity extends AppCompatActivity implements Connect
        // titleName.setPaintFlags(titleName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
         getSearchResult();
+
+        sAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getCategories();
+            }
+        });
 
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -174,6 +181,7 @@ public class SeeAllProductsActivity extends AppCompatActivity implements Connect
         searchView = findViewById(R.id.searchET);
         searchBtn = findViewById(R.id.SearchIV);
         closeIV = findViewById(R.id.closeIV);
+        sAll = findViewById(R.id.sAll);
 
         searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
         titleName=findViewById(R.id.titleName);
@@ -284,6 +292,26 @@ public class SeeAllProductsActivity extends AppCompatActivity implements Connect
 
     @Override
     public void OnClick(int id) {
-        all_product_Adapter.getFilter().filter(String.valueOf(id));
+        allProductsList.clear();
+        Log.d("productId", String.valueOf(categoryID));
+        Call<List<CategoriesModel>> call = apiInterface.getCategories(categoryID);
+        call.enqueue(new Callback<List<CategoriesModel>>() {
+            @Override
+            public void onResponse(Call<List<CategoriesModel>> call, Response<List<CategoriesModel>> response) {
+                if (response.isSuccessful()){
+                    allProductsList = response.body();
+                    all_product_Adapter = new AllProductsAdapter(allProductsList, getApplicationContext());
+                    productRecyclerView.setAdapter(all_product_Adapter);
+                    all_product_Adapter.getFilter().filter(String.valueOf(id));
+                }
+                //Collections.reverse(categoryNamesModelList);
+                all_product_Adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<List<CategoriesModel>> call, Throwable t) {
+                Log.d("ErrorKi",t.getMessage());
+            }
+        });
     }
 }
