@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
@@ -31,11 +32,14 @@ import android.widget.TextView;
 import com.google.android.material.snackbar.Snackbar;
 import com.hydertechno.mulven.Adapters.AllProductsAdapter;
 import com.hydertechno.mulven.Adapters.ProductAdapter;
+import com.hydertechno.mulven.Adapters.SubCategoryAdapter;
 import com.hydertechno.mulven.Api.ApiInterface;
 import com.hydertechno.mulven.Api.ApiUtils;
+import com.hydertechno.mulven.Interface.SubCatIdInterface;
 import com.hydertechno.mulven.Internet.Connection;
 import com.hydertechno.mulven.Internet.ConnectivityReceiver;
 import com.hydertechno.mulven.Models.CategoriesModel;
+import com.hydertechno.mulven.Models.SubCatModel;
 import com.hydertechno.mulven.R;
 
 import java.util.ArrayList;
@@ -45,17 +49,18 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SeeAllProductsActivity extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener {
+public class SeeAllProductsActivity extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener, SubCatIdInterface {
     private String title,id;
     private int categoryID;
     private TextView titleName;
     private EditText searchView;
-    private RecyclerView productRecyclerView;
+    private RecyclerView productRecyclerView,subCatRecycler;
     private AllProductsAdapter all_product_Adapter;
     private ImageView searchBtn,closeIV;
     private List<CategoriesModel> allProductsList=new ArrayList<>();
     private ApiInterface apiInterface;
     private RelativeLayout rootLayout;
+    private SubCategoryAdapter adapter;
     private Snackbar snackbar;
     private boolean isConnected;
     private ConnectivityReceiver connectivityReceiver;
@@ -76,6 +81,8 @@ public class SeeAllProductsActivity extends AppCompatActivity implements Connect
         categoryID=Integer.parseInt(id);
         titleName.setText(title);
         getCategories();
+
+        getSubCat(id);
        // titleName.setPaintFlags(titleName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
         getSearchResult();
@@ -88,6 +95,7 @@ public class SeeAllProductsActivity extends AppCompatActivity implements Connect
                 searchBtn.setVisibility(View.GONE);
             }
         });
+
         closeIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -107,6 +115,25 @@ public class SeeAllProductsActivity extends AppCompatActivity implements Connect
             }
         }*/
 
+    }
+
+    private void getSubCat(String id) {
+        Call<List<SubCatModel>> call = apiInterface.getSubCat(Integer.parseInt(id));
+       call.enqueue(new Callback<List<SubCatModel>>() {
+           @Override
+           public void onResponse(Call<List<SubCatModel>> call, Response<List<SubCatModel>> response) {
+               if (response.isSuccessful()){
+                   List<SubCatModel> model = response.body();
+                   adapter = new SubCategoryAdapter(model,SeeAllProductsActivity.this);
+                   subCatRecycler.setAdapter(adapter);
+               }
+           }
+
+           @Override
+           public void onFailure(Call<List<SubCatModel>> call, Throwable t) {
+
+           }
+       });
     }
 
     private void getSearchResult() {
@@ -155,6 +182,10 @@ public class SeeAllProductsActivity extends AppCompatActivity implements Connect
         productRecyclerView.setLayoutManager(new GridLayoutManager(this,2));
         productRecyclerView.setItemAnimator(new DefaultItemAnimator());
         productRecyclerView.setAdapter(all_product_Adapter);
+
+        subCatRecycler = findViewById(R.id.subCatRecycler);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        subCatRecycler.setLayoutManager(layoutManager);
         apiInterface= ApiUtils.getUserService();
     }
 
@@ -249,5 +280,10 @@ public class SeeAllProductsActivity extends AppCompatActivity implements Connect
         }catch(Exception e){}
 
         super.onStop();
+    }
+
+    @Override
+    public void OnClick(int id) {
+        all_product_Adapter.getFilter().filter(String.valueOf(id));
     }
 }

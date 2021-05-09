@@ -11,6 +11,7 @@ import com.hydertechno.mulven.Models.OrderListModel;
 import com.hydertechno.mulven.Models.PlaceOrderModel;
 import com.hydertechno.mulven.Models.ProductDetailsModel;
 import com.hydertechno.mulven.Models.Sliderimage;
+import com.hydertechno.mulven.Models.SubCatModel;
 import com.hydertechno.mulven.Models.UserProfile;
 
 import org.json.JSONArray;
@@ -45,7 +46,7 @@ public interface ApiInterface {
 
     @GET("campaigns-product-detais?")
     Call<ProductDetailsModel> getCampaignProd_details(@Query("id") int id,
-                                                      @Query("sku") String  sku);
+                                                       @Query("sku") String  sku);
 
     @GET("order-list?")
     Call<List<OrderListModel>> getOrderList(@Query("token") String token);
@@ -133,5 +134,9 @@ public interface ApiInterface {
     @GET("order-delivered")
     Call<CancellationReasonModel> setOrderDelivered(@Query("token") String token,
                                                   @Query("order_id") String order_id);
+
+    @GET("sub-categories?categorie_id=4")
+    Call<List<SubCatModel>> getSubCat(@Query("categorie_id") int categorie_id);
+
 
 }
