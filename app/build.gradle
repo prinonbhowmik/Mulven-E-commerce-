@@ -95,5 +95,8 @@ dependencies {
 
     implementation 'com.github.iwgang:countdownview:2.1.6'
 
+    //Surjo Pay
+    implementation project(':shurjopaysdk-v1.1')
+
 
 }

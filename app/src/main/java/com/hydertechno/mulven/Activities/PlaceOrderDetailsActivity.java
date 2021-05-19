@@ -16,11 +16,11 @@ import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -33,7 +33,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.textfield.TextInputEditText;
 import com.hydertechno.mulven.Adapters.OrderItemsAdapter;
 import com.hydertechno.mulven.Adapters.OrderTimelineAdapter;
 import com.hydertechno.mulven.Api.ApiUtils;
@@ -41,17 +40,20 @@ import com.hydertechno.mulven.Api.Config;
 import com.hydertechno.mulven.Internet.Connection;
 import com.hydertechno.mulven.Internet.ConnectivityReceiver;
 import com.hydertechno.mulven.Models.CancellationReasonModel;
-import com.hydertechno.mulven.Models.CategoriesModel;
 import com.hydertechno.mulven.Models.InvoiceDetailsModel;
 import com.hydertechno.mulven.Models.OrderDetails;
 import com.hydertechno.mulven.Models.OrderItemsModel;
 import com.hydertechno.mulven.Models.OrderTimelineModel;
+import com.hydertechno.mulven.Models.RequiredDataModel;
 import com.hydertechno.mulven.Models.UserProfile;
 import com.hydertechno.mulven.R;
+import com.sm.shurjopaysdk.listener.PaymentResultListener;
+import com.sm.shurjopaysdk.model.TransactionInfo;
+import com.sm.shurjopaysdk.payment.ShurjoPaySDK;
+import com.sm.shurjopaysdk.utils.SPayConstants;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import es.dmoral.toasty.Toasty;
@@ -64,7 +66,7 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
             customerPhoneTV, customerAddressTV, customerAddressEditTV, totalPaidTV,orderStatusTV;
     public static TextView totalPriceTv, dueTV,makePaymentTV;
     public static int totalPay;
-    private Dialog dialog;
+    private Dialog dialog,dialog2;
     private RatingBar ratingBar;
     private String token, OrderId,paymentOrderStatus,orderStatus;
     private int userId;
@@ -94,8 +96,6 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
         paymentOrderStatus=intent.getStringExtra("PaymentStatus");
         orderStatusTV.setText(paymentOrderStatus);
         getInvoiceDetails();
-
-
         makePaymentTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -103,7 +103,54 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
                 if (!isConnected) {
                     snackBar(isConnected);
                 }else{
-                    Toast.makeText(PlaceOrderDetailsActivity.this, "Not ready yet", Toast.LENGTH_SHORT).show();
+                    String amount=dueTV.getText().toString().substring(2);
+                    dialog2 = new Dialog(PlaceOrderDetailsActivity.this);
+                    dialog2.setContentView(R.layout.make_payment_layout_design);
+                    dialog2.setCancelable(true);
+                    dialog2.show();
+                    Window window = dialog2.getWindow();
+                    window.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    ImageView mpCloseIV=dialog2.findViewById(R.id.mpCloseIV);
+                    EditText paymentAmount=dialog2.findViewById(R.id.makePayET);
+                    CheckBox nagadCB=dialog2.findViewById(R.id.nagadCB);
+                    CheckBox shurjoPayCB=dialog2.findViewById(R.id.shurjoPayCB);
+                    TextView makePayTV=dialog2.findViewById(R.id.makePayTV);
+                    paymentAmount.setHint(amount);
+                    mpCloseIV.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialog2.dismiss();
+                        }
+                    });
+                    nagadCB.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                            if(shurjoPayCB.isChecked()){
+                                shurjoPayCB.setChecked(false);
+                            }
+                        }
+                    });
+                    shurjoPayCB.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                            if(nagadCB.isChecked()){
+                                nagadCB.setChecked(false);
+                            }
+                        }
+                    });
+
+                    makePayTV.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if(!shurjoPayCB.isChecked()){
+                                Toast.makeText(PlaceOrderDetailsActivity.this, "Please Select Your Payment Method.", Toast.LENGTH_SHORT).show();
+                            }else if(shurjoPayCB.isChecked()){
+                                getShurjoPayment(paymentAmount.getText().toString());
+                                dialog2.dismiss();
+                            }
+                        }
+                    });
+
                 }
             }
         });
@@ -201,6 +248,27 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
                 });
             }
         });
+    }
+
+    private void getShurjoPayment(String amount) {
+        int a=Integer.parseInt(amount);
+        int unique_id=(int)((new Date().getTime()/1000L)% Integer.MAX_VALUE);
+        String testToken="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOiJzcGF5dGVzdCIsImlhdCI6MTU5ODM2MTI1Nn0.cwkvdTDI6_K430xq7Iqapaknbqjm9J3Th1EiXePIEcY";
+        String liveToken="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Im11bHZlbiIsImtleSI6ImpPYmdQRFdvcjFEcyJ9.Ie4mUEkQ-6WW1nyPg7FOverSWRfUs7IXZkCItKyvimI";
+        RequiredDataModel dataModel=new RequiredDataModel("mulven",
+                "m8zPxlA4Ews9","MLV"+OrderId+"$"+unique_id,a, liveToken);
+        ShurjoPaySDK.getInstance().makePayment(PlaceOrderDetailsActivity.this,
+                SPayConstants.SdkType.LIVE, dataModel, new PaymentResultListener() {
+                    @Override
+                    public void onSuccess(TransactionInfo transactionInfo) {
+                        Log.d("ss", ""+transactionInfo);
+                    }
+
+                    @Override
+                    public void onFailed(String s) {
+                        Log.d("ss", ""+s);
+                    }
+                });
     }
 
     private void init() {

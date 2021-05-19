@@ -602,6 +602,12 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
 
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
+
+    @Override
     public void onNetworkConnectionChanged(boolean isConnected) {
         snackBar(isConnected);
     }

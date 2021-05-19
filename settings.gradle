@@ -1,3 +1,4 @@
+include ':shurjopaysdk-v1.1'
 include ':app'
 rootProject.name = "Mulven"
 startParameter.offline=false
