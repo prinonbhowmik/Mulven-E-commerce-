@@ -3,6 +3,9 @@ package com.hydertechno.mulven.Fragments;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.graphics.Color;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 
 import androidx.core.view.GravityCompat;
@@ -18,9 +21,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.google.android.material.snackbar.Snackbar;
 import com.hydertechno.mulven.Activities.SearchActivity;
 import com.hydertechno.mulven.Activities.SeeAllProductsActivity;
 import com.hydertechno.mulven.Adapters.CategoryNamesAdapter;
@@ -30,6 +35,7 @@ import com.hydertechno.mulven.Adapters.ProductAdapter;
 import com.hydertechno.mulven.Adapters.VerticalProductsAdapter;
 import com.hydertechno.mulven.Api.ApiInterface;
 import com.hydertechno.mulven.Api.ApiUtils;
+import com.hydertechno.mulven.Internet.ConnectivityReceiver;
 import com.hydertechno.mulven.Models.CategoriesModel;
 import com.hydertechno.mulven.Models.CategoryNamesModel;
 import com.hydertechno.mulven.Models.Sliderimage;
@@ -46,7 +52,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements ConnectivityReceiver.ConnectivityReceiverListener {
     private RecyclerView categoryRecycler,feature_Add_Recycler_View,category_1,category_2,category_3,category_4;
     private HomePageSliderAdapter homePageSliderAdapter;
     private CategoryNamesAdapter categoryNamesAdapter;
@@ -66,6 +72,12 @@ public class HomeFragment extends Fragment {
     private SliderView imageSlider;
     private TextView seeAll1,seeAll2,seeAll3,seeAll4;
     private ApiInterface apiInterface;
+    public static RelativeLayout rootLayout;
+    private Snackbar snackbar;
+    private boolean isConnected;
+    private ConnectivityReceiver connectivityReceiver;
+    private IntentFilter intentFilter;
+
 
     private ShimmerFrameLayout mShimmerViewContainer,mShimmerViewContainer2,Horizontal_shimmer_container1,Horizontal_shimmer_container2,
             Horizontal_shimmer_container3,featureAdd_shimmer_container;
@@ -103,28 +115,49 @@ public class HomeFragment extends Fragment {
         seeAll1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), SeeAllProductsActivity.class).putExtra("title","Cellphones & Camera")
-                        .putExtra("id","9"));
+                checkConnection();
+                if (!isConnected) {
+                    snackBar(isConnected);
+                } else {
+                    startActivity(new Intent(getContext(), SeeAllProductsActivity.class).putExtra("title", "Cellphones & Camera")
+                            .putExtra("id", "9"));
+                }
             }
         });
         seeAll2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), SeeAllProductsActivity.class).putExtra("title","Car & Bike")
-                        .putExtra("id","4"));
+                checkConnection();
+                if (!isConnected) {
+                    snackBar(isConnected);
+                } else {
+                    startActivity(new Intent(getContext(), SeeAllProductsActivity.class).putExtra("title", "Car & Bike")
+                            .putExtra("id", "4"));
+                }
             }
         });
         seeAll3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), SeeAllProductsActivity.class).putExtra("title","Electronics")
-                        .putExtra("id","10"));            }
+                checkConnection();
+                if (!isConnected) {
+                    snackBar(isConnected);
+                } else {
+                    startActivity(new Intent(getContext(), SeeAllProductsActivity.class).putExtra("title", "Electronics")
+                            .putExtra("id", "10"));
+                }
+            }
         });
         seeAll4.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getContext(), SeeAllProductsActivity.class).putExtra("title","Grocery")
-                        .putExtra("id","1"));            }
+            public void onClick(View v) {checkConnection();
+                if (!isConnected) {
+                    snackBar(isConnected);
+                } else {
+                    startActivity(new Intent(getContext(), SeeAllProductsActivity.class).putExtra("title", "Grocery")
+                            .putExtra("id", "1"));
+                }
+            }
         });
 
         return view;
@@ -299,6 +332,10 @@ public class HomeFragment extends Fragment {
         });
     }
     private void init(View view) {
+        rootLayout=view.findViewById(R.id.home_fragment_rootLayout);
+        intentFilter = new IntentFilter();
+        intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        connectivityReceiver = new ConnectivityReceiver();
         navIcon=view.findViewById(R.id.navIcon);
         categoryRecycler=view.findViewById(R.id.categoryRecyclerView);
         homePageSliderAdapter = new HomePageSliderAdapter(getContext());
@@ -381,5 +418,23 @@ public class HomeFragment extends Fragment {
         mShimmerViewContainer.stopShimmerAnimation();
         mShimmerViewContainer2.stopShimmerAnimation();
         super.onPause();
+    }
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        snackBar(isConnected);
+    }
+
+    private void checkConnection() {
+        isConnected = ConnectivityReceiver.isConnected();
+    }
+    private void snackBar(boolean isConnected) {
+        if(!isConnected) {
+            snackbar = Snackbar.make(rootLayout, "No Internet Connection!", Snackbar.LENGTH_INDEFINITE);
+            snackbar.setDuration(5000);
+            snackbar.setActionTextColor(Color.WHITE);
+            View sbView = snackbar.getView();
+            sbView.setBackgroundColor(Color.RED);
+            snackbar.show();
+        }
     }
 }

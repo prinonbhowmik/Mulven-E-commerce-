@@ -2,6 +2,8 @@ package com.hydertechno.mulven.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,17 +13,25 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.hydertechno.mulven.Activities.SeeAllProductsActivity;
 import com.hydertechno.mulven.Api.Config;
+import com.hydertechno.mulven.Fragments.HomeFragment;
+import com.hydertechno.mulven.Internet.ConnectivityReceiver;
 import com.hydertechno.mulven.Models.CategoryNamesModel;
 import com.hydertechno.mulven.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class CategoryNamesAdapter extends RecyclerView.Adapter<CategoryNamesAdapter.ViewHolder> {
+public class CategoryNamesAdapter extends RecyclerView.Adapter<CategoryNamesAdapter.ViewHolder> implements ConnectivityReceiver.ConnectivityReceiverListener {
     private List<CategoryNamesModel> categoryNamesModelList;
     private Context context;
+    private Snackbar snackbar;
+    private boolean isConnected;
+    private ConnectivityReceiver connectivityReceiver;
+    private IntentFilter intentFilter;
+    public HomeFragment activity;
 
     public CategoryNamesAdapter(List<CategoryNamesModel> categoryNamesModelList, Context context) {
         this.categoryNamesModelList = categoryNamesModelList;
@@ -53,10 +63,15 @@ public class CategoryNamesAdapter extends RecyclerView.Adapter<CategoryNamesAdap
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(context, SeeAllProductsActivity.class);
-                intent.putExtra("id",""+model.getId());
-                intent.putExtra("title",""+model.getCategory_name());
-                context.startActivity(intent);
+                checkConnection();
+                if (!isConnected) {
+                    toastShow(isConnected);
+                } else {
+                    Intent intent = new Intent(context, SeeAllProductsActivity.class);
+                    intent.putExtra("id", "" + model.getId());
+                    intent.putExtra("title", "" + model.getCategory_name());
+                    context.startActivity(intent);
+                }
             }
         });
     }
@@ -88,6 +103,25 @@ public class CategoryNamesAdapter extends RecyclerView.Adapter<CategoryNamesAdap
             imageIV=itemView.findViewById(R.id.imageIV);
 
         }
+    }
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        toastShow(isConnected);
+    }
+    private void toastShow(boolean isConnected) {
+        if(!isConnected) {
+            snackbar = Snackbar.make(activity.rootLayout, "No Internet Connection! Please Try Again.", Snackbar.LENGTH_INDEFINITE);
+            snackbar.setDuration(5000);
+            snackbar.setActionTextColor(Color.WHITE);
+            View sbView = snackbar.getView();
+            sbView.setBackgroundColor(Color.RED);
+            snackbar.show();
+        }
+    }
+
+
+    private void checkConnection() {
+        isConnected = ConnectivityReceiver.isConnected();
     }
 
 }

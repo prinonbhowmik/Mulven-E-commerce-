@@ -105,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         navigationView.getMenu().getItem(2).setChecked(false);
                         navigationView.getMenu().getItem(3).setChecked(false);
                         navigationView.getMenu().getItem(4).setChecked(false);
+                        navigationView.getMenu().getItem(5).setChecked(false);
                         break;
                     case R.id.campaign:
                         fragment=new CampaignFragment();
@@ -113,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         navigationView.getMenu().getItem(2).setChecked(false);
                         navigationView.getMenu().getItem(3).setChecked(false);
                         navigationView.getMenu().getItem(4).setChecked(false);
+                        navigationView.getMenu().getItem(5).setChecked(false);
                         break;
                     case R.id.cart:
                         fragment=new CartFragment();
@@ -121,6 +123,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         navigationView.getMenu().getItem(2).setChecked(true);
                         navigationView.getMenu().getItem(3).setChecked(false);
                         navigationView.getMenu().getItem(4).setChecked(false);
+                        navigationView.getMenu().getItem(5).setChecked(false);
                         break;
                     case R.id.notification:
                         fragment=new NotificationFragment();
@@ -129,10 +132,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         navigationView.getMenu().getItem(2).setChecked(false);
                         navigationView.getMenu().getItem(3).setChecked(true);
                         navigationView.getMenu().getItem(4).setChecked(false);
+                        navigationView.getMenu().getItem(5).setChecked(false);
                         break;
                     case R.id.account:
                         if (loggedIn == 0 ){
                             fragment=new AccountFragment();
+                            navigationView.getMenu().getItem(0).setChecked(false);
+                            navigationView.getMenu().getItem(1).setChecked(false);
+                            navigationView.getMenu().getItem(2).setChecked(false);
+                            navigationView.getMenu().getItem(3).setChecked(false);
+                            navigationView.getMenu().getItem(4).setChecked(false);
+                            navigationView.getMenu().getItem(5).setChecked(true);
                         }else{
                             fragment=new ProfileFragment();
                         }
@@ -212,10 +222,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.login:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new AccountFragment()).commit();
-                navigationView.getMenu().getItem(3).setChecked(true);
+                navigationView.getMenu().getItem(3).setChecked(false);
                 navigationView.getMenu().getItem(0).setChecked(false);
                 navigationView.getMenu().getItem(1).setChecked(false);
                 navigationView.getMenu().getItem(2).setChecked(false);
+                navigationView.getMenu().getItem(5).setChecked(true);
                 chipNavigationBar.setItemSelected(R.id.account,true);
                 break;
             case R.id.logout:

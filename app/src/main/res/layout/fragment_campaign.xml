@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/campaign_fragment_rootLayout"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragments.CampaignFragment">
 
@@ -89,4 +90,20 @@
         android:fitsSystemWindows="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_below="@+id/toolbar" />
+
+
+
+    <TextView
+        android:id="@+id/noCampaign"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:text="No Campaign Available"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        android:textSize="18sp"
+        android:fontFamily="@font/comfortaa_light"
+        android:textColor="@color/black"/>
 </RelativeLayout>

@@ -56,11 +56,11 @@ public class SeeAllProductsActivity extends AppCompatActivity implements Connect
     private EditText searchView;
     private RecyclerView productRecyclerView,subCatRecycler;
     private AllProductsAdapter all_product_Adapter;
+    private SubCategoryAdapter adapter;
     private ImageView searchBtn,closeIV;
     private List<CategoriesModel> allProductsList=new ArrayList<>();
     private ApiInterface apiInterface;
-    private RelativeLayout rootLayout;
-    private SubCategoryAdapter adapter;
+    public static RelativeLayout rootLayout;
     private Snackbar snackbar;
     private boolean isConnected;
     private ConnectivityReceiver connectivityReceiver;
@@ -90,7 +90,12 @@ public class SeeAllProductsActivity extends AppCompatActivity implements Connect
         sAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getCategories();
+                checkConnection();
+                if (!isConnected) {
+                    snackBar(isConnected);
+                }else {
+                    getCategories();
+                }
             }
         });
 
@@ -241,12 +246,7 @@ public class SeeAllProductsActivity extends AppCompatActivity implements Connect
     }
     private void snackBar(boolean isConnected) {
         if(!isConnected) {
-            snackbar = Snackbar.make(rootLayout, "No Internet Connection!", Snackbar.LENGTH_INDEFINITE).setAction("ReTry", new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    recreate();
-                }
-            });
+            snackbar = Snackbar.make(rootLayout, "No Internet Connection!", Snackbar.LENGTH_INDEFINITE);
             snackbar.setDuration(5000);
             snackbar.setActionTextColor(Color.WHITE);
             View sbView = snackbar.getView();

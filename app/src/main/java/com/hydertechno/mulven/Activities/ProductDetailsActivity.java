@@ -86,7 +86,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
     private CampaignRelatedProductAdapter campaignRelatedProductAdapter;
     private RelativeLayout feature_RelativeLayout,soldByRelativeLayout,relatedProduct_layout;
     private int productMrpPrice,productUnitPrice,store_id,campId;
-    private RelativeLayout rootLayout;
+    public static RelativeLayout rootLayout;
     private Snackbar snackbar;
     private boolean isConnected;
     private ConnectivityReceiver connectivityReceiver;

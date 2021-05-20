@@ -9,6 +9,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.graphics.Color;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -16,12 +19,17 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.hydertechno.mulven.Adapters.AllProductsAdapter;
 import com.hydertechno.mulven.Adapters.CampaignProductsAdapter;
+import com.hydertechno.mulven.Adapters.SubCategoryAdapter;
 import com.hydertechno.mulven.Api.ApiInterface;
 import com.hydertechno.mulven.Api.ApiUtils;
+import com.hydertechno.mulven.Internet.Connection;
+import com.hydertechno.mulven.Internet.ConnectivityReceiver;
 import com.hydertechno.mulven.Models.CategoriesModel;
 import com.hydertechno.mulven.R;
 
@@ -32,7 +40,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CampaignProductActivity extends AppCompatActivity {
+public class CampaignProductActivity extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener {
 
     private ImageView navIcon,searchIv,closeIv;
     private String title,id;
@@ -43,12 +51,21 @@ public class CampaignProductActivity extends AppCompatActivity {
     private CampaignProductsAdapter campaignProductsAdapter;
     private List<CategoriesModel> allProductsList=new ArrayList<>();
     private ApiInterface apiInterface;
+    public static RelativeLayout rootLayout;
+    private Snackbar snackbar;
+    private boolean isConnected;
+    private ConnectivityReceiver connectivityReceiver;
+    private IntentFilter intentFilter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_campaign_product);
         init();
+        checkConnection();
+        if (!isConnected) {
+            snackBar(isConnected);
+        }
         Intent intent=getIntent();
         campaignID=intent.getIntExtra("id",0);
         title=intent.getStringExtra("title");
@@ -101,6 +118,10 @@ public class CampaignProductActivity extends AppCompatActivity {
         });
     }
     private void init() {
+        rootLayout = findViewById(R.id.campaign_product_rootLayout);
+        intentFilter = new IntentFilter();
+        intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        connectivityReceiver = new ConnectivityReceiver();
 
         campaignProductRecyclerView =findViewById(R.id.campaignProductRecyclerView);
         searchView = findViewById(R.id.searchET);
@@ -151,5 +172,61 @@ public class CampaignProductActivity extends AppCompatActivity {
         super.onBackPressed();
         overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
         finish();
+    }
+
+
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        snackBar(isConnected);
+    }
+
+    private void checkConnection() {
+        isConnected = ConnectivityReceiver.isConnected();
+    }
+    private void snackBar(boolean isConnected) {
+        if(!isConnected) {
+            snackbar = Snackbar.make(rootLayout, "No Internet Connection!", Snackbar.LENGTH_INDEFINITE);
+            snackbar.setDuration(5000);
+            snackbar.setActionTextColor(Color.WHITE);
+            View sbView = snackbar.getView();
+            sbView.setBackgroundColor(Color.RED);
+            snackbar.show();
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        registerReceiver(connectivityReceiver, intentFilter);
+    }
+    @Override
+    protected void onResume() {
+
+        // register connection status listener
+        Connection.getInstance().setConnectivityListener(this);
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        try{
+            if(connectivityReceiver!=null)
+                unregisterReceiver(connectivityReceiver);
+
+        }catch(Exception e){}
+
+    }
+
+    @Override
+    protected void onStop() {
+        try{
+            if(connectivityReceiver!=null)
+                unregisterReceiver(connectivityReceiver);
+
+        }catch(Exception e){}
+
+        super.onStop();
     }
 }

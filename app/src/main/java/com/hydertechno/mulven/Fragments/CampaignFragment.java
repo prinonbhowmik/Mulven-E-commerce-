@@ -2,6 +2,9 @@ package com.hydertechno.mulven.Fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.IntentFilter;
+import android.graphics.Color;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.SearchView;
@@ -17,11 +20,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.hydertechno.mulven.Adapters.CampaignAdapter;
 import com.hydertechno.mulven.Api.ApiInterface;
 import com.hydertechno.mulven.Api.ApiUtils;
+import com.hydertechno.mulven.Internet.ConnectivityReceiver;
 import com.hydertechno.mulven.Models.Campaign;
 import com.hydertechno.mulven.Models.CampaignModel;
 import com.hydertechno.mulven.R;
@@ -33,17 +39,22 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CampaignFragment extends Fragment {
+public class CampaignFragment extends Fragment implements ConnectivityReceiver.ConnectivityReceiverListener{
     private DrawerLayout drawerLayout;
     private ImageView navIcon,searchIv,closeIv;
     private String title,id;
     private int categoryID;
-    private TextView titleName;
+    private TextView titleName,noCampaign;
     private SearchView searchView;
     private RecyclerView campaignRecyclerView;
     private CampaignAdapter campaignAdapter;
     private List<CampaignModel> campaignModelList =new ArrayList<>();
     private ApiInterface apiInterface;
+    public static RelativeLayout rootLayout;
+    private Snackbar snackbar;
+    private boolean isConnected;
+    private ConnectivityReceiver connectivityReceiver;
+    private IntentFilter intentFilter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -84,7 +95,12 @@ public class CampaignFragment extends Fragment {
 
 
     private void init(View view) {
+        rootLayout=view.findViewById(R.id.campaign_fragment_rootLayout);
+        intentFilter = new IntentFilter();
+        intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        connectivityReceiver = new ConnectivityReceiver();
         navIcon=view.findViewById(R.id.navIcon);
+        noCampaign=view.findViewById(R.id.noCampaign);
         campaignRecyclerView =view.findViewById(R.id.campaignRecyclerView);
         searchView = view.findViewById(R.id.searchET);
         searchIv = view.findViewById(R.id.SearchIv);
@@ -112,9 +128,10 @@ public class CampaignFragment extends Fragment {
                     campaignModelList=list.getCampaign();
                     campaignAdapter = new CampaignAdapter(campaignModelList, getContext());
                     campaignRecyclerView.setAdapter(campaignAdapter);
-                    /*if (campaignModelList.size() == 0) {
+                    if (campaignModelList.size() == 0) {
                         campaignRecyclerView.setVisibility(View.GONE);
-                    }*/
+                        noCampaign.setVisibility(View.VISIBLE);
+                    }
                 }
                 campaignAdapter.notifyDataSetChanged();
             }
@@ -122,5 +139,26 @@ public class CampaignFragment extends Fragment {
             public void onFailure(Call<Campaign> call, Throwable t) {
             }
         });
+    }
+
+
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        snackBar(isConnected);
+    }
+
+    private void checkConnection() {
+        isConnected = ConnectivityReceiver.isConnected();
+    }
+    private void snackBar(boolean isConnected) {
+        if(!isConnected) {
+            snackbar = Snackbar.make(rootLayout, "No Internet Connection!", Snackbar.LENGTH_INDEFINITE);
+            snackbar.setDuration(5000);
+            snackbar.setActionTextColor(Color.WHITE);
+            View sbView = snackbar.getView();
+            sbView.setBackgroundColor(Color.RED);
+            snackbar.show();
+        }
     }
 }

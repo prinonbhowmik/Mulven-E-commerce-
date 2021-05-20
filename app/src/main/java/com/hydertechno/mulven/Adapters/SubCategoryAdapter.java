@@ -1,6 +1,8 @@
 package com.hydertechno.mulven.Adapters;
 
 import android.content.Context;
+import android.content.IntentFilter;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +13,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
+import com.hydertechno.mulven.Activities.SeeAllProductsActivity;
 import com.hydertechno.mulven.Interface.SubCatIdInterface;
+import com.hydertechno.mulven.Internet.ConnectivityReceiver;
 import com.hydertechno.mulven.Models.OrderListModel;
 import com.hydertechno.mulven.Models.SubCatModel;
 import com.hydertechno.mulven.R;
@@ -21,11 +26,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.ViewHolder> {
+public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.ViewHolder> implements ConnectivityReceiver.ConnectivityReceiverListener{
 
     private List<SubCatModel> list;
     private SubCatIdInterface idInterface;
     private Context context;
+    private Snackbar snackbar;
+    private boolean isConnected;
+    private ConnectivityReceiver connectivityReceiver;
+    private IntentFilter intentFilter;
+    public SeeAllProductsActivity activity;
 
     public SubCategoryAdapter(List<SubCatModel> list, SubCatIdInterface idInterface) {
         this.list = list;
@@ -49,9 +59,14 @@ public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (idInterface!=null){
-                    idInterface.OnClick(model.getId());
-                    Log.d("hoiseki", String.valueOf(model.getId()));
+                checkConnection();
+                if (!isConnected) {
+                    toastShow(isConnected);
+                } else {
+                    if (idInterface != null) {
+                        idInterface.OnClick(model.getId());
+                        Log.d("hoiseki", String.valueOf(model.getId()));
+                    }
                 }
             }
         });
@@ -71,5 +86,25 @@ public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.
 
             subCatTv = itemView.findViewById(R.id.subCatTv);
         }
+    }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        toastShow(isConnected);
+    }
+    private void toastShow(boolean isConnected) {
+        if(!isConnected) {
+            snackbar = Snackbar.make(activity.rootLayout, "No Internet Connection! Please Try Again.", Snackbar.LENGTH_INDEFINITE);
+            snackbar.setDuration(5000);
+            snackbar.setActionTextColor(Color.WHITE);
+            View sbView = snackbar.getView();
+            sbView.setBackgroundColor(Color.RED);
+            snackbar.show();
+        }
+    }
+
+
+    private void checkConnection() {
+        isConnected = ConnectivityReceiver.isConnected();
     }
 }
