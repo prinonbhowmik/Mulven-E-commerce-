@@ -43,7 +43,6 @@
             android:visibility="gone"
             android:padding="3dp"
             android:layout_marginEnd="20dp"
-            android:onClick="placeOrderDetailsBack"
             android:src="@drawable/ic_more" />
 
     </RelativeLayout>

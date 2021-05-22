@@ -115,8 +115,9 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
                     intent.putExtra("OrderId", orderListModel.getOrder_id());
                     intent.putExtra("PaymentStatus", orderListModel.getPay_status());
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    context.startActivity(intent);
-                    ((Activity) context).overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                    //context.startActivity(intent);
+                    ((Activity)context).startActivityForResult(intent,1);
+                    //((Activity) context).overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                     //((Activity)context).finish();
 
                 } catch (Exception e) {

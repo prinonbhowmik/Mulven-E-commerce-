@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
@@ -219,6 +220,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new CartFragment()).commit();
 
                 startActivity(new Intent(getApplicationContext(),GiftVoucherActivity.class));
+                break;
+
+            case R.id.about:
+
+                Intent intent = new Intent(MainActivity.this, AboutActivity.class);
+                intent.putExtra("layout","about");
+                startActivity(intent);
+                break;
+            case R.id.help:
+
+                Intent intent2 = new Intent(MainActivity.this, AboutActivity.class);
+                intent2.putExtra("layout","help");
+                startActivity(intent2);
                 break;
             case R.id.login:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new AccountFragment()).commit();

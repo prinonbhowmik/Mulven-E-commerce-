@@ -663,14 +663,20 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
     }
 
     public void placeOrderDetailsBack(View view) {
-        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+        Intent resultIntent = new Intent();
+
+            setResult(RESULT_OK,resultIntent);
+        //overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
         finish();
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+        Intent resultIntent = new Intent();
+            //overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+            setResult(RESULT_CANCELED, resultIntent);
+
         finish();
     }
 }

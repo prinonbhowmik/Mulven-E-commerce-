@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.AboutActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:id="@+id/toolbar"
+        android:background="@color/themDark">
+
+        <ImageView
+            android:id="@+id/navIcon"
+            android:layout_width="35sp"
+            android:layout_height="35sp"
+            android:layout_centerVertical="true"
+            android:onClick="aboutBack"
+            android:layout_marginStart="20dp"
+            android:src="@drawable/ic_arrow"/>
+
+        <TextView
+            android:id="@+id/toolbarTitleTV"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_toEndOf="@+id/navIcon"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:textSize="24sp"
+            android:fontFamily="@font/comfortaa_light"
+            android:textColor="@color/white"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/aboutRelativeLayout"
+        android:visibility="gone"
+        android:layout_below="@+id/toolbar">
+
+        <ImageView
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/applogo"
+            android:layout_marginTop="20dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/aboutText"
+            android:layout_marginTop="100dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:textSize="15sp"
+            android:fontFamily="@font/comfortaa_light"
+            android:textColor="@color/black"/>
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/helpRelativeLayout"
+        android:visibility="gone"
+        android:layout_below="@id/toolbar">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="55dp"
+            android:layout_marginTop="20dp"
+            android:id="@+id/mediaLayout"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:src="@drawable/applogo"/>
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:src="@drawable/applogo"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"/>
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:src="@drawable/applogo"/>
+        </LinearLayout>
+
+
+        <ImageView
+            android:id="@+id/mvAddressIV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_check_circle"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="10dp"
+            android:layout_below="@id/mediaLayout"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:text="Address"
+            android:layout_toEndOf="@+id/mvAddressIV"
+            android:layout_below="@id/mediaLayout"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:textSize="15sp"
+            android:fontFamily="@font/comfortaa_light"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/mv_address"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:text="Moti-Mahal, Abdus Soban Dhalibari "
+            android:layout_below="@id/mvAddressIV"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:textSize="15sp"
+            android:fontFamily="@font/comfortaa_light"
+            android:textColor="@color/black"/>
+
+
+        <ImageView
+            android:id="@+id/mvEmailIV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_check_circle"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="10dp"
+            android:layout_below="@id/mv_address"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:text="E-mail"
+            android:layout_toEndOf="@+id/mvEmailIV"
+            android:layout_below="@id/mv_address"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:textSize="15sp"
+            android:fontFamily="@font/comfortaa_light"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/mv_email"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:text="support@mulven.com"
+            android:layout_below="@id/mvEmailIV"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:textSize="15sp"
+            android:fontFamily="@font/comfortaa_light"
+            android:textColor="@color/black"/>
+
+
+        <ImageView
+            android:id="@+id/mvHelpLineIV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_check_circle"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="10dp"
+            android:layout_below="@id/mv_email"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:text="Help Line"
+            android:layout_toEndOf="@+id/mvHelpLineIV"
+            android:layout_below="@id/mv_email"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:textSize="15sp"
+            android:fontFamily="@font/comfortaa_light"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/mv_helpLine"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:text="0123456789"
+            android:layout_below="@id/mvHelpLineIV"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:textSize="15sp"
+            android:fontFamily="@font/comfortaa_light"
+            android:textColor="@color/black"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

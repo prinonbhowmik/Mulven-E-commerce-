@@ -1,5 +1,6 @@
 package com.hydertechno.mulven.Activities;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.hydertechno.mulven.Adapters.OrderListAdapter;
@@ -34,6 +36,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class PlaceOrderListActivity extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener{
+    public static final int Place_Order_Request_Code=1;
     private RecyclerView orderListRecyclerView;
     private ApiInterface apiInterface;
     private List<OrderListModel> orderListModel;
@@ -523,6 +526,15 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode==RESULT_OK) {
+            Toast.makeText(this, "11", Toast.LENGTH_SHORT).show();
+    }else if (requestCode == 1 && resultCode==RESULT_CANCELED) {
+            Toast.makeText(this, "00", Toast.LENGTH_SHORT).show();
+        }
+    }
 
     @Override
     public void onNetworkConnectionChanged(boolean isConnected) {

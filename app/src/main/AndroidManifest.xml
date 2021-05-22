@@ -15,7 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Mulven">
-        <activity android:name=".Activities.CampaignProductActivity"></activity>
+        <activity android:name=".Activities.AboutActivity"></activity>
+        <activity android:name=".Activities.CampaignProductActivity" />
         <activity android:name=".Activities.SearchActivity" />
         <activity android:name=".Activities.ChangePasswordActivity" />
         <activity android:name=".Activities.PlaceOrderDetailsActivity" />
