@@ -45,6 +45,7 @@ import com.hydertechno.mulven.Models.OrderDetails;
 import com.hydertechno.mulven.Models.OrderItemsModel;
 import com.hydertechno.mulven.Models.OrderTimelineModel;
 import com.hydertechno.mulven.Models.RequiredDataModel;
+import com.hydertechno.mulven.Models.ShurjoPayPaymentModel;
 import com.hydertechno.mulven.Models.UserProfile;
 import com.hydertechno.mulven.R;
 import com.sm.shurjopaysdk.listener.PaymentResultListener;
@@ -261,8 +262,22 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
                 SPayConstants.SdkType.LIVE, dataModel, new PaymentResultListener() {
                     @Override
                     public void onSuccess(TransactionInfo transactionInfo) {
-                        Log.d("ss", ""+transactionInfo);
-                    }
+                        double amount=transactionInfo.getTxnAmount();
+
+                        Call<ShurjoPayPaymentModel> call = ApiUtils.getUserService().setShurjo_Pay(token,OrderId,""+amount,transactionInfo.getMethod(),transactionInfo.getBankTxID(),transactionInfo.getTxID());
+                        call.enqueue(new Callback<ShurjoPayPaymentModel>() {
+                            @Override
+                            public void onResponse(Call<ShurjoPayPaymentModel> call, Response<ShurjoPayPaymentModel> response) {
+                                if(response.isSuccessful()){
+                                    finish();
+                                }
+                            }
+                            @Override
+                            public void onFailure(Call<ShurjoPayPaymentModel> call, Throwable t) {
+                               // Toasty.error(PlaceOrderDetailsActivity.this, "Something went wrong", Toasty.LENGTH_SHORT).show();
+                            }
+                        });
+                        }
 
                     @Override
                     public void onFailed(String s) {

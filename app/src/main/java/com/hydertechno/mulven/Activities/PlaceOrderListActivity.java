@@ -530,9 +530,9 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode==RESULT_OK) {
-            Toast.makeText(this, "11", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "11", Toast.LENGTH_SHORT).show();
     }else if (requestCode == 1 && resultCode==RESULT_CANCELED) {
-            Toast.makeText(this, "00", Toast.LENGTH_SHORT).show();
+           // Toast.makeText(this, "00", Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -10,6 +10,7 @@ import com.hydertechno.mulven.Models.OrderDetails;
 import com.hydertechno.mulven.Models.OrderListModel;
 import com.hydertechno.mulven.Models.PlaceOrderModel;
 import com.hydertechno.mulven.Models.ProductDetailsModel;
+import com.hydertechno.mulven.Models.ShurjoPayPaymentModel;
 import com.hydertechno.mulven.Models.Sliderimage;
 import com.hydertechno.mulven.Models.SubCatModel;
 import com.hydertechno.mulven.Models.UserProfile;
@@ -137,6 +138,15 @@ public interface ApiInterface {
 
     @GET("sub-categories?categorie_id=4")
     Call<List<SubCatModel>> getSubCat(@Query("categorie_id") int categorie_id);
+
+
+    @GET("shurjo-pay")
+    Call<ShurjoPayPaymentModel> setShurjo_Pay(@Query("token") String token,
+                                                @Query("order_id") String order_id,
+                                                @Query("amount") String amount,
+                                                @Query("sp_payment_option") String sp_payment_option,
+                                                @Query("bank_tx_id") String bank_tx_id,
+                                                @Query("tx_id") String tx_id);
 
 
 }

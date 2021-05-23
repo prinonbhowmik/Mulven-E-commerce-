@@ -46,7 +46,8 @@
             android:title="About"/>
 
         <item android:id="@+id/help"
-            android:title="Help"/>
+            android:icon="@drawable/ic_call"
+            android:title="Contact"/>
     </group>
 
 

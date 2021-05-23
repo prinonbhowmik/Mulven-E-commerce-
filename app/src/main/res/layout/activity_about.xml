@@ -41,20 +41,52 @@
         android:layout_below="@+id/toolbar">
 
         <ImageView
-            android:layout_width="55dp"
-            android:layout_height="55dp"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/applogo"
-            android:layout_marginTop="20dp"/>
-
+            android:src="@drawable/mv_logo_black"
+            android:layout_marginTop="10dp"/>
         <TextView
+            android:id="@+id/abouttxt1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/aboutText"
             android:layout_marginTop="100dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
-            android:textSize="15sp"
+            android:textSize="12sp"
+            android:lineSpacingExtra="4dp"
+            android:justificationMode="inter_word"
+            android:fontFamily="@font/comfortaa_light"
+            android:textColor="@color/black"/>
+        <TextView
+            android:id="@+id/abouttxt2"
+            android:layout_below="@id/abouttxt1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/aboutText2"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:textSize="12sp"
+            android:gravity="center_horizontal"
+            android:textAlignment="center"
+            android:lineSpacingExtra="4dp"
+            android:fontFamily="@font/comfortaa_light"
+            android:textColor="@color/black"/>
+        <TextView
+            android:id="@+id/abouttxt3"
+            android:layout_below="@id/abouttxt2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/aboutText3"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:textSize="12sp"
+            android:gravity="center_horizontal"
+            android:textAlignment="center"
+            android:lineSpacingExtra="4dp"
             android:fontFamily="@font/comfortaa_light"
             android:textColor="@color/black"/>
 
@@ -75,19 +107,28 @@
             android:layout_centerHorizontal="true"
             android:orientation="horizontal">
             <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/mv_facebookIV"
                 android:layout_width="55dp"
                 android:layout_height="55dp"
-                android:src="@drawable/applogo"/>
+                android:src="@drawable/ic_mv_facebook"/>
             <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/mv_emailIV"
                 android:layout_width="55dp"
                 android:layout_height="55dp"
-                android:src="@drawable/applogo"
+                android:src="@drawable/ic_mv_email"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"/>
             <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/mv_mapIV"
                 android:layout_width="55dp"
                 android:layout_height="55dp"
-                android:src="@drawable/applogo"/>
+                android:layout_marginEnd="20dp"
+                android:src="@drawable/ic_mv_google_maps"/>
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/mv_phoneIV"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:src="@drawable/ic_mv_phone"/>
         </LinearLayout>
 
 
@@ -95,9 +136,9 @@
             android:id="@+id/mvAddressIV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_check_circle"
+            android:src="@drawable/ic_pin"
             android:layout_marginTop="20dp"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="20dp"
             android:layout_below="@id/mediaLayout"/>
 
 
@@ -116,12 +157,15 @@
         <TextView
             android:id="@+id/mv_address"
             android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:text="Moti-Mahal, Abdus Soban Dhalibari "
+            android:layout_height="wrap_content"
+            android:text="Moti mahal 2023 Abdus Sobhan Dhali Rd, Dhaka 1212"
             android:layout_below="@id/mvAddressIV"
             android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             android:layout_marginTop="10dp"
             android:textSize="15sp"
+            android:background="@color/bg"
+            android:padding="10dp"
             android:fontFamily="@font/comfortaa_light"
             android:textColor="@color/black"/>
 
@@ -130,9 +174,9 @@
             android:id="@+id/mvEmailIV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_check_circle"
+            android:src="@drawable/ic_mail"
             android:layout_marginTop="20dp"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="20dp"
             android:layout_below="@id/mv_address"/>
 
 
@@ -150,12 +194,15 @@
 
         <TextView
             android:id="@+id/mv_email"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:text="support@mulven.com"
             android:layout_below="@id/mvEmailIV"
             android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             android:layout_marginTop="10dp"
+            android:background="@color/bg"
+            android:padding="10dp"
             android:textSize="15sp"
             android:fontFamily="@font/comfortaa_light"
             android:textColor="@color/black"/>
@@ -165,9 +212,9 @@
             android:id="@+id/mvHelpLineIV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_check_circle"
+            android:src="@drawable/ic_call"
             android:layout_marginTop="20dp"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="20dp"
             android:layout_below="@id/mv_email"/>
 
 
@@ -185,12 +232,15 @@
 
         <TextView
             android:id="@+id/mv_helpLine"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:text="0123456789"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="+880 9638 443344"
             android:layout_below="@id/mvHelpLineIV"
             android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             android:layout_marginTop="10dp"
+            android:background="@color/bg"
+            android:padding="10dp"
             android:textSize="15sp"
             android:fontFamily="@font/comfortaa_light"
             android:textColor="@color/black"/>
