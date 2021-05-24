@@ -50,6 +50,7 @@ import com.hydertechno.mulven.Models.UserProfile;
 import com.hydertechno.mulven.R;
 import com.sm.shurjopaysdk.listener.PaymentResultListener;
 import com.sm.shurjopaysdk.model.TransactionInfo;
+import com.sm.shurjopaysdk.payment.PaymentActivity;
 import com.sm.shurjopaysdk.payment.ShurjoPaySDK;
 import com.sm.shurjopaysdk.utils.SPayConstants;
 import com.squareup.picasso.Picasso;
@@ -146,8 +147,21 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
                             if(!shurjoPayCB.isChecked()){
                                 Toast.makeText(PlaceOrderDetailsActivity.this, "Please Select Your Payment Method.", Toast.LENGTH_SHORT).show();
                             }else if(shurjoPayCB.isChecked()){
-                                getShurjoPayment(paymentAmount.getText().toString());
-                                dialog2.dismiss();
+                                String am=paymentAmount.getText().toString();
+                                if(!TextUtils.isEmpty(am)){
+                                    try {
+                                        double value=Double.parseDouble(am);
+                                        getShurjoPayment(value);
+                                        dialog2.dismiss();
+                                    }catch (Exception e){
+                                        Toast.makeText(PlaceOrderDetailsActivity.this, "Amount must a number!", Toast.LENGTH_SHORT).show();
+                                    }
+
+
+                                }else{
+                                    Toast.makeText(PlaceOrderDetailsActivity.this, "Please enter your amount.", Toast.LENGTH_SHORT).show();
+                                }
+
                             }
                         }
                     });
@@ -251,13 +265,13 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
         });
     }
 
-    private void getShurjoPayment(String amount) {
-        int a=Integer.parseInt(amount);
+    private void getShurjoPayment(double amount) {
+
         int unique_id=(int)((new Date().getTime()/1000L)% Integer.MAX_VALUE);
         String testToken="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOiJzcGF5dGVzdCIsImlhdCI6MTU5ODM2MTI1Nn0.cwkvdTDI6_K430xq7Iqapaknbqjm9J3Th1EiXePIEcY";
         String liveToken="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Im11bHZlbiIsImtleSI6ImpPYmdQRFdvcjFEcyJ9.Ie4mUEkQ-6WW1nyPg7FOverSWRfUs7IXZkCItKyvimI";
         RequiredDataModel dataModel=new RequiredDataModel("mulven",
-                "m8zPxlA4Ews9","MLV"+OrderId+"$"+unique_id,a, liveToken);
+                "m8zPxlA4Ews9","MLV"+OrderId+"$"+unique_id,amount, liveToken);
         ShurjoPaySDK.getInstance().makePayment(PlaceOrderDetailsActivity.this,
                 SPayConstants.SdkType.LIVE, dataModel, new PaymentResultListener() {
                     @Override

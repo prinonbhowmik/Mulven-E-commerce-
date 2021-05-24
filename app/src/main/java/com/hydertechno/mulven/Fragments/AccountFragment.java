@@ -153,13 +153,17 @@ public class AccountFragment extends Fragment implements ConnectivityReceiver.Co
                     Log.d("CheckStatus",status);
                     if (status.equals("1")){
                         String token = response.body().getToken();
+                        String name = response.body().getFull_name();
+                        String phone = response.body().getPhone();
                         int userId=response.body().getId();
                         SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyRef", MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("token", token);
+                        editor.putString("userName",name);
+                        editor.putString("userPhone",phone);
                         editor.putInt("loggedIn", 1);
                         editor.putInt("userId",userId);
-                        editor.commit();
+                        editor.apply();
                         Log.d("ShowToken",token);
                         Toasty.success(getContext(), ""+message).show();
                         Intent intent = new Intent(getContext(), MainActivity.class);

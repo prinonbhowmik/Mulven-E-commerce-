@@ -77,7 +77,10 @@ public class ProfileFragment extends Fragment implements ConnectivityReceiver.Co
         init(view);
 
         token = sharedPreferences.getString("token",null);
+        name = sharedPreferences.getString("userName",null);
+        phone = sharedPreferences.getString("userPhone",null);
         Log.d("ShowToken",token);
+        Toast.makeText(getContext(), ""+token+name+phone, Toast.LENGTH_SHORT).show();
 
         Call<UserProfile> call = ApiUtils.getUserService().getUserData(token);
         call.enqueue(new Callback<UserProfile>() {
@@ -96,6 +99,16 @@ public class ProfileFragment extends Fragment implements ConnectivityReceiver.Co
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
+                    }
+                }
+                else {
+
+                    try {
+                        Picasso.get()
+                                .load(R.drawable.demo_profile)
+                                .into(userImageIv);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
             }

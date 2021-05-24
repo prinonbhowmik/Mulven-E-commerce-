@@ -43,13 +43,13 @@ import es.dmoral.toasty.Toasty;
 public class CampaignAdapter extends RecyclerView.Adapter<CampaignAdapter.ViewHolder> implements ConnectivityReceiver.ConnectivityReceiverListener {
     private List<CampaignModel> campaignModelList;
     private Context context;
-    long millieSecond;
+    private long millieSecond;
     private Snackbar snackbar;
     private boolean isConnected;
     private ConnectivityReceiver connectivityReceiver;
     private IntentFilter intentFilter;
     public CampaignFragment activity;
-    int status;
+    private int status;
     public CampaignAdapter(List<CampaignModel> campaignModelList, Context context) {
         this.campaignModelList = campaignModelList;
         this.context = context;
@@ -66,6 +66,8 @@ public class CampaignAdapter extends RecyclerView.Adapter<CampaignAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull CampaignAdapter.ViewHolder holder, int position) {
         CampaignModel model=campaignModelList.get(position);
+        status=model.getPublication_status();
+        Toast.makeText(context, ""+status, Toast.LENGTH_SHORT).show();
         try{
             Picasso.get()
                     .load(Config.IMAGE_LINE+model.getCampaign_image())
@@ -100,7 +102,7 @@ public class CampaignAdapter extends RecyclerView.Adapter<CampaignAdapter.ViewHo
             e.printStackTrace();
         }
 
-        status=model.getPublication_status();
+
         if(status==1) {
             holder.liveLL.setVisibility(View.VISIBLE);
             holder.campaignCountdown.setVisibility(View.GONE);
@@ -120,17 +122,16 @@ public class CampaignAdapter extends RecyclerView.Adapter<CampaignAdapter.ViewHo
                     toastShow(isConnected);
                 } else {
                 if (status == 1) {
-                    try {
+
                         Intent intent = new Intent(context, CampaignProductActivity.class);
                         intent.putExtra("id", model.getId());
                         intent.putExtra("title", model.getCampaign_name());
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(intent);
                         /*    ((Activity)context).finish();*/
-                    } catch (Exception e) {
-                    }
 
-                } else {
+
+                } else if (status==0){
                     if (millieSecond < 0) {
                         Toasty.normal(context, "Campaign over.", Toasty.LENGTH_SHORT).show();
                     } else if (millieSecond > 0) {

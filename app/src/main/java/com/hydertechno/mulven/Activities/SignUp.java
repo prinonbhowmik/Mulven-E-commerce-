@@ -133,15 +133,19 @@ public class SignUp extends AppCompatActivity implements ConnectivityReceiver.Co
                     }else{
                         String token = response.body().getToken();
                         String msg = response.body().getMessage();
+                        String name = response.body().getFull_name();
+                        String phone = response.body().getPhone();
                         int userId=response.body().getId();
                         SharedPreferences sharedPreferences = getSharedPreferences("MyRef", MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("token", token);
                         editor.putInt("loggedIn", 1);
                         editor.putInt("userId",userId);
+                        editor.putString("userName",name);
+                        editor.putString("userPhone",phone);
                         editor.commit();
                         Log.d("ShowToken",token);
-                        Toasty.success(SignUp.this, ""+msg).show();
+                        Toasty.success(SignUp.this, ""+msg+name).show();
                         startActivity(new Intent(SignUp.this,MainActivity.class).putExtra("fragment","home"));
                         finish();
                     }
