@@ -132,6 +132,37 @@ public class SignUp extends AppCompatActivity implements ConnectivityReceiver.Co
                         Toasty.error(SignUp.this, ""+msg).show();
                     }else{
                         String token = response.body().getToken();
+                        Call<UserProfile> call2 = ApiUtils.getUserService().getUserData(token);
+                        call2.enqueue(new Callback<UserProfile>() {
+                            @Override
+                            public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
+                                String name = response.body().getFull_name();
+                                String phone = response.body().getPhone();
+                                int userId=response.body().getId();
+                                String msg = response.body().getMessage();
+
+                                SharedPreferences sharedPreferences = getSharedPreferences("MyRef", MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString("token", token);
+                                editor.putString("userName",name);
+                                editor.putString("userPhone",phone);
+                                editor.putInt("loggedIn", 1);
+                                editor.putInt("userId",userId);
+                                editor.apply();
+                                Log.d("ShowToken",token);
+                                Log.d("ShowToken",name+","+phone);
+                                Toasty.success(SignUp.this, "Login Successful").show();
+                                Intent intent = new Intent(SignUp.this, MainActivity.class);
+                                intent.putExtra("fragment","home");
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                finish();
+                            }
+                            @Override
+                            public void onFailure(Call<UserProfile> call, Throwable t) {
+
+                            }
+                        });
                         String msg = response.body().getMessage();
                         String name = response.body().getFull_name();
                         String phone = response.body().getPhone();
