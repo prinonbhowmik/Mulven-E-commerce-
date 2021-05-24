@@ -80,17 +80,14 @@ public class ProfileFragment extends Fragment implements ConnectivityReceiver.Co
         name = sharedPreferences.getString("userName",null);
         phone = sharedPreferences.getString("userPhone",null);
         Log.d("ShowToken",token);
-        Toast.makeText(getContext(), ""+token+name+phone, Toast.LENGTH_SHORT).show();
-
+        username.setText(name);
+        phoneNo.setText(phone);
         Call<UserProfile> call = ApiUtils.getUserService().getUserData(token);
         call.enqueue(new Callback<UserProfile>() {
             @Override
             public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
                 if (response.isSuccessful()){
                     id = response.body().getId();
-                    Log.d("getId", String.valueOf(id));
-                    username.setText(response.body().getFull_name());
-                    phoneNo.setText(response.body().getPhone());
                     if(response.body().getUser_photo()!=null) {
                         try {
                             Picasso.get()

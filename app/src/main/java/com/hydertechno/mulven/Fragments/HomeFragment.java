@@ -2,12 +2,18 @@ package com.hydertechno.mulven.Fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -88,7 +94,7 @@ public class HomeFragment extends Fragment implements ConnectivityReceiver.Conne
         View view= inflater.inflate(R.layout.fragment_home, container, false);
         init(view);
         drawerLayout=getActivity().findViewById(R.id.drawerLayout);
-
+        checkAppVersion();
         getSliderImage();
         getCategoriesName();
         getFeatureAdds();
@@ -161,6 +167,41 @@ public class HomeFragment extends Fragment implements ConnectivityReceiver.Conne
         });
 
         return view;
+    }
+    private void checkAppVersion() {
+        PackageInfo pinfo = null;
+        try {
+            pinfo = getContext().getPackageManager().getPackageInfo(getContext().getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        String versionName = pinfo.versionName;
+        String vName="1.0";
+
+                if (!versionName.equals(vName)) {
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+                    dialog.setTitle("New Version!");
+                    dialog.setIcon(R.drawable.applogo);
+                    dialog.setMessage("New version is available. Please update for latest features.");
+                    dialog.setCancelable(false);
+                    dialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            startActivity(new Intent(Intent.ACTION_VIEW,
+                                    Uri.parse("https://play.google.com/store/apps/details?id=com.hydertechno.swishdriver")));
+                            System.exit(0);
+                        }
+                    });
+                    dialog.setNegativeButton("Later", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                            System.exit(0);
+                        }
+                    });
+                    AlertDialog alertDialog = dialog.create();
+                    alertDialog.show();
+                }
     }
 
     private void getSliderImage() {

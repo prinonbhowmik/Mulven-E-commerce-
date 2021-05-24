@@ -16,7 +16,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/comfortaa_light"
-        android:text="2021-02-09"
         android:textColor="@color/black"
         android:textSize="15sp" />
     <TextView
@@ -27,7 +26,6 @@
         android:layout_marginEnd="10dp"
         android:layout_below="@id/timelineDateTV"
         android:fontFamily="@font/comfortaa_light"
-        android:text="1:13 PM"
         android:textColor="@color/black"
         android:textSize="15sp" />
     </RelativeLayout>
@@ -64,7 +62,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:fontFamily="@font/comfortaa_light"
-            android:text="Pending"
             android:textColor="@color/black"
             android:textSize="15sp" />
 
@@ -79,7 +76,6 @@
             android:fontFamily="@font/comfortaa_light"
             android:justificationMode="inter_word"
             android:lineSpacingExtra="2dp"
-            android:text="Your order has been placed successfully. We will start processing your order after payment is complete."
             android:textColor="@color/black"
             android:textSize="12sp" />
     </LinearLayout>

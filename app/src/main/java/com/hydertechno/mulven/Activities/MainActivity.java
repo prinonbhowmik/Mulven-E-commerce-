@@ -261,6 +261,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                             SharedPreferences.Editor editor = sharedPreferences.edit();
                                             editor.putString("token", "");
                                             editor.putInt("loggedIn", 0);
+                                            editor.remove("userId");
+                                            editor.remove("userName");
+                                            editor.remove("userPhone");
                                             editor.commit();
                                             Toasty.success(MainActivity.this, "Logout successful!", Toasty.LENGTH_SHORT).show();
                                             finish();

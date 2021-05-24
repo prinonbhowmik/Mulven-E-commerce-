@@ -14,7 +14,7 @@
         android:textSize="27sp"
         android:layout_centerHorizontal="true"
         android:textColor="@color/GRed"
-        android:text="Congratulation!" />
+        android:text="Congratulations!" />
 
     <TextView
         android:id="@+id/accountTxt"
@@ -28,7 +28,7 @@
         android:gravity="center"
         android:fontFamily="@font/comfortaa_light"
         android:textColor="@color/black"
-        android:text="Your order has placed successfully. Please wait for few second." />
+        android:text="Your order has been placed successfully. Please wait for a few seconds." />
 
 
 

@@ -24,6 +24,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hydertechno.mulven.Activities.PlaceOrderListActivity;
 import com.hydertechno.mulven.Adapters.CartAdapter;
@@ -95,6 +96,8 @@ public class CartFragment extends Fragment {
                 Cursor cursor = databaseHelper.getCart();
                 if (cursor != null) {
 
+                    int unitPrice = databaseHelper.columnSum();
+                    if(unitPrice>=500){
                     JSONArray array = new JSONArray();
                     ArrayList<JSONArray> jsonArrayList = new ArrayList<>();
                     List<Map<String, String>> list1 = new ArrayList<>();
@@ -142,13 +145,13 @@ public class CartFragment extends Fragment {
                                         public void run() {
                                             dialog.dismiss();
                                             Intent intent = new Intent(getActivity(), PlaceOrderListActivity.class);
-                                            intent.putExtra("from","cart");
+                                            intent.putExtra("from", "cart");
                                             startActivity(intent);
                                             getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                                             getActivity().finish();
 
                                         }
-                                    },5000);
+                                    }, 5000);
 
                                     dialog = new Dialog(view.getContext());
                                     dialog.setContentView(R.layout.place_order_successful_design);
@@ -167,6 +170,9 @@ public class CartFragment extends Fragment {
                         public void onFailure(Call<PlaceOrderModel> call, Throwable t) {
                         }
                     });
+                }else{
+                        Toast.makeText(getContext(), "Minimum order value is 500 Tk", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
             }

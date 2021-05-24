@@ -49,7 +49,7 @@ public class CampaignAdapter extends RecyclerView.Adapter<CampaignAdapter.ViewHo
     private ConnectivityReceiver connectivityReceiver;
     private IntentFilter intentFilter;
     public CampaignFragment activity;
-    private int status;
+
     public CampaignAdapter(List<CampaignModel> campaignModelList, Context context) {
         this.campaignModelList = campaignModelList;
         this.context = context;
@@ -66,8 +66,7 @@ public class CampaignAdapter extends RecyclerView.Adapter<CampaignAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull CampaignAdapter.ViewHolder holder, int position) {
         CampaignModel model=campaignModelList.get(position);
-        status=model.getPublication_status();
-        Toast.makeText(context, ""+status, Toast.LENGTH_SHORT).show();
+        int status=model.getPublication_status();
         try{
             Picasso.get()
                     .load(Config.IMAGE_LINE+model.getCampaign_image())
@@ -114,7 +113,7 @@ public class CampaignAdapter extends RecyclerView.Adapter<CampaignAdapter.ViewHo
             }
         }
 
-        holder.campaignCV.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 checkConnection();
@@ -139,6 +138,7 @@ public class CampaignAdapter extends RecyclerView.Adapter<CampaignAdapter.ViewHo
                     }
                 }
             }
+
             }
         });
 
