@@ -11,9 +11,11 @@ import android.widget.Filter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.hydertechno.mulven.Activities.PlaceOrderListActivity;
 import com.hydertechno.mulven.Activities.SeeAllProductsActivity;
 import com.hydertechno.mulven.Interface.SubCatIdInterface;
 import com.hydertechno.mulven.Internet.ConnectivityReceiver;
@@ -36,6 +38,7 @@ public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.
     private ConnectivityReceiver connectivityReceiver;
     private IntentFilter intentFilter;
     public SeeAllProductsActivity activity;
+    public int pos=-1;
 
     public SubCategoryAdapter(List<SubCatModel> list, SubCatIdInterface idInterface) {
         this.list = list;
@@ -63,13 +66,27 @@ public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.
                 if (!isConnected) {
                     toastShow(isConnected);
                 } else {
+                    pos=holder.getAdapterPosition();
+                    pos=position;
+                    notifyDataSetChanged();
+                    SeeAllProductsActivity.sAll.setTextColor(Color.parseColor("#FF03DAC5"));
+                    //holder.subCatTv.setBackground(ContextCompat.getDrawable(context, R.drawable.status_pending));
+                    //holder.subCatTv.setBackground(Color.RED);
                     if (idInterface != null) {
                         idInterface.OnClick(model.getId());
-                        Log.d("hoiseki", String.valueOf(model.getId()));
                     }
                 }
             }
+
+
+
         });
+        if(pos==position){
+            holder.subCatTv.setTextColor(Color.parseColor("#000000"));
+        }else {
+            holder.subCatTv.setTextColor(Color.parseColor("#FF03DAC5"));
+
+        }
 
     }
 

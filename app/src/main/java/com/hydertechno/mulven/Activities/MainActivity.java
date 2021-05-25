@@ -285,7 +285,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 dialogInterface.dismiss();
                             }
                         })
-                        .setAnimation("logout.json")
+                        .setAnimation("log_out.json")
                         .build();
                 mAnimatedDialog.show();
 

@@ -139,7 +139,7 @@ public class ProfileActivity extends AppCompatActivity implements ConnectivityRe
                                 if (status.equals("1")) {
                                     Toasty.success(ProfileActivity.this, "Update Success!", Toast.LENGTH_SHORT, true).show();
                                     Intent intent = new Intent(ProfileActivity.this, MainActivity.class);
-                                    intent.putExtra("fragment", "home");
+                                    intent.putExtra("fragment", "profile");
                                     startActivity(intent);
                                     overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                                     finish();

@@ -2,9 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/product_details_rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/product_details_rootLayout"
     tools:context=".Activities.ProductDetailsActivity">
 
     <RelativeLayout
@@ -58,7 +58,7 @@
                     android:id="@+id/product_Image"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
-                    android:layout_margin="10dp"/>
+                    android:layout_margin="10dp" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/productImagesRecyclerView"
@@ -109,14 +109,34 @@
 
                 <TextView
                     android:id="@+id/brandTxt"
-                    android:layout_width="wrap_content"
+                    android:layout_width="85dp"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/product_Price"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="15dp"
                     android:fontFamily="@font/comfortaa_light"
-                    android:text="Brand :"
+                    android:text="Brand"
+                    android:textColor="@color/gray"
+                    android:textSize="16sp" />
+
+                <View
+                    android:id="@+id/vvv"
+                    android:layout_width="1dp"
+                    android:layout_height="70dp"
+                    android:layout_below="@+id/product_Price"
+                    android:layout_toEndOf="@+id/brandTxt" />
+
+                <TextView
+                    android:id="@+id/bbb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/product_Price"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_toEndOf="@+id/vvv"
+                    android:fontFamily="@font/comfortaa_light"
+                    android:text=":"
                     android:textColor="@color/gray"
                     android:textSize="16sp" />
 
@@ -128,20 +148,34 @@
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="15dp"
-                    android:layout_toEndOf="@+id/brandTxt"
+                    android:layout_toEndOf="@+id/bbb"
                     android:fontFamily="@font/comfortaa_light"
                     android:textColor="@color/gray"
                     android:textSize="16sp" />
+
                 <TextView
                     android:id="@+id/skuTxt"
-                    android:layout_width="wrap_content"
+                    android:layout_width="85dp"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/brandTxt"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="15dp"
                     android:fontFamily="@font/comfortaa_light"
-                    android:text="SKU :"
+                    android:text="SKU"
+                    android:textColor="@color/gray"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/sss"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/brandTxt"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_toEndOf="@+id/vvv"
+                    android:fontFamily="@font/comfortaa_light"
+                    android:text=":"
                     android:textColor="@color/gray"
                     android:textSize="16sp" />
 
@@ -150,10 +184,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/brand_Name"
-                    android:layout_marginStart="35dp"
+                    android:layout_marginStart="15dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="15dp"
-                    android:layout_toEndOf="@+id/skuTxt"
+                    android:layout_toEndOf="@+id/sss"
                     android:fontFamily="@font/comfortaa_light"
                     android:textColor="@color/gray"
                     android:textSize="16sp" />
@@ -169,11 +203,23 @@
                     android:visibility="visible">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="85dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:fontFamily="@font/comfortaa_light"
-                        android:text="Quantity : "
+                        android:text="Quantity"
+                        android:textColor="@color/gray"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/qqq"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="15dp"
+                        android:layout_gravity="center_vertical"
+                        android:fontFamily="@font/comfortaa_light"
+                        android:text=":"
                         android:textColor="@color/gray"
                         android:textSize="16sp" />
 
@@ -182,7 +228,7 @@
                         android:layout_width="25dp"
                         android:layout_height="23dp"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginStart="5dp"
+                        android:layout_marginStart="12dp"
                         android:onClick="cardMinus"
                         android:src="@drawable/ic_minus" />
 

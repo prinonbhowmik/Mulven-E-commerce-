@@ -2,6 +2,7 @@ package com.hydertechno.mulven.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -52,7 +53,8 @@ import retrofit2.Response;
 public class SeeAllProductsActivity extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener, SubCatIdInterface {
     private String title,id;
     private int categoryID;
-    private TextView titleName,sAll;
+    public static boolean subSeeAll=true;
+    public static TextView titleName,sAll;
     private EditText searchView;
     private RecyclerView productRecyclerView,subCatRecycler;
     private AllProductsAdapter all_product_Adapter;
@@ -86,6 +88,10 @@ public class SeeAllProductsActivity extends AppCompatActivity implements Connect
        // titleName.setPaintFlags(titleName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
         getSearchResult();
+        if(subSeeAll) {
+            sAll.setTextColor(Color.parseColor("#000000"));
+           // sAll.setBackground(ContextCompat.getDrawable(SeeAllProductsActivity.this, R.drawable.status_tag_all));
+        }
 
         sAll.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,6 +100,9 @@ public class SeeAllProductsActivity extends AppCompatActivity implements Connect
                 if (!isConnected) {
                     snackBar(isConnected);
                 }else {
+                    subSeeAll=true;
+                    sAll.setTextColor(Color.parseColor("#000000"));
+                    //sAll.setBackground(ContextCompat.getDrawable(SeeAllProductsActivity.this, R.drawable.status_tag_all));
                     getCategories();
                 }
             }
@@ -186,7 +195,7 @@ public class SeeAllProductsActivity extends AppCompatActivity implements Connect
         searchView = findViewById(R.id.searchET);
         searchBtn = findViewById(R.id.SearchIV);
         closeIV = findViewById(R.id.closeIV);
-        sAll = findViewById(R.id.sAll);
+        sAll = findViewById(R.id.sAll2);
 
         searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
         titleName=findViewById(R.id.titleName);
