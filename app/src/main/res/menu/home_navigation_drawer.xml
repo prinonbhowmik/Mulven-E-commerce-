@@ -43,8 +43,11 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/about"
+            android:icon="@drawable/ic_about"
             android:title="About"/>
-
+        <item android:id="@+id/terms"
+            android:icon="@drawable/ic_list"
+            android:title="T&amp;C"/>
         <item android:id="@+id/help"
             android:icon="@drawable/ic_call"
             android:title="Contact"/>

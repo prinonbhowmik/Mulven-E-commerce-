@@ -148,7 +148,7 @@
                         android:layout_height="35dp"
                         android:layout_centerVertical="true"
                         android:layout_marginStart="5dp"
-                        android:src="@drawable/ic_history"/>
+                        android:src="@drawable/ic_order_list"/>
 
                     <TextView
                         android:layout_width="match_parent"
