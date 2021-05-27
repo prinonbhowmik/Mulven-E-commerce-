@@ -75,7 +75,7 @@
             android:paddingEnd="15dp"
             android:textColor="@color/themDark"
             android:textSize="18sp"
-            android:visibility="gone"
+            android:visibility="visible"
             tools:ignore="RtlSymmetry" />
 
     </RelativeLayout>
@@ -116,11 +116,17 @@
 
         </HorizontalScrollView>
     </RelativeLayout>
-
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/subSubCatRecycler"
+        android:visibility="gone"
+        android:layout_marginTop="3dp"
+        android:layout_below="@+id/subCatLayout"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/subCatLayout"
+        android:layout_below="@+id/subSubCatRecycler"
         android:animateLayoutChanges="true">
 
         <androidx.recyclerview.widget.RecyclerView

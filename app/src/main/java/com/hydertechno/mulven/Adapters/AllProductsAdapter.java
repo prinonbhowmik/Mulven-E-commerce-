@@ -130,6 +130,40 @@ public class AllProductsAdapter extends RecyclerView.Adapter<AllProductsAdapter.
         }
     };
 
+
+    public Filter getFilter2(){
+        return filter;
+    }
+    private Filter filter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<CategoriesModel> filteredList = new ArrayList<>();
+            if (constraint == null || constraint.length() == 0) {
+                filteredList.addAll(categoriesModelFiltered);
+            } else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+                for (CategoriesModel item : categoriesModelList) {
+                    if (item.getProduct_name().toLowerCase().contains(filterPattern)) {
+                        filteredList.add(item);
+                    }
+                    else if(String.valueOf(item.getSub_sub_category()).toLowerCase().contains(filterPattern)) {
+                        filteredList.add(item);
+                    }
+                }
+            }
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            categoriesModelList.clear();
+            categoriesModelList.addAll((List) results.values);
+            notifyDataSetChanged();
+        }
+    };
+
         @Override
     public int getItemCount() {
         return categoriesModelList.size();

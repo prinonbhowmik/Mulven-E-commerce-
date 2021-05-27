@@ -34,9 +34,11 @@ import com.google.android.material.snackbar.Snackbar;
 import com.hydertechno.mulven.Adapters.AllProductsAdapter;
 import com.hydertechno.mulven.Adapters.ProductAdapter;
 import com.hydertechno.mulven.Adapters.SubCategoryAdapter;
+import com.hydertechno.mulven.Adapters.SubSubCategoryAdapter;
 import com.hydertechno.mulven.Api.ApiInterface;
 import com.hydertechno.mulven.Api.ApiUtils;
 import com.hydertechno.mulven.Interface.SubCatIdInterface;
+import com.hydertechno.mulven.Interface.SubSubCatIdInterface;
 import com.hydertechno.mulven.Internet.Connection;
 import com.hydertechno.mulven.Internet.ConnectivityReceiver;
 import com.hydertechno.mulven.Models.CategoriesModel;
@@ -50,20 +52,23 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SeeAllProductsActivity extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener, SubCatIdInterface {
+public class SeeAllProductsActivity extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener, SubCatIdInterface, SubSubCatIdInterface {
     private String title,id;
     private int categoryID;
     public static boolean subSeeAll=true;
     public static TextView titleName,sAll;
     private EditText searchView;
     private RecyclerView productRecyclerView,subCatRecycler;
+    public static RecyclerView subSubCatRecycler;
     private AllProductsAdapter all_product_Adapter;
     private SubCategoryAdapter adapter;
+    private SubSubCategoryAdapter subSubAdapter;
     private ImageView searchBtn,closeIV;
     private List<CategoriesModel> allProductsList=new ArrayList<>();
     private ApiInterface apiInterface;
     public static RelativeLayout rootLayout;
     private Snackbar snackbar;
+    public static int countAll=0;
     private boolean isConnected;
     private ConnectivityReceiver connectivityReceiver;
     private IntentFilter intentFilter;
@@ -104,6 +109,7 @@ public class SeeAllProductsActivity extends AppCompatActivity implements Connect
                     sAll.setTextColor(Color.parseColor("#000000"));
                     //sAll.setBackground(ContextCompat.getDrawable(SeeAllProductsActivity.this, R.drawable.status_tag_all));
                     getCategories();
+                    subSubCatRecycler.setVisibility(View.GONE);
                 }
             }
         });
@@ -204,10 +210,13 @@ public class SeeAllProductsActivity extends AppCompatActivity implements Connect
         productRecyclerView.setLayoutManager(new GridLayoutManager(this,2));
         productRecyclerView.setItemAnimator(new DefaultItemAnimator());
         productRecyclerView.setAdapter(all_product_Adapter);
-
-        subCatRecycler = findViewById(R.id.subCatRecycler);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        subCatRecycler = findViewById(R.id.subCatRecycler);
         subCatRecycler.setLayoutManager(layoutManager);
+
+        LinearLayoutManager layoutManager2 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        subSubCatRecycler=findViewById(R.id.subSubCatRecycler);
+        subSubCatRecycler.setLayoutManager(layoutManager2);
         apiInterface= ApiUtils.getUserService();
     }
 
@@ -312,6 +321,51 @@ public class SeeAllProductsActivity extends AppCompatActivity implements Connect
                     all_product_Adapter = new AllProductsAdapter(allProductsList, getApplicationContext());
                     productRecyclerView.setAdapter(all_product_Adapter);
                     all_product_Adapter.getFilter().filter(String.valueOf(id));
+                    getSubSubCategory(id);
+                }
+                //Collections.reverse(categoryNamesModelList);
+                all_product_Adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<List<CategoriesModel>> call, Throwable t) {
+                Log.d("ErrorKi",t.getMessage());
+            }
+        });
+    }
+
+    private void getSubSubCategory(int id) {
+        Call<List<SubCatModel>> call = apiInterface.getSubCat(Integer.parseInt(String.valueOf(id)));
+        call.enqueue(new Callback<List<SubCatModel>>() {
+            @Override
+            public void onResponse(Call<List<SubCatModel>> call, Response<List<SubCatModel>> response) {
+                if (response.isSuccessful()){
+                    List<SubCatModel> model = response.body();
+                    subSubAdapter = new SubSubCategoryAdapter(model,SeeAllProductsActivity.this);
+                    subSubCatRecycler.setAdapter(subSubAdapter);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<SubCatModel>> call, Throwable t) {
+
+            }
+        });
+    }
+
+    @Override
+    public void OnSubClick(int id) {
+        allProductsList.clear();
+        Log.d("productId", String.valueOf(categoryID));
+        Call<List<CategoriesModel>> call = apiInterface.getCategories(categoryID);
+        call.enqueue(new Callback<List<CategoriesModel>>() {
+            @Override
+            public void onResponse(Call<List<CategoriesModel>> call, Response<List<CategoriesModel>> response) {
+                if (response.isSuccessful()){
+                    allProductsList = response.body();
+                    all_product_Adapter = new AllProductsAdapter(allProductsList, getApplicationContext());
+                    all_product_Adapter.getFilter2().filter(String.valueOf(id));
+                    productRecyclerView.setAdapter(all_product_Adapter);
                 }
                 //Collections.reverse(categoryNamesModelList);
                 all_product_Adapter.notifyDataSetChanged();

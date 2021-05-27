@@ -14,16 +14,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.snackbar.Snackbar;
 import com.hydertechno.mulven.Activities.SeeAllProductsActivity;
 import com.hydertechno.mulven.Interface.SubCatIdInterface;
+import com.hydertechno.mulven.Interface.SubSubCatIdInterface;
 import com.hydertechno.mulven.Internet.ConnectivityReceiver;
 import com.hydertechno.mulven.Models.SubCatModel;
 import com.hydertechno.mulven.R;
 
 import java.util.List;
 
-public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.ViewHolder> implements ConnectivityReceiver.ConnectivityReceiverListener{
+public class SubSubCategoryAdapter extends RecyclerView.Adapter<SubSubCategoryAdapter.ViewHolder> implements ConnectivityReceiver.ConnectivityReceiverListener{
 
     private List<SubCatModel> list;
-    private SubCatIdInterface idInterface;
+    private SubSubCatIdInterface idInterface;
     private Context context;
     private Snackbar snackbar;
     private boolean isConnected;
@@ -32,7 +33,7 @@ public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.
     public SeeAllProductsActivity activity;
     public int pos=-1;
 
-    public SubCategoryAdapter(List<SubCatModel> list, SubCatIdInterface idInterface) {
+    public SubSubCategoryAdapter(List<SubCatModel> list, SubSubCatIdInterface idInterface) {
         this.list = list;
         this.idInterface = idInterface;
     }
@@ -40,7 +41,7 @@ public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.sub_category_layout_design, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.sub_sub_category_layout_design, parent, false);
         return new ViewHolder(view);
     }
 
@@ -62,11 +63,10 @@ public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.
                     pos=position;
                     notifyDataSetChanged();
                     SeeAllProductsActivity.sAll.setTextColor(Color.parseColor("#FF03DAC5"));
-                    SeeAllProductsActivity.subSubCatRecycler.setVisibility(View.VISIBLE);
                     //holder.subCatTv.setBackground(ContextCompat.getDrawable(context, R.drawable.status_pending));
                     //holder.subCatTv.setBackground(Color.RED);
                     if (idInterface != null) {
-                        idInterface.OnClick(model.getId());
+                        idInterface.OnSubClick(model.getId());
                     }
                 }
             }
@@ -94,7 +94,7 @@ public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            subCatTv = itemView.findViewById(R.id.subCatTv);
+            subCatTv = itemView.findViewById(R.id.sub_subCatTv);
         }
     }
 
