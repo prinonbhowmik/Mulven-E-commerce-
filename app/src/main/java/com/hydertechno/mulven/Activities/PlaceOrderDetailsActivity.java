@@ -50,7 +50,6 @@ import com.hydertechno.mulven.Models.UserProfile;
 import com.hydertechno.mulven.R;
 import com.sm.shurjopaysdk.listener.PaymentResultListener;
 import com.sm.shurjopaysdk.model.TransactionInfo;
-import com.sm.shurjopaysdk.payment.PaymentActivity;
 import com.sm.shurjopaysdk.payment.ShurjoPaySDK;
 import com.sm.shurjopaysdk.utils.SPayConstants;
 import com.squareup.picasso.Picasso;
@@ -68,7 +67,7 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
             customerPhoneTV, customerAddressTV, customerAddressEditTV, totalPaidTV,orderStatusTV;
     public static TextView totalPriceTv, dueTV,makePaymentTV;
     public static int totalPay;
-    private Dialog dialog,dialog2;
+    private Dialog cancelledDialog, makePaymentDialog,bankPaymentDialog;
     private RatingBar ratingBar;
     private String token, OrderId,paymentOrderStatus,orderStatus;
     private int userId;
@@ -106,24 +105,52 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
                     snackBar(isConnected);
                 }else{
                     String amount=dueTV.getText().toString().substring(2);
-                    dialog2 = new Dialog(PlaceOrderDetailsActivity.this);
-                    dialog2.setContentView(R.layout.make_payment_layout_design);
-                    dialog2.setCancelable(true);
-                    dialog2.show();
-                    Window window = dialog2.getWindow();
+                    makePaymentDialog = new Dialog(PlaceOrderDetailsActivity.this);
+                    makePaymentDialog.setContentView(R.layout.make_payment_layout_design);
+                    makePaymentDialog.setCancelable(true);
+                    makePaymentDialog.show();
+                    Window window = makePaymentDialog.getWindow();
                     window.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    ImageView mpCloseIV=dialog2.findViewById(R.id.mpCloseIV);
-                    EditText paymentAmount=dialog2.findViewById(R.id.makePayET);
-                    CheckBox nagadCB=dialog2.findViewById(R.id.nagadCB);
-                    CheckBox shurjoPayCB=dialog2.findViewById(R.id.shurjoPayCB);
-                    TextView makePayTV=dialog2.findViewById(R.id.makePayTV);
+                    ImageView BankIV,mpCloseIV;
+                    mpCloseIV= makePaymentDialog.findViewById(R.id.mpCloseIV);
+                    BankIV= makePaymentDialog.findViewById(R.id.BankIV);
+                    EditText paymentAmount= makePaymentDialog.findViewById(R.id.makePayET);
+                    CheckBox nagadCB,shurjoPayCB;
+                    nagadCB= makePaymentDialog.findViewById(R.id.nagadCB);
+                    shurjoPayCB= makePaymentDialog.findViewById(R.id.shurjoPayCB);
+
+                    TextView makePayTV= makePaymentDialog.findViewById(R.id.makePayTV);
                     paymentAmount.setHint(amount);
                     mpCloseIV.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            dialog2.dismiss();
+                            makePaymentDialog.dismiss();
                         }
                     });
+                    BankIV.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            bankPaymentDialog = new Dialog(PlaceOrderDetailsActivity.this);
+                            bankPaymentDialog.setContentView(R.layout.bank_payment_layout_design);
+                            bankPaymentDialog.setCancelable(true);
+                            Window window2 = makePaymentDialog.getWindow();
+                            window2.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                            TextView bankAmount;
+                            ImageView bCloseIV;
+                            bCloseIV=bankPaymentDialog.findViewById(R.id.bCloseIV);
+                            bankAmount=bankPaymentDialog.findViewById(R.id.bb1);
+                            bankAmount.setText(amount);
+                            bankPaymentDialog.show();
+                            bCloseIV.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    bankPaymentDialog.dismiss();
+                                }
+                            });
+                        }
+                    });
+
+
                     nagadCB.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                         @Override
                         public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -152,7 +179,7 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
                                     try {
                                         double value=Double.parseDouble(am);
                                         getShurjoPayment(value);
-                                        dialog2.dismiss();
+                                        makePaymentDialog.dismiss();
                                     }catch (Exception e){
                                         Toast.makeText(PlaceOrderDetailsActivity.this, "Amount must a number!", Toast.LENGTH_SHORT).show();
                                     }
@@ -217,14 +244,14 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
         customerAddressEditTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog = new Dialog(PlaceOrderDetailsActivity.this);
-                dialog.setContentView(R.layout.edit_address_popup_design);
-                dialog.setCancelable(true);
-                dialog.show();
-                Window window = dialog.getWindow();
+                cancelledDialog = new Dialog(PlaceOrderDetailsActivity.this);
+                cancelledDialog.setContentView(R.layout.edit_address_popup_design);
+                cancelledDialog.setCancelable(true);
+                cancelledDialog.show();
+                Window window = cancelledDialog.getWindow();
                 window.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                EditText delivery_ET = dialog.findViewById(R.id.delivery_ET);
-                TextView saveAddressTV = dialog.findViewById(R.id.saveAddressTV);
+                EditText delivery_ET = cancelledDialog.findViewById(R.id.delivery_ET);
+                TextView saveAddressTV = cancelledDialog.findViewById(R.id.saveAddressTV);
                 delivery_ET.setText(customerAddressTV.getText());
                 saveAddressTV.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -232,7 +259,7 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
                         checkConnection();
                         if (!isConnected) {
                             snackBar(isConnected);
-                            dialog.dismiss();
+                            cancelledDialog.dismiss();
                         }else{
                         String address = delivery_ET.getText().toString();
                         if (TextUtils.isEmpty(address)) {
@@ -247,7 +274,7 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
                                         if (status.equals("1")) {
                                             Toast.makeText(PlaceOrderDetailsActivity.this, "Delivery address updated!", Toast.LENGTH_SHORT).show();
                                             getInvoiceDetails();
-                                            dialog.dismiss();
+                                            cancelledDialog.dismiss();
                                         }
                                     }
                                 }
@@ -268,6 +295,9 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
     private void getShurjoPayment(double amount) {
 
         int unique_id=(int)((new Date().getTime()/1000L)% Integer.MAX_VALUE);
+        String Test_Username = "spaytest";
+        String Test_Password ="JehPNXF58rXs";
+        String Test_Transaction_Prefix=" NOK";
         String testToken="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOiJzcGF5dGVzdCIsImlhdCI6MTU5ODM2MTI1Nn0.cwkvdTDI6_K430xq7Iqapaknbqjm9J3Th1EiXePIEcY";
         String liveToken="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Im11bHZlbiIsImtleSI6ImpPYmdQRFdvcjFEcyJ9.Ie4mUEkQ-6WW1nyPg7FOverSWRfUs7IXZkCItKyvimI";
         RequiredDataModel dataModel=new RequiredDataModel("mulven",
@@ -452,17 +482,17 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
             case R.id.cancelOrder:
             //Toast.makeText(PlaceOrderDetailsActivity.this, "Item 1 Selected", Toast.LENGTH_SHORT).show();
 
-            dialog = new Dialog(PlaceOrderDetailsActivity.this);
-            dialog.setContentView(R.layout.cancel_reason_layout_design);
-            dialog.setCancelable(true);
-            TextView submitReasonTV=dialog.findViewById(R.id.submitReasonTV);
+            cancelledDialog = new Dialog(PlaceOrderDetailsActivity.this);
+            cancelledDialog.setContentView(R.layout.cancel_reason_layout_design);
+            cancelledDialog.setCancelable(true);
+            TextView submitReasonTV= cancelledDialog.findViewById(R.id.submitReasonTV);
             CheckBox reason1,reason2,reason3,reason4,reason5,reason6;
-            reason1=dialog.findViewById(R.id.reason1);
-            reason2=dialog.findViewById(R.id.reason2);
-            reason3=dialog.findViewById(R.id.reason3);
-            reason4=dialog.findViewById(R.id.reason4);
-            reason5=dialog.findViewById(R.id.reason5);
-            reason6=dialog.findViewById(R.id.reason6);
+            reason1= cancelledDialog.findViewById(R.id.reason1);
+            reason2= cancelledDialog.findViewById(R.id.reason2);
+            reason3= cancelledDialog.findViewById(R.id.reason3);
+            reason4= cancelledDialog.findViewById(R.id.reason4);
+            reason5= cancelledDialog.findViewById(R.id.reason5);
+            reason6= cancelledDialog.findViewById(R.id.reason6);
             final String[] reason = new String[1];
             reason1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
@@ -551,7 +581,7 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
                     checkConnection();
                     if (!isConnected) {
                         snackBar(isConnected);
-                        dialog.dismiss();
+                        cancelledDialog.dismiss();
                     }else{
                     if (reason1.isChecked() || reason2.isChecked() || reason3.isChecked() || reason4.isChecked() || reason5.isChecked() || reason6.isChecked()) {
                         Call<CancellationReasonModel> call = ApiUtils.getUserService().setCancelReason(token, OrderId, reason[0]);
@@ -572,7 +602,7 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
                             }
                         });
 
-                        dialog.dismiss();
+                        cancelledDialog.dismiss();
                     } else {
                         Toasty.info(PlaceOrderDetailsActivity.this, "Please select your cancellation reason", Toasty.LENGTH_SHORT).show();
                     }
@@ -580,10 +610,10 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
             }
             });
 
-            dialog.show();
+            cancelledDialog.show();
 
 
-            Window window = dialog.getWindow();
+            Window window = cancelledDialog.getWindow();
             window.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             break;
             case R.id.deliveredOrder:
