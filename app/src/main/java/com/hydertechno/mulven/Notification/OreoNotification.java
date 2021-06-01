@@ -22,10 +22,10 @@ import com.hydertechno.mulven.R;
 
 public class OreoNotification extends ContextWrapper {
 
-    private static final String CHANNEL_ID = "com.hydertechno.swishdriver";
-    private static final String CHANNEL_NAME = "Swish Driver";
+    private static final String CHANNEL_ID = "com.hydertechno.mulven";
+    private static final String CHANNEL_NAME = "mulven";
     private static final String CHANNEL_ID2 = "Ringtone";
-    private static final String CHANNEL_NAME2 = "Swish";
+    private static final String CHANNEL_NAME2 = "Mulven";
 
     private NotificationManager notificationManager;
 
@@ -80,8 +80,8 @@ public class OreoNotification extends ContextWrapper {
 
         return  notificationManager;
     }
-    Drawable myDrawable = getResources().getDrawable(R.drawable.applogo);
-    Bitmap smallImage1      = ((BitmapDrawable) myDrawable).getBitmap();
+    /*Drawable myDrawable = getResources().getDrawable(R.drawable.ic_applogo);
+    Bitmap smallImage1      = ((BitmapDrawable) myDrawable).getBitmap();*/
     @TargetApi(Build.VERSION_CODES.O)
     public  NotificationCompat.Builder getOreoNotification(String title, String body, PendingIntent pendingIntent){
         // Assign big picture notification
@@ -89,7 +89,7 @@ public class OreoNotification extends ContextWrapper {
 //        bpStyle.bigPicture(BitmapFactory.decodeResource(getResources(), R.drawable.customer_care)).build();*/
         //Bitmap smallImage=BitmapFactory.decodeResource(getResources(),R.drawable.customer_care);
         return new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID)
-                .setSmallIcon(R.drawable.applogo)
+                .setSmallIcon(R.drawable.ic_applogo)
                 .setContentTitle(title)
                 .setContentText(body)
                 .setShowWhen(true)
@@ -97,7 +97,7 @@ public class OreoNotification extends ContextWrapper {
                 //.setStyle(new NotificationCompat.BigPictureStyle().bigPicture(smallImage).bigLargeIcon(null))
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(body))
                 .setContentIntent(pendingIntent)
-                .setColor(Color.parseColor("#1785DA"))
+                .setColor(Color.parseColor("#ED1D24"))
                 .setAutoCancel(true);
 
     }
@@ -110,7 +110,7 @@ public class OreoNotification extends ContextWrapper {
 //        bpStyle.bigPicture(BitmapFactory.decodeResource(getResources(), R.drawable.customer_care)).build();*/
         //Bitmap smallImage=BitmapFactory.decodeResource(getResources(),R.drawable.customer_care);
         return new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID)
-                .setSmallIcon(R.drawable.applogo)
+                .setSmallIcon(R.drawable.ic_applogo)
                 .setContentTitle(title)
                 .setContentText(body)
                 .setShowWhen(true)
@@ -118,7 +118,7 @@ public class OreoNotification extends ContextWrapper {
                 .setStyle(new NotificationCompat.BigPictureStyle().bigPicture(image).bigLargeIcon(null))
                 //.setStyle(new NotificationCompat.BigTextStyle().bigText(body))
                 .setContentIntent(pendingIntent)
-                .setColor(Color.parseColor("#1785DA"))
+                .setColor(Color.parseColor("#ED1D24"))
                 .setAutoCancel(true);
 
     }
@@ -130,14 +130,14 @@ public class OreoNotification extends ContextWrapper {
 //        bpStyle.bigPicture(BitmapFactory.decodeResource(getResources(), R.drawable.customer_care)).build();*/
         //Bitmap smallImage=BitmapFactory.decodeResource(getResources(),R.drawable.customer_care);
         return new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID2)
-                .setSmallIcon(R.drawable.applogo)
+                .setSmallIcon(R.drawable.ic_applogo)
                 .setContentTitle(title)
                 .setContentText(body)
                 .setShowWhen(true)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(body))
                 .addAction(R.drawable.applogo,"Show",pendingIntent)
                 .setContentIntent(pendingIntent)
-                .setColor(Color.parseColor("#1785DA"))
+                .setColor(Color.parseColor("#ED1D24"))
                 .setAutoCancel(true);
 
     }

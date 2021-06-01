@@ -188,7 +188,7 @@ public class HomeFragment extends Fragment implements ConnectivityReceiver.Conne
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             startActivity(new Intent(Intent.ACTION_VIEW,
-                                    Uri.parse("https://play.google.com/store/apps/details?id=com.hydertechno.swishdriver")));
+                                    Uri.parse("https://play.google.com/store/apps/details?id=com.hydertechno.mulven")));
                             System.exit(0);
                         }
                     });

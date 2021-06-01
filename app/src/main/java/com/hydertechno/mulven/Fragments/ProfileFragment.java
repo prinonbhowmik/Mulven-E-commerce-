@@ -44,6 +44,7 @@ import com.hydertechno.mulven.R;
 import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -62,7 +63,7 @@ public class ProfileFragment extends Fragment implements ConnectivityReceiver.Co
     private RelativeLayout paymentHistoryRL,changePasswordRL;
     private SharedPreferences sharedPreferences;
     private String token,name,phone;
-    private int id;
+    private int id,userId;
     private RelativeLayout rootLayout;
     private Snackbar snackbar;
     private boolean isConnected;
@@ -79,6 +80,7 @@ public class ProfileFragment extends Fragment implements ConnectivityReceiver.Co
         token = sharedPreferences.getString("token",null);
         name = sharedPreferences.getString("userName",null);
         phone = sharedPreferences.getString("userPhone",null);
+
         Log.d("ShowToken",token);
         username.setText(name);
         phoneNo.setText(phone);

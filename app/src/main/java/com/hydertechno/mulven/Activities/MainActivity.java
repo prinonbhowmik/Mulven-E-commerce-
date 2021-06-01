@@ -17,7 +17,20 @@ import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.hydertechno.mulven.Notification.APIService;
+import com.hydertechno.mulven.Notification.Client;
+import com.hydertechno.mulven.Notification.Data;
+import com.hydertechno.mulven.Notification.MyResponse;
+import com.hydertechno.mulven.Notification.Sender;
+import com.hydertechno.mulven.Notification.Token;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.hydertechno.mulven.Api.ApiUtils;
 import com.hydertechno.mulven.DatabaseHelper.Database_Helper;
 import com.hydertechno.mulven.Fragments.AccountFragment;
@@ -45,14 +58,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private boolean doubleBackToExitPressedOnce=false;
     private Fragment fragment=null;
     private SharedPreferences sharedPreferences;
-    private int loggedIn;
+    private int loggedIn,userId;
+    private String nonUserId;
     private MaterialDialog mAnimatedDialog;
+    private FirebaseAuth auth;
+    private DatabaseReference reference;
+    private APIService apiService;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
-
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull Task<String> task) {
+                updateToken(task.getResult());
+            }
+        });
         Intent getFragment = getIntent();
         String lodeFragment = getFragment.getStringExtra("fragment");
         if (lodeFragment.equals("home")) {
@@ -79,6 +101,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (lodeFragment.equals("login")) {
             chipNavigationBar.setItemSelected(R.id.account, true);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AccountFragment()).commit();
+        }else if (lodeFragment.equals("notification")) {
+            chipNavigationBar.setItemSelected(R.id.notification, true);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new NotificationFragment()).commit();
         }
 
         int count = helper.numberOfrows().getCount();
@@ -167,6 +192,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         helper = new Database_Helper(this);
         sharedPreferences = getSharedPreferences("MyRef", MODE_PRIVATE);
         loggedIn = sharedPreferences.getInt("loggedIn",0);
+        userId = sharedPreferences.getInt("userId",0);
+        apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
+
+    }
+
+    private void updateToken(String token){
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("UserToken").child(""+userId);
+        userRef.setValue(token);
+        /*DatabaseReference nonUserRef = FirebaseDatabase.getInstance().getReference().child("NonUserToken");
+        nonUserId=nonUserRef.push().getKey();*/
 
     }
 

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "914740030395",
+    "project_id": "mulven-1268b",
+    "storage_bucket": "mulven-1268b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:914740030395:android:2f48e406735b08613df29e",
+        "android_client_info": {
+          "package_name": "com.hydertechno.mulven"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "914740030395-dk33vf5ffqhg7oi7srqvibe703gboio1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hydertechno.mulven",
+            "certificate_hash": "b564a2ac37ab09a86566ebec5e8ae4b9bcf760c0"
+          }
+        },
+        {
+          "client_id": "914740030395-a2s4ahl1roe8l35frtv2a2c3p0gmh5ov.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBIoGjvQMqZDGlYUc8pzLv7mCrhGoQfqY8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "914740030395-a2s4ahl1roe8l35frtv2a2c3p0gmh5ov.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -170,7 +170,7 @@ public class AccountFragment extends Fragment implements ConnectivityReceiver.Co
                                 editor.apply();
                                 Log.d("ShowToken",token);
                                 Log.d("ShowToken",name+","+phone);
-                                Toasty.success(getContext(), ""+message).show();
+                                Toasty.success(getContext(), ""+message,Toasty.LENGTH_SHORT).show();
                                 Intent intent = new Intent(getContext(), MainActivity.class);
                                 intent.putExtra("fragment","home");
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
