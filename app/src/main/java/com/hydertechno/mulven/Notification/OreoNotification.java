@@ -103,7 +103,7 @@ public class OreoNotification extends ContextWrapper {
     }
 
     @TargetApi(Build.VERSION_CODES.O)
-    public  NotificationCompat.Builder getOreoNotification1(String title, String body, PendingIntent pendingIntent, Bitmap image){
+    public  NotificationCompat.Builder getOreoNotificationImage(String title, String body, PendingIntent pendingIntent, Bitmap image){
 
         // Assign big picture notification
 //        /*NotificationCompat.BigPictureStyle bpStyle = new NotificationCompat.BigPictureStyle();

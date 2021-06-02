@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Fragment fragment=null;
     private SharedPreferences sharedPreferences;
     private int loggedIn,userId;
-    private String nonUserId;
+    private String nonUserId,randomUserId;
     private MaterialDialog mAnimatedDialog;
     private FirebaseAuth auth;
     private DatabaseReference reference;
@@ -69,12 +69,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
-        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
-            @Override
-            public void onComplete(@NonNull Task<String> task) {
-                updateToken(task.getResult());
-            }
-        });
+        try {
+            FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+                @Override
+                public void onComplete(@NonNull Task<String> task) {
+                    updateToken(task.getResult());
+                }
+            });
+        }catch (Exception ignored){
+
+        }
+
         Intent getFragment = getIntent();
         String lodeFragment = getFragment.getStringExtra("fragment");
         if (lodeFragment.equals("home")) {
@@ -104,6 +109,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }else if (lodeFragment.equals("notification")) {
             chipNavigationBar.setItemSelected(R.id.notification, true);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new NotificationFragment()).commit();
+        }else if (lodeFragment.equals("campaign")) {
+            chipNavigationBar.setItemSelected(R.id.campaign, true);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new CampaignFragment()).commit();
         }
 
         int count = helper.numberOfrows().getCount();
@@ -193,15 +201,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         sharedPreferences = getSharedPreferences("MyRef", MODE_PRIVATE);
         loggedIn = sharedPreferences.getInt("loggedIn",0);
         userId = sharedPreferences.getInt("userId",0);
+        randomUserId = sharedPreferences.getString("RandomUserId","1");
         apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
 
     }
 
     private void updateToken(String token){
-        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("UserToken").child(""+userId);
-        userRef.setValue(token);
-        /*DatabaseReference nonUserRef = FirebaseDatabase.getInstance().getReference().child("NonUserToken");
-        nonUserId=nonUserRef.push().getKey();*/
+        if(loggedIn==1){
+            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("UserToken").child(""+userId);
+            userRef.child("token").setValue(token);
+        }else if(loggedIn==0){
+            if(randomUserId.equals('1')){
+                DatabaseReference nonUserRef = FirebaseDatabase.getInstance().getReference().child("NonUserToken");
+                nonUserId=nonUserRef.push().getKey();
+                assert nonUserId != null;
+                SharedPreferences sharedPreferences = MainActivity.this.getSharedPreferences("MyRef", MODE_PRIVATE);
+
+                nonUserRef.child(nonUserId).child("token").setValue(token);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("RandomUserId", nonUserId);
+            }
+
+        }
 
     }
 
@@ -259,13 +280,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.about:
 
                 Intent intent = new Intent(MainActivity.this, AboutActivity.class);
-                intent.putExtra("layout","about");
+                intent.putExtra("layout","About");
                 startActivity(intent);
                 break;
             case R.id.help:
 
                 Intent intent2 = new Intent(MainActivity.this, AboutActivity.class);
-                intent2.putExtra("layout","help");
+                intent2.putExtra("layout","Contact");
                 startActivity(intent2);
                 break;
 

@@ -20,6 +20,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
@@ -122,6 +123,16 @@ public class SeeAllProductsActivity extends AppCompatActivity implements Connect
                 searchBtn.setVisibility(View.GONE);
             }
         });
+        searchView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    performSearch();
+                    return true;
+                }
+                return false;
+            }
+        });
 
         closeIV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,7 +154,11 @@ public class SeeAllProductsActivity extends AppCompatActivity implements Connect
         }*/
 
     }
-
+    private void performSearch() {
+        searchView.clearFocus();
+        InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        in.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
+    }
     private void getSubCat(String id) {
         Call<List<SubCatModel>> call = apiInterface.getSubCat(Integer.parseInt(id));
        call.enqueue(new Callback<List<SubCatModel>>() {

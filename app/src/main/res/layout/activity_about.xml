@@ -97,11 +97,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/helpRelativeLayout"
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_below="@id/toolbar">
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="55dp"
+            android:layout_height="45dp"
             android:layout_marginTop="20dp"
             android:id="@+id/mediaLayout"
             android:layout_centerHorizontal="true"
@@ -109,25 +109,31 @@
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/mv_facebookIV"
                 android:layout_width="55dp"
-                android:layout_height="55dp"
+                android:layout_height="match_parent"
                 android:src="@drawable/ic_mv_facebook"/>
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/mv_emailIV"
+                android:id="@+id/mv_instagramIV"
                 android:layout_width="55dp"
-                android:layout_height="55dp"
-                android:src="@drawable/ic_mv_email"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"/>
+                android:layout_marginStart="15dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/instagram_logo"/>
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/mv_mapIV"
                 android:layout_width="55dp"
-                android:layout_height="55dp"
-                android:layout_marginEnd="20dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="15dp"
                 android:src="@drawable/ic_mv_google_maps"/>
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/mv_emailIV"
+                android:layout_width="55dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_mv_email"
+                android:layout_marginStart="15dp"/>
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/mv_phoneIV"
                 android:layout_width="55dp"
-                android:layout_height="55dp"
+                android:layout_marginStart="15dp"
+                android:layout_height="match_parent"
                 android:src="@drawable/ic_mv_phone"/>
         </LinearLayout>
 

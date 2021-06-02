@@ -21,7 +21,7 @@ import es.dmoral.toasty.Toasty;
 public class AboutActivity extends AppCompatActivity {
     private RelativeLayout aboutRelativeLayout,helpRelativeLayout;
     private TextView toolbarTitleTV;
-    private CircleImageView mv_facebookIV,mv_emailIV,mv_mapIV,mv_phoneIV;
+    private CircleImageView mv_facebookIV,mv_emailIV,mv_mapIV,mv_phoneIV,mv_instagramIV;
     private String layout;
 
     @Override
@@ -31,12 +31,11 @@ public class AboutActivity extends AppCompatActivity {
         init();
         Intent intent=getIntent();
         layout=intent.getStringExtra("layout").toString();
-        if(layout.equals("about")){
+        toolbarTitleTV.setText(layout);
+        if(layout.equals("About")){
             aboutRelativeLayout.setVisibility(View.VISIBLE);
-            toolbarTitleTV.setText("About");
-        }else if(layout.equals("help")){
+        }else if(layout.equals("Contact")){
             helpRelativeLayout.setVisibility(View.VISIBLE);
-            toolbarTitleTV.setText("Help");
         }
         mv_facebookIV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,7 +44,21 @@ public class AboutActivity extends AppCompatActivity {
             }
         });
 
-        mv_mapIV.setOnClickListener(new View.OnClickListener() {
+        mv_instagramIV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri uri = Uri.parse("http://instagram.com/mulven.com.bd");
+                Intent i= new Intent(Intent.ACTION_VIEW,uri);
+                i.setPackage("com.instagram.android");
+                try {
+                    startActivity(i);
+                } catch (ActivityNotFoundException e) {
+
+                    startActivity(new Intent(Intent.ACTION_VIEW,
+                            Uri.parse("http://instagram.com/mulven.com.bd")));
+                }
+            }
+        });mv_mapIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent1=new Intent(Intent.ACTION_VIEW);
@@ -96,6 +109,7 @@ public class AboutActivity extends AppCompatActivity {
         helpRelativeLayout=findViewById(R.id.helpRelativeLayout);
         toolbarTitleTV=findViewById(R.id.toolbarTitleTV);
         mv_facebookIV=findViewById(R.id.mv_facebookIV);
+        mv_instagramIV=findViewById(R.id.mv_instagramIV);
         mv_emailIV=findViewById(R.id.mv_emailIV);
         mv_mapIV=findViewById(R.id.mv_mapIV);
         mv_phoneIV=findViewById(R.id.mv_phoneIV);

@@ -84,7 +84,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
     private ApiInterface apiInterface;
     private RelatedProductAdapter relatedProductAdapter;
     private CampaignRelatedProductAdapter campaignRelatedProductAdapter;
-    private RelativeLayout feature_RelativeLayout,soldByRelativeLayout,relatedProduct_layout;
+    private RelativeLayout feature_RelativeLayout,soldByRelativeLayout,relatedProduct_layout,brandRL;
     private int productMrpPrice,productUnitPrice,store_id,campId;
     public static RelativeLayout rootLayout;
     private Snackbar snackbar;
@@ -142,21 +142,19 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
                 if (capmpagin_id == null) {
                     capmpagin_id = "";
                 }
-                Log.d("CheckData", size + "," + color + "," + variant);
                 if (databaseHelper.checkProductExist(product_id, size, color, variant)) {
 
                     int count = databaseHelper.checkQuantity(product_id);
                     databaseHelper.addQuantity(product_id, count + 1);
-                    Toasty.normal(ProductDetailsActivity.this, "Product Added To Cart").show();
 
                 } else {
-                    databaseHelper.addToCart(product_id, product_Name.getText().toString(),
+                    databaseHelper.addToCart(product_id,sku2, product_Name.getText().toString(),
                             productMrpPrice, productUnitPrice, size, color, variant,
                             shop_Name.getText().toString(), Integer.parseInt(cardQuantity.getText().toString()),
                             capmpagin_id, store_id, imageString);
-                    Toasty.normal(ProductDetailsActivity.this, "Product Added To Cart").show();
 
                 }
+                    Toasty.normal(ProductDetailsActivity.this, "Product Added To Cart").show();
                     int count=databaseHelper.numberOfrows().getCount();
                     if (count>0) {
                         mainActivity. chipNavigationBar.showBadge(R.id.cart, count);
@@ -200,7 +198,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
                             int count = databaseHelper.checkQuantity(product_id);
                             databaseHelper.addQuantity(product_id, count + 1);
                         } else {
-                            databaseHelper.addToCart(product_id, product_Name.getText().toString(),
+                            databaseHelper.addToCart(product_id,sku2, product_Name.getText().toString(),
                                     productMrpPrice, productUnitPrice, size, color, variant,
                                     shop_Name.getText().toString(), Integer.parseInt(cardQuantity.getText().toString()),
                                     capmpagin_id, store_id, imageString);
@@ -247,6 +245,10 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
                 shop_Name.setText(""+detailsList.getShop_name());
                 shop_Address.setText(""+detailsList.getShop_address());
                 brand_Name.setText(""+detailsList.getBrand());
+                String bName=brand_Name.getText().toString();
+                if(bName.equals("null")|| bName.equals("Individual")){
+                    brandRL.setVisibility(View.GONE);
+                }
                 String sk=detailsList.getSku();
                 skuTV.setText(""+sk.toUpperCase());
                 sku2=detailsList.getSku();
@@ -379,6 +381,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
         product_Name = findViewById(R.id.product_Name);
         shop_Name = findViewById(R.id.shop_Name);
         brand_Name = findViewById(R.id.brand_Name);
+        brandRL = findViewById(R.id.brandRL);
         product_Price = findViewById(R.id.product_Price);
         skuTV = findViewById(R.id.skuTV);
         sizeTV=findViewById(R.id.sizeMenu);
@@ -442,6 +445,10 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
                 shop_Name.setText(""+detailsList.getShop_name());
                 shop_Address.setText(""+detailsList.getShop_address());
                 brand_Name.setText(""+detailsList.getBrand());
+                String bName=brand_Name.getText().toString();
+                if(bName.equals("null")|| bName.equals("Individual")){
+                    brandRL.setVisibility(View.GONE);
+                }
                 String sk=detailsList.getSku();
                 skuTV.setText(""+sk.toUpperCase());
                 sku2=detailsList.getSku();

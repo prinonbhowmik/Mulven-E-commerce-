@@ -97,9 +97,8 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
         int j = Integer.parseInt(userID.replaceAll("[\\D]", ""));
         int m = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
         switch (toActivity) {
-            case "booking_details":
-            case "hourly_details": {
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            case "notification": {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class).putExtra("fragment","notification");
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), j, intent, PendingIntent.FLAG_ONE_SHOT);
                 Uri defaultSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
@@ -112,9 +111,7 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
                 oreoNotification.getManager().notify(j, builder.build());
                 break;
             }
-            case "history":
-            case "main_activity":
-            case "notification": {
+            case "home": {
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class).putExtra("fragment","home");
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), j, intent, PendingIntent.FLAG_ONE_SHOT);
@@ -127,18 +124,27 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
                 }*/
                 oreoNotification.getManager().notify(m, builder.build());
                 break;
-            }/*Intent intent2 = new Intent(getApplicationContext(), MyBroadcastReceiver.class);
-                PendingIntent pendingIntent2 = PendingIntent.getBroadcast(this.getApplicationContext(), 234324243, intent2, 0);
-                AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-                alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()
-                        + (3 * 1000), pendingIntent2);*/
+            }case "campaign": {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class).putExtra("fragment","campaign");
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), j, intent, PendingIntent.FLAG_ONE_SHOT);
+                Uri defaultSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                OreoNotification oreoNotification = new OreoNotification(this);
+                NotificationCompat.Builder builder = oreoNotification.getOreoNotification(title, body, pendingIntent);
+                /*int i = 0;
+                if (j > 0) {
+                    i = j;
+                }*/
+                oreoNotification.getManager().notify(m, builder.build());
+                break;
+            }
             case "notification_with_image": {
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class).putExtra("fragment","notification");
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), j, intent, PendingIntent.FLAG_ONE_SHOT);
                 Uri defaultSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
                 OreoNotification oreoNotification = new OreoNotification(this);
-                NotificationCompat.Builder builder = oreoNotification.getOreoNotification1(title, body, pendingIntent, bitmap);
+                NotificationCompat.Builder builder = oreoNotification.getOreoNotificationImage(title, body, pendingIntent, bitmap);
                 /*int i = 0;
                 if (j > 0) {
                     i = j;

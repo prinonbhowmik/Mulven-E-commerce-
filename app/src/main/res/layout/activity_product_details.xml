@@ -107,34 +107,33 @@
                     android:textColor="@color/GRed"
                     android:textSize="21sp" />
 
+
+                <RelativeLayout
+                    android:id="@+id/brandRL"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_below="@+id/product_Price">
+
+
                 <TextView
                     android:id="@+id/brandTxt"
                     android:layout_width="85dp"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/product_Price"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="10dp"
                     android:layout_marginEnd="15dp"
                     android:fontFamily="@font/comfortaa_light"
                     android:text="Brand"
                     android:textColor="@color/gray"
                     android:textSize="16sp" />
 
-                <View
-                    android:id="@+id/vvv"
-                    android:layout_width="1dp"
-                    android:layout_height="70dp"
-                    android:layout_below="@+id/product_Price"
-                    android:layout_toEndOf="@+id/brandTxt" />
 
                 <TextView
                     android:id="@+id/bbb"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/product_Price"
-                    android:layout_marginTop="10dp"
                     android:layout_marginEnd="15dp"
-                    android:layout_toEndOf="@+id/vvv"
+                    android:layout_toEndOf="@+id/brandTxt"
                     android:fontFamily="@font/comfortaa_light"
                     android:text=":"
                     android:textColor="@color/gray"
@@ -144,22 +143,25 @@
                     android:id="@+id/brand_Name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/product_Price"
                     android:layout_marginStart="15dp"
-                    android:layout_marginTop="10dp"
                     android:layout_marginEnd="15dp"
                     android:layout_toEndOf="@+id/bbb"
                     android:fontFamily="@font/comfortaa_light"
                     android:textColor="@color/gray"
                     android:textSize="16sp" />
+                </RelativeLayout>
 
+                <RelativeLayout
+                    android:id="@+id/skuRL"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_below="@+id/brandRL">
                 <TextView
                     android:id="@+id/skuTxt"
                     android:layout_width="85dp"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/brandTxt"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="10dp"
                     android:layout_marginEnd="15dp"
                     android:fontFamily="@font/comfortaa_light"
                     android:text="SKU"
@@ -170,10 +172,8 @@
                     android:id="@+id/sss"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/brandTxt"
-                    android:layout_marginTop="10dp"
                     android:layout_marginEnd="15dp"
-                    android:layout_toEndOf="@+id/vvv"
+                    android:layout_toEndOf="@+id/skuTxt"
                     android:fontFamily="@font/comfortaa_light"
                     android:text=":"
                     android:textColor="@color/gray"
@@ -183,20 +183,19 @@
                     android:id="@+id/skuTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/brand_Name"
                     android:layout_marginStart="15dp"
-                    android:layout_marginTop="10dp"
                     android:layout_marginEnd="15dp"
                     android:layout_toEndOf="@+id/sss"
                     android:fontFamily="@font/comfortaa_light"
                     android:textColor="@color/gray"
                     android:textSize="16sp" />
+                </RelativeLayout>
 
                 <LinearLayout
                     android:id="@+id/quantity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/skuTxt"
+                    android:layout_below="@id/skuRL"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
@@ -239,11 +238,11 @@
                         android:layout_gravity="center_vertical"
                         android:fontFamily="@font/comfortaa"
                         android:gravity="center"
-                        android:paddingStart="20dp"
-                        android:paddingEnd="20dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
                         android:text="1"
                         android:textColor="@color/gray"
-                        android:textSize="13sp" />
+                        android:textSize="16sp" />
 
                     <ImageView
                         android:id="@+id/card_Plus"

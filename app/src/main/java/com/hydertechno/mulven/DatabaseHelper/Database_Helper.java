@@ -48,13 +48,14 @@ public class Database_Helper extends SQLiteOpenHelper {
 
     }
 
-    public void addToCart(int id, String name, int mrp_price, int unit_price,String size,String color,
+    public void addToCart(int id,String sku, String name, int mrp_price, int unit_price,String size,String color,
                           String variant, String shop_name, int quantity,String campaign_id,
                           int store_id, String image) {
 
         SQLiteDatabase sq = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(ID, id);
+        values.put(SKU, sku);
         values.put(PRODUCT_NAME, name);
         values.put(MRP_PRICE, mrp_price);
         values.put(UNIT_PRICE, unit_price);
