@@ -103,6 +103,7 @@ public class CartFragment extends Fragment {
                     List<Map<String, String>> list1 = new ArrayList<>();
                     while (cursor.moveToNext()) {
                         int id = cursor.getInt(cursor.getColumnIndex(databaseHelper.ID));
+                        String sku = cursor.getString(cursor.getColumnIndex(databaseHelper.SKU));
                         String name = cursor.getString(cursor.getColumnIndex(databaseHelper.PRODUCT_NAME));
                         int unit_price = cursor.getInt(cursor.getColumnIndex(databaseHelper.UNIT_PRICE));
                         int quantity = cursor.getInt(cursor.getColumnIndex(databaseHelper.QUANTITY));
@@ -116,6 +117,7 @@ public class CartFragment extends Fragment {
 
                         parms.put("item_id", String.valueOf(id));
                         parms.put("pro_name", name);
+                        parms.put("sku", sku);
                         parms.put("variant", variant);
                         parms.put("size", size);
                         parms.put("color", color);

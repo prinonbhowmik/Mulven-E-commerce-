@@ -15,7 +15,9 @@ import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -79,6 +81,16 @@ public class CampaignProductActivity extends AppCompatActivity implements Connec
                 searchIv.setVisibility(View.GONE);
             }
         });
+        searchView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    performSearch();
+                    return true;
+                }
+                return false;
+            }
+        });
 
         closeIv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,7 +106,11 @@ public class CampaignProductActivity extends AppCompatActivity implements Connec
         getSearchResult();
     }
 
-
+    private void performSearch() {
+        searchView.clearFocus();
+        InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        in.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
+    }
     private void getSearchResult() {
         searchView.addTextChangedListener(new TextWatcher() {
             @Override

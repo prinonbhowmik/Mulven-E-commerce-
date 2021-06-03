@@ -7,14 +7,18 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.SearchManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.hydertechno.mulven.Adapters.SearchAdapter;
 import com.hydertechno.mulven.Api.ApiUtils;
@@ -69,9 +73,23 @@ public class SearchActivity extends AppCompatActivity {
 
             }
         });
+        searchView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    performSearch();
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
-
+    private void performSearch() {
+        searchView.clearFocus();
+        InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        in.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
+    }
     private void getAllProducts() {
         Call<List<CategoriesModel>> call = ApiUtils.getUserService().searchProduct();
         call.enqueue(new Callback<List<CategoriesModel>>() {
