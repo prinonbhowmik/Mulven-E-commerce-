@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -62,7 +63,6 @@ public class SubSubCategoryAdapter extends RecyclerView.Adapter<SubSubCategoryAd
                     pos=holder.getAdapterPosition();
                     pos=position;
                     notifyDataSetChanged();
-                    SeeAllProductsActivity.sAll.setTextColor(Color.parseColor("#FF03DAC5"));
                     //holder.subCatTv.setBackground(ContextCompat.getDrawable(context, R.drawable.status_pending));
                     //holder.subCatTv.setBackground(Color.RED);
                     if (idInterface != null) {
@@ -75,10 +75,11 @@ public class SubSubCategoryAdapter extends RecyclerView.Adapter<SubSubCategoryAd
 
         });
         if(pos==position){
-            holder.subCatTv.setTextColor(Color.parseColor("#000000"));
+            holder.subCatTv.setTextColor(Color.parseColor("#ffffff"));
+            holder.subCatTv.setBackgroundResource(R.drawable.status_tag_all);
         }else {
             holder.subCatTv.setTextColor(Color.parseColor("#FF03DAC5"));
-
+            holder.subCatTv.setBackgroundResource(R.drawable.status_tag);
         }
 
     }

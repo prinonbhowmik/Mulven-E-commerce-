@@ -28,36 +28,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/allProductToolbar">
-        <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-           <RelativeLayout
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content">
-               <TextView
-                   android:id="@+id/sAll2"
-                   android:layout_width="wrap_content"
-                   android:layout_height="30dp"
-                   android:layout_marginStart="10dp"
-                   android:layout_marginTop="5dp"
-                   android:layout_marginBottom="5dp"
-                   android:background="@drawable/status_tag"
-                   android:fontFamily="@font/comfortaa_bold"
-                   android:gravity="center"
-                   android:paddingStart="25dp"
-                   android:paddingEnd="25dp"
-                   android:text="All"
-                   android:textColor="@color/teal_200"
-                   android:textSize="12sp" />
-               <androidx.recyclerview.widget.RecyclerView
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:layout_toEndOf="@+id/sAll2"
-                   android:id="@+id/subCatRecycler"/>
-
-           </RelativeLayout>
-
-        </HorizontalScrollView>
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/subCatRecycler"/>
     </RelativeLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="wrap_content"

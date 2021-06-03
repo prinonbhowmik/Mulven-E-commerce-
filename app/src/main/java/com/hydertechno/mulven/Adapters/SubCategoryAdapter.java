@@ -30,7 +30,7 @@ public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.
     private ConnectivityReceiver connectivityReceiver;
     private IntentFilter intentFilter;
     public SeeAllProductsActivity activity;
-    public int pos=-1;
+    public int pos=0;
 
     public SubCategoryAdapter(List<SubCatModel> list, SubCatIdInterface idInterface) {
         this.list = list;
@@ -61,7 +61,6 @@ public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.
                     pos=holder.getAdapterPosition();
                     pos=position;
                     notifyDataSetChanged();
-                    SeeAllProductsActivity.sAll.setTextColor(Color.parseColor("#FF03DAC5"));
                     SeeAllProductsActivity.subSubCatRecycler.setVisibility(View.VISIBLE);
                     //holder.subCatTv.setBackground(ContextCompat.getDrawable(context, R.drawable.status_pending));
                     //holder.subCatTv.setBackground(Color.RED);
@@ -74,11 +73,17 @@ public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.
 
 
         });
+        if (pos==0) {
+            holder.subCatTv.setTextColor(Color.parseColor("#ffffff"));
+            holder.subCatTv.setBackgroundResource(R.drawable.status_tag_all);
+        }
+
         if(pos==position){
-            holder.subCatTv.setTextColor(Color.parseColor("#000000"));
+            holder.subCatTv.setTextColor(Color.parseColor("#ffffff"));
+            holder.subCatTv.setBackgroundResource(R.drawable.status_tag_all);
         }else {
             holder.subCatTv.setTextColor(Color.parseColor("#FF03DAC5"));
-
+            holder.subCatTv.setBackgroundResource(R.drawable.status_tag);
         }
 
     }

@@ -27,6 +27,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -48,6 +49,7 @@ import com.hydertechno.mulven.Adapters.SubCategoryAdapter;
 import com.hydertechno.mulven.Adapters.SubSubCategoryAdapter;
 import com.hydertechno.mulven.Api.ApiInterface;
 import com.hydertechno.mulven.Api.ApiUtils;
+import com.hydertechno.mulven.Interface.OnQueryTextChangeListener;
 import com.hydertechno.mulven.Interface.SubCatIdInterface;
 import com.hydertechno.mulven.Interface.SubSubCatIdInterface;
 import com.hydertechno.mulven.Internet.Connection;
@@ -55,20 +57,22 @@ import com.hydertechno.mulven.Internet.ConnectivityReceiver;
 import com.hydertechno.mulven.Models.CategoriesModel;
 import com.hydertechno.mulven.Models.SubCatModel;
 import com.hydertechno.mulven.R;
+import com.hydertechno.mulven.Utilities.SearchAnimation;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SeeAllProductsActivity extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener, SubCatIdInterface, SubSubCatIdInterface {
+public class SeeAllProductsActivity extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener, SubCatIdInterface, SubSubCatIdInterface, OnQueryTextChangeListener {
     private String title,id;
     private int categoryID;
     public static boolean subSeeAll=true;
-    public static TextView titleName,sAll;
+    public static TextView titleName;
 
     private RecyclerView productRecyclerView,subCatRecycler;
     public static RecyclerView subSubCatRecycler;
@@ -85,13 +89,16 @@ public class SeeAllProductsActivity extends AppCompatActivity implements Connect
     private ConnectivityReceiver connectivityReceiver;
     private IntentFilter intentFilter;
     Toolbar toolbar, searchtollbar;
-    Menu search_menu;
-    MenuItem item_search;
+
+    SearchAnimation searchAnimation;
+    View rootView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_see_all_products);
+        rootView = LayoutInflater.from(this).inflate(R.layout.activity_see_all_products, null);
+        setContentView(rootView);
+
         init();
         checkConnection();
         if (!isConnected) {
@@ -107,41 +114,6 @@ public class SeeAllProductsActivity extends AppCompatActivity implements Connect
         getSubCat(id);
        // titleName.setPaintFlags(titleName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
-        if(subSeeAll) {
-            sAll.setTextColor(Color.parseColor("#000000"));
-           // sAll.setBackground(ContextCompat.getDrawable(SeeAllProductsActivity.this, R.drawable.status_tag_all));
-        }
-
-        sAll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                checkConnection();
-                if (!isConnected) {
-                    snackBar(isConnected);
-                }else {
-                    subSeeAll=true;
-                    sAll.setTextColor(Color.parseColor("#000000"));
-                    //sAll.setBackground(ContextCompat.getDrawable(SeeAllProductsActivity.this, R.drawable.status_tag_all));
-                    getCategories();
-                    subSubCatRecycler.setVisibility(View.GONE);
-                }
-            }
-        });
-
-
-
-
-
-
-       /* for(int a=12; a>0;a--){
-            if(a%2==0){
-                allProductsList.add(new CategoriesModel("৳ 180","15 pcs/set Imitation Black Gem & Rhinestone Inlay Rings for Women",R.drawable.ring));
-            }
-            else{
-                allProductsList.add(new CategoriesModel("৳ 250","white stone jewelry set for women",R.drawable.jewelry));
-            }
-        }*/
-
     }
 
     private void getSubCat(String id) {
@@ -151,7 +123,13 @@ public class SeeAllProductsActivity extends AppCompatActivity implements Connect
            public void onResponse(Call<List<SubCatModel>> call, Response<List<SubCatModel>> response) {
                if (response.isSuccessful()){
                    List<SubCatModel> model = response.body();
-                   adapter = new SubCategoryAdapter(model,SeeAllProductsActivity.this);
+                   SubCatModel seeAll = new SubCatModel(-1, "All", null);
+                   ArrayList<SubCatModel> subCatModels = new ArrayList<SubCatModel>();
+                   subCatModels.add(seeAll);
+                   if (model != null) subCatModels.addAll(model);
+
+                   adapter = new SubCategoryAdapter(subCatModels,SeeAllProductsActivity.this);
+                   subCatRecycler.setLayoutManager(new LinearLayoutManager(SeeAllProductsActivity.this, LinearLayoutManager.HORIZONTAL, false));
                    subCatRecycler.setAdapter(adapter);
                }
            }
@@ -162,28 +140,6 @@ public class SeeAllProductsActivity extends AppCompatActivity implements Connect
            }
        });
     }
-
-    /*private void getSearchResult() {
-        searchView.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!searchView.getText().toString().equals("")){
-                    all_product_Adapter.getFilter().filter(searchView.getText().toString());
-                }else{
-                    getCategories();
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });*/
 
     private void layoutAnimator(RecyclerView recyclerView){
         Context context=recyclerView.getContext();
@@ -199,13 +155,19 @@ public class SeeAllProductsActivity extends AppCompatActivity implements Connect
         connectivityReceiver = new ConnectivityReceiver();
 
         //searchView = findViewById(R.id.searchET);
-        sAll = findViewById(R.id.sAll2);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitleTextAppearance(SeeAllProductsActivity.this,R.style.Comfortaa_bold);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setSearchToolbar();
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+
+        searchAnimation = new SearchAnimation(
+                this,
+                rootView,
+                this
+        );
+        searchAnimation.init();
+
 
         //searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
         titleName=findViewById(R.id.titleName);
@@ -314,28 +276,39 @@ public class SeeAllProductsActivity extends AppCompatActivity implements Connect
 
     @Override
     public void OnClick(int id) {
-        allProductsList.clear();
-        Log.d("productId", String.valueOf(categoryID));
-        Call<List<CategoriesModel>> call = apiInterface.getCategories(categoryID);
-        call.enqueue(new Callback<List<CategoriesModel>>() {
-            @Override
-            public void onResponse(Call<List<CategoriesModel>> call, Response<List<CategoriesModel>> response) {
-                if (response.isSuccessful()){
-                    allProductsList = response.body();
-                    all_product_Adapter = new AllProductsAdapter(allProductsList, getApplicationContext());
-                    productRecyclerView.setAdapter(all_product_Adapter);
-                    all_product_Adapter.getFilter().filter(String.valueOf(id));
-                    getSubSubCategory(id);
+        if (id == -1) {
+            checkConnection();
+            if (!isConnected) {
+                snackBar(isConnected);
+            }else {
+                //sAll.setBackground(ContextCompat.getDrawable(SeeAllProductsActivity.this, R.drawable.status_tag_all));
+                getCategories();
+                subSubCatRecycler.setVisibility(View.GONE);
+            }
+        } else {
+            allProductsList.clear();
+            Log.d("productId", String.valueOf(categoryID));
+            Call<List<CategoriesModel>> call = apiInterface.getCategories(categoryID);
+            call.enqueue(new Callback<List<CategoriesModel>>() {
+                @Override
+                public void onResponse(Call<List<CategoriesModel>> call, Response<List<CategoriesModel>> response) {
+                    if (response.isSuccessful()){
+                        allProductsList = response.body();
+                        all_product_Adapter = new AllProductsAdapter(allProductsList, getApplicationContext());
+                        productRecyclerView.setAdapter(all_product_Adapter);
+                        all_product_Adapter.getFilter().filter(String.valueOf(id));
+                        getSubSubCategory(id);
+                    }
+                    //Collections.reverse(categoryNamesModelList);
+                    all_product_Adapter.notifyDataSetChanged();
                 }
-                //Collections.reverse(categoryNamesModelList);
-                all_product_Adapter.notifyDataSetChanged();
-            }
 
-            @Override
-            public void onFailure(Call<List<CategoriesModel>> call, Throwable t) {
-                Log.d("ErrorKi",t.getMessage());
-            }
-        });
+                @Override
+                public void onFailure(Call<List<CategoriesModel>> call, Throwable t) {
+                    Log.d("ErrorKi",t.getMessage());
+                }
+            });
+        }
     }
 
     private void getSubSubCategory(int id) {
@@ -385,6 +358,7 @@ public class SeeAllProductsActivity extends AppCompatActivity implements Connect
 
 
 
+    // ----------------- this will be copied
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
         getMenuInflater().inflate(R.menu.product_menu, menu);
@@ -400,167 +374,24 @@ public class SeeAllProductsActivity extends AppCompatActivity implements Connect
                 return true;
             case R.id.action_search:
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-                    circleReveal(R.id.searchtoolbar,1,true,true);
+                    searchAnimation.circleReveal(R.id.searchtoolbar,1,true,true);
                 else
-                    searchtollbar.setVisibility(View.VISIBLE);
+                    searchAnimation.searchToolbar.setVisibility(View.VISIBLE);
 
-                item_search.expandActionView();
+                searchAnimation.item_search.expandActionView();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    public void setSearchToolbar()
-    {
-        searchtollbar = (Toolbar) findViewById(R.id.searchtoolbar);
-        if (searchtollbar != null) {
-            searchtollbar.inflateMenu(R.menu.menu_search);
-            search_menu=searchtollbar.getMenu();
-
-            searchtollbar.setNavigationOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-                        circleReveal(R.id.searchtoolbar,1,true,false);
-                    else
-                        searchtollbar.setVisibility(View.GONE);
-                }
-            });
-
-            item_search = search_menu.findItem(R.id.action_filter_search);
-
-            MenuItemCompat.setOnActionExpandListener(item_search, new MenuItemCompat.OnActionExpandListener() {
-                @Override
-                public boolean onMenuItemActionCollapse(MenuItem item) {
-                    // Do something when collapsed
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        circleReveal(R.id.searchtoolbar,1,true,false);
-                    }
-                    else
-                        searchtollbar.setVisibility(View.GONE);
-                    return true;
-                }
-
-                @Override
-                public boolean onMenuItemActionExpand(MenuItem item) {
-                    // Do something when expanded
-                    return true;
-                }
-            });
-
-            initSearchView();
-
-
-        } else
-            Log.d("toolbar", "setSearchtollbar: NULL");
-    }
-
-    public void initSearchView()
-    {
-        final SearchView searchView =
-                (SearchView) search_menu.findItem(R.id.action_filter_search).getActionView();
-
-        // Enable/Disable Submit button in the keyboard
-
-        searchView.setSubmitButtonEnabled(false);
-
-        // Change search close button image
-
-        ImageView closeButton = (ImageView) searchView.findViewById(R.id.search_close_btn);
-        closeButton.setImageResource(R.drawable.ic_close);
-
-
-        // set hint and the text colors
-
-        EditText txtSearch = ((EditText) searchView.findViewById(androidx.appcompat.R.id.search_src_text));
-        txtSearch.setHint("Search..");
-        txtSearch.setHintTextColor(Color.DKGRAY);
-        txtSearch.setTextColor(getResources().getColor(R.color.colorPrimary));
-
-
-        // set the cursor
-
-        AutoCompleteTextView searchTextView = (AutoCompleteTextView) searchView.findViewById(androidx.appcompat.R.id.search_src_text);
-        try {
-            Field mCursorDrawableRes = TextView.class.getDeclaredField("mCursorDrawableRes");
-            mCursorDrawableRes.setAccessible(true);
-            mCursorDrawableRes.set(searchTextView, R.drawable.search_cursor); //This sets the cursor resource ID to 0 or @null which will make it visible on white background
-        } catch (Exception e) {
-            e.printStackTrace();
+    @Override
+    public void onChange(String query) {
+        //Do searching
+        if (!query.equals("")){
+            all_product_Adapter.getFilter().filter(query);
+        }else{
+            getCategories();
         }
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                callSearch(query);
-                searchView.clearFocus();
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                callSearch(newText);
-                return true;
-            }
-
-            public void callSearch(String query) {
-                //Do searching
-                if (!query.equals("")){
-                    all_product_Adapter.getFilter().filter(query);
-                }else{
-                    getCategories();
-                }
-                Log.i("query", "" + query);
-
-            }
-
-        });
-
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public void circleReveal(int viewID, int posFromRight, boolean containsOverflow, final boolean isShow)
-    {
-        final View myView = findViewById(viewID);
-
-        int width=myView.getWidth();
-
-        if(posFromRight>0)
-            width-=(posFromRight*getResources().getDimensionPixelSize(R.dimen.abc_action_button_min_width_material))-(getResources().getDimensionPixelSize(R.dimen.abc_action_button_min_width_material)/ 2);
-        if(containsOverflow)
-            width-=getResources().getDimensionPixelSize(R.dimen.abc_action_button_min_width_overflow_material);
-
-        int cx=width;
-        int cy=myView.getHeight()/2;
-
-        Animator anim;
-        if(isShow)
-            anim = ViewAnimationUtils.createCircularReveal(myView, cx, cy, 0,(float)width);
-        else
-            anim = ViewAnimationUtils.createCircularReveal(myView, cx, cy, (float)width, 0);
-
-        anim.setDuration((long)220);
-
-        // make the view invisible when the animation is done
-        anim.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                if(!isShow)
-                {
-                    super.onAnimationEnd(animation);
-                    myView.setVisibility(View.INVISIBLE);
-                }
-            }
-        });
-
-        // make the view visible and start the animation
-        if(isShow)
-            myView.setVisibility(View.VISIBLE);
-
-        // start the animation
-        anim.start();
-
-
     }
 }

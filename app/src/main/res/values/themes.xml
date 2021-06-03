@@ -59,6 +59,7 @@
     </style>
     <style name="Comfortaa_bold">
         <item name="android:fontFamily">@font/comfortaa</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
 </resources>
