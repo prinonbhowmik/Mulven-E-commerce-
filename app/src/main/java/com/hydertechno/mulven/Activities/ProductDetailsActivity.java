@@ -1,6 +1,10 @@
 package com.hydertechno.mulven.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,6 +18,8 @@ import android.graphics.Paint;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
@@ -37,10 +43,12 @@ import com.hydertechno.mulven.Api.ApiInterface;
 import com.hydertechno.mulven.Api.ApiUtils;
 import com.hydertechno.mulven.Api.Config;
 import com.hydertechno.mulven.DatabaseHelper.Database_Helper;
+import com.hydertechno.mulven.DatabaseHelper.view_model.CartViewModel;
 import com.hydertechno.mulven.Fragments.CartFragment;
 import com.hydertechno.mulven.Interface.ProductImageClickInterface;
 import com.hydertechno.mulven.Internet.Connection;
 import com.hydertechno.mulven.Internet.ConnectivityReceiver;
+import com.hydertechno.mulven.Models.CartProductModel;
 import com.hydertechno.mulven.Models.CategoriesModel;
 import com.hydertechno.mulven.Models.ImageGalleryModel;
 import com.hydertechno.mulven.Models.ProductColorModel;
@@ -55,6 +63,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
@@ -94,11 +103,20 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
     private MainActivity mainActivity;
     private CartFragment cartFragment;
 
+    private Toolbar toolbar;
+
+    private CartViewModel cartViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_details);
+
         init();
+
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+
         Intent intent = getIntent();
         product_id = intent.getIntExtra("id",0);
         from=intent.getStringExtra("from");
@@ -164,6 +182,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
                         cartFragment.noCartLayout.setVisibility(View.VISIBLE);
                     }
             }
+
+                setupBadge();
         }
         });
 
@@ -223,9 +243,70 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
         });
 
 
-
+        cartViewModel = ViewModelProviders.of(this).get(CartViewModel.class);
     }
 
+
+    TextView textCartItemCount;
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_product_details, menu);
+
+        final MenuItem menuItem = menu.findItem(R.id.action_cart);
+
+        View actionView = menuItem.getActionView();
+        textCartItemCount = (TextView) actionView.findViewById(R.id.cart_badge);
+
+        setupBadge();
+
+        actionView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onOptionsItemSelected(menuItem);
+            }
+        });
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            case R.id.action_cart: {
+                Intent intent = new Intent(ProductDetailsActivity.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("fragment", "cart");
+                startActivity(intent);
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void setupBadge() {
+        cartViewModel.getAllProduct().observe(this, new Observer<ArrayList<CartProductModel>>() {
+            @Override
+            public void onChanged(ArrayList<CartProductModel> cartProductModels) {
+                if (textCartItemCount != null) {
+                    if (cartProductModels.size() == 0) {
+                        if (textCartItemCount.getVisibility() != View.GONE) {
+                            textCartItemCount.setVisibility(View.GONE);
+                        }
+                    } else {
+                        textCartItemCount.setText(String.valueOf(cartProductModels.size()));
+                        if (textCartItemCount.getVisibility() != View.VISIBLE) {
+                            textCartItemCount.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
+            }
+        });
+
+    }
 
     private void getProductDetails() {
         Call<ProductDetailsModel> call = ApiUtils.getUserService().getProd_details(product_id);
@@ -378,6 +459,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
         intentFilter = new IntentFilter();
         intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
         connectivityReceiver = new ConnectivityReceiver();
+        toolbar = findViewById(R.id.toolbar);
         product_Name = findViewById(R.id.product_Name);
         shop_Name = findViewById(R.id.shop_Name);
         brand_Name = findViewById(R.id.brand_Name);
@@ -418,14 +500,6 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
         relatedProductRecyclerView.setLayoutManager(layoutManager1);
        // relatedProductRecyclerView.setAdapter(relatedProductAdapter);
     }
-
-    public void productDetailsBack(View view) {
-        finish();
-    }
-
-
-
-
 
     private void getCampaignProductDetails() {
         Call<ProductDetailsModel> call = ApiUtils.getUserService().getCampaignProd_details(product_id,sku);
@@ -667,5 +741,4 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
 
         super.onStop();
     }
-
 }

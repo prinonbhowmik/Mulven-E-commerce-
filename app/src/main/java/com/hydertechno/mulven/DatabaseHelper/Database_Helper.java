@@ -5,8 +5,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.view.View;
 
 import androidx.annotation.Nullable;
+
+import com.hydertechno.mulven.Adapters.CartAdapter;
+import com.hydertechno.mulven.Models.CartProductModel;
+
+import java.util.ArrayList;
 
 public class Database_Helper extends SQLiteOpenHelper {
 
@@ -139,7 +145,28 @@ public class Database_Helper extends SQLiteOpenHelper {
          return 0;
      }
 
+     public ArrayList<CartProductModel> getAllCartProducts() {
+        ArrayList<CartProductModel> productModels = new ArrayList<CartProductModel>();
+         Cursor cursor = getCart();
+         if (cursor != null) {
+             while (cursor.moveToNext()) {
+                 int id = cursor.getInt(cursor.getColumnIndex(ID));
+                 String name = cursor.getString(cursor.getColumnIndex(PRODUCT_NAME));
+                 int mrp_price = cursor.getInt(cursor.getColumnIndex(MRP_PRICE));
+                 int unit_price = cursor.getInt(cursor.getColumnIndex(UNIT_PRICE));
+                 String shop_name = cursor.getString(cursor.getColumnIndex(SHOP_NAME));
+                 int quantity = cursor.getInt(cursor.getColumnIndex(QUANTITY));
+                 String image = cursor.getString(cursor.getColumnIndex(IMAGE));
+                 String size = cursor.getString(cursor.getColumnIndex(SIZE));
+                 String color = cursor.getString(cursor.getColumnIndex(COLOR));
+                 String variant = cursor.getString(cursor.getColumnIndex(VARIANT));
 
+                 CartProductModel cartProductsModel = new CartProductModel(id, name, mrp_price, unit_price, size, color, variant, shop_name, quantity, image);
 
+                 productModels.add(cartProductsModel);
+             }
+         }
+        return productModels;
+     }
 
 }
