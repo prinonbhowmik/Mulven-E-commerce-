@@ -61,9 +61,9 @@ public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.
                     pos=holder.getAdapterPosition();
                     pos=position;
                     notifyDataSetChanged();
-                    SeeAllProductsActivity.subSubCatRecycler.setVisibility(View.VISIBLE);
-                    //holder.subCatTv.setBackground(ContextCompat.getDrawable(context, R.drawable.status_pending));
-                    //holder.subCatTv.setBackground(Color.RED);
+                    if(pos!=0)
+                        SeeAllProductsActivity.subSubCatRecycler.setVisibility(View.VISIBLE);
+
                     if (idInterface != null) {
                         idInterface.OnClick(model.getId());
                     }
@@ -76,6 +76,7 @@ public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.
         if (pos==0) {
             holder.subCatTv.setTextColor(Color.parseColor("#ffffff"));
             holder.subCatTv.setBackgroundResource(R.drawable.status_tag_all);
+            SeeAllProductsActivity.subSubCatRecycler.setVisibility(View.GONE);
         }
 
         if(pos==position){
@@ -121,5 +122,10 @@ public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.
 
     private void checkConnection() {
         isConnected = ConnectivityReceiver.isConnected();
+    }
+
+    public void updateData(List<SubCatModel> list){
+        this.list=list;
+        notifyDataSetChanged();
     }
 }

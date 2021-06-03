@@ -89,9 +89,9 @@ public class SeeAllProductsActivity extends AppCompatActivity implements Connect
     private ConnectivityReceiver connectivityReceiver;
     private IntentFilter intentFilter;
     Toolbar toolbar, searchtollbar;
-
     SearchAnimation searchAnimation;
     View rootView;
+    ArrayList<SubCatModel> updateSubCatModels;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,7 +127,7 @@ public class SeeAllProductsActivity extends AppCompatActivity implements Connect
                    ArrayList<SubCatModel> subCatModels = new ArrayList<SubCatModel>();
                    subCatModels.add(seeAll);
                    if (model != null) subCatModels.addAll(model);
-
+                   updateSubCatModels=subCatModels;
                    adapter = new SubCategoryAdapter(subCatModels,SeeAllProductsActivity.this);
                    subCatRecycler.setLayoutManager(new LinearLayoutManager(SeeAllProductsActivity.this, LinearLayoutManager.HORIZONTAL, false));
                    subCatRecycler.setAdapter(adapter);
@@ -389,7 +389,13 @@ public class SeeAllProductsActivity extends AppCompatActivity implements Connect
     public void onChange(String query) {
         //Do searching
         if (!query.equals("")){
+
             all_product_Adapter.getFilter().filter(query);
+            if(adapter!=null && updateSubCatModels!=null){
+                adapter = new SubCategoryAdapter(updateSubCatModels,SeeAllProductsActivity.this);
+                subCatRecycler.setLayoutManager(new LinearLayoutManager(SeeAllProductsActivity.this, LinearLayoutManager.HORIZONTAL, false));
+                subCatRecycler.setAdapter(adapter);
+            }
         }else{
             getCategories();
         }

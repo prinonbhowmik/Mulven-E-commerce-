@@ -33,6 +33,7 @@ import java.util.List;
 public class CampaignProductsAdapter extends RecyclerView.Adapter<CampaignProductsAdapter.ViewHolder> implements ConnectivityReceiver.ConnectivityReceiverListener {
 
     private List<CategoriesModel> categoriesModelList;
+    private List<CategoriesModel> filterModelList;
     private List<ImageGalleryModel> productImagesModelList = new ArrayList<>();
     private List<CategoriesModel> categoriesModelFiltered;
     private Context context;
@@ -44,6 +45,7 @@ public class CampaignProductsAdapter extends RecyclerView.Adapter<CampaignProduc
 
     public CampaignProductsAdapter(List<CategoriesModel> categoriesModelList, Context context) {
         this.categoriesModelList = categoriesModelList;
+        this.filterModelList = categoriesModelList;
         this.context = context;
 //        categoriesModelFiltered = new ArrayList<>(categoriesModelFiltered);
     }
@@ -103,25 +105,29 @@ public class CampaignProductsAdapter extends RecyclerView.Adapter<CampaignProduc
     private Filter exampleFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            List<CategoriesModel> filteredList = new ArrayList<>();
             if (constraint == null || constraint.length() == 0) {
-                filteredList.addAll(categoriesModelFiltered);
+                categoriesModelList = filterModelList;
             } else {
+                List<CategoriesModel> filteredList = new ArrayList<>();
                 String filterPattern = constraint.toString().toLowerCase().trim();
-                for (CategoriesModel item : categoriesModelList) {
+                for (CategoriesModel item : filterModelList) {
                     if (item.getProduct_name().toLowerCase().contains(filterPattern)) {
                         filteredList.add(item);
                     }
+                    else if(String.valueOf(item.getSub_category()).equals(filterPattern)) {
+                        filteredList.add(item);
+                    }
                 }
+                categoriesModelList = filteredList;
             }
             FilterResults results = new FilterResults();
-            results.values = filteredList;
+            results.values = categoriesModelList;
             return results;
         }
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            categoriesModelList.clear();
-            categoriesModelList.addAll((List) results.values);
+            Log.e("values", results.toString());
+            categoriesModelList = (ArrayList<CategoriesModel>) results.values;
             notifyDataSetChanged();
         }
     };

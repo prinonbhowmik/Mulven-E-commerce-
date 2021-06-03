@@ -1,7 +1,7 @@
 package com.hydertechno.mulven.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,10 +12,14 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -30,25 +34,27 @@ import com.hydertechno.mulven.Adapters.CampaignProductsAdapter;
 import com.hydertechno.mulven.Adapters.SubCategoryAdapter;
 import com.hydertechno.mulven.Api.ApiInterface;
 import com.hydertechno.mulven.Api.ApiUtils;
+import com.hydertechno.mulven.Interface.OnQueryTextChangeListener;
 import com.hydertechno.mulven.Internet.Connection;
 import com.hydertechno.mulven.Internet.ConnectivityReceiver;
 import com.hydertechno.mulven.Models.CategoriesModel;
 import com.hydertechno.mulven.R;
+import com.hydertechno.mulven.Utilities.SearchAnimation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CampaignProductActivity extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener {
+public class CampaignProductActivity extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener, OnQueryTextChangeListener {
 
     private ImageView navIcon,searchIv,closeIv;
     private String title,id;
     private int campaignID;
     private TextView titleName;
-    private EditText searchView;
     private RecyclerView campaignProductRecyclerView;
     private CampaignProductsAdapter campaignProductsAdapter;
     private List<CategoriesModel> allProductsList=new ArrayList<>();
@@ -58,11 +64,15 @@ public class CampaignProductActivity extends AppCompatActivity implements Connec
     private boolean isConnected;
     private ConnectivityReceiver connectivityReceiver;
     private IntentFilter intentFilter;
+    Toolbar toolbar;
+    SearchAnimation searchAnimation;
+    View rootView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_campaign_product);
+        rootView = LayoutInflater.from(this).inflate(R.layout.activity_campaign_product, null);
+        setContentView(rootView);
         init();
         checkConnection();
         if (!isConnected) {
@@ -71,78 +81,29 @@ public class CampaignProductActivity extends AppCompatActivity implements Connec
         Intent intent=getIntent();
         campaignID=intent.getIntExtra("id",0);
         title=intent.getStringExtra("title");
-        titleName.setText(title);
-
-        searchIv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                searchView.setVisibility(View.VISIBLE);
-                closeIv.setVisibility(View.VISIBLE);
-                searchIv.setVisibility(View.GONE);
-            }
-        });
-        searchView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    performSearch();
-                    return true;
-                }
-                return false;
-            }
-        });
-
-        closeIv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                searchIv.setVisibility(View.VISIBLE);
-                closeIv.setVisibility(View.GONE);
-                searchView.setVisibility(View.GONE);
-                hideKeyboardFrom(CampaignProductActivity.this);
-            }
-        });
-
+        getSupportActionBar().setTitle(title);
         getCategories();
-        getSearchResult();
+
     }
 
-    private void performSearch() {
-        searchView.clearFocus();
-        InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        in.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
-    }
-    private void getSearchResult() {
-        searchView.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!searchView.getText().toString().equals("")){
-                    campaignProductsAdapter.getFilter().filter(searchView.getText().toString());
-                }else{
-                    getCategories();
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-    }
     private void init() {
         rootLayout = findViewById(R.id.campaign_product_rootLayout);
         intentFilter = new IntentFilter();
         intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
         connectivityReceiver = new ConnectivityReceiver();
 
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setTitleTextAppearance(CampaignProductActivity.this,R.style.Comfortaa_bold);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+
+        searchAnimation = new SearchAnimation(
+                this,
+                rootView,
+                this
+        );
+        searchAnimation.init();
         campaignProductRecyclerView =findViewById(R.id.campaignProductRecyclerView);
-        searchView = findViewById(R.id.searchET);
-        searchIv = findViewById(R.id.SearchIvs);
-        closeIv = findViewById(R.id.closeIvs);
         titleName = findViewById(R.id.titleName);
         campaignProductsAdapter=new CampaignProductsAdapter(allProductsList,CampaignProductActivity.this);
         campaignProductRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(),2));
@@ -244,5 +205,43 @@ public class CampaignProductActivity extends AppCompatActivity implements Connec
         }catch(Exception e){}
 
         super.onStop();
+    }
+
+
+    // ----------------- this will be copied
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        getMenuInflater().inflate(R.menu.product_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            case R.id.action_search:
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                    searchAnimation.circleReveal(R.id.searchtoolbar,1,true,true);
+                else
+                    searchAnimation.searchToolbar.setVisibility(View.VISIBLE);
+
+                searchAnimation.item_search.expandActionView();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onChange(String query) {
+        //Do searching
+        if (!query.equals("")){
+            campaignProductsAdapter.getFilter().filter(query);
+        }else{
+            getCategories();
+        }
     }
 }
