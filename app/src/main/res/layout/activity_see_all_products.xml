@@ -17,68 +17,9 @@
         android:animateLayoutChanges="true"
         android:background="@color/themDark">
 
-        <ImageView
-            android:id="@+id/seeAllBack"
-            android:layout_width="35sp"
-            android:layout_height="35sp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="15dp"
-            android:onClick="seeAllProductBack"
-            android:src="@drawable/ic_arrow" />
-
-        <TextView
-            android:id="@+id/titleName"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="18dp"
-            android:layout_marginBottom="10dp"
-            android:layout_toEndOf="@+id/seeAllBack"
-            android:fontFamily="@font/comfortaa_light"
-            android:textColor="@color/white"
-            android:textSize="18sp" />
-
-        <ImageView
-            android:id="@+id/SearchIV"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
-            android:src="@drawable/ic_home_search" />
-
-        <ImageView
-            android:id="@+id/closeIV"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
-            android:src="@drawable/ic_cross"
-            android:visibility="gone" />
-
-        <EditText
-            android:id="@+id/searchET"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_below="@+id/titleName"
-            android:layout_marginStart="25dp"
-            android:layout_marginEnd="25dp"
-            android:layout_marginBottom="15dp"
-            android:background="@drawable/search_background"
-            android:drawableEnd="@drawable/ic_search"
-            android:fontFamily="@font/comfortaa_light"
-            android:gravity="center_vertical"
-            android:maxLines="1"
-            android:imeOptions="actionSearch"
-            android:inputType="text"
-            android:hint="Search here"
-            android:paddingStart="10dp"
-            android:paddingEnd="15dp"
-            android:textColor="@color/themDark"
-            android:textSize="18sp"
-            android:visibility="gone"
-            tools:ignore="RtlSymmetry" />
+        <include layout="@layout/toolbar"/>
+        <include layout="@layout/search_toolbar"
+            android:visibility="gone"/>
 
     </RelativeLayout>
 

@@ -1,13 +1,18 @@
 package com.hydertechno.mulven.Activities;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
@@ -15,17 +20,22 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -46,6 +56,7 @@ import com.hydertechno.mulven.Models.CategoriesModel;
 import com.hydertechno.mulven.Models.SubCatModel;
 import com.hydertechno.mulven.R;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,7 +69,7 @@ public class SeeAllProductsActivity extends AppCompatActivity implements Connect
     private int categoryID;
     public static boolean subSeeAll=true;
     public static TextView titleName,sAll;
-    private EditText searchView;
+
     private RecyclerView productRecyclerView,subCatRecycler;
     public static RecyclerView subSubCatRecycler;
     private AllProductsAdapter all_product_Adapter;
@@ -73,6 +84,9 @@ public class SeeAllProductsActivity extends AppCompatActivity implements Connect
     private boolean isConnected;
     private ConnectivityReceiver connectivityReceiver;
     private IntentFilter intentFilter;
+    Toolbar toolbar, searchtollbar;
+    Menu search_menu;
+    MenuItem item_search;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,13 +101,12 @@ public class SeeAllProductsActivity extends AppCompatActivity implements Connect
         title=intent.getStringExtra("title");
         id=intent.getStringExtra("id");
         categoryID=Integer.parseInt(id);
-        titleName.setText(title);
+        getSupportActionBar().setTitle(title);
         getCategories();
 
         getSubCat(id);
        // titleName.setPaintFlags(titleName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
-        getSearchResult();
         if(subSeeAll) {
             sAll.setTextColor(Color.parseColor("#000000"));
            // sAll.setBackground(ContextCompat.getDrawable(SeeAllProductsActivity.this, R.drawable.status_tag_all));
@@ -115,34 +128,10 @@ public class SeeAllProductsActivity extends AppCompatActivity implements Connect
             }
         });
 
-        searchBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                searchView.setVisibility(View.VISIBLE);
-                closeIV.setVisibility(View.VISIBLE);
-                searchBtn.setVisibility(View.GONE);
-            }
-        });
-        searchView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    performSearch();
-                    return true;
-                }
-                return false;
-            }
-        });
 
-        closeIV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                searchView.setVisibility(View.GONE);
-                closeIV.setVisibility(View.GONE);
-                searchBtn.setVisibility(View.VISIBLE);
-                hideKeyboardFrom(SeeAllProductsActivity.this);
-            }
-        });
+
+
+
 
        /* for(int a=12; a>0;a--){
             if(a%2==0){
@@ -154,11 +143,7 @@ public class SeeAllProductsActivity extends AppCompatActivity implements Connect
         }*/
 
     }
-    private void performSearch() {
-        searchView.clearFocus();
-        InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        in.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
-    }
+
     private void getSubCat(String id) {
         Call<List<SubCatModel>> call = apiInterface.getSubCat(Integer.parseInt(id));
        call.enqueue(new Callback<List<SubCatModel>>() {
@@ -178,7 +163,7 @@ public class SeeAllProductsActivity extends AppCompatActivity implements Connect
        });
     }
 
-    private void getSearchResult() {
+    /*private void getSearchResult() {
         searchView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -198,8 +183,8 @@ public class SeeAllProductsActivity extends AppCompatActivity implements Connect
             public void afterTextChanged(Editable s) {
 
             }
-        });
-    }
+        });*/
+
     private void layoutAnimator(RecyclerView recyclerView){
         Context context=recyclerView.getContext();
         LayoutAnimationController layoutAnimationController= AnimationUtils.loadLayoutAnimation(context,R.anim.item_animation_fall_down);
@@ -213,12 +198,16 @@ public class SeeAllProductsActivity extends AppCompatActivity implements Connect
         intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
         connectivityReceiver = new ConnectivityReceiver();
 
-        searchView = findViewById(R.id.searchET);
-        searchBtn = findViewById(R.id.SearchIV);
-        closeIV = findViewById(R.id.closeIV);
+        //searchView = findViewById(R.id.searchET);
         sAll = findViewById(R.id.sAll2);
 
-        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setTitleTextAppearance(SeeAllProductsActivity.this,R.style.Comfortaa_bold);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setSearchToolbar();
+
+        //searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
         titleName=findViewById(R.id.titleName);
         productRecyclerView=findViewById(R.id.allProductRecyclerView);
         all_product_Adapter=new AllProductsAdapter(allProductsList,this);
@@ -391,5 +380,187 @@ public class SeeAllProductsActivity extends AppCompatActivity implements Connect
                 Log.d("ErrorKi",t.getMessage());
             }
         });
+    }
+
+
+
+
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        getMenuInflater().inflate(R.menu.product_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            case R.id.action_search:
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                    circleReveal(R.id.searchtoolbar,1,true,true);
+                else
+                    searchtollbar.setVisibility(View.VISIBLE);
+
+                item_search.expandActionView();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public void setSearchToolbar()
+    {
+        searchtollbar = (Toolbar) findViewById(R.id.searchtoolbar);
+        if (searchtollbar != null) {
+            searchtollbar.inflateMenu(R.menu.menu_search);
+            search_menu=searchtollbar.getMenu();
+
+            searchtollbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                        circleReveal(R.id.searchtoolbar,1,true,false);
+                    else
+                        searchtollbar.setVisibility(View.GONE);
+                }
+            });
+
+            item_search = search_menu.findItem(R.id.action_filter_search);
+
+            MenuItemCompat.setOnActionExpandListener(item_search, new MenuItemCompat.OnActionExpandListener() {
+                @Override
+                public boolean onMenuItemActionCollapse(MenuItem item) {
+                    // Do something when collapsed
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        circleReveal(R.id.searchtoolbar,1,true,false);
+                    }
+                    else
+                        searchtollbar.setVisibility(View.GONE);
+                    return true;
+                }
+
+                @Override
+                public boolean onMenuItemActionExpand(MenuItem item) {
+                    // Do something when expanded
+                    return true;
+                }
+            });
+
+            initSearchView();
+
+
+        } else
+            Log.d("toolbar", "setSearchtollbar: NULL");
+    }
+
+    public void initSearchView()
+    {
+        final SearchView searchView =
+                (SearchView) search_menu.findItem(R.id.action_filter_search).getActionView();
+
+        // Enable/Disable Submit button in the keyboard
+
+        searchView.setSubmitButtonEnabled(false);
+
+        // Change search close button image
+
+        ImageView closeButton = (ImageView) searchView.findViewById(R.id.search_close_btn);
+        closeButton.setImageResource(R.drawable.ic_close);
+
+
+        // set hint and the text colors
+
+        EditText txtSearch = ((EditText) searchView.findViewById(androidx.appcompat.R.id.search_src_text));
+        txtSearch.setHint("Search..");
+        txtSearch.setHintTextColor(Color.DKGRAY);
+        txtSearch.setTextColor(getResources().getColor(R.color.colorPrimary));
+
+
+        // set the cursor
+
+        AutoCompleteTextView searchTextView = (AutoCompleteTextView) searchView.findViewById(androidx.appcompat.R.id.search_src_text);
+        try {
+            Field mCursorDrawableRes = TextView.class.getDeclaredField("mCursorDrawableRes");
+            mCursorDrawableRes.setAccessible(true);
+            mCursorDrawableRes.set(searchTextView, R.drawable.search_cursor); //This sets the cursor resource ID to 0 or @null which will make it visible on white background
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                callSearch(query);
+                searchView.clearFocus();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                callSearch(newText);
+                return true;
+            }
+
+            public void callSearch(String query) {
+                //Do searching
+                if (!query.equals("")){
+                    all_product_Adapter.getFilter().filter(query);
+                }else{
+                    getCategories();
+                }
+                Log.i("query", "" + query);
+
+            }
+
+        });
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public void circleReveal(int viewID, int posFromRight, boolean containsOverflow, final boolean isShow)
+    {
+        final View myView = findViewById(viewID);
+
+        int width=myView.getWidth();
+
+        if(posFromRight>0)
+            width-=(posFromRight*getResources().getDimensionPixelSize(R.dimen.abc_action_button_min_width_material))-(getResources().getDimensionPixelSize(R.dimen.abc_action_button_min_width_material)/ 2);
+        if(containsOverflow)
+            width-=getResources().getDimensionPixelSize(R.dimen.abc_action_button_min_width_overflow_material);
+
+        int cx=width;
+        int cy=myView.getHeight()/2;
+
+        Animator anim;
+        if(isShow)
+            anim = ViewAnimationUtils.createCircularReveal(myView, cx, cy, 0,(float)width);
+        else
+            anim = ViewAnimationUtils.createCircularReveal(myView, cx, cy, (float)width, 0);
+
+        anim.setDuration((long)220);
+
+        // make the view invisible when the animation is done
+        anim.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                if(!isShow)
+                {
+                    super.onAnimationEnd(animation);
+                    myView.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+
+        // make the view visible and start the animation
+        if(isShow)
+            myView.setVisibility(View.VISIBLE);
+
+        // start the animation
+        anim.start();
+
+
     }
 }
