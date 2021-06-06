@@ -373,11 +373,7 @@ public class SeeAllProductsActivity extends AppCompatActivity implements Connect
                 finish();
                 return true;
             case R.id.action_search:
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-                    searchAnimation.circleReveal(R.id.searchtoolbar,1,true,true);
-                else
-                    searchAnimation.searchToolbar.setVisibility(View.VISIBLE);
-
+                searchAnimation.circleReveal(R.id.searchtoolbar,1,true,true);
                 searchAnimation.item_search.expandActionView();
                 return true;
             default:
