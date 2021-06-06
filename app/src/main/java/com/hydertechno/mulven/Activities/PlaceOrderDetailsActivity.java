@@ -65,7 +65,7 @@ import retrofit2.Response;
 
 public class PlaceOrderDetailsActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener,ConnectivityReceiver.ConnectivityReceiverListener {
     private TextView invoiceIdTV, orderTimeTV, vendorNameTV, vendorPhoneTV, vendorAddressTV, customerNameTV,
-            customerPhoneTV, customerAddressTV, customerAddressEditTV, totalPaidTV,orderStatusTV;
+            customerPhoneTV, customerAddressTV, customerAddressEditTV, totalPaidTV,orderStatusTV,reportIssueTV,existingIssueTV;
     public static TextView totalPriceTv, dueTV,makePaymentTV;
     public static int totalPay;
     private Dialog cancelledDialog, makePaymentDialog,bankPaymentDialog;
@@ -242,6 +242,24 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
             }
         });
 
+        reportIssueTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle args = new Bundle();
+                args.putString("orderId", OrderId);
+                ReportIssueBottomSheet bottom_sheet = new ReportIssueBottomSheet();
+                bottom_sheet.setArguments(args);
+                bottom_sheet.show(getSupportFragmentManager(), "bottomSheet");
+            }
+        });
+        existingIssueTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PlaceOrderDetailsActivity.this, ExistingIssueActivity.class);
+                startActivity(intent);
+            }
+        });
+
         customerAddressEditTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -353,6 +371,8 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
         customerPhoneTV = findViewById(R.id.customerPhoneTV);
         customerAddressTV = findViewById(R.id.customerAddressTV);
         customerAddressEditTV = findViewById(R.id.customerAddressEditTV);
+        reportIssueTV = findViewById(R.id.reportIssueTV);
+        existingIssueTV = findViewById(R.id.existingIssueTV);
         totalPaidTV = findViewById(R.id.totalPaidTV);
         totalPriceTv = findViewById(R.id.totalPriceTv);
         orderStatusTV = findViewById(R.id.orderStatusTV);

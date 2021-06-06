@@ -15,7 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Mulven">
-        <activity android:name=".Activities.AboutActivity"></activity>
+        <activity android:name=".Activities.ExistingIssueActivity"></activity>
+        <activity android:name=".Activities.AboutActivity" />
         <activity android:name=".Activities.CampaignProductActivity" />
         <activity android:name=".Activities.SearchActivity" />
         <activity android:name=".Activities.ChangePasswordActivity" />
@@ -54,10 +55,10 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
+
         <service
             android:name=".Notification.MyFirebaseMessaging"
             android:enabled="true"
@@ -74,8 +75,6 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/themRed" />
-
-
     </application>
 
 </manifest>

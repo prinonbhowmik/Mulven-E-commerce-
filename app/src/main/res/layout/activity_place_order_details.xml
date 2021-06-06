@@ -474,6 +474,7 @@
         </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/oderTimeLineRL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
@@ -510,8 +511,80 @@
                 android:nestedScrollingEnabled="false"
                 android:visibility="visible"/>
             </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/refundRelative"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/oderTimeLineRL"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/white" >
+
+                <TextView
+                    android:id="@+id/refundTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Need help with this order?"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/comfortaa_bold"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:weightSum="2"
+                    android:layout_below="@+id/refundTxt">
+
+                    <TextView
+                        android:id="@+id/reportIssueTV"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="40dp"
+                        android:text="Report Issue"
+                        android:gravity="center"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:paddingBottom="4dp"
+                        android:visibility="visible"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/background_light_red"
+                        android:textColor="#290101"
+                        android:textSize="17sp"
+                        android:fontFamily="@font/comfortaa"
+                        android:textAllCaps="false"/>
+                    <TextView
+                        android:id="@+id/existingIssueTV"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="40dp"
+                        android:text="Existing Issue"
+                        android:gravity="center"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:paddingBottom="4dp"
+                        android:visibility="visible"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/background_light_green"
+                        android:textColor="#004942"
+                        android:textSize="17sp"
+                        android:fontFamily="@font/comfortaa"
+                        android:textAllCaps="false"/>
+                </LinearLayout>
+
+            </RelativeLayout>
 
         </RelativeLayout>
+
+
     </ScrollView>
     <FrameLayout
         android:id="@+id/frame_layout2"
