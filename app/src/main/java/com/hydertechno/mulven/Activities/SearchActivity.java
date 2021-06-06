@@ -9,6 +9,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.IntentFilter;
+import android.graphics.Color;
+import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -25,11 +28,15 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.hydertechno.mulven.Adapters.SearchAdapter;
 import com.hydertechno.mulven.Api.ApiUtils;
 import com.hydertechno.mulven.Interface.OnQueryTextChangeListener;
+import com.hydertechno.mulven.Internet.Connection;
+import com.hydertechno.mulven.Internet.ConnectivityReceiver;
 import com.hydertechno.mulven.Models.CategoriesModel;
 import com.hydertechno.mulven.R;
 import com.hydertechno.mulven.Utilities.SearchAnimation;
@@ -41,7 +48,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SearchActivity extends AppCompatActivity implements OnQueryTextChangeListener {
+public class SearchActivity extends AppCompatActivity implements OnQueryTextChangeListener, ConnectivityReceiver.ConnectivityReceiverListener {
     private RecyclerView allProductRecycler;
     private List<CategoriesModel> list;
     private SearchAdapter allSearchAdapter;
@@ -49,6 +56,11 @@ public class SearchActivity extends AppCompatActivity implements OnQueryTextChan
     Toolbar toolbar;
     SearchAnimation searchAnimation;
     View rootView;
+    private RelativeLayout rootLayout;
+    private Snackbar snackbar;
+    private boolean isConnected;
+    private ConnectivityReceiver connectivityReceiver;
+    private IntentFilter intentFilter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +69,10 @@ public class SearchActivity extends AppCompatActivity implements OnQueryTextChan
         setContentView(rootView);
 
         init();
+        checkConnection();
+        if (!isConnected) {
+            snackBar(isConnected);
+        }
         getAllProducts();
 
 
@@ -87,6 +103,10 @@ public class SearchActivity extends AppCompatActivity implements OnQueryTextChan
         allProductRecycler = findViewById(R.id.allproductRecycler);
         allProductRecycler.setLayoutManager(new GridLayoutManager(this, 2));
         allProductRecycler.setItemAnimator(new DefaultItemAnimator());
+        rootLayout = findViewById(R.id.search_rootLayout);
+        intentFilter = new IntentFilter();
+        intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        connectivityReceiver = new ConnectivityReceiver();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -144,10 +164,77 @@ public class SearchActivity extends AppCompatActivity implements OnQueryTextChan
     @Override
     public void onChange(String query) {
         //Do searching
-        if (!query.equals("")){
-            allSearchAdapter.getFilter().filter(query);
+        checkConnection();
+        if (!isConnected) {
+            snackBar(isConnected);
         }else{
-            getAllProducts();
+            if (!query.equals("")){
+                allSearchAdapter.getFilter().filter(query);
+            }else{
+                getAllProducts();
+            }
         }
+
+    }
+
+
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        snackBar(isConnected);
+    }
+
+    private void checkConnection() {
+        isConnected = ConnectivityReceiver.isConnected();
+    }
+    private void snackBar(boolean isConnected) {
+        if(!isConnected) {
+            snackbar = Snackbar.make(rootLayout, "No Internet Connection!", Snackbar.LENGTH_INDEFINITE).setAction("ReTry", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    recreate();
+                }
+            });
+            snackbar.setDuration(5000);
+            snackbar.setActionTextColor(Color.WHITE);
+            View sbView = snackbar.getView();
+            sbView.setBackgroundColor(Color.RED);
+            snackbar.show();
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        registerReceiver(connectivityReceiver, intentFilter);
+    }
+    @Override
+    protected void onResume() {
+
+        // register connection status listener
+        Connection.getInstance().setConnectivityListener(this);
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        try{
+            if(connectivityReceiver!=null)
+                unregisterReceiver(connectivityReceiver);
+
+        }catch(Exception e){}
+
+    }
+
+    @Override
+    protected void onStop() {
+        try{
+            if(connectivityReceiver!=null)
+                unregisterReceiver(connectivityReceiver);
+
+        }catch(Exception e){}
+
+        super.onStop();
     }
 }

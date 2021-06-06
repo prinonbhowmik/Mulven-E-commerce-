@@ -238,10 +238,16 @@ public class CampaignProductActivity extends AppCompatActivity implements Connec
     @Override
     public void onChange(String query) {
         //Do searching
-        if (!query.equals("")){
-            campaignProductsAdapter.getFilter().filter(query);
+        checkConnection();
+        if (!isConnected) {
+            snackBar(isConnected);
         }else{
-            getCategories();
+            if (!query.equals("")){
+                campaignProductsAdapter.getFilter().filter(query);
+            }else{
+                getCategories();
+            }
         }
+
     }
 }

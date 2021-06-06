@@ -129,7 +129,7 @@
 
             </RelativeLayout>
             <androidx.cardview.widget.CardView
-                android:id="@+id/paymentHistoryCV"
+                android:id="@+id/orderHistoryCV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -162,6 +162,43 @@
                         android:layout_centerVertical="true" />
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/paymentHistoryCV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                android:layout_below="@+id/orderHistoryCV"
+                android:layout_margin="5dp"
+                app:cardCornerRadius="10dp"
+                android:backgroundTint="@color/themDark">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/payLogo"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="5dp"
+                        android:src="@drawable/ic_payment_list"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:layout_toEndOf="@+id/payLogo"
+                        android:layout_marginStart="10dp"
+                        android:text="Payment History"
+                        android:textSize="18sp"
+                        android:fontFamily="@font/comfortaa_bold"
+                        android:layout_centerVertical="true" />
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/changePasswordCV"
                 android:layout_width="match_parent"
@@ -191,40 +228,6 @@
                         android:layout_toEndOf="@+id/passwordLogo"
                         android:layout_marginStart="10dp"
                         android:text="Change Password"
-                        android:textSize="18sp"
-                        android:fontFamily="@font/comfortaa_bold"
-                        android:layout_centerVertical="true" />
-                </RelativeLayout>
-            </androidx.cardview.widget.CardView>
-            <androidx.cardview.widget.CardView
-                android:id="@+id/changePasswordCV2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:layout_below="@+id/changePasswordCV"
-                android:layout_margin="5dp"
-                app:cardCornerRadius="10dp"
-                android:backgroundTint="@color/themDark">
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="10dp">
-
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/passwordLogo2"
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="5dp"
-                        android:src="@drawable/ic_bell"/>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        android:layout_toEndOf="@+id/passwordLogo2"
-                        android:layout_marginStart="10dp"
-                        android:text="Notifications"
                         android:textSize="18sp"
                         android:fontFamily="@font/comfortaa_bold"
                         android:layout_centerVertical="true" />

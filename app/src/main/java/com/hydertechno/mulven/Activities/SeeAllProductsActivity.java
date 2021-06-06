@@ -276,15 +276,16 @@ public class SeeAllProductsActivity extends AppCompatActivity implements Connect
 
     @Override
     public void OnClick(int id) {
-        if (id == -1) {
+
             checkConnection();
             if (!isConnected) {
                 snackBar(isConnected);
             }else {
+                if (id == -1) {
                 //sAll.setBackground(ContextCompat.getDrawable(SeeAllProductsActivity.this, R.drawable.status_tag_all));
                 getCategories();
                 subSubCatRecycler.setVisibility(View.GONE);
-            }
+
         } else {
             allProductsList.clear();
             Log.d("productId", String.valueOf(categoryID));
@@ -309,6 +310,7 @@ public class SeeAllProductsActivity extends AppCompatActivity implements Connect
                 }
             });
         }
+            }
     }
 
     private void getSubSubCategory(int id) {
@@ -384,16 +386,21 @@ public class SeeAllProductsActivity extends AppCompatActivity implements Connect
     @Override
     public void onChange(String query) {
         //Do searching
-        if (!query.equals("")){
+        checkConnection();
+        if (!isConnected) {
+            snackBar(isConnected);
+        }else {
+            if (!query.equals("")) {
 
-            all_product_Adapter.getFilter().filter(query);
-            if(adapter!=null && updateSubCatModels!=null){
-                adapter = new SubCategoryAdapter(updateSubCatModels,SeeAllProductsActivity.this);
-                subCatRecycler.setLayoutManager(new LinearLayoutManager(SeeAllProductsActivity.this, LinearLayoutManager.HORIZONTAL, false));
-                subCatRecycler.setAdapter(adapter);
+                all_product_Adapter.getFilter().filter(query);
+                if (adapter != null && updateSubCatModels != null) {
+                    adapter = new SubCategoryAdapter(updateSubCatModels, SeeAllProductsActivity.this);
+                    subCatRecycler.setLayoutManager(new LinearLayoutManager(SeeAllProductsActivity.this, LinearLayoutManager.HORIZONTAL, false));
+                    subCatRecycler.setAdapter(adapter);
+                }
+            } else {
+                getCategories();
             }
-        }else{
-            getCategories();
         }
     }
 }

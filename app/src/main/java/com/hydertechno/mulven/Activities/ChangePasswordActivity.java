@@ -182,6 +182,7 @@ public class ChangePasswordActivity extends AppCompatActivity implements Connect
                     message=response.body().getMessage();
                     if(status==1){
                         Toast.makeText(ChangePasswordActivity.this, ""+message, Toast.LENGTH_SHORT).show();
+                        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
                         finish();
                     }else if(status==0){
                         Toast.makeText(ChangePasswordActivity.this, ""+message, Toast.LENGTH_SHORT).show();

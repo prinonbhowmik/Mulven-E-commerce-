@@ -10,9 +10,12 @@ import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 
+import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.os.UserHandle;
 import android.util.Log;
@@ -33,6 +36,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.hydertechno.mulven.Activities.AddressActivity;
 import com.hydertechno.mulven.Activities.ChangePasswordActivity;
 import com.hydertechno.mulven.Activities.MainActivity;
+import com.hydertechno.mulven.Activities.PaymentHistoryActivity;
 import com.hydertechno.mulven.Activities.PlaceOrderListActivity;
 import com.hydertechno.mulven.Activities.ProfileActivity;
 import com.hydertechno.mulven.Api.ApiUtils;
@@ -62,7 +66,7 @@ public class ProfileFragment extends Fragment implements ConnectivityReceiver.Co
     private CircleImageView userImageIv;
     private Dialog dialog;
     private Animation upAnimation,downAnimation;
-    private RelativeLayout paymentHistoryRL,changePasswordRL;
+    private CardView orderHistoryCV,paymentHistoryCV,changePasswordCV;
     private SharedPreferences sharedPreferences;
     private String token,name,phone;
     private int id,userId;
@@ -135,7 +139,7 @@ public class ProfileFragment extends Fragment implements ConnectivityReceiver.Co
                 checkConnection();
                 if (!isConnected) {
                     snackBar(isConnected);
-                } else {
+                } else {/*
                     dialog = new Dialog(view.getContext());
                     dialog.setContentView(R.layout.check_balance_layout_design);
 
@@ -143,7 +147,10 @@ public class ProfileFragment extends Fragment implements ConnectivityReceiver.Co
 
                     dialog.show();
                     Window window = dialog.getWindow();
-                    window.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    window.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);*/
+                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    DialogFragment newFragment = new PlaceOrderResultFragment();
+                    newFragment.show(ft, "dialog");
                 }
             }
         });
@@ -179,7 +186,7 @@ public class ProfileFragment extends Fragment implements ConnectivityReceiver.Co
             }
         });
 
-        paymentHistoryRL.setOnClickListener(new View.OnClickListener() {
+        orderHistoryCV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 checkConnection();
@@ -195,8 +202,21 @@ public class ProfileFragment extends Fragment implements ConnectivityReceiver.Co
             }
             }
         });
+        paymentHistoryCV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkConnection();
+                if (!isConnected) {
+                    snackBar(isConnected);
+                } else {
+                    Intent intent = new Intent(getActivity(), PaymentHistoryActivity.class);
+                    startActivity(intent);
+                    getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                }
+            }
+        });
 
-        changePasswordRL.setOnClickListener(new View.OnClickListener() {
+        changePasswordCV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 checkConnection();
@@ -234,8 +254,9 @@ public class ProfileFragment extends Fragment implements ConnectivityReceiver.Co
         checkBalanceLayout=view.findViewById(R.id.balanceLayout);
         addressLayout=view.findViewById(R.id.addressLayout);
         profileLayout=view.findViewById(R.id.profileLayout);
-        paymentHistoryRL=view.findViewById(R.id.paymentHistoryRL);
-        changePasswordRL=view.findViewById(R.id.changePasswordRL);
+        orderHistoryCV=view.findViewById(R.id.orderHistoryCV);
+        paymentHistoryCV=view.findViewById(R.id.paymentHistoryCV);
+        changePasswordCV=view.findViewById(R.id.changePasswordCV);
         sharedPreferences = getContext().getSharedPreferences("MyRef", MODE_PRIVATE);
 
     }
