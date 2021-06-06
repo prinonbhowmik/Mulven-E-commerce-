@@ -22,6 +22,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.hydertechno.mulven.Adapters.OrderListAdapter;
 import com.hydertechno.mulven.Api.ApiInterface;
 import com.hydertechno.mulven.Api.ApiUtils;
+import com.hydertechno.mulven.Interface.OnClickOrderListener;
 import com.hydertechno.mulven.Internet.Connection;
 import com.hydertechno.mulven.Internet.ConnectivityReceiver;
 import com.hydertechno.mulven.Models.OrderListModel;
@@ -35,8 +36,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PlaceOrderListActivity extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener{
-    public static final int Place_Order_Request_Code=1;
+public class PlaceOrderListActivity extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener, OnClickOrderListener {
+    public static final int Place_Order_Request_Code=1111;
     private RecyclerView orderListRecyclerView;
     private ApiInterface apiInterface;
     private List<OrderListModel> orderListModel;
@@ -132,7 +133,7 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
                         public void onResponse(Call<List<OrderListModel>> call, Response<List<OrderListModel>> response) {
                             if (response.isSuccessful()) {
                                 orderListModel = response.body();
-                                orderListAdapter = new OrderListAdapter(orderListModel, PlaceOrderListActivity.this);
+                                orderListAdapter = new OrderListAdapter(orderListModel, PlaceOrderListActivity.this, PlaceOrderListActivity.this);
                                 orderListRecyclerView.setAdapter(orderListAdapter);
                                 orderListAdapter.getFilter().filter("Processing");
                                 Collections.reverse(orderListModel);
@@ -185,7 +186,7 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
                         public void onResponse(Call<List<OrderListModel>> call, Response<List<OrderListModel>> response) {
                             if (response.isSuccessful()) {
                                 orderListModel = response.body();
-                                orderListAdapter = new OrderListAdapter(orderListModel, PlaceOrderListActivity.this);
+                                orderListAdapter = new OrderListAdapter(orderListModel, PlaceOrderListActivity.this, PlaceOrderListActivity.this);
                                 orderListRecyclerView.setAdapter(orderListAdapter);
                                 orderListAdapter.getFilter().filter("Delivered");
                                 Collections.reverse(orderListModel);
@@ -237,7 +238,7 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
                         public void onResponse(Call<List<OrderListModel>> call, Response<List<OrderListModel>> response) {
                             if (response.isSuccessful()) {
                                 orderListModel = response.body();
-                                orderListAdapter = new OrderListAdapter(orderListModel, PlaceOrderListActivity.this);
+                                orderListAdapter = new OrderListAdapter(orderListModel, PlaceOrderListActivity.this, PlaceOrderListActivity.this);
                                 orderListRecyclerView.setAdapter(orderListAdapter);
                                 orderListAdapter.getFilter().filter("Shipped");
                                 Collections.reverse(orderListModel);
@@ -290,7 +291,7 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
                         public void onResponse(Call<List<OrderListModel>> call, Response<List<OrderListModel>> response) {
                             if (response.isSuccessful()) {
                                 orderListModel = response.body();
-                                orderListAdapter = new OrderListAdapter(orderListModel, PlaceOrderListActivity.this);
+                                orderListAdapter = new OrderListAdapter(orderListModel, PlaceOrderListActivity.this, PlaceOrderListActivity.this);
                                 orderListRecyclerView.setAdapter(orderListAdapter);
                                 orderListAdapter.getFilter().filter("Partial Paid");
                                 Collections.reverse(orderListModel);
@@ -344,7 +345,7 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
                         public void onResponse(Call<List<OrderListModel>> call, Response<List<OrderListModel>> response) {
                             if (response.isSuccessful()) {
                                 orderListModel = response.body();
-                                orderListAdapter = new OrderListAdapter(orderListModel, PlaceOrderListActivity.this);
+                                orderListAdapter = new OrderListAdapter(orderListModel, PlaceOrderListActivity.this, PlaceOrderListActivity.this);
                                 orderListRecyclerView.setAdapter(orderListAdapter);
                                 orderListAdapter.getFilter().filter("Picked");
                                 Collections.reverse(orderListModel);
@@ -397,7 +398,7 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
                         public void onResponse(Call<List<OrderListModel>> call, Response<List<OrderListModel>> response) {
                             if (response.isSuccessful()) {
                                 orderListModel = response.body();
-                                orderListAdapter = new OrderListAdapter(orderListModel, PlaceOrderListActivity.this);
+                                orderListAdapter = new OrderListAdapter(orderListModel, PlaceOrderListActivity.this, PlaceOrderListActivity.this);
                                 orderListRecyclerView.setAdapter(orderListAdapter);
                                 orderListAdapter.getFilter().filter("Pending");
                                 Collections.reverse(orderListModel);
@@ -450,7 +451,7 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
                         public void onResponse(Call<List<OrderListModel>> call, Response<List<OrderListModel>> response) {
                             if (response.isSuccessful()) {
                                 orderListModel = response.body();
-                                orderListAdapter = new OrderListAdapter(orderListModel, PlaceOrderListActivity.this);
+                                orderListAdapter = new OrderListAdapter(orderListModel, PlaceOrderListActivity.this, PlaceOrderListActivity.this);
                                 orderListRecyclerView.setAdapter(orderListAdapter);
                                 orderListAdapter.getFilter().filter("Cancel");
                                 Collections.reverse(orderListModel);
@@ -481,7 +482,7 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
             public void onResponse(Call<List<OrderListModel>> call, Response<List<OrderListModel>> response) {
                 if (response.isSuccessful()) {
                     orderListModel = response.body();
-                    orderListAdapter = new OrderListAdapter(orderListModel, PlaceOrderListActivity.this);
+                    orderListAdapter = new OrderListAdapter(orderListModel, PlaceOrderListActivity.this, PlaceOrderListActivity.this);
                     orderListRecyclerView.setAdapter(orderListAdapter);
                     Collections.reverse(orderListModel);
                     orderListAdapter.notifyDataSetChanged();
@@ -529,10 +530,8 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1 && resultCode==RESULT_OK) {
-            //Toast.makeText(this, "11", Toast.LENGTH_SHORT).show();
-    }else if (requestCode == 1 && resultCode==RESULT_CANCELED) {
-           // Toast.makeText(this, "00", Toast.LENGTH_SHORT).show();
+        if (requestCode == Place_Order_Request_Code) {
+            recreate();
         }
     }
 
@@ -606,4 +605,16 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
         finish();
     }
 
+    @Override
+    public void onClick(OrderListModel item) {
+        Intent intent = new Intent(PlaceOrderListActivity.this, PlaceOrderDetailsActivity.class);
+        intent.putExtra("OrderId", item.getOrder_id());
+        intent.putExtra("PaymentStatus", item.getPay_status());
+//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        //context.startActivity(intent);
+        startActivityForResult(intent, Place_Order_Request_Code);
+        //((Activity) context).overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        //((Activity)context).finish();
+
+    }
 }

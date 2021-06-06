@@ -22,6 +22,7 @@ import java.util.List;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -141,12 +142,12 @@ public interface ApiInterface {
 
 
     @GET("shurjo-pay")
-    Call<ShurjoPayPaymentModel> setShurjo_Pay(@Query("token") String token,
-                                                @Query("order_id") String order_id,
-                                                @Query("amount") String amount,
-                                                @Query("sp_payment_option") String sp_payment_option,
-                                                @Query("bank_tx_id") String bank_tx_id,
-                                                @Query("tx_id") String tx_id);
+    Call<ResponseBody> setShurjo_Pay(@Query("token") String token,
+                                     @Query("order_id") String order_id,
+                                     @Query("amount") String amount,
+                                     @Query("sp_payment_option") String sp_payment_option,
+                                     @Query("bank_tx_id") String bank_tx_id,
+                                     @Query("tx_id") String tx_id);
 
 
 }

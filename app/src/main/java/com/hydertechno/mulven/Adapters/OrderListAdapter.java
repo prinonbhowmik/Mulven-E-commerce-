@@ -22,6 +22,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.hydertechno.mulven.Activities.PlaceOrderDetailsActivity;
 import com.hydertechno.mulven.Activities.PlaceOrderListActivity;
 import com.hydertechno.mulven.Activities.ProductDetailsActivity;
+import com.hydertechno.mulven.Interface.OnClickOrderListener;
 import com.hydertechno.mulven.Internet.ConnectivityReceiver;
 import com.hydertechno.mulven.Models.CategoriesModel;
 import com.hydertechno.mulven.Models.OrderListModel;
@@ -40,10 +41,12 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
     private ConnectivityReceiver connectivityReceiver;
     private IntentFilter intentFilter;
     public PlaceOrderListActivity activity;
+    private OnClickOrderListener listener;
 
-    public OrderListAdapter(List<OrderListModel> orderListModelList, Context context) {
+    public OrderListAdapter(List<OrderListModel> orderListModelList, Context context, OnClickOrderListener listener) {
         this.orderListModelList = orderListModelList;
         this.context = context;
+        this.listener = listener;
     }
 
     @NonNull
@@ -111,15 +114,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
                     toastShow(isConnected);
                 }else{
                 try {
-                    Intent intent = new Intent(context, PlaceOrderDetailsActivity.class);
-                    intent.putExtra("OrderId", orderListModel.getOrder_id());
-                    intent.putExtra("PaymentStatus", orderListModel.getPay_status());
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    //context.startActivity(intent);
-                    ((Activity)context).startActivityForResult(intent,1);
-                    //((Activity) context).overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                    //((Activity)context).finish();
-
+                    listener.onClick(orderListModel);
                 } catch (Exception e) {
                     Log.d("Error", e.getMessage());
                 }

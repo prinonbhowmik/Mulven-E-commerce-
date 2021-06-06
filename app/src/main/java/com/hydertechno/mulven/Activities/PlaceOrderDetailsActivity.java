@@ -58,6 +58,7 @@ import java.util.Date;
 import java.util.List;
 
 import es.dmoral.toasty.Toasty;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -308,17 +309,19 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
                     public void onSuccess(TransactionInfo transactionInfo) {
                         double amount=transactionInfo.getTxnAmount();
 
-                        Call<ShurjoPayPaymentModel> call = ApiUtils.getUserService().setShurjo_Pay(token,OrderId,""+amount,transactionInfo.getMethod(),transactionInfo.getBankTxID(),transactionInfo.getTxID());
-                        call.enqueue(new Callback<ShurjoPayPaymentModel>() {
+                        Call<ResponseBody> call = ApiUtils.getUserService().setShurjo_Pay(token,OrderId,""+amount,transactionInfo.getMethod(),transactionInfo.getBankTxID(),transactionInfo.getTxID());
+                        call.enqueue(new Callback<ResponseBody>() {
                             @Override
-                            public void onResponse(Call<ShurjoPayPaymentModel> call, Response<ShurjoPayPaymentModel> response) {
-                                if(response.isSuccessful()){
-                                    finish();
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                if(response.isSuccessful() && response.code() == 200){
+                                    recreate();
+                                    Intent resultIntent = new Intent();
+                                    setResult(PlaceOrderListActivity.Place_Order_Request_Code ,resultIntent);
                                 }
                             }
                             @Override
-                            public void onFailure(Call<ShurjoPayPaymentModel> call, Throwable t) {
-                               // Toasty.error(PlaceOrderDetailsActivity.this, "Something went wrong", Toasty.LENGTH_SHORT).show();
+                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                Toasty.error(PlaceOrderDetailsActivity.this, "Something went wrong", Toasty.LENGTH_SHORT).show();
                             }
                         });
                         }
@@ -416,6 +419,7 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
                     });
                 }else{
                     customerAddressTV.setText(customerAddress);
+                    customerAddressEditTV.setVisibility(View.GONE);
                 }
 
                 //Order Item
@@ -590,7 +594,10 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
                             public void onResponse(Call<CancellationReasonModel> call, Response<CancellationReasonModel> response) {
                                 if (response.body().getStatus() == 1) {
                                     Toasty.normal(PlaceOrderDetailsActivity.this, "Order has been cancelled", Toasty.LENGTH_SHORT).show();
+
                                     recreate();
+                                    Intent resultIntent = new Intent();
+                                    setResult(PlaceOrderListActivity.Place_Order_Request_Code ,resultIntent);
                                 } else {
                                     Toasty.error(PlaceOrderDetailsActivity.this, "Something went wrong", Toasty.LENGTH_SHORT).show();
                                 }
@@ -723,8 +730,7 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
 
     public void placeOrderDetailsBack(View view) {
         Intent resultIntent = new Intent();
-
-            setResult(RESULT_OK,resultIntent);
+//        setResult(PlaceOrderListActivity.Place_Order_Request_Code ,resultIntent);
         //overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
         finish();
     }
@@ -732,10 +738,5 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent resultIntent = new Intent();
-            //overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
-            setResult(RESULT_CANCELED, resultIntent);
-
-        finish();
     }
 }
