@@ -234,5 +234,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_below="@+id/recentPayTV"
+        tools:listitem="@layout/payment_history_layout_design"
         android:id="@+id/recentPaymentHistoryRecycler"/>
 </RelativeLayout>

@@ -201,9 +201,8 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
         int m = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
         long[] pattern = {500,500,500,500,500,500,500,500,500};
         switch (toActivity) {
-            case "booking_details":
-            case "hourly_details": {
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            case "home": {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class).putExtra("fragment","home");
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), m, intent, PendingIntent.FLAG_ONE_SHOT);
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext())
@@ -211,7 +210,7 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
                         .setContentTitle(title)
                         .setContentText(body)
                         .setShowWhen(true)
-                        .setStyle(new NotificationCompat.BigTextStyle().bigText(body))
+                        .setStyle(new NotificationCompat.BigPictureStyle().bigPicture(bitmap).bigLargeIcon(null))
                         .setPriority(Notification.PRIORITY_HIGH)
                         .setAutoCancel(true)
                         .setColor(Color.parseColor("#ED1D24"))
@@ -223,10 +222,8 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
                 noti.notify(m, builder.build());
                 break;
             }
-            case "history":
-            case "main_activity":
-            case "notification": {
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            case "campaign": {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class).putExtra("fragment","campaign");
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), j, intent, PendingIntent.FLAG_ONE_SHOT);
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext())
@@ -234,20 +231,39 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
                         .setContentTitle(title)
                         .setContentText(body)
                         .setShowWhen(true)
-                        .setStyle(new NotificationCompat.BigTextStyle().bigText(body))
+                        .setStyle(new NotificationCompat.BigPictureStyle().bigPicture(bitmap).bigLargeIcon(null))
                         .setPriority(Notification.PRIORITY_HIGH)
                         .setAutoCancel(true)
                         .setColor(Color.parseColor("#ED1D24"))
                         .setVibrate(pattern)
                         .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-//                        .setSound(Uri.parse("android.resource://" + getApplicationContext().getPackageName() + "/" + R.raw.notification))
+                        .setContentIntent(pendingIntent);
+                NotificationManager noti = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                noti.notify(m, builder.build());
+                break;
+            }
+            case "notification": {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class).putExtra("fragment","notification");
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), j, intent, PendingIntent.FLAG_ONE_SHOT);
+                NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext())
+                        .setSmallIcon(R.drawable.ic_applogo)
+                        .setContentTitle(title)
+                        .setContentText(body)
+                        .setShowWhen(true)
+                        .setStyle(new NotificationCompat.BigPictureStyle().bigPicture(bitmap).bigLargeIcon(null))
+                        .setPriority(Notification.PRIORITY_HIGH)
+                        .setAutoCancel(true)
+                        .setColor(Color.parseColor("#ED1D24"))
+                        .setVibrate(pattern)
+                        .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                         .setContentIntent(pendingIntent);
                 NotificationManager noti = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                 noti.notify(m, builder.build());
                 break;
             }
             case "notification_with_image": {
-                Intent intent = new Intent(getApplicationContext(), AboutActivity.class).putExtra("carType",carType);
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class).putExtra("fragment","notification");
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), j, intent, PendingIntent.FLAG_ONE_SHOT);
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext())
@@ -262,7 +278,6 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
                         .setColor(Color.parseColor("#ED1D24"))
                         .setVibrate(pattern)
                         .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-//                        .setSound(Uri.parse("android.resource://" + getApplicationContext().getPackageName() + "/" + R.raw.notification))
                         .setContentIntent(pendingIntent);
                 NotificationManager noti = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 

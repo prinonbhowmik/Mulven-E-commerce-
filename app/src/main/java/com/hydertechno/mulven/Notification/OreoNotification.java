@@ -12,6 +12,7 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.AudioAttributes;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 
@@ -40,8 +41,7 @@ public class OreoNotification extends ContextWrapper {
 
     @TargetApi(Build.VERSION_CODES.O)
     private void createChannel() {
-        Uri sound = Uri.parse("android.resource://" + getApplicationContext().getPackageName() + "/" + R.raw.notification);
-        //Uri sound= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
+        Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         AudioAttributes audioAttributes = new AudioAttributes.Builder()
                 .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
                 .setUsage(AudioAttributes.USAGE_NOTIFICATION_RINGTONE)
@@ -57,8 +57,7 @@ public class OreoNotification extends ContextWrapper {
     }
     @TargetApi(Build.VERSION_CODES.O)
     private void createChannel2() {
-        Uri sound = Uri.parse("android.resource://" + getApplicationContext().getPackageName() + "/" + R.raw.notification);
-        //Uri sound= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
+        Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         AudioAttributes audioAttributes = new AudioAttributes.Builder()
                 .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
                 .setUsage(AudioAttributes.USAGE_ALARM)
@@ -84,6 +83,7 @@ public class OreoNotification extends ContextWrapper {
     Bitmap smallImage1      = ((BitmapDrawable) myDrawable).getBitmap();*/
     @TargetApi(Build.VERSION_CODES.O)
     public  NotificationCompat.Builder getOreoNotification(String title, String body, PendingIntent pendingIntent){
+        long[] pattern = {500,500,500,500,500,500,500,500,500};
         // Assign big picture notification
 //        /*NotificationCompat.BigPictureStyle bpStyle = new NotificationCompat.BigPictureStyle();
 //        bpStyle.bigPicture(BitmapFactory.decodeResource(getResources(), R.drawable.customer_care)).build();*/
@@ -96,6 +96,7 @@ public class OreoNotification extends ContextWrapper {
                 //.setLargeIcon(smallImage)
                 //.setStyle(new NotificationCompat.BigPictureStyle().bigPicture(smallImage).bigLargeIcon(null))
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(body))
+                .setVibrate(pattern)
                 .setContentIntent(pendingIntent)
                 .setColor(Color.parseColor("#ED1D24"))
                 .setAutoCancel(true);
@@ -104,7 +105,7 @@ public class OreoNotification extends ContextWrapper {
 
     @TargetApi(Build.VERSION_CODES.O)
     public  NotificationCompat.Builder getOreoNotificationImage(String title, String body, PendingIntent pendingIntent, Bitmap image){
-
+        long[] pattern = {500,500,500,500,500,500,500,500,500};
         // Assign big picture notification
 //        /*NotificationCompat.BigPictureStyle bpStyle = new NotificationCompat.BigPictureStyle();
 //        bpStyle.bigPicture(BitmapFactory.decodeResource(getResources(), R.drawable.customer_care)).build();*/
@@ -116,29 +117,11 @@ public class OreoNotification extends ContextWrapper {
                 .setShowWhen(true)
                 .setLargeIcon(image)
                 .setStyle(new NotificationCompat.BigPictureStyle().bigPicture(image).bigLargeIcon(null))
+                .setVibrate(pattern)
                 //.setStyle(new NotificationCompat.BigTextStyle().bigText(body))
                 .setContentIntent(pendingIntent)
                 .setColor(Color.parseColor("#ED1D24"))
                 .setAutoCancel(true);
-
     }
 
-    @TargetApi(Build.VERSION_CODES.O)
-    public  NotificationCompat.Builder getOreoNotification3(String title, String body, PendingIntent pendingIntent){
-        // Assign big picture notification
-//        /*NotificationCompat.BigPictureStyle bpStyle = new NotificationCompat.BigPictureStyle();
-//        bpStyle.bigPicture(BitmapFactory.decodeResource(getResources(), R.drawable.customer_care)).build();*/
-        //Bitmap smallImage=BitmapFactory.decodeResource(getResources(),R.drawable.customer_care);
-        return new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID2)
-                .setSmallIcon(R.drawable.ic_applogo)
-                .setContentTitle(title)
-                .setContentText(body)
-                .setShowWhen(true)
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(body))
-                .addAction(R.drawable.applogo,"Show",pendingIntent)
-                .setContentIntent(pendingIntent)
-                .setColor(Color.parseColor("#ED1D24"))
-                .setAutoCancel(true);
-
-    }
 }
