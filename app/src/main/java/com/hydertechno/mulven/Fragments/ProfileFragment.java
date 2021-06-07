@@ -17,12 +17,10 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.os.UserHandle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
@@ -30,27 +28,21 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.hydertechno.mulven.Activities.AddressActivity;
 import com.hydertechno.mulven.Activities.ChangePasswordActivity;
-import com.hydertechno.mulven.Activities.MainActivity;
 import com.hydertechno.mulven.Activities.PaymentHistoryActivity;
 import com.hydertechno.mulven.Activities.PlaceOrderListActivity;
 import com.hydertechno.mulven.Activities.ProfileActivity;
 import com.hydertechno.mulven.Api.ApiUtils;
 import com.hydertechno.mulven.Api.Config;
-import com.hydertechno.mulven.Internet.Connection;
 import com.hydertechno.mulven.Internet.ConnectivityReceiver;
-import com.hydertechno.mulven.Models.ShurjoPayPaymentModel;
 import com.hydertechno.mulven.Models.UserProfile;
 import com.hydertechno.mulven.R;
 import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import es.dmoral.toasty.Toasty;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -149,7 +141,7 @@ public class ProfileFragment extends Fragment implements ConnectivityReceiver.Co
                     Window window = dialog.getWindow();
                     window.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);*/
                     FragmentTransaction ft = getFragmentManager().beginTransaction();
-                    DialogFragment newFragment = new PlaceOrderResultFragment();
+                    DialogFragment newFragment = new OrderSuccessFragment();
                     newFragment.show(ft, "dialog");
                 }
             }
@@ -163,10 +155,14 @@ public class ProfileFragment extends Fragment implements ConnectivityReceiver.Co
                     snackBar(isConnected);
                 } else {
                     // startActivity(new Intent(getActivity(), AddressActivity.class));
-                    Intent intent = new Intent(getActivity(), AddressActivity.class);
+                    /*Intent intent = new Intent(getActivity(), AddressActivity.class);
                     startActivity(intent);
                     getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                    getActivity().finish();
+                    getActivity().finish();*/
+
+                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    DialogFragment newFragment = new OrderErrorFragment();
+                    newFragment.show(ft, "dialog");
                 }
             }
         });

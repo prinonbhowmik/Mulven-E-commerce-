@@ -11,7 +11,7 @@ import androidx.fragment.app.DialogFragment;
 import com.hydertechno.mulven.R;
 
 
-public class PlaceOrderResultFragment extends DialogFragment {
+public class OrderSuccessFragment extends DialogFragment {
 
     @Override
     public void onStart()
@@ -35,7 +35,7 @@ public class PlaceOrderResultFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =inflater.inflate(R.layout.fragment_place_order_result, container, false);
+        View view =inflater.inflate(R.layout.fragment_order_success, container, false);
 
 
 

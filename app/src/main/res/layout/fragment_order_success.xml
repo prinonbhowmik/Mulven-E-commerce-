@@ -4,13 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Fragments.PlaceOrderResultFragment">
+    tools:context=".Fragments.OrderSuccessFragment">
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/congratulationTxt"
         android:layout_width="wrap_content"
         android:layout_height="300dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="60dp"
         android:layout_centerHorizontal="true"
         app:lottie_autoPlay="true"
         app:lottie_fileName="congratulation.json"
@@ -23,12 +23,27 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/congratulationTxt"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="15dp"
+        android:textSize="15sp"
         android:gravity="center"
         android:fontFamily="@font/comfortaa_light"
         android:textColor="@color/black"
         android:text="Your order has been placed successfully. Please wait for a few seconds." />
+    <TextView
+        android:id="@+id/count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/accountTxt"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="15dp"
+        android:textSize="45sp"
+        android:gravity="center"
+        android:fontFamily="@font/comfortaa_light"
+        android:textColor="@color/black"
+        android:text="0" />
 
 </RelativeLayout>
