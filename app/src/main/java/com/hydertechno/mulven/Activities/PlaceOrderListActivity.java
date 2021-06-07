@@ -531,7 +531,8 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Place_Order_Request_Code) {
-            recreate();
+            if (data != null && data.getBooleanExtra("success", false))
+                recreate();
         }
     }
 

@@ -337,6 +337,7 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
                                 if(response.isSuccessful() && response.code() == 200){
                                     recreate();
                                     Intent resultIntent = new Intent();
+                                    resultIntent.putExtra("success", true);
                                     setResult(PlaceOrderListActivity.Place_Order_Request_Code ,resultIntent);
                                 }
                             }
@@ -624,6 +625,7 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
 
                                     recreate();
                                     Intent resultIntent = new Intent();
+                                    resultIntent.putExtra("success", true);
                                     setResult(PlaceOrderListActivity.Place_Order_Request_Code ,resultIntent);
                                 } else {
                                     Toasty.error(PlaceOrderDetailsActivity.this, "Something went wrong", Toasty.LENGTH_SHORT).show();
