@@ -10,6 +10,7 @@ import android.media.Image;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -28,9 +29,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.hydertechno.mulven.Activities.MainActivity;
 import com.hydertechno.mulven.Activities.PhoneNumber;
 import com.hydertechno.mulven.Activities.ProfileActivity;
@@ -170,6 +174,16 @@ public class AccountFragment extends Fragment implements ConnectivityReceiver.Co
                                 editor.apply();
                                 Log.d("ShowToken",token);
                                 Log.d("ShowToken",name+","+phone);
+                                FirebaseMessaging.getInstance().subscribeToTopic(userId + "")
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                                    editor.putInt("isSubscribed", 1);
+                                                }
+                                            }
+                                        });
+
                                 Toasty.success(getContext(), ""+message,Toasty.LENGTH_SHORT).show();
                                 Intent intent = new Intent(getContext(), MainActivity.class);
                                 intent.putExtra("fragment","home");

@@ -10,6 +10,7 @@ import com.hydertechno.mulven.Models.OrderDetails;
 import com.hydertechno.mulven.Models.OrderListModel;
 import com.hydertechno.mulven.Models.PlaceOrderModel;
 import com.hydertechno.mulven.Models.ProductDetailsModel;
+import com.hydertechno.mulven.Models.ResponseUpdate;
 import com.hydertechno.mulven.Models.ShurjoPayPaymentModel;
 import com.hydertechno.mulven.Models.Sliderimage;
 import com.hydertechno.mulven.Models.SubCatModel;
@@ -33,6 +34,9 @@ import retrofit2.http.Part;
 import retrofit2.http.Query;
 
 public interface ApiInterface {
+
+    @GET("version-check")
+    Call<ResponseUpdate> versionCheck();
 
     @GET("slider")
     Call<List<Sliderimage>> getSliderImage(@Query("post_type") String post_type);

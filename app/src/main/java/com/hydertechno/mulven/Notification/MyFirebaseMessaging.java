@@ -89,7 +89,7 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
         String body = remoteMessage.getData().get("body");
         String toActivity = remoteMessage.getData().get("toActivity");
         Bitmap bitmap = null;
-        if (remoteMessage.getData().get("image").trim().length() > 2) {
+        if (remoteMessage.getData().get("image")!=null && remoteMessage.getData().get("image").trim().length() > 2) {
             bitmap = getBitmapFromURL(remoteMessage.getData().get("image"));
         }
 
@@ -103,11 +103,8 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
                 PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), j, intent, PendingIntent.FLAG_ONE_SHOT);
                 Uri defaultSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
                 OreoNotification oreoNotification = new OreoNotification(this);
-                NotificationCompat.Builder builder = oreoNotification.getOreoNotification(title, body, pendingIntent);
-                /*int i = 0;
-                if (j > 0) {
-                    i = j;
-                }*/
+//                NotificationCompat.Builder builder = oreoNotification.getOreoNotification(title, body, pendingIntent);
+                NotificationCompat.Builder builder = oreoNotification.getOreoNotificationImage(title, body, pendingIntent, bitmap);
                 oreoNotification.getManager().notify(j, builder.build());
                 break;
             }
@@ -117,11 +114,8 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
                 PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), j, intent, PendingIntent.FLAG_ONE_SHOT);
                 Uri defaultSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
                 OreoNotification oreoNotification = new OreoNotification(this);
-                NotificationCompat.Builder builder = oreoNotification.getOreoNotification(title, body, pendingIntent);
-                /*int i = 0;
-                if (j > 0) {
-                    i = j;
-                }*/
+//                NotificationCompat.Builder builder = oreoNotification.getOreoNotification(title, body, pendingIntent);
+                NotificationCompat.Builder builder = oreoNotification.getOreoNotificationImage(title, body, pendingIntent, bitmap);
                 oreoNotification.getManager().notify(m, builder.build());
                 break;
             }case "campaign": {
@@ -130,11 +124,8 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
                 PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), j, intent, PendingIntent.FLAG_ONE_SHOT);
                 Uri defaultSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
                 OreoNotification oreoNotification = new OreoNotification(this);
-                NotificationCompat.Builder builder = oreoNotification.getOreoNotification(title, body, pendingIntent);
-                /*int i = 0;
-                if (j > 0) {
-                    i = j;
-                }*/
+//                NotificationCompat.Builder builder = oreoNotification.getOreoNotification(title, body, pendingIntent);
+                NotificationCompat.Builder builder = oreoNotification.getOreoNotificationImage(title, body, pendingIntent, bitmap);
                 oreoNotification.getManager().notify(m, builder.build());
                 break;
             }
@@ -145,10 +136,6 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
                 Uri defaultSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
                 OreoNotification oreoNotification = new OreoNotification(this);
                 NotificationCompat.Builder builder = oreoNotification.getOreoNotificationImage(title, body, pendingIntent, bitmap);
-                /*int i = 0;
-                if (j > 0) {
-                    i = j;
-                }*/
                 oreoNotification.getManager().notify(m, builder.build());
                 break;
             }

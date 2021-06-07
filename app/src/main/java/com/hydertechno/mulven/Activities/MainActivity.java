@@ -1,6 +1,7 @@
 package com.hydertechno.mulven.Activities;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -10,6 +11,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -20,6 +24,8 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.hydertechno.mulven.BuildConfig;
+import com.hydertechno.mulven.Models.ResponseUpdate;
 import com.hydertechno.mulven.Notification.APIService;
 import com.hydertechno.mulven.Notification.Client;
 import com.hydertechno.mulven.Notification.Data;
@@ -58,24 +64,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private boolean doubleBackToExitPressedOnce=false;
     private Fragment fragment=null;
     private SharedPreferences sharedPreferences;
-    private int loggedIn,userId;
-    private String nonUserId,randomUserId;
+    private int loggedIn,userId, isSubscribed;
     private MaterialDialog mAnimatedDialog;
-    private FirebaseAuth auth;
     private DatabaseReference reference;
-    private APIService apiService;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
         try {
-            FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+            FirebaseMessaging.getInstance().subscribeToTopic("all").addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
-                public void onComplete(@NonNull Task<String> task) {
-                    updateToken(task.getResult());
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (!task.isSuccessful()) {
+                        Log.e("Firebase", task.toString());
+                    }
+                    Log.e("Firebase", "Success!!");
                 }
             });
+            if (isSubscribed == 0 && loggedIn == 1){
+                FirebaseMessaging.getInstance().subscribeToTopic(userId + "").addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (!task.isSuccessful()) {
+                            Log.e("Firebase", task.toString());
+                        }
+                        Log.e("Firebase", "Success!!");
+                    }
+                });
+            }
         }catch (Exception ignored){
 
         }
@@ -189,6 +206,50 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+        checkUpdate();
+    }
+
+    private void checkUpdate() {
+        Call<ResponseUpdate> call = ApiUtils.getUserService().versionCheck();
+        call.enqueue(new Callback<ResponseUpdate>() {
+            @Override
+            public void onResponse(Call<ResponseUpdate> call, Response<ResponseUpdate> response) {
+                if (response.isSuccessful() && response.code() == 200){
+                    String versionName = BuildConfig.VERSION_NAME;
+                    String vName= response.body().getApkVersion();
+
+                    if (!versionName.equals(vName)) {
+                        AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
+                        dialog.setTitle("New Version!");
+                        dialog.setIcon(R.drawable.applogo);
+                        dialog.setMessage("New version is available. Please update for latest features.");
+                        dialog.setCancelable(false);
+                        dialog.setPositiveButton("Ok", new android.content.DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(android.content.DialogInterface dialogInterface, int i) {
+                                startActivity(new Intent(Intent.ACTION_VIEW,
+                                        Uri.parse("https://play.google.com/store/apps/details?id=" + getPackageName())));
+                                System.exit(0);
+                            }
+                        });
+                        dialog.setNegativeButton("Later", new android.content.DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(android.content.DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                                System.exit(0);
+                            }
+                        });
+                        AlertDialog alertDialog = dialog.create();
+                        alertDialog.show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseUpdate> call, Throwable t) {
+
+            }
+        });
     }
 
     private void init() {
@@ -201,28 +262,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         sharedPreferences = getSharedPreferences("MyRef", MODE_PRIVATE);
         loggedIn = sharedPreferences.getInt("loggedIn",0);
         userId = sharedPreferences.getInt("userId",0);
-        randomUserId = sharedPreferences.getString("RandomUserId","1");
-        apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
-
-    }
-
-    private void updateToken(String token){
-        if(loggedIn==1){
-            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("UserToken").child(""+userId);
-            userRef.child("token").setValue(token);
-        }else if(loggedIn==0){
-            if(randomUserId.equals('1')){
-                DatabaseReference nonUserRef = FirebaseDatabase.getInstance().getReference().child("NonUserToken");
-                nonUserId=nonUserRef.push().getKey();
-                assert nonUserId != null;
-                SharedPreferences sharedPreferences = MainActivity.this.getSharedPreferences("MyRef", MODE_PRIVATE);
-
-                nonUserRef.child(nonUserId).child("token").setValue(token);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("RandomUserId", nonUserId);
-            }
-
-        }
+        isSubscribed = sharedPreferences.getInt("isSubscribed",0);
 
     }
 
@@ -320,13 +360,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                     @Override
                                     public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
                                         if (response.isSuccessful()){
+                                            FirebaseMessaging.getInstance().unsubscribeFromTopic(userId + "");
                                             SharedPreferences.Editor editor = sharedPreferences.edit();
                                             editor.putString("token", "");
                                             editor.putInt("loggedIn", 0);
+                                            editor.putInt("isSubscribed", 0);
                                             editor.remove("userId");
                                             editor.remove("userName");
                                             editor.remove("userPhone");
-                                            editor.commit();
+                                            editor.apply();
                                             Toasty.success(MainActivity.this, "Logout successful!", Toasty.LENGTH_SHORT).show();
                                             finish();
                                             startActivity(getIntent());

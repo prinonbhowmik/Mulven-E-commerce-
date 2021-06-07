@@ -94,7 +94,6 @@ public class HomeFragment extends Fragment implements ConnectivityReceiver.Conne
         View view= inflater.inflate(R.layout.fragment_home, container, false);
         init(view);
         drawerLayout=getActivity().findViewById(R.id.drawerLayout);
-        checkAppVersion();
         getSliderImage();
         getCategoriesName();
         getFeatureAdds();
@@ -167,41 +166,6 @@ public class HomeFragment extends Fragment implements ConnectivityReceiver.Conne
         });
 
         return view;
-    }
-    private void checkAppVersion() {
-        PackageInfo pinfo = null;
-        try {
-            pinfo = getContext().getPackageManager().getPackageInfo(getContext().getPackageName(), 0);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        String versionName = pinfo.versionName;
-        String vName="1.0";
-
-                if (!versionName.equals(vName)) {
-                    AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
-                    dialog.setTitle("New Version!");
-                    dialog.setIcon(R.drawable.applogo);
-                    dialog.setMessage("New version is available. Please update for latest features.");
-                    dialog.setCancelable(false);
-                    dialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            startActivity(new Intent(Intent.ACTION_VIEW,
-                                    Uri.parse("https://play.google.com/store/apps/details?id=com.hydertechno.mulven")));
-                            System.exit(0);
-                        }
-                    });
-                    dialog.setNegativeButton("Later", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.dismiss();
-                            System.exit(0);
-                        }
-                    });
-                    AlertDialog alertDialog = dialog.create();
-                    alertDialog.show();
-                }
     }
 
     private void getSliderImage() {
