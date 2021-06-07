@@ -318,7 +318,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
             @Override
             public void onResponse(Call<ProductDetailsModel> call, Response<ProductDetailsModel> response) {
 
-                loadingDialog.dismiss();
+                //loadingDialog.dismiss();
                 ProductDetailsModel detailsList = response.body();
                 product_Name.setText(""+detailsList.getProduct_name());
                 productMrpPrice=detailsList.getMrp_price();

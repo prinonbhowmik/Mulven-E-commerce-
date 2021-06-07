@@ -30,7 +30,7 @@ public class LoadingDialog extends Dialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        Objects.requireNonNull(this.getWindow()).setBackgroundDrawableResource(android.R.color.transparent);
+        Objects.requireNonNull(this.getWindow()).setBackgroundDrawableResource(android.R.color.white);
         setContentView(R.layout.dialog_loading);
         mDialogTitle = ((TextView)findViewById( R.id.loading_dialog_title));
         if (mHeaderText != null)
