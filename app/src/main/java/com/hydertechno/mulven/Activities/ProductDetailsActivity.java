@@ -44,6 +44,7 @@ import com.hydertechno.mulven.Api.Config;
 import com.hydertechno.mulven.DatabaseHelper.Database_Helper;
 import com.hydertechno.mulven.DatabaseHelper.view_model.CartViewModel;
 import com.hydertechno.mulven.Fragments.CartFragment;
+import com.hydertechno.mulven.Fragments.LoadingDialog;
 import com.hydertechno.mulven.Interface.ProductImageClickInterface;
 import com.hydertechno.mulven.Internet.Connection;
 import com.hydertechno.mulven.Internet.ConnectivityReceiver;
@@ -106,10 +107,13 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
 
     private CartViewModel cartViewModel;
 
+    private LoadingDialog loadingDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_details);
+        loadingDialog = new LoadingDialog(this);
 
         init();
 
@@ -308,10 +312,13 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
     }
 
     private void getProductDetails() {
+        loadingDialog.show();
         Call<ProductDetailsModel> call = ApiUtils.getUserService().getProd_details(product_id);
         call.enqueue(new Callback<ProductDetailsModel>() {
             @Override
             public void onResponse(Call<ProductDetailsModel> call, Response<ProductDetailsModel> response) {
+
+                loadingDialog.dismiss();
                 ProductDetailsModel detailsList = response.body();
                 product_Name.setText(""+detailsList.getProduct_name());
                 productMrpPrice=detailsList.getMrp_price();
@@ -425,7 +432,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
 
             @Override
             public void onFailure(Call<ProductDetailsModel> call, Throwable t) {
-
+                loadingDialog.dismiss();
             }
         });
 
@@ -501,10 +508,12 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
     }
 
     private void getCampaignProductDetails() {
+        loadingDialog.show();
         Call<ProductDetailsModel> call = ApiUtils.getUserService().getCampaignProd_details(product_id,sku);
         call.enqueue(new Callback<ProductDetailsModel>() {
             @Override
             public void onResponse(Call<ProductDetailsModel> call, Response<ProductDetailsModel> response) {
+                loadingDialog.dismiss();
                 ProductDetailsModel detailsList = response.body();
                 product_Name.setText(""+detailsList.getProduct_name());
                 productMrpPrice=detailsList.getMrp_price();
@@ -619,7 +628,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
 
             @Override
             public void onFailure(Call<ProductDetailsModel> call, Throwable t) {
-
+                loadingDialog.dismiss();
             }
         });
 
