@@ -22,16 +22,6 @@
             app:lottie_loop="true"
             tools:ignore="MissingConstraints" />
 
-        <TextView
-            android:id="@+id/loading_dialog_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Loading..."
-            android:textSize="14sp"
-            android:textColor="@android:color/white"
-            android:layout_gravity="center"
-            android:visibility="gone"
-            android:layout_marginTop="4dp"/>
     </LinearLayout>
 
 </RelativeLayout>

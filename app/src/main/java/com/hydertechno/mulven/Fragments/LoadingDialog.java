@@ -1,39 +1,46 @@
 package com.hydertechno.mulven.Fragments;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.view.Window;
-import android.widget.TextView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.hydertechno.mulven.R;
 
-import java.util.Objects;
+public class LoadingDialog extends DialogFragment {
 
-public class LoadingDialog extends Dialog {
-    private String mHeaderText = null;
-    private TextView mDialogTitle = null;
-
-    public LoadingDialog(Context context) {
-        super(context);
-        this.setCancelable(false);
-    }
-
-    public LoadingDialog(@NonNull Context context, String mHeaderText) {
-        super(context);
-        this.mHeaderText = mHeaderText;
+    static public LoadingDialog instance() {
+        return new LoadingDialog();
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onStart()
+    {
+        super.onStart();
+        Dialog dialog = getDialog();
+        if (dialog != null)
+        {
+            int width = ViewGroup.LayoutParams.MATCH_PARENT;
+            int height = ViewGroup.LayoutParams.MATCH_PARENT;
+            dialog.getWindow().setLayout(width, height);
+        }
+    }
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        Objects.requireNonNull(this.getWindow()).setBackgroundDrawableResource(android.R.color.white);
-        setContentView(R.layout.dialog_loading);
-        mDialogTitle = ((TextView)findViewById( R.id.loading_dialog_title));
-        if (mHeaderText != null)
-            mDialogTitle.setText(this.mHeaderText);
+        setStyle(DialogFragment.STYLE_NORMAL, R.style.FullScreenDialogStyle);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view =inflater.inflate(R.layout.dialog_loading, container, false);
+        return view;
     }
 }

@@ -113,7 +113,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_details);
-        loadingDialog = new LoadingDialog(this);
+        loadingDialog = LoadingDialog.instance();
 
         init();
 
@@ -312,13 +312,14 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
     }
 
     private void getProductDetails() {
-        loadingDialog.show();
+        if (!loadingDialog.isAdded())
+            loadingDialog.show(getSupportFragmentManager(), null);
         Call<ProductDetailsModel> call = ApiUtils.getUserService().getProd_details(product_id);
         call.enqueue(new Callback<ProductDetailsModel>() {
             @Override
             public void onResponse(Call<ProductDetailsModel> call, Response<ProductDetailsModel> response) {
 
-                //loadingDialog.dismiss();
+                loadingDialog.dismiss();
                 ProductDetailsModel detailsList = response.body();
                 product_Name.setText(""+detailsList.getProduct_name());
                 productMrpPrice=detailsList.getMrp_price();
@@ -508,7 +509,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
     }
 
     private void getCampaignProductDetails() {
-        loadingDialog.show();
+        loadingDialog.show(getSupportFragmentManager(), null);
         Call<ProductDetailsModel> call = ApiUtils.getUserService().getCampaignProd_details(product_id,sku);
         call.enqueue(new Callback<ProductDetailsModel>() {
             @Override
