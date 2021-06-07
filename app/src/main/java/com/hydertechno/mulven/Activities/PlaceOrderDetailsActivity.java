@@ -37,6 +37,7 @@ import com.hydertechno.mulven.Adapters.OrderItemsAdapter;
 import com.hydertechno.mulven.Adapters.OrderTimelineAdapter;
 import com.hydertechno.mulven.Api.ApiUtils;
 import com.hydertechno.mulven.Api.Config;
+import com.hydertechno.mulven.Fragments.LoadingDialog;
 import com.hydertechno.mulven.Internet.Connection;
 import com.hydertechno.mulven.Internet.ConnectivityReceiver;
 import com.hydertechno.mulven.Models.CancellationReasonModel;
@@ -83,11 +84,13 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
     private ConnectivityReceiver connectivityReceiver;
     private IntentFilter intentFilter;
     private PopupMenu popup;
+    private LoadingDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_place_order_details);
+        loadingDialog = LoadingDialog.instance();
         init();
         checkConnection();
         if (!isConnected) {
@@ -387,11 +390,15 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
 
 
     private void getInvoiceDetails() {
+        if (!loadingDialog.isAdded())
+            loadingDialog.show(getSupportFragmentManager(), null);
+
         invoiceIdTV.setText(OrderId);
         Call<InvoiceDetailsModel> call = ApiUtils.getUserService().getInvoiceDetails(OrderId, token);
         call.enqueue(new Callback<InvoiceDetailsModel>() {
             @Override
             public void onResponse(Call<InvoiceDetailsModel> call, Response<InvoiceDetailsModel> response) {
+                loadingDialog.dismiss();
                 InvoiceDetailsModel details = response.body();
                 String shopName = details.getOrderDetails().getShop_name();
                 String shopPhone = details.getOrderDetails().getSeller_phone();

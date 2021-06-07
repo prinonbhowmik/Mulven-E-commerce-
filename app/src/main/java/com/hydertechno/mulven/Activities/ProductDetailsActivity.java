@@ -27,6 +27,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -93,7 +94,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
     private ApiInterface apiInterface;
     private RelatedProductAdapter relatedProductAdapter;
     private CampaignRelatedProductAdapter campaignRelatedProductAdapter;
-    private RelativeLayout feature_RelativeLayout,soldByRelativeLayout,relatedProduct_layout,brandRL;
+    private RelativeLayout feature_RelativeLayout,soldByRelativeLayout,relatedProduct_layout,brandRL,skuRL;
+    private LinearLayout quantityLL;
     private int productMrpPrice,productUnitPrice,store_id,campId;
     public static RelativeLayout rootLayout;
     private Snackbar snackbar;
@@ -318,7 +320,6 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
         call.enqueue(new Callback<ProductDetailsModel>() {
             @Override
             public void onResponse(Call<ProductDetailsModel> call, Response<ProductDetailsModel> response) {
-
                 loadingDialog.dismiss();
                 ProductDetailsModel detailsList = response.body();
                 product_Name.setText(""+detailsList.getProduct_name());
@@ -336,10 +337,13 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
                 String bName=brand_Name.getText().toString();
                 if(bName.equals("null")|| bName.equals("Individual")){
                     brandRL.setVisibility(View.GONE);
-                }
+                }else
+                    brandRL.setVisibility(View.VISIBLE);
                 String sk=detailsList.getSku();
                 skuTV.setText(""+sk.toUpperCase());
                 sku2=detailsList.getSku();
+                skuRL.setVisibility(View.VISIBLE);
+                quantityLL.setVisibility(View.VISIBLE);
                 webView.loadUrl(url+""+sku2);
                 imageString = detailsList.getFeacher_image();
                 category_id = detailsList.getCategory_id();
@@ -471,6 +475,9 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
         shop_Name = findViewById(R.id.shop_Name);
         brand_Name = findViewById(R.id.brand_Name);
         brandRL = findViewById(R.id.brandRL);
+        skuRL = findViewById(R.id.skuRL);
+        quantityLL = findViewById(R.id.quantityLL);
+
         product_Price = findViewById(R.id.product_Price);
         skuTV = findViewById(R.id.skuTV);
         sizeTV=findViewById(R.id.sizeMenu);
@@ -509,7 +516,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
     }
 
     private void getCampaignProductDetails() {
-        loadingDialog.show(getSupportFragmentManager(), null);
+        if (!loadingDialog.isAdded())
+            loadingDialog.show(getSupportFragmentManager(), null);
         Call<ProductDetailsModel> call = ApiUtils.getUserService().getCampaignProd_details(product_id,sku);
         call.enqueue(new Callback<ProductDetailsModel>() {
             @Override
@@ -531,10 +539,13 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
                 String bName=brand_Name.getText().toString();
                 if(bName.equals("null")|| bName.equals("Individual")){
                     brandRL.setVisibility(View.GONE);
-                }
+                }else
+                    brandRL.setVisibility(View.VISIBLE);
                 String sk=detailsList.getSku();
                 skuTV.setText(""+sk.toUpperCase());
                 sku2=detailsList.getSku();
+                skuRL.setVisibility(View.VISIBLE);
+                quantityLL.setVisibility(View.VISIBLE);
                 webView.loadUrl(url+""+sku2);
                 imageString = detailsList.getFeacher_image();
                 category_id = detailsList.getCategory_id();

@@ -8,6 +8,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -67,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private int loggedIn,userId, isSubscribed;
     private MaterialDialog mAnimatedDialog;
     private DatabaseReference reference;
+    private Dialog logOutDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -389,7 +391,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 dialogInterface.dismiss();
                             }
                         })
-                        .setAnimation("log_out.json")
                         .build();
                 mAnimatedDialog.show();
 
