@@ -317,46 +317,7 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
         });
     }
 
-    private void getShurjoPayment(double amount) {
 
-        int unique_id=(int)((new Date().getTime()/1000L)% Integer.MAX_VALUE);
-        String Test_Username = "spaytest";
-        String Test_Password ="JehPNXF58rXs";
-        String Test_Transaction_Prefix=" NOK";
-        String testToken="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOiJzcGF5dGVzdCIsImlhdCI6MTU5ODM2MTI1Nn0.cwkvdTDI6_K430xq7Iqapaknbqjm9J3Th1EiXePIEcY";
-        String liveToken="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Im11bHZlbiIsImtleSI6ImpPYmdQRFdvcjFEcyJ9.Ie4mUEkQ-6WW1nyPg7FOverSWRfUs7IXZkCItKyvimI";
-        RequiredDataModel dataModel=new RequiredDataModel("mulven",
-                "m8zPxlA4Ews9","MLV"+OrderId+"$"+unique_id,amount, liveToken);
-        ShurjoPaySDK.getInstance().makePayment(PlaceOrderDetailsActivity.this,
-                SPayConstants.SdkType.LIVE, dataModel, new PaymentResultListener() {
-                    @Override
-                    public void onSuccess(TransactionInfo transactionInfo) {
-                        double amount=transactionInfo.getTxnAmount();
-
-                        Call<ResponseBody> call = ApiUtils.getUserService().setShurjo_Pay(token,OrderId,""+amount,transactionInfo.getMethod(),transactionInfo.getBankTxID(),transactionInfo.getTxID());
-                        call.enqueue(new Callback<ResponseBody>() {
-                            @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                if(response.isSuccessful() && response.code() == 200){
-                                    recreate();
-                                    Intent resultIntent = new Intent();
-                                    resultIntent.putExtra("success", true);
-                                    setResult(PlaceOrderListActivity.Place_Order_Request_Code ,resultIntent);
-                                }
-                            }
-                            @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                Toasty.error(PlaceOrderDetailsActivity.this, "Something went wrong", Toasty.LENGTH_SHORT).show();
-                            }
-                        });
-                        }
-
-                    @Override
-                    public void onFailed(String s) {
-                        Log.d("ss", ""+s);
-                    }
-                });
-    }
 
     private void init() {
         sharedPreferences = getSharedPreferences("MyRef", MODE_PRIVATE);

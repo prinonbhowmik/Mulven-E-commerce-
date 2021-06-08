@@ -63,8 +63,10 @@ public class PaymentMethodsAdapter extends RecyclerView.Adapter<PaymentMethodsAd
 
         @Override
         public void onClick(View v) {
-            PaymentMethodModel item = dataList.get(getAdapterPosition());
-            listener.onClick(item);
+            int pos=getAdapterPosition();
+            PaymentMethodModel item = dataList.get(pos);
+
+            listener.onClick(item,pos);
         }
     }
 }
