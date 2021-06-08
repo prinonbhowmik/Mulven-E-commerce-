@@ -4,20 +4,22 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.hydertechno.mulven.Models.NotificationModel;
 import com.hydertechno.mulven.R;
 
 import java.util.List;
 
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.ViewHolder> {
 
-    private List<String> list;
+    private List<NotificationModel> list;
     private Context context;
 
-    public NotificationAdapter(List<String> list, Context context) {
+    public NotificationAdapter(List<NotificationModel> list, Context context) {
         this.list = list;
         this.context = context;
     }
@@ -31,6 +33,10 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        NotificationModel model=list.get(position);
+        holder.notificationTitle.setText(model.getTitle());
+        holder.notificationBody.setText(model.getBody());
+        holder.notificationTime.setText(model.getDateTime());
 
     }
 
@@ -40,8 +46,12 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        TextView notificationTitle,notificationBody,notificationTime;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            notificationTitle=itemView.findViewById(R.id.notificationTitle);
+            notificationBody=itemView.findViewById(R.id.notificationBody);
+            notificationTime=itemView.findViewById(R.id.notificationTime);
         }
     }
 }

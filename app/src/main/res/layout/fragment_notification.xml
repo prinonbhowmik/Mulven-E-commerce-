@@ -37,6 +37,7 @@
         android:id="@+id/noNotificationLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="gone"
         android:layout_below="@+id/toolbar">
     <ImageView
         android:id="@+id/bellLogo"
@@ -59,8 +60,8 @@
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/notificationRecycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar"
-        tools:listitem="@layout/notification_layout_design"/>
+        android:layout_below="@+id/toolbar"/>
 </RelativeLayout>

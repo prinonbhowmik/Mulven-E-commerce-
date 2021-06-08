@@ -6,6 +6,7 @@ import com.hydertechno.mulven.Models.CategoriesModel;
 import com.hydertechno.mulven.Models.CategoryNamesModel;
 import com.hydertechno.mulven.Models.ChangePasswordModel;
 import com.hydertechno.mulven.Models.InvoiceDetailsModel;
+import com.hydertechno.mulven.Models.NotificationModel;
 import com.hydertechno.mulven.Models.OrderDetails;
 import com.hydertechno.mulven.Models.OrderListModel;
 import com.hydertechno.mulven.Models.PlaceOrderModel;
@@ -152,6 +153,9 @@ public interface ApiInterface {
                                      @Query("sp_payment_option") String sp_payment_option,
                                      @Query("bank_tx_id") String bank_tx_id,
                                      @Query("tx_id") String tx_id);
+
+    @GET("notification")
+    Call<List<NotificationModel>> getNotification(@Query("token") String token);
 
 
 }
