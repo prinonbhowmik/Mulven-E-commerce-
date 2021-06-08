@@ -112,13 +112,7 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
                     makePaymentDialog.show();
                     Window window = makePaymentDialog.getWindow();
                     window.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    ImageView BankIV;
-                    BankIV= makePaymentDialog.findViewById(R.id.BankIV);
                     EditText paymentAmount= makePaymentDialog.findViewById(R.id.makePayET);
-                    CheckBox nagadCB,shurjoPayCB;
-                    nagadCB= makePaymentDialog.findViewById(R.id.nagadCB);
-                    shurjoPayCB= makePaymentDialog.findViewById(R.id.shurjoPayCB);
-
                     TextView continuePayTV= makePaymentDialog.findViewById(R.id.continuePayTV);
                     TextView closePayTV= makePaymentDialog.findViewById(R.id.closePayTV);
                     paymentAmount.setHint(amount);
@@ -126,23 +120,6 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
                         @Override
                         public void onClick(View view) {
                             makePaymentDialog.dismiss();
-                        }
-                    });
-
-                    nagadCB.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                        @Override
-                        public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                            if(shurjoPayCB.isChecked()){
-                                shurjoPayCB.setChecked(false);
-                            }
-                        }
-                    });
-                    shurjoPayCB.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                        @Override
-                        public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                            if(nagadCB.isChecked()){
-                                nagadCB.setChecked(false);
-                            }
                         }
                     });
 
@@ -156,6 +133,7 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
                                         if(value>0){
                                             Intent intent = new Intent(PlaceOrderDetailsActivity.this, PaymentMethodsActivity.class);
                                             intent.putExtra("amount", value);
+                                            intent.putExtra("FAmount", dueTV.getText().toString());
                                             intent.putExtra("orderId", OrderId);
                                             startActivity(intent);
                                             makePaymentDialog.dismiss();

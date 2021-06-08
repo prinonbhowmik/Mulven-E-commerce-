@@ -15,7 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Mulven">
-        <activity android:name=".Activities.PaymentMethodsActivity"/>
+        <activity android:name=".Activities.NagadPaymentActivity"></activity>
+        <activity android:name=".Activities.PaymentMethodsActivity" />
         <activity android:name=".Activities.PaymentHistoryActivity" />
         <activity android:name=".Activities.ExistingIssueActivity" />
         <activity android:name=".Activities.AboutActivity" />

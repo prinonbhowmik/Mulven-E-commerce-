@@ -48,7 +48,7 @@ public class PaymentMethodsActivity extends BaseActivity implements OnPMethodIte
     private PaymentMethodsAdapter methodsAdapter;
     private SharedPreferences sharedPreferences;
     Toolbar toolbar;
-    private String orderId,token;
+    private String orderId,fullAmount,token;
     private double amount;
 
     private List<PaymentMethodModel> methodModelsList = new ArrayList<>();
@@ -63,6 +63,7 @@ public class PaymentMethodsActivity extends BaseActivity implements OnPMethodIte
         Intent getInt=getIntent();
         amount=getInt.getDoubleExtra("amount",0.0);
         orderId=getInt.getStringExtra("orderId");
+        fullAmount=getInt.getStringExtra("FAmount");
         payAmountTV.setText(""+amount);
         payInvoiceIdTV.setText(orderId);
 
@@ -122,7 +123,7 @@ public class PaymentMethodsActivity extends BaseActivity implements OnPMethodIte
                 ImageView bCloseIV;
                 bCloseIV=bankPaymentDialog.findViewById(R.id.bCloseIV);
                 bankAmount=bankPaymentDialog.findViewById(R.id.bb1);
-                bankAmount.setText(amount + "");
+                bankAmount.setText(fullAmount);
                 bankPaymentDialog.show();
                 bCloseIV.setOnClickListener(new View.OnClickListener() {
                     @Override
