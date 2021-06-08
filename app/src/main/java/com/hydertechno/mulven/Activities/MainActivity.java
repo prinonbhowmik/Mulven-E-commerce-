@@ -85,16 +85,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             });
 
-            FirebaseMessaging.getInstance().subscribeToTopic(userId + "").addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if (!task.isSuccessful()) {
-                        Log.e("Firebase", task.toString());
+            if (loggedIn > 0) {
+                FirebaseMessaging.getInstance().subscribeToTopic(userId + "").addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (!task.isSuccessful()) {
+                            Log.e("Firebase", task.toString());
+                        }
+                        Log.e("Firebase", "Success!!");
                     }
-                    Log.e("Firebase", "Success!!");
-                }
-            });
-        }catch (Exception ignored){
+                });
+            }
+        } catch (Exception ignored){
 
         }
 
