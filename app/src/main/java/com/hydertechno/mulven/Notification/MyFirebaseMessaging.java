@@ -82,8 +82,6 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
     }
 
     private void getOreoNotification(RemoteMessage remoteMessage) {
-        sharedPreferences = getSharedPreferences("MyRef", MODE_PRIVATE);
-        int userId=sharedPreferences.getInt("userId",0);
         String userID = remoteMessage.getData().get("sent");
         String title = remoteMessage.getData().get("title");
         String body = remoteMessage.getData().get("body");
@@ -181,8 +179,6 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
     }
 
     private void getNotification(RemoteMessage remoteMessage) {
-        sharedPreferences = getSharedPreferences("MyRef", MODE_PRIVATE);
-        String carType = sharedPreferences.getString("carType", "");
         String userID = remoteMessage.getData().get("sent");
         String title = remoteMessage.getData().get("title");
         String body = remoteMessage.getData().get("body");

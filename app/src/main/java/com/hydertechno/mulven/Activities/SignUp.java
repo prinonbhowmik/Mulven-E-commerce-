@@ -160,7 +160,7 @@ public class SignUp extends AppCompatActivity implements ConnectivityReceiver.Co
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 if (task.isSuccessful()) {
-                                                    editor.putInt("isSubscribed", 1);
+                                                    Log.e("Firebase", "Success!!");
                                                 }
                                             }
                                         });

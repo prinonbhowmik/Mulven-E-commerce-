@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private boolean doubleBackToExitPressedOnce=false;
     private Fragment fragment=null;
     private SharedPreferences sharedPreferences;
-    private int loggedIn,userId, isSubscribed;
+    private int loggedIn,userId;
     private MaterialDialog mAnimatedDialog;
     private DatabaseReference reference;
     private Dialog logOutDialog;
@@ -84,17 +84,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     Log.e("Firebase", "Success!!");
                 }
             });
-            if (isSubscribed == 0 && loggedIn == 1){
-                FirebaseMessaging.getInstance().subscribeToTopic(userId + "").addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (!task.isSuccessful()) {
-                            Log.e("Firebase", task.toString());
-                        }
-                        Log.e("Firebase", "Success!!");
+
+            FirebaseMessaging.getInstance().subscribeToTopic(userId + "").addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (!task.isSuccessful()) {
+                        Log.e("Firebase", task.toString());
                     }
-                });
-            }
+                    Log.e("Firebase", "Success!!");
+                }
+            });
         }catch (Exception ignored){
 
         }
@@ -264,8 +263,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         sharedPreferences = getSharedPreferences("MyRef", MODE_PRIVATE);
         loggedIn = sharedPreferences.getInt("loggedIn",0);
         userId = sharedPreferences.getInt("userId",0);
-        isSubscribed = sharedPreferences.getInt("isSubscribed",0);
-
     }
 
     private void hideKeyboardFrom(Context context) {
