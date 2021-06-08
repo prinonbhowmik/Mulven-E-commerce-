@@ -6,13 +6,20 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.hydertechno.mulven.Adapters.PaymentMethodsAdapter;
 import com.hydertechno.mulven.Api.ApiUtils;
 import com.hydertechno.mulven.Interface.OnPMethodItemClickListener;
@@ -35,15 +42,19 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PaymentMethodsActivity extends AppCompatActivity implements OnPMethodItemClickListener {
+public class PaymentMethodsActivity extends BaseActivity implements OnPMethodItemClickListener {
     private TextView payInvoiceIdTV,payAmountTV;
     private RecyclerView methodsRecyclerView;
     private PaymentMethodsAdapter methodsAdapter;
-    private List<PaymentMethodModel> methodModelsList;
     private SharedPreferences sharedPreferences;
     Toolbar toolbar;
     private String orderId,token;
     private double amount;
+
+    private List<PaymentMethodModel> methodModelsList = new ArrayList<>();
+
+    private Dialog bankPaymentDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,14 +72,11 @@ public class PaymentMethodsActivity extends AppCompatActivity implements OnPMeth
 
     private void getData() {
         methodModelsList=new ArrayList<>();
-        //methodModelsList.add(new PaymentMethodModel("Nagad", "Pay from your Nagad account", R.drawable.nagad));
+        methodModelsList.add(new PaymentMethodModel("Nagad", "Pay from your Nagad account", R.drawable.nagad));
         methodModelsList.add(new PaymentMethodModel("Shurjo Pay", "Choose your desire payment method by Shurjo Pay", R.drawable.shurjo_pay));
         methodModelsList.add(new PaymentMethodModel("Bank", "Pay by bank account", R.drawable.bank_transfer));
 
-        methodsAdapter=new PaymentMethodsAdapter(methodModelsList,this);
-
-        methodsRecyclerView.setLayoutManager(new LinearLayoutManager(PaymentMethodsActivity.this, LinearLayoutManager.HORIZONTAL, false));
-        methodsRecyclerView.setAdapter(methodsAdapter);
+        methodsAdapter.updateData(methodModelsList);
     }
 
     public void init(){
@@ -82,6 +90,10 @@ public class PaymentMethodsActivity extends AppCompatActivity implements OnPMeth
         payInvoiceIdTV=findViewById(R.id.payInvoiceIdTV);
         payAmountTV=findViewById(R.id.payAmountTV);
         methodsRecyclerView=findViewById(R.id.methodsRecyclerView);
+
+        methodsAdapter = new PaymentMethodsAdapter(methodModelsList,this);
+        methodsRecyclerView.setLayoutManager(new LinearLayoutManager(PaymentMethodsActivity.this, LinearLayoutManager.VERTICAL, false));
+        methodsRecyclerView.setAdapter(methodsAdapter);
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -96,10 +108,33 @@ public class PaymentMethodsActivity extends AppCompatActivity implements OnPMeth
 
     @Override
     public void onClick(PaymentMethodModel item, int position) {
-        getShurjoPayment(amount);
+        switch (position) {
+            case 0:
+                break;
+            case 1:
+                getShurjoPayment(amount);
+                break;
+            case 2:
+                bankPaymentDialog = new Dialog(context);
+                bankPaymentDialog.setContentView(R.layout.bank_payment_layout_design);
+                bankPaymentDialog.setCancelable(true);
+                TextView bankAmount;
+                ImageView bCloseIV;
+                bCloseIV=bankPaymentDialog.findViewById(R.id.bCloseIV);
+                bankAmount=bankPaymentDialog.findViewById(R.id.bb1);
+                bankAmount.setText(amount + "");
+                bankPaymentDialog.show();
+                bCloseIV.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        bankPaymentDialog.dismiss();
+                    }
+                });
+                break;
+        }
     }
-    private void getShurjoPayment(double amount) {
 
+    private void getShurjoPayment(double amount) {
         int unique_id=(int)((new Date().getTime()/1000L)% Integer.MAX_VALUE);
         String Test_Username = "spaytest";
         String Test_Password ="JehPNXF58rXs";
@@ -138,4 +173,21 @@ public class PaymentMethodsActivity extends AppCompatActivity implements OnPMeth
                     }
                 });
     }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+
+    }
+
+
+//    public void snackBar(boolean isConnected) {
+//        if(!isConnected) {
+//            snackbar = Snackbar.make(rootLayout, "No Internet Connection! Please Try Again.", Snackbar.LENGTH_INDEFINITE);
+//            snackbar.setDuration(5000);
+//            snackbar.setActionTextColor(Color.WHITE);
+//            View sbView = snackbar.getView();
+//            sbView.setBackgroundColor(Color.RED);
+//            snackbar.show();
+//        }
+//    }
 }

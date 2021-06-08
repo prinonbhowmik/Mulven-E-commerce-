@@ -64,12 +64,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PlaceOrderDetailsActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener,ConnectivityReceiver.ConnectivityReceiverListener {
+public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu.OnMenuItemClickListener {
     private TextView invoiceIdTV, orderTimeTV, vendorNameTV, vendorPhoneTV, vendorAddressTV, customerNameTV,
             customerPhoneTV, customerAddressTV, customerAddressEditTV, totalPaidTV,orderStatusTV,reportIssueTV,existingIssueTV;
     public static TextView totalPriceTv, dueTV,makePaymentTV;
     public static int totalPay;
-    private Dialog cancelledDialog, makePaymentDialog,bankPaymentDialog;
+    private Dialog cancelledDialog, makePaymentDialog;
     private RatingBar ratingBar;
     private String token, OrderId,paymentOrderStatus,orderStatus;
     private int userId;
@@ -80,9 +80,6 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
     private RecyclerView timelineRecyclerView, orderItemListRecyclerView;
     private RelativeLayout rootLayout;
     private Snackbar snackbar;
-    private boolean isConnected;
-    private ConnectivityReceiver connectivityReceiver;
-    private IntentFilter intentFilter;
     private PopupMenu popup;
     private LoadingDialog loadingDialog;
 
@@ -131,29 +128,6 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
                             makePaymentDialog.dismiss();
                         }
                     });
-                    BankIV.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            bankPaymentDialog = new Dialog(PlaceOrderDetailsActivity.this);
-                            bankPaymentDialog.setContentView(R.layout.bank_payment_layout_design);
-                            bankPaymentDialog.setCancelable(true);
-                            Window window2 = makePaymentDialog.getWindow();
-                            window2.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                            TextView bankAmount;
-                            ImageView bCloseIV;
-                            bCloseIV=bankPaymentDialog.findViewById(R.id.bCloseIV);
-                            bankAmount=bankPaymentDialog.findViewById(R.id.bb1);
-                            bankAmount.setText(amount);
-                            bankPaymentDialog.show();
-                            bCloseIV.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    bankPaymentDialog.dismiss();
-                                }
-                            });
-                        }
-                    });
-
 
                     nagadCB.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                         @Override
@@ -324,9 +298,6 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
         token = sharedPreferences.getString("token", null);
         userId =sharedPreferences.getInt("userId",0);
         rootLayout = findViewById(R.id.place_order_details_rootLayout);
-        intentFilter = new IntentFilter();
-        intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
-        connectivityReceiver = new ConnectivityReceiver();
         invoiceIdTV = findViewById(R.id.InvoiceTV);
         moreIcon = findViewById(R.id.moreIcon);
         orderTimeTV = findViewById(R.id.orderTimeTV);
@@ -667,59 +638,6 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
         return false;
     }
 
-    @Override
-    public void onNetworkConnectionChanged(boolean isConnected) {
-        snackBar(isConnected);
-    }
-
-    private void checkConnection() {
-        isConnected = ConnectivityReceiver.isConnected();
-    }
-    private void snackBar(boolean isConnected) {
-        if(!isConnected) {
-            snackbar = Snackbar.make(rootLayout, "No Internet Connection! Please Try Again.", Snackbar.LENGTH_INDEFINITE);
-            snackbar.setDuration(5000);
-            snackbar.setActionTextColor(Color.WHITE);
-            View sbView = snackbar.getView();
-            sbView.setBackgroundColor(Color.RED);
-            snackbar.show();
-        }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        registerReceiver(connectivityReceiver, intentFilter);
-    }
-    @Override
-    protected void onResume() {
-
-        // register connection status listener
-        Connection.getInstance().setConnectivityListener(this);
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        try{
-            if(connectivityReceiver!=null)
-                unregisterReceiver(connectivityReceiver);
-
-        }catch(Exception e){}
-
-    }
-
-    @Override
-    protected void onStop() {
-        try{
-            if(connectivityReceiver!=null)
-                unregisterReceiver(connectivityReceiver);
-
-        }catch(Exception e){}
-
-        super.onStop();
-    }
 
     public void placeOrderDetailsBack(View view) {
         Intent resultIntent = new Intent();
@@ -731,5 +649,22 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        snackBar(isConnected);
+    }
+
+
+    public void snackBar(boolean isConnected) {
+        if(!isConnected) {
+            snackbar = Snackbar.make(rootLayout, "No Internet Connection! Please Try Again.", Snackbar.LENGTH_INDEFINITE);
+            snackbar.setDuration(5000);
+            snackbar.setActionTextColor(Color.WHITE);
+            View sbView = snackbar.getView();
+            sbView.setBackgroundColor(Color.RED);
+            snackbar.show();
+        }
     }
 }

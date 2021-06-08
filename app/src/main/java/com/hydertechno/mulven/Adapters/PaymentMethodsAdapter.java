@@ -66,7 +66,12 @@ public class PaymentMethodsAdapter extends RecyclerView.Adapter<PaymentMethodsAd
             int pos=getAdapterPosition();
             PaymentMethodModel item = dataList.get(pos);
 
-            listener.onClick(item,pos);
+            listener.onClick(item, pos);
         }
+    }
+
+    public void updateData(List<PaymentMethodModel> dataList) {
+        this.dataList = dataList;
+        notifyDataSetChanged();
     }
 }
