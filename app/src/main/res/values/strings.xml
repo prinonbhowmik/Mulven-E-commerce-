@@ -28,6 +28,12 @@
     <string name="banktext5">&#8226; Branch  :  Uttora </string>
     <string name="banktext6">If you make a bank payment please keep a copy of the deposit slip or if your
     are transferring from online banking please take screenshot of the transaction successful page. Send the payment proof with invoice number to our whatsapp number: +8801842770738 Your payment will be updated within 48 hours </string>
+    <string name="title_activity_payment_methods">PaymentMethodsActivity</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
 
 
 </resources>

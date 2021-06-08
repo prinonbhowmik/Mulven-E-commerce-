@@ -35,6 +35,7 @@ public class LoadingDialog extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NORMAL, R.style.FullScreenDialogStyle);
+        setCancelable(false);
     }
 
     @Override

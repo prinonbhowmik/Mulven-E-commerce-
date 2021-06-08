@@ -111,21 +111,21 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
                     String amount=dueTV.getText().toString().substring(2);
                     makePaymentDialog = new Dialog(PlaceOrderDetailsActivity.this);
                     makePaymentDialog.setContentView(R.layout.make_payment_layout_design);
-                    makePaymentDialog.setCancelable(true);
+                    makePaymentDialog.setCancelable(false);
                     makePaymentDialog.show();
                     Window window = makePaymentDialog.getWindow();
                     window.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    ImageView BankIV,mpCloseIV;
-                    mpCloseIV= makePaymentDialog.findViewById(R.id.mpCloseIV);
+                    ImageView BankIV;
                     BankIV= makePaymentDialog.findViewById(R.id.BankIV);
                     EditText paymentAmount= makePaymentDialog.findViewById(R.id.makePayET);
                     CheckBox nagadCB,shurjoPayCB;
                     nagadCB= makePaymentDialog.findViewById(R.id.nagadCB);
                     shurjoPayCB= makePaymentDialog.findViewById(R.id.shurjoPayCB);
 
-                    TextView makePayTV= makePaymentDialog.findViewById(R.id.makePayTV);
+                    TextView continuePayTV= makePaymentDialog.findViewById(R.id.continuePayTV);
+                    TextView closePayTV= makePaymentDialog.findViewById(R.id.closePayTV);
                     paymentAmount.setHint(amount);
-                    mpCloseIV.setOnClickListener(new View.OnClickListener() {
+                    closePayTV.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             makePaymentDialog.dismiss();
@@ -172,29 +172,32 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
                         }
                     });
 
-                    makePayTV.setOnClickListener(new View.OnClickListener() {
+                    continuePayTV.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            if(!shurjoPayCB.isChecked()){
-                                Toast.makeText(PlaceOrderDetailsActivity.this, "Please Select Your Payment Method.", Toast.LENGTH_SHORT).show();
-                            }else if(shurjoPayCB.isChecked()){
                                 String am=paymentAmount.getText().toString();
                                 if(!TextUtils.isEmpty(am)){
                                     try {
                                         double value=Double.parseDouble(am);
-                                        getShurjoPayment(value);
-                                        makePaymentDialog.dismiss();
+                                        if(value>0){
+                                            Intent intent = new Intent(PlaceOrderDetailsActivity.this, PaymentMethodsActivity.class);
+                                            intent.putExtra("amount", value);
+                                            intent.putExtra("orderId", OrderId);
+                                            startActivity(intent);
+                                            makePaymentDialog.dismiss();
+                                        }else
+                                            Toast.makeText(PlaceOrderDetailsActivity.this, "Amount can not 0", Toast.LENGTH_SHORT).show();
+
                                     }catch (Exception e){
-                                        Toast.makeText(PlaceOrderDetailsActivity.this, "Amount must a number!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(PlaceOrderDetailsActivity.this, "Amount must be number", Toast.LENGTH_SHORT).show();
                                     }
 
 
                                 }else{
-                                    Toast.makeText(PlaceOrderDetailsActivity.this, "Please enter your amount.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(PlaceOrderDetailsActivity.this, "Please enter your amount", Toast.LENGTH_SHORT).show();
                                 }
 
                             }
-                        }
                     });
 
                 }
