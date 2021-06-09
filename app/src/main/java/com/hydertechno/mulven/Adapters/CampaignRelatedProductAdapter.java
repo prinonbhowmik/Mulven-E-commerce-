@@ -52,8 +52,12 @@ public class CampaignRelatedProductAdapter extends RecyclerView.Adapter<Campaign
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         CategoriesModel model=categoriesModelList.get(position);
-        holder.productUnitPrice.setText("৳ "+String.valueOf(model.getUnit_price()));
-        holder.productMRPPrice.setText(String.valueOf(model.getMrp_price()));
+        int unitPrice=model.getUnit_price();
+        int mrpPrice=model.getMrp_price();
+        int percentage=(((mrpPrice-unitPrice)*100)/mrpPrice);
+        int per=Math.round(percentage);
+        holder.textViewPercentage.setText("-"+per+"%");
+        holder.productUnitPrice.setText("৳ "+unitPrice);
         holder.productName.setText(model.getProduct_name());
         try{
             Picasso.get()
@@ -64,6 +68,9 @@ public class CampaignRelatedProductAdapter extends RecyclerView.Adapter<Campaign
         }
         if(model.getMrp_price()==0){
             holder.productMRPPrice.setVisibility(View.GONE);
+        }
+        else {
+            holder.productMRPPrice.setText(""+mrpPrice);
         }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,9 +106,10 @@ public class CampaignRelatedProductAdapter extends RecyclerView.Adapter<Campaign
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView productImage;
-        private TextView productUnitPrice,productName,productMRPPrice;
+        private TextView productUnitPrice,productName,productMRPPrice,textViewPercentage;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            textViewPercentage=itemView.findViewById(R.id.textViewPercentage);
             productImage=itemView.findViewById(R.id.productImage);
             productName=itemView.findViewById(R.id.productName);
             productUnitPrice=itemView.findViewById(R.id.productUnitPrice);

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
+    android:orientation="vertical"
     tools:context=".Fragments.NotificationFragment">
 
     <RelativeLayout
@@ -32,13 +33,27 @@
             android:textColor="@color/white"/>
 
     </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/progressRL"
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ProgressBar
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:theme="@style/ProgressBarTheme"
+            android:layout_centerInParent="true"
+            />
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/noNotificationLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
-        android:layout_below="@+id/toolbar">
+        android:visibility="gone">
     <ImageView
         android:id="@+id/bellLogo"
         android:layout_width="35dp"
@@ -62,6 +77,6 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/notificationRecycler"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar"/>
-</RelativeLayout>
+        android:layout_height="wrap_content"/>
+    </RelativeLayout>
+</LinearLayout>

@@ -42,7 +42,7 @@ public class NotificationFragment extends Fragment {
     private DrawerLayout drawerLayout;
     private ImageView navIcon;
     private SharedPreferences sharedPreferences;
-    private RelativeLayout noNotificationLayout;
+    private RelativeLayout noNotificationLayout,progressRL;
     private String  token;
     private RecyclerView notificationRecycler;
     private NotificationAdapter adapter;
@@ -73,18 +73,21 @@ public class NotificationFragment extends Fragment {
     }
 
     private void getNotification() {
+        progressRL.setVisibility(View.VISIBLE);
         Call<List<NotificationModel>> call = ApiUtils.getUserService().getNotification(token);
         call.enqueue(new Callback<List<NotificationModel>>() {
             @Override
             public void onResponse(Call<List<NotificationModel>> call, Response<List<NotificationModel>> response) {
                 if (response.isSuccessful() && response.code()==200){
                     if(response.body()!=null && response.body().size()>0){
+                        progressRL.setVisibility(View.GONE);
                         noNotificationLayout.setVisibility(View.GONE);
                         adapter=new NotificationAdapter(response.body(),getContext());
                         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
                         notificationRecycler.setLayoutManager(layoutManager);
                         notificationRecycler.setAdapter(adapter);
                     }else {
+                        progressRL.setVisibility(View.GONE);
                         noNotificationLayout.setVisibility(View.VISIBLE);
                     }
                 }else
@@ -94,7 +97,8 @@ public class NotificationFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<NotificationModel>> call, Throwable t) {
-
+                progressRL.setVisibility(View.GONE);
+                noNotificationLayout.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -102,6 +106,7 @@ public class NotificationFragment extends Fragment {
     private void init(View view) {
         navIcon=view.findViewById(R.id.navIcon);
         noNotificationLayout=view.findViewById(R.id.noNotificationLayout);
+        progressRL=view.findViewById(R.id.progressRL);
         notificationRecycler=view.findViewById(R.id.notificationRecycler);
         sharedPreferences = getContext().getSharedPreferences("MyRef", MODE_PRIVATE);
         token = sharedPreferences.getString("token",null);

@@ -13,21 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <RelativeLayout
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:background="@drawable/bg_percentage">
-            <TextView
-                android:id="@+id/textViewPercentage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="-80%"
-                android:textSize="16dp"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="12dp"/>
-        </RelativeLayout>
+
 
         <ImageView
             android:id="@+id/productImage"
@@ -78,8 +64,20 @@
 
 
         </RelativeLayout>
-
-
+        <RelativeLayout
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/bg_percentage">
+            <TextView
+                android:id="@+id/textViewPercentage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14dp"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="5dp"/>
+        </RelativeLayout>
 
     </RelativeLayout>
 </androidx.cardview.widget.CardView>
