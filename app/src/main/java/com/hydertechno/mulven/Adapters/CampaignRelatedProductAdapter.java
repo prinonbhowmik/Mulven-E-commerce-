@@ -45,7 +45,7 @@ public class CampaignRelatedProductAdapter extends RecyclerView.Adapter<Campaign
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_layout_design, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_campaign_related_product, parent, false);
         return new CampaignRelatedProductAdapter.ViewHolder(view);
     }
 

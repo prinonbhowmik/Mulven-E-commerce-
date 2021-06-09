@@ -10,7 +10,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp">
+        android:padding="5dp">
 
         <TextView
             android:id="@+id/notificationTitle"
@@ -22,7 +22,6 @@
             android:fontFamily="@font/comfortaa_bold"
             android:maxLines="1"
             android:textColor="@color/black"
-            android:text="Notification Title"
             android:textSize="15sp" />
 
         <TextView
@@ -34,10 +33,8 @@
             android:layout_marginTop="5dp"
             android:layout_marginEnd="10dp"
             android:fontFamily="@font/comfortaa_light"
-            android:maxLines="3"
             android:lineSpacingExtra="5dp"
             android:textColor="@color/black"
-            android:text="Notification Body. This is notification boyd. text size 12sp. font family comfortaa light. and max lines are 3"
             android:textSize="12sp" />
 
         <TextView
@@ -52,7 +49,6 @@
             android:fontFamily="@font/comfortaa_light"
             android:maxLines="1"
             android:textColor="@color/black"
-            android:text="01-02-2021 10:30 AM"
             android:textSize="12sp" />
 
     </RelativeLayout>
