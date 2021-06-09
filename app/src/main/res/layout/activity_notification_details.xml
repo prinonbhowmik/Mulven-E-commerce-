@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginStart="5dp"
+    android:layout_marginEnd="5dp"
+    android:layout_marginTop="5dp"
+    tools:context=".Activities.NotificationDetailsActivity"
+    android:layout_marginBottom="5dp">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/themDark"
+        app:theme="@style/ToolbarColoredBackArrow"
+        app:title="Notification"
+        app:titleTextColor="@color/white" />
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/notificationImage"
+        android:layout_width="fill_parent"
+        android:layout_height="250dp"/>
+
+    <TextView
+        android:id="@+id/titleTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/holo_red_light"
+        android:layout_below="@+id/notificationImage"/>
+    <TextView
+        android:id="@+id/bodyTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/titleTv"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp"
+        android:justificationMode="inter_word"
+        android:textColor="@color/black"
+        android:textSize="18sp" />
+</RelativeLayout>
