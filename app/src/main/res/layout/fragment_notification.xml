@@ -8,9 +8,9 @@
     tools:context=".Fragments.NotificationFragment">
 
     <RelativeLayout
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="65dp"
-        android:id="@+id/toolbar"
         android:background="@color/themDark">
 
         <ImageView
@@ -19,52 +19,57 @@
             android:layout_height="35sp"
             android:layout_centerVertical="true"
             android:layout_marginStart="20dp"
-            android:src="@drawable/ic_menu"/>
+            android:src="@drawable/ic_menu" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="35dp"
-            android:text="Notification"
-            android:layout_toEndOf="@+id/navIcon"
             android:layout_centerVertical="true"
             android:layout_marginStart="10dp"
-            android:textSize="24sp"
+            android:layout_toEndOf="@+id/navIcon"
             android:fontFamily="@font/comfortaa_light"
-            android:textColor="@color/white"/>
+            android:text="Notification"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
 
     </RelativeLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <include layout="@layout/layout_circular_progress"/>
-    <RelativeLayout
-        android:id="@+id/noNotificationLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
-    <ImageView
-        android:id="@+id/bellLogo"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:src="@drawable/ic_bell"
-        android:layout_marginBottom="10dp"
-        android:layout_above="@+id/noNotification"
-        android:layout_centerInParent="true"/>
-    <TextView
-        android:id="@+id/noNotification"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:textColor="@color/black"
-        android:text="No notification yet !"
-        android:textSize="18sp"
-        android:fontFamily="@font/comfortaa_light"/>
 
-    </RelativeLayout>
+        <include layout="@layout/layout_circular_progress" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/notificationRecycler"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        <RelativeLayout
+            android:id="@+id/noNotificationLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/bellLogo"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_above="@+id/noNotification"
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="10dp"
+                android:src="@drawable/ic_bell" />
+
+            <TextView
+                android:id="@+id/noNotification"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/comfortaa_light"
+                android:text="No notification yet !"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+        </RelativeLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/notificationRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </RelativeLayout>
 </LinearLayout>
