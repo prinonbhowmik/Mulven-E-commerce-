@@ -36,19 +36,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <RelativeLayout
-        android:id="@+id/progressRL"
-        android:visibility="visible"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <ProgressBar
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:theme="@style/ProgressBarTheme"
-            android:layout_centerInParent="true"
-            />
-    </RelativeLayout>
-
+        <include layout="@layout/layout_circular_progress"/>
     <RelativeLayout
         android:id="@+id/noNotificationLayout"
         android:layout_width="match_parent"
