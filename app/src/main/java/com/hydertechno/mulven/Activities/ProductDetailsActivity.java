@@ -174,7 +174,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
                     databaseHelper.addToCart(product_id,sku2, product_Name.getText().toString(),
                             productMrpPrice, productUnitPrice, size, color, variant,
                             shop_Name.getText().toString(), Integer.parseInt(cardQuantity.getText().toString()),
-                            capmpagin_id, store_id, imageString);
+                            capmpagin_id, store_id, category_id, imageString);
 
                 }
                     Toasty.normal(ProductDetailsActivity.this, "Product Added To Cart").show();
@@ -226,7 +226,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
                             databaseHelper.addToCart(product_id,sku2, product_Name.getText().toString(),
                                     productMrpPrice, productUnitPrice, size, color, variant,
                                     shop_Name.getText().toString(), Integer.parseInt(cardQuantity.getText().toString()),
-                                    capmpagin_id, store_id, imageString);
+                                    capmpagin_id, store_id, category_id, imageString);
                         }
                     }
                 Intent intent = new Intent(ProductDetailsActivity.this, MainActivity.class);

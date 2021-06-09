@@ -112,6 +112,7 @@ public class CartFragment extends Fragment {
                         String variant = cursor.getString(cursor.getColumnIndex(databaseHelper.VARIANT));
                         String campaign_id = cursor.getString(cursor.getColumnIndex(databaseHelper.CAMPAIGN_ID));
                         int store_id = cursor.getInt(cursor.getColumnIndex(databaseHelper.STORE_ID));
+                        int category_id = cursor.getInt(cursor.getColumnIndex(databaseHelper.CATEGORY_ID));
 
                         Map<String, String> parms = new HashMap<String, String>();
 
@@ -124,6 +125,7 @@ public class CartFragment extends Fragment {
                         parms.put("price", String.valueOf(unit_price));
                         parms.put("order_from", campaign_id);
                         parms.put("store_id", String.valueOf(store_id));
+                        parms.put("category_id", String.valueOf(category_id));
                         parms.put("quantity", String.valueOf(quantity));
 
                         list1.add(parms);
