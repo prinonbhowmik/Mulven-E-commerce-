@@ -64,7 +64,7 @@
             android:id="@+id/deliveryInfoTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="You can change delivery address only for 1 time. For further changes contact support."
+            android:text="You can set delivery address only one time. For further changes, please contact our support."
             android:fontFamily="@font/comfortaa_bold"
             android:gravity="center"
             android:textSize="12sp"/>
