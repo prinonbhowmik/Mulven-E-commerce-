@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.os.CountDownTimer;
 import android.service.autofill.TextValueSanitizer;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -96,7 +97,33 @@ public class CampaignAdapter extends RecyclerView.Adapter<CampaignAdapter.ViewHo
             date1=sdf.parse(start_Date);
             date2=sdf.parse(currentDate);
             millieSecond=date1.getTime()-date2.getTime();
-            holder.campaignCountdown.start(millieSecond); // Millisecond
+
+            new CountDownTimer(millieSecond, 1000) {
+                public void onTick(long millisUntilFinished) {
+                    long seconds = millisUntilFinished / 1000;
+                    long minutes = seconds / 60;
+                    long hours = minutes / 60;
+                    long days = hours / 24;
+
+                    holder.itemTextDay.setText(days + "");
+                    holder.itemTextHr.setText(hours % 24 + "");
+                    holder.itemTextMin.setText(minutes % 60 + "");
+                    holder.itemTextSec.setText(seconds % 60 + "");
+                }
+                public void onFinish() {
+                    if(status==1) {
+                        holder.liveLL.setVisibility(View.VISIBLE);
+                        holder.campaignCountdown.setVisibility(View.GONE);
+
+                    } else if(status==0){
+                        if(millieSecond<0) {
+                            holder.overLL.setVisibility(View.VISIBLE);
+                            holder.campaignCountdown.setVisibility(View.GONE);
+                        }
+                    }
+                }
+            }.start();
+
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -153,8 +180,15 @@ public class CampaignAdapter extends RecyclerView.Adapter<CampaignAdapter.ViewHo
         private CardView campaignCV;
         private TextView liveTxt,campaignTimeDate;
         private ImageView campaignImage;
-        private CountdownView campaignCountdown;
+        private LinearLayout campaignCountdown;
         private LinearLayout liveLL,overLL;
+
+        //count down text views
+        TextView itemTextDay;
+        TextView itemTextHr;
+        TextView itemTextMin;
+        TextView itemTextSec;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             campaignCV=itemView.findViewById(R.id.campaignCV);
@@ -162,6 +196,11 @@ public class CampaignAdapter extends RecyclerView.Adapter<CampaignAdapter.ViewHo
             campaignCountdown=itemView.findViewById(R.id.countdown);
             liveLL=itemView.findViewById(R.id.liveLL);
             overLL=itemView.findViewById(R.id.overLL);
+
+            itemTextDay = itemView.findViewById(R.id.item_text_day);
+            itemTextHr = itemView.findViewById(R.id.item_text_hr);
+            itemTextMin = itemView.findViewById(R.id.item_text_min);
+            itemTextSec = itemView.findViewById(R.id.item_text_sec);
         }
     }
 

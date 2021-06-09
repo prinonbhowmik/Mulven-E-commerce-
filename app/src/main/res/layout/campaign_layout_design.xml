@@ -22,31 +22,163 @@
                 android:padding="5dp"
                 android:layout_height="230dp"/>
 
-            <cn.iwgang.countdownview.CountdownView
+<!--            <cn.iwgang.countdownview.CountdownView-->
+<!--                android:id="@+id/countdown"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_below="@id/campaignImage"-->
+<!--                app:isHideTimeBackground="false"-->
+<!--                app:timeBgSize="50dp"-->
+<!--                app:timeBgColor="@color/GBlue"-->
+<!--                app:isShowDay="true"-->
+<!--                app:isShowHour="true"-->
+<!--                app:isShowMinute="true"-->
+<!--                app:isShowSecond="true"-->
+<!--                app:timeTextColor="#ffffff"-->
+<!--                app:timeTextSize="28sp"-->
+<!--                app:isTimeTextBold="true"-->
+<!--                app:suffixGravity="bottom"-->
+<!--                android:layout_centerHorizontal="true"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:layout_marginBottom="15dp"-->
+<!--                app:suffixTextColor="#000000"-->
+<!--                app:suffixTextSize="15sp"-->
+<!--                app:suffixDay="day"-->
+<!--                app:suffixHour="hr"-->
+<!--                app:suffixMinute="min"-->
+<!--                app:suffixSecond="sec"/>-->
+
+            <LinearLayout
                 android:id="@+id/countdown"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/campaignImage"
-                app:isHideTimeBackground="false"
-                app:timeBgSize="50dp"
-                app:timeBgColor="@color/GBlue"
-                app:isShowDay="true"
-                app:isShowHour="true"
-                app:isShowMinute="true"
-                app:isShowSecond="true"
-                app:timeTextColor="#ffffff"
-                app:timeTextSize="28sp"
-                app:isTimeTextBold="true"
-                app:suffixGravity="bottom"
-                android:layout_centerHorizontal="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="15dp"
-                app:suffixTextColor="#000000"
-                app:suffixTextSize="15sp"
-                app:suffixDay="day"
-                app:suffixHour="hr"
-                app:suffixMinute="min"
-                app:suffixSecond="sec"/>
+                android:layout_marginBottom="10dp"
+                android:weightSum="1"
+                android:orientation="horizontal">
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".04"/>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".20"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/item_text_day"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="00"
+                        android:textColor="@color/white"
+                        android:background="@color/GBlue"
+                        android:textSize="30sp"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Day"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/comfortaa_bold"
+                        android:gravity="center"/>
+                </LinearLayout>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".04"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".20"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/item_text_hr"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="00"
+                        android:textColor="@color/white"
+                        android:background="@color/GBlue"
+                        android:textSize="30sp"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Hour"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/comfortaa_bold"
+                        android:gravity="center"/>
+                </LinearLayout>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".04"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".20"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/item_text_min"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="00"
+                        android:textColor="@color/white"
+                        android:background="@color/GBlue"
+                        android:textSize="30sp"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Min"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/comfortaa_bold"
+                        android:gravity="center"/>
+                </LinearLayout>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".04"/>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".20"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/item_text_sec"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="00"
+                        android:textColor="@color/white"
+                        android:background="@color/GBlue"
+                        android:textSize="30sp"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Sec"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/comfortaa_bold"
+                        android:gravity="center"/>
+                </LinearLayout>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight=".04"/>
+
+            </LinearLayout>
             <LinearLayout
                 android:id="@+id/liveLL"
                 android:layout_width="match_parent"
