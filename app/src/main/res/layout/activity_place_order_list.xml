@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#f8f9fa"
+    android:orientation="vertical"
     android:id="@+id/placeOrderListRootLayout"
     tools:context=".Activities.PlaceOrderListActivity">
 
@@ -35,12 +36,10 @@
             android:textSize="21sp" />
 
     </RelativeLayout>
-
     <HorizontalScrollView
         android:id="@+id/tagScrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar"
         android:scrollbars="none">
 
         <LinearLayout
@@ -172,41 +171,64 @@
                 android:text="Canceled"
                 android:textColor="@color/GRed"
                 android:textSize="12sp" />
+
+
+            <TextView
+                android:id="@+id/sRefunded"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/status_tag"
+                android:fontFamily="@font/comfortaa_bold"
+                android:gravity="center"
+                android:paddingStart="25dp"
+                android:paddingEnd="25dp"
+                android:text="Refunded"
+                android:textColor="#9C27B0"
+                android:textSize="12sp" />
         </LinearLayout>
     </HorizontalScrollView>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/orderListRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/tagScrollView"
-        android:background="#f8f9fa"
-        android:visibility="visible" />
-
     <RelativeLayout
-        android:id="@+id/noOrderLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/tagScrollView"
-        android:visibility="gone">
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/cartLogo"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_above="@+id/noCart"
-            android:layout_centerInParent="true"
-            android:layout_marginBottom="10dp"
-            android:src="@drawable/ic_package" />
 
-        <TextView
-            android:id="@+id/noCart"
-            android:layout_width="wrap_content"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/orderListRecyclerView"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:fontFamily="@font/comfortaa_light"
-            android:text="No order records !"
-            android:textColor="@color/black"
-            android:textSize="18sp" />
+            android:background="#f8f9fa"
+            android:visibility="visible" />
+
+        <RelativeLayout
+            android:id="@+id/noOrderLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/cartLogo"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_above="@+id/noCart"
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="10dp"
+                android:src="@drawable/ic_package" />
+
+            <TextView
+                android:id="@+id/noCart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/comfortaa_light"
+                android:text="No order records !"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+        </RelativeLayout>
+        <include layout="@layout/layout_circular_progress" />
     </RelativeLayout>
-</RelativeLayout>
+
+</LinearLayout>

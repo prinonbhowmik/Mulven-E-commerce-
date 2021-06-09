@@ -413,6 +413,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/featureRL"
                 android:layout_marginTop="10dp"
+                android:visibility="gone"
                 android:background="@color/white">
 
                 <TextView
@@ -441,6 +442,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/descriptionRl"
                 android:layout_marginTop="10dp"
+                android:visibility="gone"
                 android:layout_marginBottom="70dp"
                 android:background="@color/white">
 

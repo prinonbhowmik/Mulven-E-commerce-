@@ -73,7 +73,7 @@ public class PaymentMethodsActivity extends BaseActivity implements OnPMethodIte
 
     private void getData() {
         methodModelsList=new ArrayList<>();
-        methodModelsList.add(new PaymentMethodModel("Nagad", "Pay from your Nagad account", R.drawable.nagad));
+        //methodModelsList.add(new PaymentMethodModel("Nagad", "Pay from your Nagad account", R.drawable.nagad));
         methodModelsList.add(new PaymentMethodModel("Shurjo Pay", "Choose your desire payment method by Shurjo Pay", R.drawable.shurjo_pay));
         methodModelsList.add(new PaymentMethodModel("Bank", "Pay by bank account", R.drawable.bank_transfer));
 
@@ -110,12 +110,11 @@ public class PaymentMethodsActivity extends BaseActivity implements OnPMethodIte
     @Override
     public void onClick(PaymentMethodModel item, int position) {
         switch (position) {
+
             case 0:
-                break;
-            case 1:
                 getShurjoPayment(amount);
                 break;
-            case 2:
+            case 1:
                 bankPaymentDialog = new Dialog(context);
                 bankPaymentDialog.setContentView(R.layout.bank_payment_layout_design);
                 bankPaymentDialog.setCancelable(true);
