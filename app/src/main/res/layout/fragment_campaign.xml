@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/campaign_fragment_rootLayout"
+    android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragments.CampaignFragment">
 
@@ -36,49 +37,14 @@
             android:fontFamily="@font/comfortaa_light"
             android:textColor="@color/white"/>
 
-        <ImageView
-            android:id="@+id/SearchIv"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginTop="20dp"
-            android:visibility="gone"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="20dp"
-            android:src="@drawable/ic_home_search" />
-        <ImageView
-            android:id="@+id/closeIv"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginTop="20dp"
-            android:visibility="gone"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="20dp"
-            android:src="@drawable/ic_cross" />
-
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/searchET"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:maxLines="1"
-            android:visibility="gone"
-            android:layout_below="@+id/titleName"
-            android:layout_marginStart="25dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="25dp"
-            android:layout_marginBottom="15dp"
-            android:background="@drawable/search_background"
-            android:drawableEnd="@drawable/ic_search"
-            android:fontFamily="@font/comfortaa_light"
-            android:gravity="center_vertical"
-            android:paddingStart="10dp"
-            android:paddingEnd="15dp"
-            android:textColor="@color/themDark"
-            android:textSize="18sp"
-            tools:ignore="RtlSymmetry" />
 
 
     </RelativeLayout>
-    <androidx.recyclerview.widget.RecyclerView
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/campaignRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -91,19 +57,21 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_below="@+id/toolbar" />
 
+        <TextView
+            android:id="@+id/noCampaign"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:text="No Campaign Available"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_centerInParent="true"
+            android:visibility="gone"
+            android:textSize="18sp"
+            android:fontFamily="@font/comfortaa_light"
+            android:textColor="@color/black"/>
 
+        <include layout="@layout/layout_circular_progress" />
+    </RelativeLayout>
 
-    <TextView
-        android:id="@+id/noCampaign"
-        android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:text="No Campaign Available"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_centerInParent="true"
-        android:visibility="gone"
-        android:textSize="18sp"
-        android:fontFamily="@font/comfortaa_light"
-        android:textColor="@color/black"/>
-</RelativeLayout>
+</LinearLayout>
