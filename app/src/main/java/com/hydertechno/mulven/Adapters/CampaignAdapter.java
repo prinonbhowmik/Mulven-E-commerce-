@@ -1,21 +1,16 @@
 package com.hydertechno.mulven.Adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.CountDownTimer;
-import android.service.autofill.TextValueSanitizer;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -23,10 +18,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.hydertechno.mulven.Activities.CampaignProductActivity;
-import com.hydertechno.mulven.Activities.ProductDetailsActivity;
 import com.hydertechno.mulven.Api.Config;
 import com.hydertechno.mulven.Fragments.CampaignFragment;
-import com.hydertechno.mulven.Fragments.HomeFragment;
 import com.hydertechno.mulven.Internet.ConnectivityReceiver;
 import com.hydertechno.mulven.Models.CampaignModel;
 import com.hydertechno.mulven.R;
@@ -36,9 +29,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
-import cn.iwgang.countdownview.CountdownView;
 import es.dmoral.toasty.Toasty;
 
 public class CampaignAdapter extends RecyclerView.Adapter<CampaignAdapter.ViewHolder> implements ConnectivityReceiver.ConnectivityReceiverListener {
