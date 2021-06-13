@@ -98,7 +98,7 @@ public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.Vi
         } catch (Exception e) {
             e.printStackTrace();
         }
-        String orderStatus = model.getStatus();
+        String orderStatus = model.getStatus() != null ? model.getStatus() : "Not Set";
         switch (orderStatus) {
             case "Pending":
                 holder.orderStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.status_pending));
@@ -122,8 +122,10 @@ public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.Vi
             case "Picked":
                 holder.orderStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.status_picked));
                 break;
+            default:
+                holder.orderStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.status_cancel));
         }
-        holder.orderStatusTV.setText(model.getStatus());
+        holder.orderStatusTV.setText(orderStatus);
 
     }
 

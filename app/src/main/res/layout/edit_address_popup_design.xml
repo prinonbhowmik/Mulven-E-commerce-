@@ -42,7 +42,7 @@
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
         android:textColor="#000"
-        android:textSize="18sp" />
+        android:textSize="15sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout

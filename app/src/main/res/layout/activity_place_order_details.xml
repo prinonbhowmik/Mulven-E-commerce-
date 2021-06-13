@@ -61,6 +61,7 @@
                 android:id="@+id/topRelative"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:background="@color/white">
 
             <TextView
@@ -299,6 +300,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/topRelative"
                 android:layout_marginTop="10dp"
+                android:visibility="gone"
                 android:orientation="horizontal"
                 android:background="@color/white"
                 android:weightSum="1">
@@ -343,6 +345,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/descriptionLinearLayout"
                 android:layout_marginTop="10dp"
+                android:visibility="gone"
                 android:background="@color/white"
                 android:orientation="vertical">
                 <TextView
@@ -446,6 +449,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/priceLinearLayout"
                 android:layout_marginTop="10dp"
+                android:visibility="gone"
                 android:layout_marginBottom="10dp"
                 android:background="@color/white" >
 
@@ -478,6 +482,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
+                android:visibility="gone"
                 android:layout_marginBottom="5dp"
                 android:layout_below="@+id/statusRelative">
 
@@ -517,6 +522,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/oderTimeLineRL"
                 android:layout_marginBottom="10dp"
+                android:visibility="gone"
                 android:layout_marginTop="5dp"
                 android:background="@color/white" >
 

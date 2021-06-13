@@ -26,6 +26,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
@@ -77,6 +78,8 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
     private SharedPreferences sharedPreferences;
     private List<InvoiceDetailsModel> invoiceDetailsModelList;
     private FrameLayout frame_layout2;
+    private RelativeLayout topRelative,descriptionLinearLayout,statusRelative,oderTimeLineRL,refundRelative;
+    private LinearLayout priceLinearLayout;
     private RecyclerView timelineRecyclerView, orderItemListRecyclerView;
     private RelativeLayout rootLayout;
     private Snackbar snackbar;
@@ -276,6 +279,14 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
         token = sharedPreferences.getString("token", null);
         userId =sharedPreferences.getInt("userId",0);
         rootLayout = findViewById(R.id.place_order_details_rootLayout);
+        frame_layout2 = findViewById(R.id.frame_layout2);
+        topRelative = findViewById(R.id.topRelative);
+        descriptionLinearLayout = findViewById(R.id.descriptionLinearLayout);
+        statusRelative = findViewById(R.id.statusRelative);
+        oderTimeLineRL = findViewById(R.id.oderTimeLineRL);
+        refundRelative = findViewById(R.id.refundRelative);
+        priceLinearLayout = findViewById(R.id.priceLinearLayout);
+
         invoiceIdTV = findViewById(R.id.InvoiceTV);
         moreIcon = findViewById(R.id.moreIcon);
         orderTimeTV = findViewById(R.id.orderTimeTV);
@@ -313,6 +324,12 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
             @Override
             public void onResponse(Call<InvoiceDetailsModel> call, Response<InvoiceDetailsModel> response) {
                 loadingDialog.dismiss();
+                topRelative.setVisibility(View.VISIBLE);
+                descriptionLinearLayout.setVisibility(View.VISIBLE);
+                statusRelative.setVisibility(View.VISIBLE);
+                oderTimeLineRL.setVisibility(View.VISIBLE);
+                refundRelative.setVisibility(View.VISIBLE);
+                priceLinearLayout.setVisibility(View.VISIBLE);
                 InvoiceDetailsModel details = response.body();
                 String shopName = details.getOrderDetails().getShop_name();
                 String shopPhone = details.getOrderDetails().getSeller_phone();
