@@ -75,6 +75,7 @@ public class PaymentMethodsActivity extends BaseActivity implements OnPMethodIte
         methodModelsList=new ArrayList<>();
         //methodModelsList.add(new PaymentMethodModel("Nagad", "Pay from your Nagad account", R.drawable.nagad));
         methodModelsList.add(new PaymentMethodModel("Shurjo Pay", "Choose your desire payment method by Shurjo Pay", R.drawable.shurjo_pay));
+        methodModelsList.add(new PaymentMethodModel("Mulven Wallet", "Pay by Mulven Wallet", R.drawable.mulven_wallet));
         methodModelsList.add(new PaymentMethodModel("Bank", "Pay by bank account", R.drawable.bank_transfer));
 
         methodsAdapter.updateData(methodModelsList);
@@ -114,7 +115,7 @@ public class PaymentMethodsActivity extends BaseActivity implements OnPMethodIte
             case 0:
                 getShurjoPayment(amount);
                 break;
-            case 1:
+            case 2:
                 bankPaymentDialog = new Dialog(context);
                 bankPaymentDialog.setContentView(R.layout.bank_payment_layout_design);
                 bankPaymentDialog.setCancelable(true);
