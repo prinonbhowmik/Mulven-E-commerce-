@@ -31,7 +31,7 @@
         android:textColor="@color/black"
         android:text="Some products of your cart is not available at this moment. Please remove that product and try again." />
     <TextView
-        android:id="@+id/errorTV"
+        android:id="@+id/errorTVButton"
         android:layout_width="120dp"
         android:layout_height="45dp"
         android:layout_marginEnd="20dp"

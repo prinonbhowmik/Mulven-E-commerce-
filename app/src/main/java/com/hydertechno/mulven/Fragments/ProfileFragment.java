@@ -21,6 +21,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
@@ -131,7 +132,7 @@ public class ProfileFragment extends Fragment implements ConnectivityReceiver.Co
                 checkConnection();
                 if (!isConnected) {
                     snackBar(isConnected);
-                } else {/*
+                } else {
                     dialog = new Dialog(view.getContext());
                     dialog.setContentView(R.layout.check_balance_layout_design);
 
@@ -139,10 +140,7 @@ public class ProfileFragment extends Fragment implements ConnectivityReceiver.Co
 
                     dialog.show();
                     Window window = dialog.getWindow();
-                    window.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);*/
-                    FragmentTransaction ft = getFragmentManager().beginTransaction();
-                    DialogFragment newFragment = new OrderSuccessFragment();
-                    newFragment.show(ft, "dialog");
+                    window.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 }
             }
         });
@@ -155,14 +153,10 @@ public class ProfileFragment extends Fragment implements ConnectivityReceiver.Co
                     snackBar(isConnected);
                 } else {
                     // startActivity(new Intent(getActivity(), AddressActivity.class));
-                    /*Intent intent = new Intent(getActivity(), AddressActivity.class);
+                    Intent intent = new Intent(getActivity(), AddressActivity.class);
                     startActivity(intent);
                     getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                    getActivity().finish();*/
-
-                    FragmentTransaction ft = getFragmentManager().beginTransaction();
-                    DialogFragment newFragment = new OrderErrorFragment();
-                    newFragment.show(ft, "dialog");
+                    getActivity().finish();
                 }
             }
         });

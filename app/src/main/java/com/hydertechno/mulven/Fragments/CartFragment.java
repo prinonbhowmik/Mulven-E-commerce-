@@ -10,7 +10,9 @@ import android.os.Bundle;
 
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -93,6 +95,7 @@ public class CartFragment extends Fragment {
                 if (loggedIn == 0 ){
                     Toasty.normal(getContext(),"Please login first!",Toasty.LENGTH_SHORT).show();
                 }else if(loggedIn == 1){
+
                 Cursor cursor = databaseHelper.getCart();
                 if (cursor != null) {
 
@@ -127,51 +130,46 @@ public class CartFragment extends Fragment {
                         parms.put("store_id", String.valueOf(store_id));
                         parms.put("category_id", String.valueOf(category_id));
                         parms.put("quantity", String.valueOf(quantity));
-
                         list1.add(parms);
-                        databaseHelper.deleteData(id, size, color, variant);
+//                        databaseHelper.deleteData(id, size, color, variant);
                         array = new JSONArray(list1);
                         jsonArrayList.add(array);
-
-
                     }
                     Log.d("checkList", String.valueOf(jsonArrayList));
                     Call<PlaceOrderModel> call = ApiUtils.getUserService().placeOrder(token, jsonArrayList);
                     call.enqueue(new Callback<PlaceOrderModel>() {
                         @Override
                         public void onResponse(Call<PlaceOrderModel> call, Response<PlaceOrderModel> response) {
-                            if (response.isSuccessful()) {
+                            Log.e("Response=====>", response.toString());
+                            if (response.isSuccessful() && response.code() == 200) {
                                 int status = response.body().getStatus();
-                                if (status == 1) {
-
-                                    new Handler().postDelayed(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            dialog.dismiss();
-                                            Intent intent = new Intent(getActivity(), PlaceOrderListActivity.class);
-                                            intent.putExtra("from", "cart");
-                                            startActivity(intent);
-                                            getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                                            getActivity().finish();
-
+                                switch (status) {
+                                    case 200:
+                                        ArrayList<CartProductModel> allCartProducts = databaseHelper.getAllCartProducts();
+                                        for (CartProductModel item : allCartProducts) {
+                                            databaseHelper.deleteData(item.getId(), item.getSize(), item.getColor(), item.getVariant());
                                         }
-                                    }, 5000);
-
-                                    dialog = new Dialog(view.getContext());
-                                    dialog.setContentView(R.layout.place_order_successful_design);
-
-                                    dialog.setCancelable(false);
-
-                                    dialog.show();
-                                    Window window = dialog.getWindow();
-                                    window.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
+                                        showSuccessDialog();
+                                        break;
+                                    case 2:
+                                    case 3:
+                                    case 4:
+                                        showErrorDialog(response.body().getMessage());
+                                        break;
+                                    default:
+                                        showErrorDialog("Something went wrong, Please try again!");
+                                        break;
                                 }
+                            } else  {
+                                showErrorDialog("Something went wrong, Please try again!");
                             }
+
                         }
 
                         @Override
                         public void onFailure(Call<PlaceOrderModel> call, Throwable t) {
+                            Log.e(CartFragment.class.getSimpleName(), t.getMessage());
+
                         }
                     });
                 }else{
@@ -182,6 +180,18 @@ public class CartFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    private void showSuccessDialog() {
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        DialogFragment newFragment = new OrderSuccessFragment();
+        newFragment.show(ft, "dialog");
+    }
+
+    private void showErrorDialog(String text) {
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        DialogFragment newFragment = new OrderErrorFragment(text);
+        newFragment.show(ft, "dialog");
     }
 
     private void getCartProducts() {
