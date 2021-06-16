@@ -149,8 +149,7 @@ public class CampaignProductActivity extends AppCompatActivity implements Connec
                     campaignCategoryAdapter.updateData(campaignCategory);
 
                     allItems=list.getAllitems();
-                    campaignProductsAdapter = new CampaignProductsAdapter(allItems, CampaignProductActivity.this);
-                    campaignProductRecyclerView.setAdapter(campaignProductsAdapter);
+                    campaignProductsAdapter.updateData(allItems);
                     if (allItems.size() == 0) {
                         campaignProductRecyclerView.setVisibility(View.GONE);
                     }
@@ -158,7 +157,6 @@ public class CampaignProductActivity extends AppCompatActivity implements Connec
                         campaignCatRecycler.setVisibility(View.GONE);
                     }
                 }
-                campaignProductsAdapter.notifyDataSetChanged();
             }
             @Override
             public void onFailure(Call<CampaignProductsModel> call, Throwable t) {
@@ -280,31 +278,31 @@ public class CampaignProductActivity extends AppCompatActivity implements Connec
 
     @Override
     public void onClick(int id) {
-        allItems.clear();
-        Call<CampaignProductsModel> call = apiInterface.getCampaignItem(campaignID);
-        call.enqueue(new Callback<CampaignProductsModel>() {
-            @Override
-            public void onResponse(Call<CampaignProductsModel> call, Response<CampaignProductsModel> response) {
-                if (response.isSuccessful()){
-
-                    CampaignProductsModel list  = response.body();
-
-                    campaignCategory=list.getCategory();
-                    campaignCategoryAdapter.updateData(campaignCategory);
-                    allItems=list.getAllitems();
-                    campaignProductsAdapter = new CampaignProductsAdapter(allItems, CampaignProductActivity.this);
-                    campaignProductRecyclerView.setAdapter(campaignProductsAdapter);
-                    campaignProductsAdapter.getFilter().filter(String.valueOf(id));
-//                    campaignProductRecyclerView.setAdapter(campaignProductsAdapter);
-                }
-                //Collections.reverse(categoryNamesModelList);
-                campaignProductsAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onFailure(Call<CampaignProductsModel> call, Throwable t) {
-                Log.d("ErrorKi",t.getMessage());
-            }
-        });
+        campaignProductsAdapter.getFilter().filter(String.valueOf(id));
+//        allItems.clear();
+//        Call<CampaignProductsModel> call = apiInterface.getCampaignItem(campaignID);
+//        call.enqueue(new Callback<CampaignProductsModel>() {
+//            @Override
+//            public void onResponse(Call<CampaignProductsModel> call, Response<CampaignProductsModel> response) {
+//                if (response.isSuccessful()){
+//
+//                    CampaignProductsModel list  = response.body();
+//
+//                    campaignCategory=list.getCategory();
+//                    campaignCategoryAdapter.updateData(campaignCategory);
+//                    allItems=list.getAllitems();
+//                    campaignProductsAdapter.updateData(allItems);
+//                    campaignProductsAdapter.getFilter().filter(String.valueOf(id));
+////                    campaignProductRecyclerView.setAdapter(campaignProductsAdapter);
+//                }
+//                //Collections.reverse(categoryNamesModelList);
+//                campaignProductsAdapter.notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            public void onFailure(Call<CampaignProductsModel> call, Throwable t) {
+//                Log.d("ErrorKi",t.getMessage());
+//            }
+//        });
     }
 }

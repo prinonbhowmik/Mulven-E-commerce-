@@ -119,8 +119,8 @@ public class CampaignProductsAdapter extends RecyclerView.Adapter<CampaignProduc
                 for (CategoriesModel item : filterModelList) {
                     if (item.getProduct_name().toLowerCase().contains(filterPattern)) {
                         filteredList.add(item);
-                    }
-                    else if(item.getCategory().equals(filterPattern)) {
+                    } else if(item.getCategory().equals(filterPattern)) {
+                        Log.e("Items==>", item.getCategory() + "==" + filterPattern);
                         filteredList.add(item);
                     }
                 }
@@ -175,6 +175,12 @@ public class CampaignProductsAdapter extends RecyclerView.Adapter<CampaignProduc
 
     private void checkConnection() {
         isConnected = ConnectivityReceiver.isConnected();
+    }
+
+    public void updateData(List<CategoriesModel> list) {
+        this.categoriesModelList = list;
+        this.filterModelList = list;
+        notifyDataSetChanged();
     }
 }
 

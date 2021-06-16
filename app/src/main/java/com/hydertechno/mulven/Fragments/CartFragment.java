@@ -32,6 +32,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.hydertechno.mulven.Activities.MainActivity;
 import com.hydertechno.mulven.Activities.PlaceOrderListActivity;
 import com.hydertechno.mulven.Adapters.CartAdapter;
 import com.hydertechno.mulven.Api.ApiUtils;
@@ -110,6 +111,7 @@ public class CartFragment extends Fragment  implements ConnectivityReceiver.Conn
                         Toasty.normal(getContext(), "Please login first!", Toasty.LENGTH_SHORT).show();
                     } else if (loggedIn == 1) {
 
+
                         Cursor cursor = databaseHelper.getCart();
                         if (cursor != null) {
 
@@ -150,42 +152,30 @@ public class CartFragment extends Fragment  implements ConnectivityReceiver.Conn
                                     jsonArrayList.add(array);
                                 }
                                 Log.d("checkList", String.valueOf(jsonArrayList));
-                                Call<PlaceOrderModel> call = ApiUtils.getUserService().placeOrder(token, jsonArrayList);
-                                call.enqueue(new Callback<PlaceOrderModel>() {
-                                    @Override
-                                    public void onResponse(Call<PlaceOrderModel> call, Response<PlaceOrderModel> response) {
-                                        Log.e("Response=====>", response.toString());
-                                        if (response.isSuccessful() && response.code() == 200) {
-                                            int status = response.body().getStatus();
-                                            switch (status) {
-                                                case 200:
-                                                    ArrayList<CartProductModel> allCartProducts = databaseHelper.getAllCartProducts();
-                                                    for (CartProductModel item : allCartProducts) {
-                                                        databaseHelper.deleteData(item.getId(), item.getSize(), item.getColor(), item.getVariant());
-                                                    }
+
+                                if (list1.size() > 0) {
+                                    Call<PlaceOrderModel> call = ApiUtils.getUserService().placeOrder(token, jsonArrayList);
+                                    call.enqueue(new Callback<PlaceOrderModel>() {
+                                        @Override
+                                        public void onResponse(Call<PlaceOrderModel> call, Response<PlaceOrderModel> response) {
+                                            Log.e("Response=====>", response.toString());
+                                            if (response.isSuccessful() && response.code() == 200) {
+                                                int status = response.body().getStatus();
+                                                if (status == 200) {
                                                     showSuccessDialog();
-                                                    break;
-                                                case 2:
-                                                case 3:
-                                                case 4:
+                                                } else {
                                                     showErrorDialog(response.body().getMessage());
-                                                    break;
-                                                default:
-                                                    showErrorDialog("Something went wrong, Please try again!");
-                                                    break;
+                                                }
+                                            } else {
+                                                showErrorDialog("Something went wrong, Please try again!");
                                             }
-                                        } else {
-                                            showErrorDialog("Something went wrong, Please try again!");
                                         }
-
-                                    }
-
-                                    @Override
-                                    public void onFailure(Call<PlaceOrderModel> call, Throwable t) {
-                                        Log.e(CartFragment.class.getSimpleName(), t.getMessage());
-
-                                    }
-                                });
+                                        @Override
+                                        public void onFailure(Call<PlaceOrderModel> call, Throwable t) {
+                                            showErrorDialog("Something went wrong, Please contact support!");
+                                        }
+                                    });
+                                }
                             } else {
                                 Toast.makeText(getContext(), "Minimum order value is 500 Tk", Toast.LENGTH_SHORT).show();
                             }
@@ -201,6 +191,20 @@ public class CartFragment extends Fragment  implements ConnectivityReceiver.Conn
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         DialogFragment newFragment = new OrderSuccessFragment();
         newFragment.show(ft, "dialog");
+
+        ArrayList<CartProductModel> allCartProducts = databaseHelper.getAllCartProducts();
+        for (CartProductModel item : allCartProducts) {
+            databaseHelper.deleteData(item.getId(), item.getSize(), item.getColor(), item.getVariant());
+        }
+        int count=databaseHelper.numberOfrows().getCount();
+        if (count>0) {
+            MainActivity.chipNavigationBar.showBadge(R.id.cart, count);
+        } else{
+            MainActivity.chipNavigationBar.dismissBadge(R.id.cart);
+            totalLayout.setVisibility(View.GONE);
+            cartLayout.setVisibility(View.GONE);
+            noCartLayout.setVisibility(View.VISIBLE);
+        }
     }
 
     private void showErrorDialog(String text) {

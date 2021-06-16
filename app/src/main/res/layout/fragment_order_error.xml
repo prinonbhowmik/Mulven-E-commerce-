@@ -29,7 +29,8 @@
         android:gravity="center"
         android:fontFamily="@font/comfortaa_light"
         android:textColor="@color/black"
-        android:text="Some products of your cart is not available at this moment. Please remove that product and try again." />
+        android:text="Some products of your cart is not available at this moment. Please remove that product and try again."
+        android:layout_centerInParent="true"/>
     <TextView
         android:id="@+id/errorTVButton"
         android:layout_width="120dp"
