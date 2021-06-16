@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
@@ -16,6 +17,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -30,13 +32,17 @@ import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.hydertechno.mulven.Adapters.AllProductsAdapter;
+import com.hydertechno.mulven.Adapters.CampaignCategoryAdapter;
 import com.hydertechno.mulven.Adapters.CampaignProductsAdapter;
 import com.hydertechno.mulven.Adapters.SubCategoryAdapter;
 import com.hydertechno.mulven.Api.ApiInterface;
 import com.hydertechno.mulven.Api.ApiUtils;
+import com.hydertechno.mulven.Interface.CampaignCatInterface;
 import com.hydertechno.mulven.Interface.OnQueryTextChangeListener;
 import com.hydertechno.mulven.Internet.Connection;
 import com.hydertechno.mulven.Internet.ConnectivityReceiver;
+import com.hydertechno.mulven.Models.CampaignCategoriesModel;
+import com.hydertechno.mulven.Models.CampaignProductsModel;
 import com.hydertechno.mulven.Models.CategoriesModel;
 import com.hydertechno.mulven.R;
 import com.hydertechno.mulven.Utilities.SearchAnimation;
@@ -49,15 +55,18 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CampaignProductActivity extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener, OnQueryTextChangeListener {
+public class CampaignProductActivity extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener, OnQueryTextChangeListener, CampaignCatInterface {
 
     private ImageView navIcon,searchIv,closeIv;
     private String title,id;
     private int campaignID;
     private TextView titleName;
-    private RecyclerView campaignProductRecyclerView;
+    private RecyclerView campaignProductRecyclerView,campaignCatRecycler;
     private CampaignProductsAdapter campaignProductsAdapter;
-    private List<CategoriesModel> allProductsList=new ArrayList<>();
+    private CampaignCategoryAdapter campaignCategoryAdapter;
+    private List<CategoriesModel> allItems=new ArrayList<>();
+    private List<CampaignCategoriesModel> campaignCategory=new ArrayList<>();
+    private List<CampaignProductsModel> allProductsList=new ArrayList<>();
     private ApiInterface apiInterface;
     public static RelativeLayout rootLayout;
     private Snackbar snackbar;
@@ -105,11 +114,20 @@ public class CampaignProductActivity extends AppCompatActivity implements Connec
         searchAnimation.init();
         campaignProductRecyclerView =findViewById(R.id.campaignProductRecyclerView);
         titleName = findViewById(R.id.titleName);
-        campaignProductsAdapter=new CampaignProductsAdapter(allProductsList,CampaignProductActivity.this);
+        campaignProductsAdapter=new CampaignProductsAdapter(allItems,CampaignProductActivity.this);
         campaignProductRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(),2));
         campaignProductRecyclerView.setItemAnimator(new DefaultItemAnimator());
         campaignProductRecyclerView.setAdapter(campaignProductsAdapter);
+
         apiInterface= ApiUtils.getUserService();
+
+
+        campaignCatRecycler = findViewById(R.id.camCatRecycler);
+        campaignCategoryAdapter=new CampaignCategoryAdapter(campaignCategory, this, CampaignProductActivity.this);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        campaignCatRecycler.setLayoutManager(new LinearLayoutManager(CampaignProductActivity.this, LinearLayoutManager.HORIZONTAL, false));
+        campaignCatRecycler.setLayoutManager(layoutManager);
+        campaignCatRecycler.setAdapter(campaignCategoryAdapter);
     }
 
 
@@ -118,23 +136,32 @@ public class CampaignProductActivity extends AppCompatActivity implements Connec
         imm.hideSoftInputFromWindow(this.getWindow().getDecorView().getRootView().getWindowToken(), 0);
     }
     private void getCategories() {
-        allProductsList.clear();
-        Call<List<CategoriesModel>> call = apiInterface.getCampaignItem(campaignID);
-        call.enqueue(new Callback<List<CategoriesModel>>() {
+        campaignCategory.clear();
+        allItems.clear();
+        Call<CampaignProductsModel> call = apiInterface.getCampaignItem(campaignID);
+        call.enqueue(new Callback<CampaignProductsModel>() {
             @Override
-            public void onResponse(Call<List<CategoriesModel>> call, Response<List<CategoriesModel>> response) {
+            public void onResponse(Call<CampaignProductsModel> call, Response<CampaignProductsModel> response) {
                 if (response.isSuccessful()){
-                    allProductsList = response.body();
-                    campaignProductsAdapter = new CampaignProductsAdapter(allProductsList, CampaignProductActivity.this);
+                    CampaignProductsModel list  = response.body();
+
+                    campaignCategory=list.getCategory();
+                    campaignCategoryAdapter.updateData(campaignCategory);
+
+                    allItems=list.getAllitems();
+                    campaignProductsAdapter = new CampaignProductsAdapter(allItems, CampaignProductActivity.this);
                     campaignProductRecyclerView.setAdapter(campaignProductsAdapter);
-                    if (allProductsList.size() == 0) {
+                    if (allItems.size() == 0) {
                         campaignProductRecyclerView.setVisibility(View.GONE);
+                    }
+                    if (campaignCategory.size() == 0) {
+                        campaignCatRecycler.setVisibility(View.GONE);
                     }
                 }
                 campaignProductsAdapter.notifyDataSetChanged();
             }
             @Override
-            public void onFailure(Call<List<CategoriesModel>> call, Throwable t) {
+            public void onFailure(Call<CampaignProductsModel> call, Throwable t) {
             }
         });
     }
@@ -249,5 +276,35 @@ public class CampaignProductActivity extends AppCompatActivity implements Connec
             }
         }
 
+    }
+
+    @Override
+    public void onClick(int id) {
+        allItems.clear();
+        Call<CampaignProductsModel> call = apiInterface.getCampaignItem(campaignID);
+        call.enqueue(new Callback<CampaignProductsModel>() {
+            @Override
+            public void onResponse(Call<CampaignProductsModel> call, Response<CampaignProductsModel> response) {
+                if (response.isSuccessful()){
+
+                    CampaignProductsModel list  = response.body();
+
+                    campaignCategory=list.getCategory();
+                    campaignCategoryAdapter.updateData(campaignCategory);
+                    allItems=list.getAllitems();
+                    campaignProductsAdapter = new CampaignProductsAdapter(allItems, CampaignProductActivity.this);
+                    campaignProductRecyclerView.setAdapter(campaignProductsAdapter);
+                    campaignProductsAdapter.getFilter().filter(String.valueOf(id));
+//                    campaignProductRecyclerView.setAdapter(campaignProductsAdapter);
+                }
+                //Collections.reverse(categoryNamesModelList);
+                campaignProductsAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<CampaignProductsModel> call, Throwable t) {
+                Log.d("ErrorKi",t.getMessage());
+            }
+        });
     }
 }

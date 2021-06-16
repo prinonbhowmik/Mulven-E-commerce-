@@ -120,7 +120,7 @@ public class CampaignProductsAdapter extends RecyclerView.Adapter<CampaignProduc
                     if (item.getProduct_name().toLowerCase().contains(filterPattern)) {
                         filteredList.add(item);
                     }
-                    else if(String.valueOf(item.getSub_category()).equals(filterPattern)) {
+                    else if(item.getCategory().equals(filterPattern)) {
                         filteredList.add(item);
                     }
                 }

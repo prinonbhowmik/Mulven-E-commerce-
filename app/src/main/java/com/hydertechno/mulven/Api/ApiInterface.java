@@ -1,6 +1,7 @@
 package com.hydertechno.mulven.Api;
 
 import com.hydertechno.mulven.Models.Campaign;
+import com.hydertechno.mulven.Models.CampaignProductsModel;
 import com.hydertechno.mulven.Models.CancellationReasonModel;
 import com.hydertechno.mulven.Models.CategoriesModel;
 import com.hydertechno.mulven.Models.CategoryNamesModel;
@@ -124,7 +125,7 @@ public interface ApiInterface {
     Call<Campaign> getAllCampaigns();
 
     @GET("campaigns-all-item")
-    Call<List<CategoriesModel>> getCampaignItem(@Query("id") int order_id);
+    Call<CampaignProductsModel> getCampaignItem(@Query("id") int order_id);
 
     @POST("order")
     @FormUrlEncoded

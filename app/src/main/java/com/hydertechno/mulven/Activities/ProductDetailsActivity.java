@@ -49,6 +49,7 @@ import com.hydertechno.mulven.Fragments.LoadingDialog;
 import com.hydertechno.mulven.Interface.ProductImageClickInterface;
 import com.hydertechno.mulven.Internet.Connection;
 import com.hydertechno.mulven.Internet.ConnectivityReceiver;
+import com.hydertechno.mulven.Models.CampaignProductsModel;
 import com.hydertechno.mulven.Models.CartProductModel;
 import com.hydertechno.mulven.Models.CategoriesModel;
 import com.hydertechno.mulven.Models.ImageGalleryModel;
@@ -653,13 +654,14 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
 
     private void getCampaignRelatedProduct(int category_id) {
         relatedProductList.clear();
-        Call<List<CategoriesModel>> call = apiInterface.getCampaignItem(category_id);
-        call.enqueue(new Callback<List<CategoriesModel>>() {
+        Call<CampaignProductsModel> call = apiInterface.getCampaignItem(category_id);
+        call.enqueue(new Callback<CampaignProductsModel>() {
             @Override
-            public void onResponse(Call<List<CategoriesModel>> call, Response<List<CategoriesModel>> response) {
+            public void onResponse(Call<CampaignProductsModel> call, Response<CampaignProductsModel> response) {
                 if (response.isSuccessful()) {
+                    CampaignProductsModel list  = response.body();
                     relatedProduct_layout.setVisibility(View.VISIBLE);
-                    relatedProductList = response.body();
+                    relatedProductList = list.getAllitems();
                     campaignRelatedProductAdapter = new CampaignRelatedProductAdapter(relatedProductList, getApplicationContext());
                     relatedProductRecyclerView.setAdapter(campaignRelatedProductAdapter);
 
@@ -670,7 +672,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
             }
 
             @Override
-            public void onFailure(Call<List<CategoriesModel>> call, Throwable t) {
+            public void onFailure(Call<CampaignProductsModel> call, Throwable t) {
                 Log.d("ErrorKi", t.getMessage());
             }
         });
