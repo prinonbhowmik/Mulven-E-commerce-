@@ -4,8 +4,11 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 
 import androidx.core.view.GravityCompat;
@@ -28,10 +31,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.hydertechno.mulven.Activities.PlaceOrderListActivity;
 import com.hydertechno.mulven.Adapters.CartAdapter;
 import com.hydertechno.mulven.Api.ApiUtils;
 import com.hydertechno.mulven.DatabaseHelper.Database_Helper;
+import com.hydertechno.mulven.Internet.ConnectivityReceiver;
 import com.hydertechno.mulven.Models.CartProductModel;
 import com.hydertechno.mulven.Models.PlaceItemModel;
 import com.hydertechno.mulven.Models.PlaceOrderModel;
@@ -51,7 +56,7 @@ import retrofit2.Response;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public class CartFragment extends Fragment {
+public class CartFragment extends Fragment  implements ConnectivityReceiver.ConnectivityReceiverListener{
     private DrawerLayout drawerLayout;
     public static RelativeLayout totalLayout,noCartLayout,cartLayout;
     private ImageView navIcon;
@@ -66,6 +71,11 @@ public class CartFragment extends Fragment {
     private String token;
     private int loggedIn;
     private Dialog dialog;
+    private RelativeLayout rootLayout;
+    private Snackbar snackbar;
+    private boolean isConnected;
+    private ConnectivityReceiver connectivityReceiver;
+    private IntentFilter intentFilter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -92,91 +102,96 @@ public class CartFragment extends Fragment {
         placeOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (loggedIn == 0 ){
-                    Toasty.normal(getContext(),"Please login first!",Toasty.LENGTH_SHORT).show();
-                }else if(loggedIn == 1){
+                checkConnection();
+                if (!isConnected) {
+                    snackBar(isConnected);
+                } else {
+                    if (loggedIn == 0) {
+                        Toasty.normal(getContext(), "Please login first!", Toasty.LENGTH_SHORT).show();
+                    } else if (loggedIn == 1) {
 
-                Cursor cursor = databaseHelper.getCart();
-                if (cursor != null) {
+                        Cursor cursor = databaseHelper.getCart();
+                        if (cursor != null) {
 
-                    int unitPrice = databaseHelper.columnSum();
-                    if(unitPrice>=500){
-                    JSONArray array = new JSONArray();
-                    ArrayList<JSONArray> jsonArrayList = new ArrayList<>();
-                    List<Map<String, String>> list1 = new ArrayList<>();
-                    while (cursor.moveToNext()) {
-                        int id = cursor.getInt(cursor.getColumnIndex(databaseHelper.ID));
-                        String sku = cursor.getString(cursor.getColumnIndex(databaseHelper.SKU));
-                        String name = cursor.getString(cursor.getColumnIndex(databaseHelper.PRODUCT_NAME));
-                        int unit_price = cursor.getInt(cursor.getColumnIndex(databaseHelper.UNIT_PRICE));
-                        int quantity = cursor.getInt(cursor.getColumnIndex(databaseHelper.QUANTITY));
-                        String size = cursor.getString(cursor.getColumnIndex(databaseHelper.SIZE));
-                        String color = cursor.getString(cursor.getColumnIndex(databaseHelper.COLOR));
-                        String variant = cursor.getString(cursor.getColumnIndex(databaseHelper.VARIANT));
-                        String campaign_id = cursor.getString(cursor.getColumnIndex(databaseHelper.CAMPAIGN_ID));
-                        int store_id = cursor.getInt(cursor.getColumnIndex(databaseHelper.STORE_ID));
-                        int category_id = cursor.getInt(cursor.getColumnIndex(databaseHelper.CATEGORY_ID));
+                            int unitPrice = databaseHelper.columnSum();
+                            if (unitPrice >= 500) {
+                                JSONArray array = new JSONArray();
+                                ArrayList<JSONArray> jsonArrayList = new ArrayList<>();
+                                List<Map<String, String>> list1 = new ArrayList<>();
+                                while (cursor.moveToNext()) {
+                                    int id = cursor.getInt(cursor.getColumnIndex(databaseHelper.ID));
+                                    String sku = cursor.getString(cursor.getColumnIndex(databaseHelper.SKU));
+                                    String name = cursor.getString(cursor.getColumnIndex(databaseHelper.PRODUCT_NAME));
+                                    int unit_price = cursor.getInt(cursor.getColumnIndex(databaseHelper.UNIT_PRICE));
+                                    int quantity = cursor.getInt(cursor.getColumnIndex(databaseHelper.QUANTITY));
+                                    String size = cursor.getString(cursor.getColumnIndex(databaseHelper.SIZE));
+                                    String color = cursor.getString(cursor.getColumnIndex(databaseHelper.COLOR));
+                                    String variant = cursor.getString(cursor.getColumnIndex(databaseHelper.VARIANT));
+                                    String campaign_id = cursor.getString(cursor.getColumnIndex(databaseHelper.CAMPAIGN_ID));
+                                    int store_id = cursor.getInt(cursor.getColumnIndex(databaseHelper.STORE_ID));
+                                    int category_id = cursor.getInt(cursor.getColumnIndex(databaseHelper.CATEGORY_ID));
 
-                        Map<String, String> parms = new HashMap<String, String>();
+                                    Map<String, String> parms = new HashMap<String, String>();
 
-                        parms.put("item_id", String.valueOf(id));
-                        parms.put("pro_name", name);
-                        parms.put("sku", sku);
-                        parms.put("variant", variant);
-                        parms.put("size", size);
-                        parms.put("color", color);
-                        parms.put("price", String.valueOf(unit_price));
-                        parms.put("order_from", campaign_id);
-                        parms.put("store_id", String.valueOf(store_id));
-                        parms.put("category_id", String.valueOf(category_id));
-                        parms.put("quantity", String.valueOf(quantity));
-                        list1.add(parms);
+                                    parms.put("item_id", String.valueOf(id));
+                                    parms.put("pro_name", name);
+                                    parms.put("sku", sku);
+                                    parms.put("variant", variant);
+                                    parms.put("size", size);
+                                    parms.put("color", color);
+                                    parms.put("price", String.valueOf(unit_price));
+                                    parms.put("order_from", campaign_id);
+                                    parms.put("store_id", String.valueOf(store_id));
+                                    parms.put("category_id", String.valueOf(category_id));
+                                    parms.put("quantity", String.valueOf(quantity));
+                                    list1.add(parms);
 //                        databaseHelper.deleteData(id, size, color, variant);
-                        array = new JSONArray(list1);
-                        jsonArrayList.add(array);
-                    }
-                    Log.d("checkList", String.valueOf(jsonArrayList));
-                    Call<PlaceOrderModel> call = ApiUtils.getUserService().placeOrder(token, jsonArrayList);
-                    call.enqueue(new Callback<PlaceOrderModel>() {
-                        @Override
-                        public void onResponse(Call<PlaceOrderModel> call, Response<PlaceOrderModel> response) {
-                            Log.e("Response=====>", response.toString());
-                            if (response.isSuccessful() && response.code() == 200) {
-                                int status = response.body().getStatus();
-                                switch (status) {
-                                    case 200:
-                                        ArrayList<CartProductModel> allCartProducts = databaseHelper.getAllCartProducts();
-                                        for (CartProductModel item : allCartProducts) {
-                                            databaseHelper.deleteData(item.getId(), item.getSize(), item.getColor(), item.getVariant());
-                                        }
-                                        showSuccessDialog();
-                                        break;
-                                    case 2:
-                                    case 3:
-                                    case 4:
-                                        showErrorDialog(response.body().getMessage());
-                                        break;
-                                    default:
-                                        showErrorDialog("Something went wrong, Please try again!");
-                                        break;
+                                    array = new JSONArray(list1);
+                                    jsonArrayList.add(array);
                                 }
-                            } else  {
-                                showErrorDialog("Something went wrong, Please try again!");
+                                Log.d("checkList", String.valueOf(jsonArrayList));
+                                Call<PlaceOrderModel> call = ApiUtils.getUserService().placeOrder(token, jsonArrayList);
+                                call.enqueue(new Callback<PlaceOrderModel>() {
+                                    @Override
+                                    public void onResponse(Call<PlaceOrderModel> call, Response<PlaceOrderModel> response) {
+                                        Log.e("Response=====>", response.toString());
+                                        if (response.isSuccessful() && response.code() == 200) {
+                                            int status = response.body().getStatus();
+                                            switch (status) {
+                                                case 200:
+                                                    ArrayList<CartProductModel> allCartProducts = databaseHelper.getAllCartProducts();
+                                                    for (CartProductModel item : allCartProducts) {
+                                                        databaseHelper.deleteData(item.getId(), item.getSize(), item.getColor(), item.getVariant());
+                                                    }
+                                                    showSuccessDialog();
+                                                    break;
+                                                case 2:
+                                                case 3:
+                                                case 4:
+                                                    showErrorDialog(response.body().getMessage());
+                                                    break;
+                                                default:
+                                                    showErrorDialog("Something went wrong, Please try again!");
+                                                    break;
+                                            }
+                                        } else {
+                                            showErrorDialog("Something went wrong, Please try again!");
+                                        }
+
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<PlaceOrderModel> call, Throwable t) {
+                                        Log.e(CartFragment.class.getSimpleName(), t.getMessage());
+
+                                    }
+                                });
+                            } else {
+                                Toast.makeText(getContext(), "Minimum order value is 500 Tk", Toast.LENGTH_SHORT).show();
                             }
-
                         }
-
-                        @Override
-                        public void onFailure(Call<PlaceOrderModel> call, Throwable t) {
-                            Log.e(CartFragment.class.getSimpleName(), t.getMessage());
-
-                        }
-                    });
-                }else{
-                        Toast.makeText(getContext(), "Minimum order value is 500 Tk", Toast.LENGTH_SHORT).show();
                     }
                 }
-            }
             }
         });
         return view;
@@ -226,6 +241,10 @@ public class CartFragment extends Fragment {
     }
 
     private void init(View view) {
+        rootLayout=view.findViewById(R.id.fragment_cart_rootLayout);
+        intentFilter = new IntentFilter();
+        intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        connectivityReceiver = new ConnectivityReceiver();
         navIcon = view.findViewById(R.id.navIcon);
         placeOrder = view.findViewById(R.id.placeOrderTV);
         noCartLayout = view.findViewById(R.id.noCartLayout);
@@ -246,5 +265,29 @@ public class CartFragment extends Fragment {
     private void hideKeyboardFrom(Context context) {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(this.getActivity().getWindow().getDecorView().getRootView().getWindowToken(), 0);
+    }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        snackBar(isConnected);
+    }
+
+    private void checkConnection() {
+        isConnected = ConnectivityReceiver.isConnected();
+    }
+    private void snackBar(boolean isConnected) {
+        if(!isConnected) {
+            snackbar = Snackbar.make(rootLayout, "No Internet Connection!", Snackbar.LENGTH_INDEFINITE).setAction("ReTry", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //recreate();
+                }
+            });
+            snackbar.setDuration(5000);
+            snackbar.setActionTextColor(Color.WHITE);
+            View sbView = snackbar.getView();
+            sbView.setBackgroundColor(Color.RED);
+            snackbar.show();
+        }
     }
 }
