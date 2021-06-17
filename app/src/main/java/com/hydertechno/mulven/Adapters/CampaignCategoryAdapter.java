@@ -76,6 +76,11 @@ public class CampaignCategoryAdapter extends RecyclerView.Adapter<CampaignCatego
 
         });
 
+        if (pos==0) {
+            holder.subCatTv.setTextColor(Color.parseColor("#ffffff"));
+            holder.subCatTv.setBackgroundResource(R.drawable.status_tag_all);
+        }
+
         if(pos==position){
             holder.subCatTv.setTextColor(Color.parseColor("#ffffff"));
             holder.subCatTv.setBackgroundResource(R.drawable.status_tag_all);

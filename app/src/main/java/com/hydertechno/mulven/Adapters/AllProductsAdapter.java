@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -112,11 +113,14 @@ public class AllProductsAdapter extends RecyclerView.Adapter<AllProductsAdapter.
                 List<CategoriesModel> filteredList = new ArrayList<>();
                 String filterPattern = constraint.toString().toLowerCase().trim();
                 for (CategoriesModel item : filterModelList) {
-                    if (item.getProduct_name().toLowerCase().contains(filterPattern)) {
-                        filteredList.add(item);
-                    }
-                    else if(String.valueOf(item.getSub_category()).equals(filterPattern)) {
-                        filteredList.add(item);
+                    if (TextUtils.isDigitsOnly(filterPattern)) {
+                        if(String.valueOf(item.getSub_category()).equals(filterPattern)) {
+                            filteredList.add(item);
+                        }
+                    } else {
+                        if (item.getProduct_name().toLowerCase().contains(filterPattern)) {
+                            filteredList.add(item);
+                        }
                     }
                 }
                 categoriesModelList = filteredList;

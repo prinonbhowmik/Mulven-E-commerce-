@@ -44,6 +44,7 @@ import com.hydertechno.mulven.Internet.ConnectivityReceiver;
 import com.hydertechno.mulven.Models.CampaignCategoriesModel;
 import com.hydertechno.mulven.Models.CampaignProductsModel;
 import com.hydertechno.mulven.Models.CategoriesModel;
+import com.hydertechno.mulven.Models.SubCatModel;
 import com.hydertechno.mulven.R;
 import com.hydertechno.mulven.Utilities.SearchAnimation;
 
@@ -76,6 +77,7 @@ public class CampaignProductActivity extends AppCompatActivity implements Connec
     Toolbar toolbar;
     SearchAnimation searchAnimation;
     View rootView;
+    RelativeLayout progressRL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +98,7 @@ public class CampaignProductActivity extends AppCompatActivity implements Connec
     }
 
     private void init() {
+        progressRL = findViewById(R.id.progressRL);
         rootLayout = findViewById(R.id.campaign_product_rootLayout);
         intentFilter = new IntentFilter();
         intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
@@ -136,8 +139,9 @@ public class CampaignProductActivity extends AppCompatActivity implements Connec
         imm.hideSoftInputFromWindow(this.getWindow().getDecorView().getRootView().getWindowToken(), 0);
     }
     private void getCategories() {
-        campaignCategory.clear();
-        allItems.clear();
+//        campaignCategory.clear();
+//        allItems.clear();
+        progressRL.setVisibility(View.VISIBLE);
         Call<CampaignProductsModel> call = apiInterface.getCampaignItem(campaignID);
         call.enqueue(new Callback<CampaignProductsModel>() {
             @Override
@@ -145,7 +149,11 @@ public class CampaignProductActivity extends AppCompatActivity implements Connec
                 if (response.isSuccessful()){
                     CampaignProductsModel list  = response.body();
 
-                    campaignCategory=list.getCategory();
+                    CampaignCategoriesModel model = new CampaignCategoriesModel(-1, "All");
+                    ArrayList<CampaignCategoriesModel> subCatModels = new ArrayList<CampaignCategoriesModel>();
+                    subCatModels.add(model);
+                    if (list != null && list.getCategory() != null) subCatModels.addAll(list.getCategory());
+                    campaignCategory=subCatModels;
                     campaignCategoryAdapter.updateData(campaignCategory);
 
                     allItems=list.getAllitems();
@@ -157,9 +165,12 @@ public class CampaignProductActivity extends AppCompatActivity implements Connec
                         campaignCatRecycler.setVisibility(View.GONE);
                     }
                 }
+
+                progressRL.setVisibility(View.GONE);
             }
             @Override
             public void onFailure(Call<CampaignProductsModel> call, Throwable t) {
+                progressRL.setVisibility(View.GONE);
             }
         });
     }
@@ -278,7 +289,16 @@ public class CampaignProductActivity extends AppCompatActivity implements Connec
 
     @Override
     public void onClick(int id) {
-        campaignProductsAdapter.getFilter().filter(String.valueOf(id));
+        if (id == -1) {
+            checkConnection();
+            if (!isConnected) {
+                snackBar(isConnected);
+            }else {
+                getCategories();
+            }
+        } else {
+            campaignProductsAdapter.getFilter().filter(String.valueOf(id));
+        }
 //        allItems.clear();
 //        Call<CampaignProductsModel> call = apiInterface.getCampaignItem(campaignID);
 //        call.enqueue(new Callback<CampaignProductsModel>() {

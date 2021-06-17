@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -117,11 +118,16 @@ public class CampaignProductsAdapter extends RecyclerView.Adapter<CampaignProduc
                 List<CategoriesModel> filteredList = new ArrayList<>();
                 String filterPattern = constraint.toString().toLowerCase().trim();
                 for (CategoriesModel item : filterModelList) {
-                    if (item.getProduct_name().toLowerCase().contains(filterPattern)) {
-                        filteredList.add(item);
-                    } else if(item.getCategory().equals(filterPattern)) {
-                        Log.e("Items==>", item.getCategory() + "==" + filterPattern);
-                        filteredList.add(item);
+                    if (TextUtils.isDigitsOnly(filterPattern)) {
+                        if(item.getCategory().equals(filterPattern)) {
+                            Log.e("Items==>", item.getCategory() + "==" + filterPattern);
+                            filteredList.add(item);
+                        }
+                    } else {
+                        if (item.getProduct_name().toLowerCase().contains(filterPattern)) {
+                            filteredList.add(item);
+                            Log.e("Items contains==>", item.getCategory() + "==" + filterPattern);
+                        }
                     }
                 }
                 categoriesModelList = filteredList;

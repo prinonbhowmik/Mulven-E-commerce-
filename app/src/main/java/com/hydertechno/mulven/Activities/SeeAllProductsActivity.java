@@ -188,7 +188,7 @@ public class SeeAllProductsActivity extends AppCompatActivity implements Connect
 
 
     private void getCategories() {
-        allProductsList.clear();
+//        allProductsList.clear();
         Call<List<CategoriesModel>> call = apiInterface.getCategories(categoryID);
         call.enqueue(new Callback<List<CategoriesModel>>() {
             @Override
@@ -277,40 +277,43 @@ public class SeeAllProductsActivity extends AppCompatActivity implements Connect
     @Override
     public void OnClick(int id) {
 
+        if (id == -1) {
+            //sAll.setBackground(ContextCompat.getDrawable(SeeAllProductsActivity.this, R.drawable.status_tag_all));
+
             checkConnection();
             if (!isConnected) {
                 snackBar(isConnected);
             }else {
-                if (id == -1) {
-                //sAll.setBackground(ContextCompat.getDrawable(SeeAllProductsActivity.this, R.drawable.status_tag_all));
                 getCategories();
                 subSubCatRecycler.setVisibility(View.GONE);
+            }
 
         } else {
-            allProductsList.clear();
+//            allProductsList.clear();
             Log.d("productId", String.valueOf(categoryID));
-            Call<List<CategoriesModel>> call = apiInterface.getCategories(categoryID);
-            call.enqueue(new Callback<List<CategoriesModel>>() {
-                @Override
-                public void onResponse(Call<List<CategoriesModel>> call, Response<List<CategoriesModel>> response) {
-                    if (response.isSuccessful()){
-                        allProductsList = response.body();
-                        all_product_Adapter = new AllProductsAdapter(allProductsList, getApplicationContext());
-                        productRecyclerView.setAdapter(all_product_Adapter);
-                        all_product_Adapter.getFilter().filter(String.valueOf(id));
-                        getSubSubCategory(id);
-                    }
-                    //Collections.reverse(categoryNamesModelList);
-                    all_product_Adapter.notifyDataSetChanged();
-                }
-
-                @Override
-                public void onFailure(Call<List<CategoriesModel>> call, Throwable t) {
-                    Log.d("ErrorKi",t.getMessage());
-                }
-            });
+            all_product_Adapter.getFilter().filter(String.valueOf(id));
+            getSubSubCategory(id);
+//            Call<List<CategoriesModel>> call = apiInterface.getCategories(categoryID);
+//            call.enqueue(new Callback<List<CategoriesModel>>() {
+//                @Override
+//                public void onResponse(Call<List<CategoriesModel>> call, Response<List<CategoriesModel>> response) {
+//                    if (response.isSuccessful()){
+//                        allProductsList = response.body();
+//                        all_product_Adapter = new AllProductsAdapter(allProductsList, getApplicationContext());
+//                        productRecyclerView.setAdapter(all_product_Adapter);
+//                        all_product_Adapter.getFilter().filter(String.valueOf(id));
+//                        getSubSubCategory(id);
+//                    }
+//                    //Collections.reverse(categoryNamesModelList);
+//                    all_product_Adapter.notifyDataSetChanged();
+//                }
+//
+//                @Override
+//                public void onFailure(Call<List<CategoriesModel>> call, Throwable t) {
+//                    Log.d("ErrorKi",t.getMessage());
+//                }
+//            });
         }
-            }
     }
 
     private void getSubSubCategory(int id) {
@@ -334,27 +337,28 @@ public class SeeAllProductsActivity extends AppCompatActivity implements Connect
 
     @Override
     public void OnSubClick(int id) {
-        allProductsList.clear();
+//        allProductsList.clear();
         Log.d("productId", String.valueOf(categoryID));
-        Call<List<CategoriesModel>> call = apiInterface.getCategories(categoryID);
-        call.enqueue(new Callback<List<CategoriesModel>>() {
-            @Override
-            public void onResponse(Call<List<CategoriesModel>> call, Response<List<CategoriesModel>> response) {
-                if (response.isSuccessful()){
-                    allProductsList = response.body();
-                    all_product_Adapter = new AllProductsAdapter(allProductsList, getApplicationContext());
-                    all_product_Adapter.getFilter2().filter(String.valueOf(id));
-                    productRecyclerView.setAdapter(all_product_Adapter);
-                }
-                //Collections.reverse(categoryNamesModelList);
-                all_product_Adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onFailure(Call<List<CategoriesModel>> call, Throwable t) {
-                Log.d("ErrorKi",t.getMessage());
-            }
-        });
+        all_product_Adapter.getFilter2().filter(String.valueOf(id));
+//        Call<List<CategoriesModel>> call = apiInterface.getCategories(categoryID);
+//        call.enqueue(new Callback<List<CategoriesModel>>() {
+//            @Override
+//            public void onResponse(Call<List<CategoriesModel>> call, Response<List<CategoriesModel>> response) {
+//                if (response.isSuccessful()){
+//                    allProductsList = response.body();
+//                    all_product_Adapter = new AllProductsAdapter(allProductsList, getApplicationContext());
+//                    all_product_Adapter.getFilter2().filter(String.valueOf(id));
+//                    productRecyclerView.setAdapter(all_product_Adapter);
+//                }
+//                //Collections.reverse(categoryNamesModelList);
+//                all_product_Adapter.notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<CategoriesModel>> call, Throwable t) {
+//                Log.d("ErrorKi",t.getMessage());
+//            }
+//        });
     }
 
 
