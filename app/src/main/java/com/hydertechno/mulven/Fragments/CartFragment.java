@@ -72,7 +72,7 @@ public class CartFragment extends Fragment  implements ConnectivityReceiver.Conn
     private String token;
     private int loggedIn;
     private Dialog dialog;
-    private RelativeLayout rootLayout;
+    private RelativeLayout rootLayout,progressRL;
     private Snackbar snackbar;
     private boolean isConnected;
     private ConnectivityReceiver connectivityReceiver;
@@ -110,7 +110,6 @@ public class CartFragment extends Fragment  implements ConnectivityReceiver.Conn
                     if (loggedIn == 0) {
                         Toasty.normal(getContext(), "Please login first!", Toasty.LENGTH_SHORT).show();
                     } else if (loggedIn == 1) {
-
 
                         Cursor cursor = databaseHelper.getCart();
                         if (cursor != null) {
@@ -154,6 +153,8 @@ public class CartFragment extends Fragment  implements ConnectivityReceiver.Conn
                                 Log.d("checkList", String.valueOf(jsonArrayList));
 
                                 if (list1.size() > 0) {
+
+                                    progressRL.setVisibility(View.VISIBLE);
                                     Call<PlaceOrderModel> call = ApiUtils.getUserService().placeOrder(token, jsonArrayList);
                                     call.enqueue(new Callback<PlaceOrderModel>() {
                                         @Override
@@ -169,10 +170,12 @@ public class CartFragment extends Fragment  implements ConnectivityReceiver.Conn
                                             } else {
                                                 showErrorDialog("Something went wrong, Please try again!");
                                             }
+                                            progressRL.setVisibility(View.VISIBLE);
                                         }
                                         @Override
                                         public void onFailure(Call<PlaceOrderModel> call, Throwable t) {
                                             showErrorDialog("Something went wrong, Please contact support!");
+                                            progressRL.setVisibility(View.VISIBLE);
                                         }
                                     });
                                 }

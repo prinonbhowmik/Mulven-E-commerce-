@@ -87,6 +87,8 @@
             android:layout_above="@id/totalLayout"
             android:id="@+id/cartRecycler"/>
 
+        <include layout="@layout/layout_circular_progress" />
+
         <RelativeLayout
             android:id="@+id/totalLayout"
             android:layout_width="match_parent"
