@@ -491,8 +491,25 @@
         android:layout_marginBottom="10dp">
 
 
-        <LinearLayout
+        <Button
+            android:id="@+id/stockOutTV"
             android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginEnd="5dp"
+            android:fontFamily="@font/comfortaa_bold"
+            android:gravity="center"
+            android:text="Stock Out"
+            android:visibility="gone"
+            android:textAllCaps="false"
+            android:padding="10dp"
+            android:backgroundTint="@color/gray"
+            android:enabled="false"
+            android:textSize="15sp"
+            android:textColor="@color/white" />
+        <LinearLayout
+            android:id="@+id/addCartLL"
+            android:layout_width="match_parent"
+            android:visibility="gone"
             android:layout_height="45dp"
             android:orientation="horizontal"
             android:weightSum="1">

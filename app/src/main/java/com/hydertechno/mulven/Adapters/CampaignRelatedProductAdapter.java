@@ -58,6 +58,7 @@ public class CampaignRelatedProductAdapter extends RecyclerView.Adapter<Campaign
         if(mrpPrice==0){
             holder.productMRPPrice.setVisibility(View.GONE);
         } else {
+            holder.productMRPPrice.setVisibility(View.VISIBLE);
             holder.productMRPPrice.setText(""+mrpPrice);
         }
 

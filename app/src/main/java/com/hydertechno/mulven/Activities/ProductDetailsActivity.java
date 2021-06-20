@@ -77,7 +77,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
     private TextInputLayout size_menu, color_menu, variant_menu;
     private ZoomageView product_Image;
     private TextView productOldPrice, addToCart, buyNow, product_Name, shop_Name,
-            brand_Name, product_Price, shop_Address, cardQuantity, skuTV;
+            brand_Name, product_Price, shop_Address, cardQuantity, skuTV,stockOutTV;
     private RecyclerView productImagesRecycler, productFeatureRecyclerView, relatedProductRecyclerView;
     private ProductImagesAdapter productImagesAdapter;
     private ProductFeatureAdapter productFeatureAdapter;
@@ -96,8 +96,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
     private RelatedProductAdapter relatedProductAdapter;
     private CampaignRelatedProductAdapter campaignRelatedProductAdapter;
     private RelativeLayout feature_RelativeLayout, soldByRelativeLayout, relatedProduct_layout, brandRL, skuRL, descriptionRl;
-    private LinearLayout quantityLL;
-    private int productMrpPrice, productUnitPrice, store_id, campId;
+    private LinearLayout quantityLL,addCartLL;
+    private int productMrpPrice, productUnitPrice, store_id,stock, campId;
     public static RelativeLayout rootLayout;
     private Snackbar snackbar;
     private boolean isConnected;
@@ -345,6 +345,12 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
                 skuTV.setText("" + sk.toUpperCase());
                 sku2 = detailsList.getSku();
                 skuRL.setVisibility(View.VISIBLE);
+                stock=detailsList.getStock();
+                if(stock==0){
+                    stockOutTV.setVisibility(View.VISIBLE);
+                }else if(stock==1){
+                    addCartLL.setVisibility(View.VISIBLE);
+                }
                 quantityLL.setVisibility(View.VISIBLE);
                 webView.loadUrl(url + "" + sku2);
                 descriptionRl.setVisibility(View.VISIBLE);
@@ -482,7 +488,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
         skuRL = findViewById(R.id.skuRL);
         quantityLL = findViewById(R.id.quantityLL);
         descriptionRl = findViewById(R.id.descriptionRl);
-
+        addCartLL = findViewById(R.id.addCartLL);
+        stockOutTV = findViewById(R.id.stockOutTV);
         product_Price = findViewById(R.id.product_Price);
         skuTV = findViewById(R.id.skuTV);
         sizeTV = findViewById(R.id.sizeMenu);
@@ -550,6 +557,12 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
                 skuTV.setText("" + sk.toUpperCase());
                 sku2 = detailsList.getSku();
                 skuRL.setVisibility(View.VISIBLE);
+                stock=detailsList.getStock();
+                if(stock==0){
+                    stockOutTV.setVisibility(View.VISIBLE);
+                }else if(stock==1){
+                    addCartLL.setVisibility(View.VISIBLE);
+                }
                 quantityLL.setVisibility(View.VISIBLE);
                 webView.loadUrl(url + "" + sku2);
                 descriptionRl.setVisibility(View.VISIBLE);

@@ -66,6 +66,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         if(mrpPrice==0){
             holder.productMRPPrice.setVisibility(View.GONE);
         } else {
+            holder.productMRPPrice.setVisibility(View.VISIBLE);
             holder.productMRPPrice.setText(String.valueOf(mrpPrice));
         }
         holder.itemView.setOnClickListener(new View.OnClickListener() {

@@ -6,6 +6,7 @@ import java.util.List;
 public class ProductDetailsModel {
     private int id;
     private int category_id;
+    private int stock;
     private String sku;
     private String product_name;
     private Integer mrp_price;
@@ -29,6 +30,10 @@ public class ProductDetailsModel {
 
     public int getCategory_id() {
         return category_id;
+    }
+
+    public int getStock() {
+        return stock;
     }
 
     public String getSku() {

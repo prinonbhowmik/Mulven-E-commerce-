@@ -54,7 +54,6 @@ public class RelatedProductAdapter extends RecyclerView.Adapter<RelatedProductAd
         CategoriesModel model=categoriesModelList.get(position);
         holder.productUnitPrice.setText("৳ "+String.valueOf(model.getUnit_price()));
         int mrpPrice = model.getMrp_price() != null ? model.getMrp_price() : 0;
-        holder.productMRPPrice.setText(String.valueOf(mrpPrice));
         holder.productName.setText(model.getProduct_name());
         try{
             Picasso.get()
@@ -65,6 +64,9 @@ public class RelatedProductAdapter extends RecyclerView.Adapter<RelatedProductAd
         }
         if(mrpPrice==0){
             holder.productMRPPrice.setVisibility(View.GONE);
+        }else {
+            holder.productMRPPrice.setVisibility(View.VISIBLE);
+            holder.productMRPPrice.setText(String.valueOf(mrpPrice));
         }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
