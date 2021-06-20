@@ -157,7 +157,7 @@ public class AllProductsAdapter extends RecyclerView.Adapter<AllProductsAdapter.
 //                    if (item.getProduct_name().toLowerCase().contains(filterPattern)) {
 //                        filteredList.add(item);
 //                    }
-                    if(item.getSub_sub_category() == Integer.parseInt(filterPattern)) {
+                    if(item.getSub_sub_category() != null && item.getSub_sub_category() == Integer.parseInt(filterPattern)) {
                         filteredList.add(item);
                     }
                 }
