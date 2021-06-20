@@ -8,7 +8,7 @@ public class ProductDetailsModel {
     private int category_id;
     private String sku;
     private String product_name;
-    private int mrp_price;
+    private Integer mrp_price;
     private int unit_price;
     private int store_id;
     private String campaign_id;
@@ -39,7 +39,7 @@ public class ProductDetailsModel {
         return product_name;
     }
 
-    public int getMrp_price() {
+    public Integer getMrp_price() {
         return mrp_price;
     }
 

@@ -63,24 +63,25 @@ public class CampaignProductsAdapter extends RecyclerView.Adapter<CampaignProduc
         CategoriesModel model=categoriesModelList.get(position);
 
         int unitPrice=model.getUnit_price();
-        int mrpPrice=model.getMrp_price();
+        int mrpPrice=model.getMrp_price() != null ? model.getMrp_price() : 0;
+        if(mrpPrice==0){
+            holder.productMRPPrice.setVisibility(View.GONE);
+        } else {
+            holder.productMRPPrice.setVisibility(View.VISIBLE);
+            holder.productMRPPrice.setText(""+mrpPrice);
+        }
+
         int percentage=(((mrpPrice-unitPrice)*100)/mrpPrice);
         int per=Math.round(percentage);
         holder.textViewPercentage.setText("-"+per+"%");
         holder.productUnitPrice.setText("৳ "+unitPrice);
-        holder.productName.setText(model.getProduct_name());
+        holder.productName.setText(model.getProduct_name() != null ? model.getProduct_name() : "");
         try{
             Picasso.get()
                     .load(Config.IMAGE_LINE+model.getFeacher_image())
                     .into(holder.productImage);
         } catch (Exception e) {
             e.printStackTrace();
-        }
-        if(model.getMrp_price()==0){
-            holder.productMRPPrice.setVisibility(View.GONE);
-        }
-        else {
-            holder.productMRPPrice.setText(""+mrpPrice);
         }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

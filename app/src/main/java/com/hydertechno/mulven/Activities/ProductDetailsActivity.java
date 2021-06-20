@@ -325,7 +325,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
                 loadingDialog.dismiss();
                 ProductDetailsModel detailsList = response.body();
                 product_Name.setText("" + detailsList.getProduct_name());
-                productMrpPrice = detailsList.getMrp_price();
+                productMrpPrice = detailsList.getMrp_price() != null ? detailsList.getMrp_price() : 0;
                 if (productMrpPrice == 0) {
                     productOldPrice.setVisibility(View.GONE);
                 } else {
@@ -530,7 +530,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
                 loadingDialog.dismiss();
                 ProductDetailsModel detailsList = response.body();
                 product_Name.setText("" + detailsList.getProduct_name());
-                productMrpPrice = detailsList.getMrp_price();
+                productMrpPrice = detailsList.getMrp_price() != null ? detailsList.getMrp_price() : 0;
                 if (productMrpPrice == 0) {
                     productOldPrice.setVisibility(View.GONE);
                 } else {

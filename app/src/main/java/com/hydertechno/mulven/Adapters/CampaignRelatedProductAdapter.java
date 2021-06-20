@@ -53,7 +53,14 @@ public class CampaignRelatedProductAdapter extends RecyclerView.Adapter<Campaign
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         CategoriesModel model=categoriesModelList.get(position);
         int unitPrice=model.getUnit_price();
-        int mrpPrice=model.getMrp_price();
+        int mrpPrice=model.getMrp_price() != null ? model.getMrp_price() : 0;
+
+        if(mrpPrice==0){
+            holder.productMRPPrice.setVisibility(View.GONE);
+        } else {
+            holder.productMRPPrice.setText(""+mrpPrice);
+        }
+
         int percentage=(((mrpPrice-unitPrice)*100)/mrpPrice);
         int per=Math.round(percentage);
         holder.textViewPercentage.setText("-"+per+"%");
@@ -65,12 +72,6 @@ public class CampaignRelatedProductAdapter extends RecyclerView.Adapter<Campaign
                     .into(holder.productImage);
         } catch (Exception e) {
             e.printStackTrace();
-        }
-        if(model.getMrp_price()==0){
-            holder.productMRPPrice.setVisibility(View.GONE);
-        }
-        else {
-            holder.productMRPPrice.setText(""+mrpPrice);
         }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

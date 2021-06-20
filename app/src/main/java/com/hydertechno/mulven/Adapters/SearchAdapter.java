@@ -53,11 +53,11 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if(model.getMrp_price()==0){
+        int mrpPrice = model.getMrp_price() != null ? model.getMrp_price() : 0;
+        if(mrpPrice==0){
             holder.productMRPPrice.setVisibility(View.GONE);
-        }
-        else {
-            holder.productMRPPrice.setText(String.valueOf(model.getMrp_price()));
+        } else {
+            holder.productMRPPrice.setText(String.valueOf(mrpPrice));
         }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

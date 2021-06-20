@@ -53,7 +53,8 @@ public class RelatedProductAdapter extends RecyclerView.Adapter<RelatedProductAd
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         CategoriesModel model=categoriesModelList.get(position);
         holder.productUnitPrice.setText("৳ "+String.valueOf(model.getUnit_price()));
-        holder.productMRPPrice.setText(String.valueOf(model.getMrp_price()));
+        int mrpPrice = model.getMrp_price() != null ? model.getMrp_price() : 0;
+        holder.productMRPPrice.setText(String.valueOf(mrpPrice));
         holder.productName.setText(model.getProduct_name());
         try{
             Picasso.get()
@@ -62,7 +63,7 @@ public class RelatedProductAdapter extends RecyclerView.Adapter<RelatedProductAd
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if(model.getMrp_price()==0){
+        if(mrpPrice==0){
             holder.productMRPPrice.setVisibility(View.GONE);
         }
         holder.itemView.setOnClickListener(new View.OnClickListener() {

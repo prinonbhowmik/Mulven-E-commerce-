@@ -64,10 +64,12 @@ public class VerticalProductsAdapter extends RecyclerView.Adapter<VerticalProduc
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if(model.getMrp_price()==0){
+
+        int mrpPrice = model.getMrp_price() != null ? model.getMrp_price() : 0;
+        if(mrpPrice==0){
             holder.productMRPPrice.setVisibility(View.GONE);
         }else {
-            holder.productMRPPrice.setText(String.valueOf(model.getMrp_price()));
+            holder.productMRPPrice.setText(String.valueOf(mrpPrice));
         }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
