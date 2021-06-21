@@ -14,33 +14,47 @@
 
 
         <TextView
+            android:id="@+id/paymentTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/comfortaa_light"
+            android:maxLines="1"
+            android:textColor="@color/black"
+            android:text="01-02-2021 10:30 AM"
+            android:textSize="12sp" />
+        <TextView
             android:id="@+id/paymentDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="10dp"
+            android:layout_below="@+id/paymentTime"
             android:fontFamily="@font/comfortaa_light"
-            android:maxLines="3"
+            android:layout_toStartOf="@id/paymentAmountTV"
+            android:maxLines="2"
             android:lineSpacingExtra="5dp"
             android:textColor="@color/black"
             android:text="Cash Back 200Tk By bKash"
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/paymentTime"
+            android:id="@+id/paymentAmountTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:layout_marginEnd="10dp"
-            android:layout_below="@+id/paymentDescription"
-            android:fontFamily="@font/comfortaa_light"
+            android:layout_below="@+id/paymentTime"
+            android:fontFamily="@font/comfortaa"
             android:maxLines="1"
             android:textColor="@color/black"
-            android:text="01-02-2021 10:30 AM"
-            android:textSize="12sp" />
+            android:text="+200000"
+            android:textSize="16sp" />
 
     </RelativeLayout>
 

@@ -5,6 +5,7 @@
     android:id="@+id/gift_voucher_rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".Activities.GiftVoucherActivity">
     <RelativeLayout
         android:layout_width="match_parent"
@@ -33,62 +34,29 @@
             android:textColor="@color/white"/>
 
     </RelativeLayout>
-    <co.ceryle.radiorealbutton.RadioRealButtonGroup
-        android:id="@+id/radioGroup"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/toolbar"
-        app:rrbg_animateDrawables_enter="overshoot"
-        app:rrbg_animateTexts_enter="anticipateOvershoot"
-        app:rrbg_dividerColor="@color/black"
-        app:rrbg_dividerSize="1dp"
-        app:rrbg_radius="10dp"
-        app:rrbg_selectorColor="@color/themDark"
-        android:background="@color/white"
-        app:rrbg_selectorRadius="10dp"
-        app:rrbg_selectorSize="3dp"
-        app:rrbg_checkedPosition="0">
-
-        <co.ceryle.radiorealbutton.RadioRealButton
-            android:id="@+id/myVoucher"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:rrb_drawableHeight="30dp"
-            app:rrb_drawablePadding="12dp"
-            app:rrb_drawableWidth="30dp"
-            app:rrb_ripple="true"
-            android:background="@color/white"
-            app:rrb_rippleColor="@color/themDark"
-            app:rrb_text="My Voucher"
-            app:rrb_textColor="@color/themDark" />
-
-        <co.ceryle.radiorealbutton.RadioRealButton
-            android:id="@+id/allVoucher"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:rrb_drawableHeight="30dp"
-            app:rrb_drawablePadding="12dp"
-            app:rrb_drawableWidth="30dp"
-            app:rrb_ripple="true"
-            android:background="@color/white"
-            app:rrb_rippleColor="@color/themDark"
-            app:rrb_text="All Voucher"
-            app:rrb_textColor="@color/themDark" />
-
-    </co.ceryle.radiorealbutton.RadioRealButtonGroup>
+        android:orientation="vertical">
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/voucherRecyclerView"
-        android:layout_below="@+id/radioGroup"
+        android:id="@+id/voucherCategoryRecyclerView"
         android:layout_width="match_parent"
         android:visibility="gone"
         android:layout_height="match_parent" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/voucherRecyclerView"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="match_parent" />
+    </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/noCartLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible"
-        android:layout_below="@+id/radioGroup">
+        android:layout_below="@id/toolbar"
+        android:visibility="visible">
 
         <TextView
             android:layout_width="wrap_content"
