@@ -7,33 +7,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".Activities.GiftVoucherActivity">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="65dp"
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
-        android:background="@color/themDark">
-
-        <ImageView
-            android:id="@+id/navIcon"
-            android:layout_width="35sp"
-            android:layout_height="35sp"
-            android:layout_centerVertical="true"
-            android:onClick="giftVoucherBack"
-            android:layout_marginStart="20dp"
-            android:src="@drawable/ic_arrow"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:text="Gift Voucher"
-            android:layout_toEndOf="@+id/navIcon"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="10dp"
-            android:textSize="24sp"
-            android:fontFamily="@font/comfortaa_light"
-            android:textColor="@color/white"/>
-
-    </RelativeLayout>
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/themDark"
+        app:theme="@style/ToolbarColoredBackArrow"
+        app:title="Gift Voucher"
+        app:titleTextColor="@color/white" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
