@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/background"
     android:id="@+id/home_fragment_rootLayout"
     tools:context=".Fragments.HomeFragment">
 
@@ -80,6 +80,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/category_0"
                     android:layout_margin="3dp"
+                    android:background="@color/background"
                     android:orientation="horizontal" />
 
                 <com.facebook.shimmer.ShimmerFrameLayout
@@ -143,7 +144,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/shop_by_catagory_layout"
-                android:layout_margin="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="12dp"
                 app:cardCornerRadius="6dp">
 
                 <com.smarteist.autoimageslider.SliderView
@@ -187,7 +190,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/sliderCardView"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="15dp">
 
                 <TextView
                     android:id="@+id/category_1"
@@ -223,8 +226,8 @@
                     android:layout_below="@+id/seeAll_1"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="3dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginBottom="3dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="8dp"
                     android:background="@color/gray" />
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -233,7 +236,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/view_1"
                     android:layout_margin="3dp"
-                    android:background="#F8F8F8"
+                    android:background="@color/background"
                     android:orientation="horizontal" />
                 <com.facebook.shimmer.ShimmerFrameLayout
                     android:id="@+id/Horizontal_shimmer_container1"
@@ -252,17 +255,23 @@
                     android:orientation="horizontal">
                     <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp">
                         <include layout="@layout/horizontal_shimmer_layout" />
                     </LinearLayout>
                     <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp">
                         <include layout="@layout/horizontal_shimmer_layout" />
                     </LinearLayout>
                     <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp">
                         <include layout="@layout/horizontal_shimmer_layout" />
                     </LinearLayout>
 
@@ -274,6 +283,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:id="@+id/feature_Add_RelativeLayout"
                 android:layout_below="@+id/product_1_layout">
             <androidx.recyclerview.widget.RecyclerView
@@ -281,7 +291,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
-                android:background="#F8F8F8"
+                android:background="@color/background"
                 android:orientation="vertical" />
             <com.facebook.shimmer.ShimmerFrameLayout
                 android:id="@+id/featureAdd_shimmer_container"
@@ -301,12 +311,18 @@
                     <View
                         android:layout_width="330dp"
                         android:layout_height="150dp"
-                        android:layout_margin="5dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginBottom="2dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
                         android:background="@color/shimmer_background"/>
                     <View
                         android:layout_width="330dp"
                         android:layout_height="150dp"
-                        android:layout_margin="5dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginBottom="2dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
                         android:background="@color/shimmer_background"/>
                 </LinearLayout>
             </com.facebook.shimmer.ShimmerFrameLayout>
@@ -316,7 +332,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/feature_Add_RelativeLayout"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="15dp">
 
                 <TextView
                     android:id="@+id/category_2"
@@ -351,7 +367,8 @@
                     android:layout_below="@+id/seeAll_2"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="3dp"
-                    android:layout_marginEnd="20dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="8dp"
                     android:background="@color/gray" />
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -359,8 +376,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/view_2"
-                    android:layout_marginTop="5dp"
-                    android:background="#F1F1F1" />
+                    android:layout_margin="3dp"
+                    android:background="@color/background" />
 
                 <com.facebook.shimmer.ShimmerFrameLayout
                     android:id="@+id/Horizontal_shimmer_container2"
@@ -379,17 +396,23 @@
                         android:orientation="horizontal">
                         <LinearLayout
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp">
                             <include layout="@layout/horizontal_shimmer_layout" />
                         </LinearLayout>
                         <LinearLayout
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp">
                             <include layout="@layout/horizontal_shimmer_layout" />
                         </LinearLayout>
                         <LinearLayout
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp">
                             <include layout="@layout/horizontal_shimmer_layout" />
                         </LinearLayout>
                     </LinearLayout>
@@ -401,7 +424,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/product_2_layout"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="15dp">
 
                 <TextView
                     android:id="@+id/category_3"
@@ -437,7 +460,8 @@
                     android:layout_below="@+id/seeAll_3"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="3dp"
-                    android:layout_marginEnd="20dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="8dp"
                     android:background="@color/gray" />
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -447,7 +471,7 @@
                     android:layout_below="@+id/view_3"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="10dp"
-                    android:background="#F1F1F1" />
+                    android:background="@color/background" />
                 <com.facebook.shimmer.ShimmerFrameLayout
                     android:id="@+id/Horizontal_shimmer_container3"
                     android:layout_width="wrap_content"
@@ -465,17 +489,23 @@
                         android:orientation="horizontal">
                         <LinearLayout
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp">
                             <include layout="@layout/horizontal_shimmer_layout" />
                         </LinearLayout>
                         <LinearLayout
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp">
                             <include layout="@layout/horizontal_shimmer_layout" />
                         </LinearLayout>
                         <LinearLayout
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp">
                             <include layout="@layout/horizontal_shimmer_layout" />
                         </LinearLayout>
                     </LinearLayout>
@@ -487,7 +517,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/product_3_layout"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="15dp">
 
                 <TextView
                     android:id="@+id/category_4"
@@ -523,7 +553,8 @@
                     android:layout_below="@+id/seeAll_4"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="3dp"
-                    android:layout_marginEnd="20dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="13dp"
                     android:background="@color/gray" />
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -533,7 +564,7 @@
                     android:layout_below="@+id/view_4"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="10dp"
-                    android:background="#F1F1F1"
+                    android:background="@color/background"
                     android:nestedScrollingEnabled="false" />
             </RelativeLayout>
         </RelativeLayout>

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     android:id="@+id/campaign_product_rootLayout"
     tools:context=".Activities.CampaignProductActivity">
 
@@ -32,12 +33,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/camCatRecycler"
-        android:background="#F1F1F1"
+        android:background="@color/background"
         android:fitsSystemWindows="true"
         android:layoutAnimation="@anim/layout_animation"
         android:padding="2dp"
         android:scrollbars="vertical"
         android:visibility="visible"
+        android:layout_marginTop="10dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <RelativeLayout android:id="@+id/progressRL"

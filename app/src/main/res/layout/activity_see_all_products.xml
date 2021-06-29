@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="@color/white"
+    android:background="@color/background"
     android:focusableInTouchMode="true"
     tools:context=".Activities.SeeAllProductsActivity">
 
@@ -31,6 +31,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@color/background"
             android:id="@+id/subCatRecycler"/>
     </RelativeLayout>
     <androidx.recyclerview.widget.RecyclerView
@@ -43,6 +44,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
         android:layout_below="@+id/subSubCatRecycler"
         android:animateLayoutChanges="true">
 
@@ -50,7 +52,7 @@
             android:id="@+id/allProductRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#F1F1F1"
+            android:background="@color/background"
             android:fitsSystemWindows="true"
             android:layoutAnimation="@anim/layout_animation"
             android:padding="2dp"
