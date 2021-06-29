@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.hydertechno.mulven">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
 
     <application
         android:name=".Internet.Connection"
@@ -15,7 +17,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Mulven">
-        <activity android:name=".Activities.NotificationDetailsActivity"></activity>
+        <activity android:name=".Activities.NotificationDetailsActivity"/>
         <activity android:name=".Activities.NagadPaymentActivity" />
         <activity android:name=".Activities.PaymentMethodsActivity" />
         <activity android:name=".Activities.PaymentHistoryActivity" />
