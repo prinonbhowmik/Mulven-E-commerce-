@@ -57,6 +57,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CampaignProductActivity extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener, OnQueryTextChangeListener, CampaignCatInterface {
+    private final String TAG = CampaignProductActivity.class.getSimpleName();
 
     private ImageView navIcon,searchIv,closeIv;
     private String title,id;
@@ -93,6 +94,8 @@ public class CampaignProductActivity extends AppCompatActivity implements Connec
         campaignID=intent.getIntExtra("id",0);
         title=intent.getStringExtra("title");
         getSupportActionBar().setTitle(title);
+        Log.e(TAG, "id=>>>" + campaignID);
+
         getCategories();
 
     }
@@ -147,6 +150,7 @@ public class CampaignProductActivity extends AppCompatActivity implements Connec
             @Override
             public void onResponse(Call<CampaignProductsModel> call, Response<CampaignProductsModel> response) {
                 if (response.isSuccessful()){
+                    Log.e(CampaignProductActivity.class.getSimpleName(), response.body().toString());
                     CampaignProductsModel list  = response.body();
 
                     CampaignCategoriesModel model = new CampaignCategoriesModel(-1, "All");

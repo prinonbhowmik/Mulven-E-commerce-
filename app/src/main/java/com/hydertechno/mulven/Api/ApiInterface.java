@@ -16,6 +16,7 @@ import com.hydertechno.mulven.Models.ResponseUpdate;
 import com.hydertechno.mulven.Models.ShurjoPayPaymentModel;
 import com.hydertechno.mulven.Models.Sliderimage;
 import com.hydertechno.mulven.Models.SubCatModel;
+import com.hydertechno.mulven.Models.TransactionModel;
 import com.hydertechno.mulven.Models.UserProfile;
 
 import org.json.JSONArray;
@@ -159,4 +160,6 @@ public interface ApiInterface {
     Call<List<NotificationModel>> getNotification(@Query("token") String token);
 
 
+    @GET("transaction")
+    Call<TransactionModel> getTransactions(@Query("token") String token);
 }
