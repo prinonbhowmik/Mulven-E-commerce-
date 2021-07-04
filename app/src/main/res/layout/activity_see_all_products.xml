@@ -44,7 +44,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="13dp"
+        android:layout_marginTop="5dp"
         android:layout_below="@+id/subSubCatRecycler"
         android:animateLayoutChanges="true">
 
