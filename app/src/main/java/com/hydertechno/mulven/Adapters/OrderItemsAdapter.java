@@ -123,7 +123,7 @@ public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.Vi
                 holder.orderStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.status_picked));
                 break;
             default:
-                holder.orderStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.status_cancel));
+                holder.orderStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.status_default));
         }
         holder.orderStatusTV.setText(orderStatus);
 

@@ -315,7 +315,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             case R.id.giftMenu:
                 //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new CartFragment()).commit();
-                startActivity(new Intent(getApplicationContext(),GiftVoucherActivity.class));
+                startActivity(new Intent(getApplicationContext(),SeeAllProductsActivity.class).putExtra("title", "Gift Voucher")
+                        .putExtra("id", "208"));
+
                 break;
 
             case R.id.about:

@@ -48,9 +48,8 @@
             android:layout_marginTop="5dp"
             android:layout_marginEnd="10dp"
             android:layout_below="@+id/paymentTime"
-            android:fontFamily="@font/comfortaa"
+            android:fontFamily="@font/comfortaa_bold"
             android:maxLines="1"
-            android:textColor="@color/black"
             android:textSize="16sp" />
 
     </RelativeLayout>

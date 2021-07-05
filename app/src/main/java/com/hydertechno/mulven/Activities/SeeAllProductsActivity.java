@@ -83,6 +83,7 @@ public class SeeAllProductsActivity extends AppCompatActivity implements Connect
     private List<CategoriesModel> allProductsList=new ArrayList<>();
     private ApiInterface apiInterface;
     public static RelativeLayout rootLayout;
+    public RelativeLayout noItemLayout,subCatLayout,allProductRL;
     private Snackbar snackbar;
     public static int countAll=0;
     private boolean isConnected;
@@ -156,6 +157,9 @@ public class SeeAllProductsActivity extends AppCompatActivity implements Connect
 
         //searchView = findViewById(R.id.searchET);
 
+        allProductRL =  findViewById(R.id.allProductRL);
+        subCatLayout =  findViewById(R.id.subCatLayout);
+        noItemLayout =  findViewById(R.id.noItemLayout);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitleTextAppearance(SeeAllProductsActivity.this,R.style.Comfortaa_bold);
@@ -197,9 +201,16 @@ public class SeeAllProductsActivity extends AppCompatActivity implements Connect
                     allProductsList = response.body();
                     all_product_Adapter = new AllProductsAdapter(allProductsList, getApplicationContext());
                     productRecyclerView.setAdapter(all_product_Adapter);
+
+                    if(allProductsList.isEmpty()){
+                        noItemLayout.setVisibility(View.VISIBLE);
+                        allProductRL.setVisibility(View.GONE);
+                        subCatLayout.setVisibility(View.GONE);
+                    }
                 }
                 //Collections.reverse(categoryNamesModelList);
                 all_product_Adapter.notifyDataSetChanged();
+
             }
 
             @Override

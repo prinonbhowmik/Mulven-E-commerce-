@@ -6,38 +6,61 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/background"
     tools:context=".Activities.GiftVoucherActivity">
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/themDark"
-        app:theme="@style/ToolbarColoredBackArrow"
-        app:title="Gift Voucher"
-        app:titleTextColor="@color/white" />
-    <LinearLayout
+
+    <RelativeLayout
+        android:id="@+id/voucherToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar"
-        android:orientation="vertical">
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/voucherCategoryRecyclerView"
+        android:animateLayoutChanges="true"
+        android:background="@color/themDark">
+
+        <include layout="@layout/toolbar"/>
+        <include layout="@layout/search_toolbar"
+            android:visibility="gone"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/voucherCategoryRL"
         android:layout_width="match_parent"
-        android:visibility="gone"
-        android:layout_height="match_parent" />
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/voucherRecyclerView"
+        android:layout_height="wrap_content"
+        android:background="@color/background"
+        android:layout_below="@+id/voucherToolbar">
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/background"
+            android:id="@+id/voucherSubCategoryRecyclerView"/>
+    </RelativeLayout>
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:visibility="gone"
-        android:layout_height="match_parent" />
-    </LinearLayout>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@color/background"
+        android:layout_below="@+id/voucherCategoryRL"
+        android:animateLayoutChanges="true">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/voucherRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            android:layoutAnimation="@anim/layout_animation"
+            android:padding="2dp"
+            android:scrollbars="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+    </RelativeLayout>
+
 
     <RelativeLayout
         android:id="@+id/noCartLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolbar"
-        android:visibility="visible">
+        android:layout_below="@id/voucherToolbar"
+        android:background="@color/background"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"
@@ -48,5 +71,5 @@
             android:textSize="15sp"
             android:textColor="@color/themDark"/>
     </RelativeLayout>
-
 </RelativeLayout>
+

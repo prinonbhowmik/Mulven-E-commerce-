@@ -1,12 +1,14 @@
 package com.hydertechno.mulven.Adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hydertechno.mulven.Models.Transaction;
@@ -55,7 +57,16 @@ public class PaymentHistoryAdapter extends RecyclerView.Adapter<PaymentHistoryAd
         void bindView(Transaction item) {
             paymentTime.setText(item.getCreatedAt());
             paymentDescription.setText(item.getNotice());
-            paymentAmountTV.setText(item.getAmount());
+            int status;
+            status=item.getStatus();
+            if(status==1){
+                paymentAmountTV.setTextColor(ContextCompat.getColor(context,R.color.GGreen));
+                paymentAmountTV.setText("+ "+item.getAmount()+" ৳");
+            }else if(status==0){
+                paymentAmountTV.setTextColor(ContextCompat.getColor(context,R.color.GRed));
+                paymentAmountTV.setText("- "+item.getAmount()+" ৳");
+            }
+
         }
     }
 

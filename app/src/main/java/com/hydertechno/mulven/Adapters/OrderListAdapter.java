@@ -63,7 +63,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
         holder.orderDateTV.setText(orderListModel.getDate());
         holder.orderTimeTV.setText(orderListModel.getTime());
         String orderStatus=orderListModel.getOrders_status();
-        //holder.orderStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.status_cancel));
+        holder.orderStatusTV.setText(orderStatus);
         switch (orderStatus) {
             case "Pending":
                 holder.orderStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.status_pending));
@@ -87,19 +87,23 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
             case "Picked":
                 holder.orderStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.status_picked));
                 break;
+            default:
+                holder.orderStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.status_default));
         }
-        holder.orderStatusTV.setText(orderStatus);
         String payStatus=orderListModel.getPay_status();
-
-        if(payStatus.equals("Unpaid")){
-            holder.paymentStatusTV.setText("Unpaid");
-            holder.paymentStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.payment_unpaid));
-        }else if(payStatus.equals("Paid")) {
-            holder.paymentStatusTV.setText("Paid");
-            holder.paymentStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.payment_paid));
-        } else if(payStatus.equals("Partial Paid")){
-            holder.paymentStatusTV.setText("Partial Paid");
-            holder.paymentStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.payment_partial_paid));
+        holder.paymentStatusTV.setText(payStatus);
+        switch (payStatus) {
+            case "Unpaid":
+                holder.paymentStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.payment_unpaid));
+                break;
+            case "Paid":
+                holder.paymentStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.payment_paid));
+                break;
+            case "Partial Paid":
+                holder.paymentStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.payment_partial_paid));
+                break;
+            default:
+                holder.paymentStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.status_default));
         }
 
         intentFilter = new IntentFilter();

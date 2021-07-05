@@ -170,7 +170,7 @@ public class CartFragment extends Fragment  implements ConnectivityReceiver.Conn
                                             } else {
                                                 showErrorDialog("Something went wrong, Please try again!");
                                             }
-                                            progressRL.setVisibility(View.VISIBLE);
+                                            progressRL.setVisibility(View.GONE);
                                         }
                                         @Override
                                         public void onFailure(Call<PlaceOrderModel> call, Throwable t) {
@@ -220,6 +220,8 @@ public class CartFragment extends Fragment  implements ConnectivityReceiver.Conn
 
         Cursor cursor = databaseHelper.getCart();
         if (cursor != null) {
+
+            progressRL.setVisibility(View.GONE);
             while (cursor.moveToNext()) {
 
                 int id = cursor.getInt(cursor.getColumnIndex(databaseHelper.ID));
@@ -266,6 +268,7 @@ public class CartFragment extends Fragment  implements ConnectivityReceiver.Conn
         sharedPreferences = getContext().getSharedPreferences("MyRef", MODE_PRIVATE);
         token = sharedPreferences.getString("token", null);
         loggedIn = sharedPreferences.getInt("loggedIn",0);
+        progressRL=view.findViewById(R.id.progressRL);
         //Log.d("ShowToken", token);
     }
 
