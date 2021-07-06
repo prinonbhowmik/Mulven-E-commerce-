@@ -33,6 +33,7 @@ import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.hydertechno.mulven.Activities.MainActivity;
+import com.hydertechno.mulven.Activities.PaymentMethodsActivity;
 import com.hydertechno.mulven.Activities.PlaceOrderListActivity;
 import com.hydertechno.mulven.Adapters.CartAdapter;
 import com.hydertechno.mulven.Api.ApiUtils;
@@ -114,37 +115,27 @@ public class CartFragment extends Fragment  implements ConnectivityReceiver.Conn
                         Cursor cursor = databaseHelper.getCart();
                         if (cursor != null) {
 
-                            int unitPrice = databaseHelper.columnSum();
+                            double unitPrice = databaseHelper.columnSum();
                             if (unitPrice >= 500) {
+                                ArrayList<CartProductModel> allCartProducts = databaseHelper.getAllCartProducts();
                                 JSONArray array = new JSONArray();
                                 ArrayList<JSONArray> jsonArrayList = new ArrayList<>();
                                 List<Map<String, String>> list1 = new ArrayList<>();
-                                while (cursor.moveToNext()) {
-                                    int id = cursor.getInt(cursor.getColumnIndex(databaseHelper.ID));
-                                    String sku = cursor.getString(cursor.getColumnIndex(databaseHelper.SKU));
-                                    String name = cursor.getString(cursor.getColumnIndex(databaseHelper.PRODUCT_NAME));
-                                    int unit_price = cursor.getInt(cursor.getColumnIndex(databaseHelper.UNIT_PRICE));
-                                    int quantity = cursor.getInt(cursor.getColumnIndex(databaseHelper.QUANTITY));
-                                    String size = cursor.getString(cursor.getColumnIndex(databaseHelper.SIZE));
-                                    String color = cursor.getString(cursor.getColumnIndex(databaseHelper.COLOR));
-                                    String variant = cursor.getString(cursor.getColumnIndex(databaseHelper.VARIANT));
-                                    String campaign_id = cursor.getString(cursor.getColumnIndex(databaseHelper.CAMPAIGN_ID));
-                                    int store_id = cursor.getInt(cursor.getColumnIndex(databaseHelper.STORE_ID));
-                                    int category_id = cursor.getInt(cursor.getColumnIndex(databaseHelper.CATEGORY_ID));
 
+                                for (CartProductModel item : allCartProducts) {
                                     Map<String, String> parms = new HashMap<String, String>();
 
-                                    parms.put("item_id", String.valueOf(id));
-                                    parms.put("pro_name", name);
-                                    parms.put("sku", sku);
-                                    parms.put("variant", variant);
-                                    parms.put("size", size);
-                                    parms.put("color", color);
-                                    parms.put("price", String.valueOf(unit_price));
-                                    parms.put("order_from", campaign_id);
-                                    parms.put("store_id", String.valueOf(store_id));
-                                    parms.put("category_id", String.valueOf(category_id));
-                                    parms.put("quantity", String.valueOf(quantity));
+                                    parms.put("item_id", String.valueOf(item.getId()));
+                                    parms.put("pro_name", item.getProduct_name());
+                                    parms.put("sku", item.getSku());
+                                    parms.put("variant", item.getVariant());
+                                    parms.put("size", item.getSize());
+                                    parms.put("color", item.getColor());
+                                    parms.put("price", String.valueOf(item.getUnit_price()));
+                                    parms.put("order_from", item.getCampaignId());
+                                    parms.put("store_id", String.valueOf(item.getStoreId()));
+                                    parms.put("category_id", String.valueOf(item.getCategoryId()));
+                                    parms.put("quantity", String.valueOf(item.getQuantity()));
                                     list1.add(parms);
 //                        databaseHelper.deleteData(id, size, color, variant);
                                     array = new JSONArray(list1);
@@ -153,7 +144,6 @@ public class CartFragment extends Fragment  implements ConnectivityReceiver.Conn
                                 Log.d("checkList", String.valueOf(jsonArrayList));
 
                                 if (list1.size() > 0) {
-
                                     progressRL.setVisibility(View.VISIBLE);
                                     Call<PlaceOrderModel> call = ApiUtils.getUserService().placeOrder(token, jsonArrayList);
                                     call.enqueue(new Callback<PlaceOrderModel>() {
@@ -190,6 +180,7 @@ public class CartFragment extends Fragment  implements ConnectivityReceiver.Conn
         return view;
     }
 
+
     private void showSuccessDialog() {
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         DialogFragment newFragment = new OrderSuccessFragment();
@@ -217,35 +208,14 @@ public class CartFragment extends Fragment  implements ConnectivityReceiver.Conn
     }
 
     private void getCartProducts() {
-
-        Cursor cursor = databaseHelper.getCart();
-        if (cursor != null) {
-
-            progressRL.setVisibility(View.GONE);
-            while (cursor.moveToNext()) {
-
-                int id = cursor.getInt(cursor.getColumnIndex(databaseHelper.ID));
-                String name = cursor.getString(cursor.getColumnIndex(databaseHelper.PRODUCT_NAME));
-                int mrp_price = cursor.getInt(cursor.getColumnIndex(databaseHelper.MRP_PRICE));
-                int unit_price = cursor.getInt(cursor.getColumnIndex(databaseHelper.UNIT_PRICE));
-                String shop_name = cursor.getString(cursor.getColumnIndex(databaseHelper.SHOP_NAME));
-                int quantity = cursor.getInt(cursor.getColumnIndex(databaseHelper.QUANTITY));
-                String image = cursor.getString(cursor.getColumnIndex(databaseHelper.IMAGE));
-                String size = cursor.getString(cursor.getColumnIndex(databaseHelper.SIZE));
-                String color = cursor.getString(cursor.getColumnIndex(databaseHelper.COLOR));
-                String variant = cursor.getString(cursor.getColumnIndex(databaseHelper.VARIANT));
-
-                CartProductModel cartProductsModel = new CartProductModel(id, name, mrp_price, unit_price, size, color, variant, shop_name, quantity, image);
-
-                list.add(cartProductsModel);
-                adapter = new CartAdapter(list, getContext());
-                cartRecycler.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
-            }
-            if (list.size() == 0) {
-                noCartLayout.setVisibility(View.VISIBLE);
-                cartLayout.setVisibility(View.GONE);
-            }
+        ArrayList<CartProductModel> allCartProducts = databaseHelper.getAllCartProducts();
+        if (allCartProducts.size() == 0) {
+            noCartLayout.setVisibility(View.VISIBLE);
+            cartLayout.setVisibility(View.GONE);
+        } else {
+            adapter = new CartAdapter(allCartProducts, getContext());
+            cartRecycler.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
         }
     }
 

@@ -136,12 +136,12 @@ public class Database_Helper extends SQLiteOpenHelper {
         return data;
     }
 
-     public int columnSum() {
+     public double columnSum() {
          SQLiteDatabase db = this.getWritableDatabase();
          Cursor cur = db.rawQuery("SELECT SUM(quantity * unit_price) FROM new_table", null);
          if(cur.moveToFirst())
          {
-             return cur.getInt(0);
+             return cur.getDouble(0);
          }
 
          return 0;
@@ -153,6 +153,7 @@ public class Database_Helper extends SQLiteOpenHelper {
          if (cursor != null) {
              while (cursor.moveToNext()) {
                  int id = cursor.getInt(cursor.getColumnIndex(ID));
+                 String sku = cursor.getString(cursor.getColumnIndex(SKU));
                  String name = cursor.getString(cursor.getColumnIndex(PRODUCT_NAME));
                  int mrp_price = cursor.getInt(cursor.getColumnIndex(MRP_PRICE));
                  int unit_price = cursor.getInt(cursor.getColumnIndex(UNIT_PRICE));
@@ -162,8 +163,11 @@ public class Database_Helper extends SQLiteOpenHelper {
                  String size = cursor.getString(cursor.getColumnIndex(SIZE));
                  String color = cursor.getString(cursor.getColumnIndex(COLOR));
                  String variant = cursor.getString(cursor.getColumnIndex(VARIANT));
+                 int store_id = cursor.getInt(cursor.getColumnIndex(STORE_ID));
+                 String campaignId = cursor.getString(cursor.getColumnIndex(CAMPAIGN_ID));
+                 int category_id = cursor.getInt(cursor.getColumnIndex(CATEGORY_ID));
 
-                 CartProductModel cartProductsModel = new CartProductModel(id, name, mrp_price, unit_price, size, color, variant, shop_name, quantity, image);
+                 CartProductModel cartProductsModel = new CartProductModel(id, sku, name, mrp_price, unit_price, size, color, variant, shop_name, quantity, image, store_id, campaignId, category_id);
 
                  productModels.add(cartProductsModel);
              }

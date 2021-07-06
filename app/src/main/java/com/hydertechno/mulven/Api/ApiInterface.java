@@ -18,6 +18,7 @@ import com.hydertechno.mulven.Models.Sliderimage;
 import com.hydertechno.mulven.Models.SubCatModel;
 import com.hydertechno.mulven.Models.TransactionModel;
 import com.hydertechno.mulven.Models.UserProfile;
+import com.hydertechno.mulven.Models.WalletPayStatus;
 
 import org.json.JSONArray;
 
@@ -159,7 +160,14 @@ public interface ApiInterface {
     @GET("notification")
     Call<List<NotificationModel>> getNotification(@Query("token") String token);
 
-
     @GET("transaction")
     Call<TransactionModel> getTransactions(@Query("token") String token);
+
+    @GET("wallet-pay")
+    Call<WalletPayStatus> checkWalletPay(
+            @Query("token") String token,
+            @Query("pay_method") String pay_method,
+            @Query("pay_am") String pay_am,
+            @Query("order_id") String order_id
+    );
 }

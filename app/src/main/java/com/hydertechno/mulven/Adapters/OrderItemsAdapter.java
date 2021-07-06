@@ -41,7 +41,7 @@ public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         OrderItemsModel model = orderItemsModelList.get(position);
-        holder.OrderProductName.setText(model.getPro_name());
+        holder.OrderProductName.setText(model.getProName());
 
         if (model.getSize()==null || model.getSize().equals("")){
             if(model.getColor()==null || model.getColor().equals("")){
@@ -74,9 +74,9 @@ public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.Vi
         }
 
 
-        int price = model.getPrice();
+        double price = model.getPrice();
         int quantity = model.getQuantity();
-        int totalPrice = price * quantity;
+        double totalPrice = price * quantity;
         holder.OderProductPrice.setText("৳ " + price);
         holder.OrderProductQuantity.setText(" X " + quantity);
         holder.OrderProductTotalPrice.setText("৳ " + totalPrice);
@@ -86,14 +86,14 @@ public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.Vi
             totalSumPrice += (orderItemsModelList.get(i).getPrice()*orderItemsModelList.get(i).getQuantity());
         }
 
-        int due = totalSumPrice - activity.totalPay;
+        double due = totalSumPrice - activity.totalPay;
 
         activity.totalPriceTv.setText("৳ " + totalSumPrice);
         activity.dueTV.setText("৳ " + due);
 
         try {
             Picasso.get()
-                    .load(Config.IMAGE_LINE + model.getFeacher_image())
+                    .load(Config.IMAGE_LINE + model.getFeacherImage())
                     .into(holder.OrderProductImageIV);
         } catch (Exception e) {
             e.printStackTrace();

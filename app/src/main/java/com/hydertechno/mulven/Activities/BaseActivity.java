@@ -35,7 +35,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Connecti
     }
 
     public void showToast(String text) {
-        Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
     }
 
     public void checkConnection() {

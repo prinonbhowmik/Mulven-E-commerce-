@@ -42,6 +42,7 @@ import com.hydertechno.mulven.Fragments.LoadingDialog;
 import com.hydertechno.mulven.Internet.Connection;
 import com.hydertechno.mulven.Internet.ConnectivityReceiver;
 import com.hydertechno.mulven.Models.CancellationReasonModel;
+import com.hydertechno.mulven.Models.CartProductModel;
 import com.hydertechno.mulven.Models.InvoiceDetailsModel;
 import com.hydertechno.mulven.Models.OrderDetails;
 import com.hydertechno.mulven.Models.OrderItemsModel;
@@ -56,6 +57,7 @@ import com.sm.shurjopaysdk.payment.ShurjoPaySDK;
 import com.sm.shurjopaysdk.utils.SPayConstants;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -69,7 +71,7 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
     private TextView invoiceIdTV, orderTimeTV, vendorNameTV, vendorPhoneTV, vendorAddressTV, customerNameTV,
             customerPhoneTV, customerAddressTV, customerAddressEditTV, totalPaidTV,orderStatusTV,reportIssueTV,existingIssueTV;
     public static TextView totalPriceTv, dueTV,makePaymentTV;
-    public static int totalPay;
+    public static double totalPay;
     private Dialog cancelledDialog, makePaymentDialog;
     private RatingBar ratingBar;
     private String token, OrderId,paymentOrderStatus,orderStatus;
@@ -85,6 +87,7 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
     private Snackbar snackbar;
     private PopupMenu popup;
     private LoadingDialog loadingDialog;
+    private boolean isCampaignAvailable = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,6 +141,7 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
                                             intent.putExtra("amount", value);
                                             intent.putExtra("FAmount", dueTV.getText().toString());
                                             intent.putExtra("orderId", OrderId);
+                                            intent.putExtra("isCampaign", isCampaignAvailable);
                                             startActivity(intent);
                                             makePaymentDialog.dismiss();
                                         }else
@@ -323,6 +327,7 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
         call.enqueue(new Callback<InvoiceDetailsModel>() {
             @Override
             public void onResponse(Call<InvoiceDetailsModel> call, Response<InvoiceDetailsModel> response) {
+                Log.e("Response ===> ", response.toString());
                 loadingDialog.dismiss();
                 topRelative.setVisibility(View.VISIBLE);
                 descriptionLinearLayout.setVisibility(View.VISIBLE);
@@ -331,20 +336,20 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
                 refundRelative.setVisibility(View.VISIBLE);
                 priceLinearLayout.setVisibility(View.VISIBLE);
                 InvoiceDetailsModel details = response.body();
-                String shopName = details.getOrderDetails().getShop_name();
-                String shopPhone = details.getOrderDetails().getSeller_phone();
-                String shopAddress = details.getOrderDetails().getShop_address();
-                String shopImage = details.getOrderDetails().getShop_logo();
+                String shopName = details.getOrderDetails().getShopName();
+                String shopPhone = details.getOrderDetails().getSellerPhone();
+                String shopAddress = details.getOrderDetails().getShopAddress();
+                String shopImage = details.getOrderDetails().getShopLogo();
                 String orderTime = details.getOrderDetails().getTime();
                 String orderDate = details.getOrderDetails().getDate();
-                String customerAddress = details.getOrderDetails().getDelivery_address();
-                orderStatus = details.getOrderDetails().getOrders_status();
+                String customerAddress = details.getOrderDetails().getDeliveryAddress();
+                orderStatus = details.getOrderDetails().getOrdersStatus();
                 vendorNameTV.setText(shopName);
                 vendorPhoneTV.setText(shopPhone);
                 vendorAddressTV.setText(shopAddress);
                 orderTimeTV.setText(orderDate + " " + orderTime);
                 totalPaidTV.setText("৳ " +details.getTotalPay());
-                totalPay = Integer.parseInt(details.getTotalPay());
+                totalPay = details.getTotalPay();
 
                 try {
                     Picasso.get()
@@ -389,6 +394,7 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
                 orderItemListRecyclerView.setAdapter(orderItemsAdapter);
                 orderItemsAdapter.notifyDataSetChanged();
 
+                isCampaignAvailable = getIsCampaignAvailable(orderItemsModelList);
 
                 //Time Line
                 List<OrderTimelineModel> orderTimelineModelList = details.getTimeline();
@@ -398,7 +404,6 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
                 timelineRecyclerView.setAdapter(orderTimelineAdapter);
                // Collections.reverse(orderTimelineModelList);
                 orderTimelineAdapter.notifyDataSetChanged();
-
 
 
                 switch (paymentOrderStatus) {
@@ -431,6 +436,16 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
 
             }
         });
+    }
+
+
+    private boolean getIsCampaignAvailable(List<OrderItemsModel> products) {
+        for (OrderItemsModel item : products) {
+            if (item.getOrderFrom() != null && !item.getOrderFrom().isEmpty()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void placeOrderIdCopy(View view) {

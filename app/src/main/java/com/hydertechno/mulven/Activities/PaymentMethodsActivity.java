@@ -22,9 +22,12 @@ import android.widget.TextView;
 import com.google.android.material.snackbar.Snackbar;
 import com.hydertechno.mulven.Adapters.PaymentMethodsAdapter;
 import com.hydertechno.mulven.Api.ApiUtils;
+import com.hydertechno.mulven.Fragments.LoadingDialog;
 import com.hydertechno.mulven.Interface.OnPMethodItemClickListener;
+import com.hydertechno.mulven.Models.InvoiceDetailsModel;
 import com.hydertechno.mulven.Models.PaymentMethodModel;
 import com.hydertechno.mulven.Models.RequiredDataModel;
+import com.hydertechno.mulven.Models.WalletPayStatus;
 import com.hydertechno.mulven.R;
 import com.sm.shurjopaysdk.listener.PaymentResultListener;
 import com.sm.shurjopaysdk.model.TransactionInfo;
@@ -49,21 +52,26 @@ public class PaymentMethodsActivity extends BaseActivity implements OnPMethodIte
     private SharedPreferences sharedPreferences;
     Toolbar toolbar;
     private String orderId,fullAmount,token;
+    private boolean isCampaignAvailable;
     private double amount;
 
     private List<PaymentMethodModel> methodModelsList = new ArrayList<>();
 
     private Dialog bankPaymentDialog;
 
+    private LoadingDialog loadingDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment_methods);
         init();
+
         Intent getInt=getIntent();
         amount=getInt.getDoubleExtra("amount",0.0);
         orderId=getInt.getStringExtra("orderId");
         fullAmount=getInt.getStringExtra("FAmount");
+        isCampaignAvailable=getInt.getBooleanExtra("isCampaign", false);
         payAmountTV.setText(""+amount);
         payInvoiceIdTV.setText(orderId);
 
@@ -74,9 +82,13 @@ public class PaymentMethodsActivity extends BaseActivity implements OnPMethodIte
     private void getData() {
         methodModelsList=new ArrayList<>();
         //methodModelsList.add(new PaymentMethodModel("Nagad", "Pay from your Nagad account", R.drawable.nagad));
-        methodModelsList.add(new PaymentMethodModel(1,"Shurjo Pay", "Choose your desire payment method by Shurjo Pay", R.drawable.shurjo_pay));
-        methodModelsList.add(new PaymentMethodModel(2,"Mulven Wallet", "Pay by Mulven Wallet", R.drawable.mulven_wallet));
-        methodModelsList.add(new PaymentMethodModel(3,"Bank", "Pay by bank account", R.drawable.bank_transfer));
+        methodModelsList.add(new PaymentMethodModel(1,"Bank", "Pay by bank account", R.drawable.bank_transfer));
+        methodModelsList.add(new PaymentMethodModel(2,"Shurjo Pay", "Choose your desire payment method by Shurjo Pay", R.drawable.shurjo_pay));
+        if (!isCampaignAvailable) {
+            methodModelsList.add(new PaymentMethodModel(3,"Account", "Pay by Mulven Account Wallet", R.drawable.mulven_wallet));
+            methodModelsList.add(new PaymentMethodModel(4,"Voucher", "Pay by Mulven Voucher Wallet", R.drawable.mulven_wallet));
+            methodModelsList.add(new PaymentMethodModel(5,"Cashback", "Pay by Mulven Cashback Wallet", R.drawable.mulven_wallet));
+        }
 
         methodsAdapter.updateData(methodModelsList);
     }
@@ -96,6 +108,8 @@ public class PaymentMethodsActivity extends BaseActivity implements OnPMethodIte
         methodsAdapter = new PaymentMethodsAdapter(methodModelsList,this);
         methodsRecyclerView.setLayoutManager(new LinearLayoutManager(PaymentMethodsActivity.this, LinearLayoutManager.VERTICAL, false));
         methodsRecyclerView.setAdapter(methodsAdapter);
+
+        loadingDialog = LoadingDialog.instance();
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -110,13 +124,13 @@ public class PaymentMethodsActivity extends BaseActivity implements OnPMethodIte
 
     @Override
     public void onClick(PaymentMethodModel item, int position) {
+        showToast("testing toast!");
+        checkConnection();
+        if (item.getId() != 1 && isConnected) {
+            showToast("No Internet Connection!");
+        }
         switch (item.getId()) {
             case 1:
-                getShurjoPayment(amount);
-                break;
-            case 2:
-                break;
-            case 3:
                 bankPaymentDialog = new Dialog(context);
                 bankPaymentDialog.setContentView(R.layout.bank_payment_layout_design);
                 bankPaymentDialog.setCancelable(true);
@@ -133,7 +147,44 @@ public class PaymentMethodsActivity extends BaseActivity implements OnPMethodIte
                     }
                 });
                 break;
+            case 2:
+                getShurjoPayment(amount);
+                break;
+            case 3:
+            case 4:
+            case 5:
+                checkWalletPay(item.getTitle(), String.valueOf(amount), orderId);
+                break;
         }
+    }
+
+    private void checkWalletPay(String pay_method, String amount, String order_id) {
+        loadingDialog.show(getSupportFragmentManager(), null);
+        Call<WalletPayStatus> call = ApiUtils.getUserService().checkWalletPay(token, pay_method, amount, order_id);
+        call.enqueue(new Callback<WalletPayStatus>() {
+            @Override
+            public void onResponse(Call<WalletPayStatus> call, Response<WalletPayStatus> response) {
+                if (response.isSuccessful()) {
+                    Log.e("Response ===> ", response.toString());
+                    if (response.code() == 200) {
+                        assert response.body() != null;
+                        if (response.body().getStatus().equals("0")) {
+                            String msg = amount + " is not available on " + pay_method + " wallet";
+                            Toasty.error(context, msg, Toasty.LENGTH_LONG).show();
+                        } else {
+                            Toasty.success(context, "Payment success!", Toasty.LENGTH_LONG).show();
+                        }
+                    }
+                }
+                loadingDialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<WalletPayStatus> call, Throwable t) {
+                loadingDialog.dismiss();
+                Toasty.error(context, t.getMessage(), Toasty.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void getShurjoPayment(double amount) {
