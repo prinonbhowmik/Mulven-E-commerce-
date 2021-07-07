@@ -691,6 +691,8 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
         super.onBackPressed();
         if(from.equals("cart")) {
             startActivity(new Intent(PlaceOrderListActivity.this, MainActivity.class).putExtra("fragment", "home"));
+        }else if(from.equals("profile")) {
+            startActivity(new Intent(PlaceOrderListActivity.this, MainActivity.class).putExtra("fragment", "profile"));
         }
         overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
         finish();
@@ -699,6 +701,8 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
     public void placeOrderBack(View view) {
         if(from.equals("cart")) {
             startActivity(new Intent(PlaceOrderListActivity.this, MainActivity.class).putExtra("fragment", "home"));
+        }else if(from.equals("profile")) {
+            startActivity(new Intent(PlaceOrderListActivity.this, MainActivity.class).putExtra("fragment", "profile"));
         }
         overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
         finish();

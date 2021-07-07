@@ -96,6 +96,10 @@ public class PaymentHistoryActivity extends BaseActivity {
 
         switch (item.getItemId()) {
             case android.R.id.home:
+                Intent intent=new Intent( PaymentHistoryActivity.this,MainActivity.class);
+                intent.putExtra("fragment","profile");
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
                 finish();
                 return true;
         }

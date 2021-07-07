@@ -59,7 +59,7 @@ public class ProfileFragment extends Fragment implements ConnectivityReceiver.Co
     private CircleImageView userImageIv;
     private Dialog dialog;
     private Animation upAnimation,downAnimation;
-    private CardView orderHistoryCV,paymentHistoryCV,changePasswordCV;
+    private CardView userProfileCV,orderHistoryCV,paymentHistoryCV,changePasswordCV;
     private SharedPreferences sharedPreferences;
     private String token,name,phone;
     private int id,userId;
@@ -126,52 +126,70 @@ public class ProfileFragment extends Fragment implements ConnectivityReceiver.Co
             }
         });
 
-        checkBalanceLayout.setOnClickListener(new View.OnClickListener() {
+//        checkBalanceLayout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                checkConnection();
+//                if (!isConnected) {
+//                    snackBar(isConnected);
+//                } else {
+//                    dialog = new Dialog(view.getContext());
+//                    dialog.setContentView(R.layout.check_balance_layout_design);
+//
+//                    dialog.setCancelable(true);
+//
+//                    dialog.show();
+//                    Window window = dialog.getWindow();
+//                    window.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//                }
+//            }
+//        });
+//
+//        addressLayout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                checkConnection();
+//                if (!isConnected) {
+//                    snackBar(isConnected);
+//                } else {
+//                    // startActivity(new Intent(getActivity(), AddressActivity.class));
+//                    Intent intent = new Intent(getActivity(), AddressActivity.class);
+//                    startActivity(intent);
+//                    getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+//                    getActivity().finish();
+//                }
+//            }
+//        });
+//
+//        profileLayout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                checkConnection();
+//                if (!isConnected) {
+//                    snackBar(isConnected);
+//                } else {
+//                    Intent intent = new Intent(getActivity(), ProfileActivity.class);
+//                    startActivity(intent);
+//                    getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+//                    getActivity().finish();
+//                }
+//            }
+//        });
+
+
+        userProfileCV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 checkConnection();
                 if (!isConnected) {
                     snackBar(isConnected);
                 } else {
-                    dialog = new Dialog(view.getContext());
-                    dialog.setContentView(R.layout.check_balance_layout_design);
-
-                    dialog.setCancelable(true);
-
-                    dialog.show();
-                    Window window = dialog.getWindow();
-                    window.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                }
-            }
-        });
-
-        addressLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                checkConnection();
-                if (!isConnected) {
-                    snackBar(isConnected);
-                } else {
-                    // startActivity(new Intent(getActivity(), AddressActivity.class));
-                    Intent intent = new Intent(getActivity(), AddressActivity.class);
+                    Intent intent=new Intent(getActivity(), ProfileActivity.class);
+                    intent.putExtra("from","profile");
                     startActivity(intent);
-                    getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                    getActivity().finish();
-                }
-            }
-        });
-
-        profileLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                checkConnection();
-                if (!isConnected) {
-                    snackBar(isConnected);
-                } else {
-                    Intent intent = new Intent(getActivity(), ProfileActivity.class);
-                    startActivity(intent);
-                    getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                    getActivity().finish();
+                    getActivity().overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+                    //getActivity().finish();
+                    //startActivity(new Intent(getActivity(), PlaceOrderListActivity.class).putExtra("id",id).putExtra("token",token));
                 }
             }
         });
@@ -192,6 +210,7 @@ public class ProfileFragment extends Fragment implements ConnectivityReceiver.Co
             }
             }
         });
+
         paymentHistoryCV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -245,6 +264,7 @@ public class ProfileFragment extends Fragment implements ConnectivityReceiver.Co
         addressLayout=view.findViewById(R.id.addressLayout);
         profileLayout=view.findViewById(R.id.profileLayout);
         orderHistoryCV=view.findViewById(R.id.orderHistoryCV);
+        userProfileCV=view.findViewById(R.id.userProfileCV);
         paymentHistoryCV=view.findViewById(R.id.paymentHistoryCV);
         changePasswordCV=view.findViewById(R.id.changePasswordCV);
         sharedPreferences = getContext().getSharedPreferences("MyRef", MODE_PRIVATE);

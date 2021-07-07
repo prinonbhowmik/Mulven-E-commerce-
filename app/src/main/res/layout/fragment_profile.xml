@@ -16,7 +16,7 @@
         <ImageView
             android:id="@+id/profileBGIV"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="300dp"
             android:scaleType="fitXY"
             android:src="@drawable/ic_profile_bg" />
 
@@ -48,7 +48,7 @@
             android:fontFamily="@font/comfortaa_bold"
             android:maxLines="2"
             android:textColor="@color/white"
-            android:textSize="18sp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/userPhoneNo"
@@ -59,7 +59,7 @@
             android:layout_marginTop="5dp"
             android:fontFamily="@font/comfortaa_bold"
             android:textColor="@color/white"
-            android:textSize="15sp" />
+            android:textSize="17sp" />
     </RelativeLayout>
     <ScrollView
         android:layout_width="match_parent"
@@ -74,6 +74,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/Relative1"
+                android:visibility="gone"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:layout_centerHorizontal="true">
@@ -130,12 +131,49 @@
 
             </RelativeLayout>
             <androidx.cardview.widget.CardView
+                android:id="@+id/userProfileCV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginBottom="5dp"
+                app:cardCornerRadius="10dp"
+                android:layout_below="@+id/Relative1"
+                android:backgroundTint="@color/themDark">
+                <RelativeLayout
+                    android:id="@+id/userProfileRL"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/profileLogo"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="5dp"
+                        android:src="@drawable/ic_profile"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:layout_toEndOf="@+id/profileLogo"
+                        android:layout_marginStart="10dp"
+                        android:text="Profile"
+                        android:textSize="18sp"
+                        android:fontFamily="@font/comfortaa_bold"
+                        android:layout_centerVertical="true" />
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
                 android:id="@+id/orderHistoryCV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 app:cardCornerRadius="10dp"
-                android:layout_below="@+id/Relative1"
+                android:layout_below="@+id/userProfileCV"
                 android:backgroundTint="@color/themDark">
                 <RelativeLayout
                     android:id="@+id/paymentHistoryRL"

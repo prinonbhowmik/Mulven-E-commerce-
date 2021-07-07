@@ -217,6 +217,7 @@ public class CartFragment extends Fragment  implements ConnectivityReceiver.Conn
             cartRecycler.setAdapter(adapter);
             adapter.notifyDataSetChanged();
         }
+        progressRL.setVisibility(View.GONE);
     }
 
     private void init(View view) {
