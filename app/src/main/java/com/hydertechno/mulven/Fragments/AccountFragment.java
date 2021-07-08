@@ -106,19 +106,19 @@ public class AccountFragment extends Fragment implements ConnectivityReceiver.Co
                     hideKeyboardFrom(getContext());
                     phoneTIL.setError("Please Enter Phone Number");
                     phoneTIET.requestFocus();
-                } /*else if (phone.length() != 11) {
+                } else if (phone.length() != 11) {
                     hideKeyboardFrom(getContext());
                     phoneTIL.setError("Please Provide Correct Phone Number");
                     phoneTIET.requestFocus();
-                }*/ else if (TextUtils.isEmpty(password)) {
+                } else if (TextUtils.isEmpty(password)) {
                     hideKeyboardFrom(getContext());
                     passwordTIL.setError("Please Enter Password");
                     passwordTIET.requestFocus();
-                } else if (password.length() < 5) {
+                } /*else if (password.length() < 5) {
                     hideKeyboardFrom(getContext());
                     passwordTIL.setError("Minimum 6 digits password");
                     passwordTIET.requestFocus();
-                } else {
+                } */else {
                     phoneTIL.setErrorEnabled(false);
                     passwordTIL.setErrorEnabled(false);
                     String phone = phoneTIET.getText().toString();
@@ -193,18 +193,17 @@ public class AccountFragment extends Fragment implements ConnectivityReceiver.Co
                             }
                             @Override
                             public void onFailure(Call<UserProfile> call, Throwable t) {
+                                Toasty.normal(getContext(),"Something went wrong!",Toasty.LENGTH_SHORT).show();
 
                             }
                         });
 
                     }else if(status.equals("0")){
-                        Toasty.success(getContext(), ""+message).show();
-                        Intent intent = new Intent(getContext(), MainActivity.class);
-                        intent.putExtra("fragment","home");
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                        getActivity().finish();
+                        Toasty.normal(getContext(), "Something went wrong!",Toasty.LENGTH_SHORT).show();
+
                     }
+                }else {
+                    Toasty.normal(getContext(),"Phone number or Password doesn't match ",Toasty.LENGTH_SHORT).show();
                 }
             }
 

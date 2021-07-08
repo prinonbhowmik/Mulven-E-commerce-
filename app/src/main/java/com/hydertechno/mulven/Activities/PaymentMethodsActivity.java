@@ -124,9 +124,8 @@ public class PaymentMethodsActivity extends BaseActivity implements OnPMethodIte
 
     @Override
     public void onClick(PaymentMethodModel item, int position) {
-        showToast("testing toast!");
         checkConnection();
-        if (item.getId() != 1 && isConnected) {
+        if (item.getId() != 1 && !isConnected) {
             showToast("No Internet Connection!");
         }
         switch (item.getId()) {

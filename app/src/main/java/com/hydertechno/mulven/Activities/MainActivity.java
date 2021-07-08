@@ -372,10 +372,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                             editor.remove("userName");
                                             editor.remove("userPhone");
                                             editor.apply();
-                                            Toasty.success(MainActivity.this, "Logout successful!", Toasty.LENGTH_SHORT).show();
-                                            finish();
-                                            startActivity(getIntent());
+                                            Toasty.normal(MainActivity.this, "Logout", Toasty.LENGTH_SHORT).show();
                                             dialogInterface.dismiss();
+                                            Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                                            intent.putExtra("fragment","home");
+                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                            startActivity(intent);
+
                                         }
                                     }
 
