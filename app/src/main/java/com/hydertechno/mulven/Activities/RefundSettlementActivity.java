@@ -6,7 +6,9 @@ import androidx.appcompat.widget.Toolbar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.hydertechno.mulven.R;
 
@@ -16,16 +18,26 @@ import java.util.Objects;
 public class RefundSettlementActivity extends AppCompatActivity {
     public RelativeLayout rootLayout;
     private Toolbar toolbar;
+    private TextView nEdit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_refund_settlement);
         init();
+
+        nEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent( RefundSettlementActivity.this,RefundMethodFormActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     public void init(){
 
         rootLayout = findViewById(R.id.refundRootLayout);
+        nEdit = findViewById(R.id.nEdit);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
