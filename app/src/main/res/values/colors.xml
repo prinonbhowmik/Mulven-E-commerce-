@@ -26,4 +26,6 @@
     <color name="GYellow">#F4B400</color>
 
     <color name="shimmer_background">#dddddd</color>
+
+    <color name="transparent">#00000000</color>
 </resources>
