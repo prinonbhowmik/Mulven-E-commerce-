@@ -30,6 +30,7 @@ import com.smarteist.autoimageslider.Transformations.TossTransformation;
 
 import java.util.List;
 
+import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -153,7 +154,7 @@ public class ChangePasswordActivity extends AppCompatActivity implements Connect
                 }
             });
         }else{
-            Toast.makeText(this, "Confirm password doesn't match!", Toast.LENGTH_SHORT).show();
+            Toasty.error(this, "Confirm password doesn't match!", Toasty.LENGTH_SHORT).show();
         }
     }
 
@@ -181,15 +182,15 @@ public class ChangePasswordActivity extends AppCompatActivity implements Connect
                     status = response.body().getStatus();
                     message=response.body().getMessage();
                     if(status==1){
-                        Toast.makeText(ChangePasswordActivity.this, ""+message, Toast.LENGTH_SHORT).show();
+                        Toasty.success(ChangePasswordActivity.this, ""+message, Toasty.LENGTH_SHORT).show();
                         overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
                         finish();
                     }else if(status==0){
-                        Toast.makeText(ChangePasswordActivity.this, ""+message, Toast.LENGTH_SHORT).show();
+                        Toasty.error(ChangePasswordActivity.this, ""+message, Toasty.LENGTH_SHORT).show();
                     }
                 }
                 else {
-                    Toast.makeText(ChangePasswordActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
+                    Toasty.error(ChangePasswordActivity.this, "Something went wrong!", Toasty.LENGTH_SHORT).show();
                 }
             }
 

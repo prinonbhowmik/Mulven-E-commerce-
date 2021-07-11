@@ -19,6 +19,8 @@ import com.hydertechno.mulven.Internet.Connection;
 import com.hydertechno.mulven.Internet.ConnectivityReceiver;
 import com.hydertechno.mulven.R;
 
+import es.dmoral.toasty.Toasty;
+
 public class OTP extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener {
     private TextInputLayout otpTIL;
     private TextInputEditText otpTIET;
@@ -55,7 +57,7 @@ public class OTP extends AppCompatActivity implements ConnectivityReceiver.Conne
                             .putExtra("phone", phone).putExtra("activity", "forgot"));
                     finish();
                 } else {
-                    Toast.makeText(OTP.this, "OTP doesn't match!", Toast.LENGTH_LONG).show();
+                    Toasty.error(OTP.this, "OTP doesn't match!", Toasty.LENGTH_LONG).show();
                 }
             }
             }

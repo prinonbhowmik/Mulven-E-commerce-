@@ -24,6 +24,7 @@ import com.hydertechno.mulven.Internet.ConnectivityReceiver;
 import com.hydertechno.mulven.Models.UserProfile;
 import com.hydertechno.mulven.R;
 
+import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -81,6 +82,7 @@ public class PhoneNumber extends AppCompatActivity implements ConnectivityReceiv
         call.enqueue(new Callback<UserProfile>() {
             @Override
             public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
+                Log.e("TAG", response.toString());
                 if (response.isSuccessful()){
                    String status = response.body().getStatus();
                    if (status.equals("1")){
@@ -88,16 +90,19 @@ public class PhoneNumber extends AppCompatActivity implements ConnectivityReceiv
                        Log.d("checkOTP", String.valueOf(otp));
                        startActivity(new Intent(PhoneNumber.this,OTP.class)
                                .putExtra("otp",otp).putExtra("phone",phone));
-                       Toast.makeText(PhoneNumber.this, ""+response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                       Toasty.success(PhoneNumber.this, ""+response.body().getMessage(), Toasty.LENGTH_SHORT).show();
                    }else if(status.equals("0")){
-                       Toast.makeText(PhoneNumber.this, ""+response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                       Toasty.error(PhoneNumber.this, ""+response.body().getMessage(), Toasty.LENGTH_SHORT).show();
                    }
+                } else {
+                    Toasty.error(PhoneNumber.this, "Response error: " + response.code(), Toasty.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<UserProfile> call, Throwable t) {
-
+                Log.e("TAG", t.getMessage());
+                Toasty.error(PhoneNumber.this, t.getMessage(), Toasty.LENGTH_SHORT).show();
             }
         });
     }
