@@ -11,8 +11,11 @@ import com.hydertechno.mulven.Models.NotificationModel;
 import com.hydertechno.mulven.Models.OrderDetails;
 import com.hydertechno.mulven.Models.OrderListModel;
 import com.hydertechno.mulven.Models.PlaceOrderModel;
+import com.hydertechno.mulven.Models.PostRefundSettlementResponse;
 import com.hydertechno.mulven.Models.ProductDetailsModel;
+import com.hydertechno.mulven.Models.RefundSettlementResponse;
 import com.hydertechno.mulven.Models.ResponseUpdate;
+import com.hydertechno.mulven.Models.SettlementModel;
 import com.hydertechno.mulven.Models.ShurjoPayPaymentModel;
 import com.hydertechno.mulven.Models.Sliderimage;
 import com.hydertechno.mulven.Models.SubCatModel;
@@ -29,6 +32,7 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -169,5 +173,22 @@ public interface ApiInterface {
             @Query("pay_method") String pay_method,
             @Query("pay_am") String pay_am,
             @Query("order_id") String order_id
+    );
+
+
+    @GET("get-refund-settlements")
+    Call<RefundSettlementResponse> getRefundSettlements(
+            @Query("token") String token
+    );
+
+    @GET("refund-settlements-otp")
+    Call<PostRefundSettlementResponse> getRefundOTP(
+            @Query("token") String token
+    );
+
+    @POST("post-refund-settlements")
+    Call<PostRefundSettlementResponse> postRefundSettlement(
+            @Query("token") String token,
+            @Body SettlementModel body
     );
 }

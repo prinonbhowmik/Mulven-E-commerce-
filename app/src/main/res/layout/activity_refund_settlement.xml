@@ -107,7 +107,7 @@
                         android:background="@drawable/btn_background_blue"
                         android:fontFamily="@font/comfortaa"
                         android:gravity="center"
-                        android:text="Edit"
+                        android:text="Add"
                         android:textAllCaps="false"
                         android:textColor="@color/white"
                         android:textSize="18sp" />
@@ -198,7 +198,7 @@
                         android:background="@drawable/btn_background_blue"
                         android:fontFamily="@font/comfortaa"
                         android:gravity="center"
-                        android:text="Edit"
+                        android:text="Add"
                         android:textAllCaps="false"
                         android:textColor="@color/white"
                         android:textSize="18sp" />
@@ -373,7 +373,7 @@
                     </LinearLayout>
 
                     <TextView
-                        android:id="@+id/baEdit"
+                        android:id="@+id/bankEdit"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_below="@+id/baNumber"
@@ -384,7 +384,7 @@
                         android:background="@drawable/btn_background_blue"
                         android:fontFamily="@font/comfortaa"
                         android:gravity="center"
-                        android:text="Edit"
+                        android:text="Add"
                         android:textAllCaps="false"
                         android:textColor="@color/white"
                         android:textSize="18sp" />

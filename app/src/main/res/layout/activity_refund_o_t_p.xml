@@ -60,6 +60,7 @@
                 android:textSize="15sp" />
 
             <EditText
+                android:id="@+id/optET"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"

@@ -42,6 +42,7 @@ import com.hydertechno.mulven.Activities.ChangePasswordActivity;
 import com.hydertechno.mulven.Activities.PaymentHistoryActivity;
 import com.hydertechno.mulven.Activities.PlaceOrderListActivity;
 import com.hydertechno.mulven.Activities.ProfileActivity;
+import com.hydertechno.mulven.Activities.RefundMethodFormActivity;
 import com.hydertechno.mulven.Activities.RefundOTPActivity;
 import com.hydertechno.mulven.Activities.RefundSettlementActivity;
 import com.hydertechno.mulven.Api.ApiUtils;
@@ -262,7 +263,7 @@ public class ProfileFragment extends Fragment implements ConnectivityReceiver.Co
                 if (!isConnected) {
                     snackBar(isConnected);
                 } else {
-                    Intent intent = new Intent(getActivity(), RefundOTPActivity.class);
+                    Intent intent = new Intent(getActivity(), RefundSettlementActivity.class);
                     startActivity(intent);
                     getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                     getActivity().finish();
