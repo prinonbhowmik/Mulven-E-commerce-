@@ -1,6 +1,7 @@
 package com.hydertechno.mulven.Fragments;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.hydertechno.mulven.Activities.PlaceOrderListActivity;
 import com.hydertechno.mulven.R;
 
 
@@ -59,7 +61,12 @@ public class OrderSuccessFragment extends DialogFragment {
             @Override
             public void onFinish() {
                 countTextView.setText("0");
+                Intent intent=new Intent(getActivity(), PlaceOrderListActivity.class);
+                intent.putExtra("from","cart");
+                startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
                 OrderSuccessFragment.this.dismiss();
+                getActivity().finish();
             }
         }.start();
     }
