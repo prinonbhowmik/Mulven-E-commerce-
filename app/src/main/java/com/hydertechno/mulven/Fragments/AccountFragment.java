@@ -45,6 +45,8 @@ import com.hydertechno.mulven.Internet.ConnectivityReceiver;
 import com.hydertechno.mulven.Models.UserProfile;
 import com.hydertechno.mulven.R;
 
+import java.util.Objects;
+
 import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -139,8 +141,8 @@ public class AccountFragment extends Fragment implements ConnectivityReceiver.Co
             public void onClick(View v) {
                 Intent intent=new Intent(getActivity(), PhoneNumber.class);
                 startActivity(intent);
-                getActivity().overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
-                //getActivity().finish();
+                requireActivity().overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+//                requireActivity().finish();
             }
         });
         return view;

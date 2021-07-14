@@ -17,6 +17,7 @@ import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,11 +52,13 @@ import com.hydertechno.mulven.Models.RequiredDataModel;
 import com.hydertechno.mulven.Models.ShurjoPayPaymentModel;
 import com.hydertechno.mulven.Models.UserProfile;
 import com.hydertechno.mulven.R;
+import com.hydertechno.mulven.Utilities.CropTransformation;
 import com.sm.shurjopaysdk.listener.PaymentResultListener;
 import com.sm.shurjopaysdk.model.TransactionInfo;
 import com.sm.shurjopaysdk.payment.ShurjoPaySDK;
 import com.sm.shurjopaysdk.utils.SPayConstants;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -355,6 +358,8 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
                 try {
                     Picasso.get()
                             .load(Config.IMAGE_LINE + shopImage)
+                            .transform(new CropTransformation(500,150, CropTransformation.GravityHorizontal.CENTER, CropTransformation.GravityVertical.TOP))
+                            .fit()
                             .into(vendorImageIV);
                 } catch (Exception e) {
                     e.printStackTrace();

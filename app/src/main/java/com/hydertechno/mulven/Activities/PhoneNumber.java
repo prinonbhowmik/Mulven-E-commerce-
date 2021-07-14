@@ -90,6 +90,7 @@ public class PhoneNumber extends AppCompatActivity implements ConnectivityReceiv
                        Log.d("checkOTP", String.valueOf(otp));
                        startActivity(new Intent(PhoneNumber.this,OTP.class)
                                .putExtra("otp",otp).putExtra("phone",phone));
+                       PhoneNumber.this.finish();
                        Toasty.success(PhoneNumber.this, ""+response.body().getMessage(), Toasty.LENGTH_SHORT).show();
                    }else if(status.equals("0")){
                        Toasty.error(PhoneNumber.this, ""+response.body().getMessage(), Toasty.LENGTH_SHORT).show();

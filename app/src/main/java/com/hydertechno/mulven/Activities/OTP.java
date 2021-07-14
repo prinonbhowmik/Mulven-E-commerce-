@@ -7,9 +7,11 @@ import android.content.IntentFilter;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -24,6 +26,7 @@ import es.dmoral.toasty.Toasty;
 public class OTP extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener {
     private TextInputLayout otpTIL;
     private TextInputEditText otpTIET;
+    private TextView timerTv;
     private Button nextBtn2;
     private String phone;
     private int otp;
@@ -45,21 +48,39 @@ public class OTP extends AppCompatActivity implements ConnectivityReceiver.Conne
         phone = intent.getStringExtra("phone");
         otp = intent.getIntExtra("otp",0);
 
+        new CountDownTimer(60000, 1000){
+            @Override
+            public void onTick(long millisUntilFinished) {
+                long seconds = millisUntilFinished / 1000;
+                timerTv.setText(seconds + "s");
+            }
+
+            @Override
+            public void onFinish() {
+                timerTv.setVisibility(View.GONE);
+                Toasty.warning(OTP.this, "Not getting any OTP? Please try again!", Toasty.LENGTH_LONG).show();
+            }
+        }.start();
+
         nextBtn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!isConnected) {
                     snackBar(isConnected);
                 }else{
-                int inputOtp = Integer.parseInt(otpTIET.getText().toString());
-                if (inputOtp == otp) {
-                    startActivity(new Intent(OTP.this, ChangePasswordActivity.class)
-                            .putExtra("phone", phone).putExtra("activity", "forgot"));
-                    finish();
-                } else {
-                    Toasty.error(OTP.this, "OTP doesn't match!", Toasty.LENGTH_LONG).show();
+                    if (otpTIET.getText().toString().isEmpty()) {
+                        otpTIET.setError("Required!");
+                    } else {
+                        int inputOtp = Integer.parseInt(otpTIET.getText().toString());
+                        if (inputOtp == otp) {
+                            startActivity(new Intent(OTP.this, ChangePasswordActivity.class)
+                                    .putExtra("phone", phone).putExtra("activity", "forgot"));
+                            finish();
+                        } else {
+                            Toasty.error(OTP.this, "OTP doesn't match!", Toasty.LENGTH_LONG).show();
+                        }
+                    }
                 }
-            }
             }
         });
     }
@@ -72,6 +93,7 @@ public class OTP extends AppCompatActivity implements ConnectivityReceiver.Conne
         otpTIL=findViewById(R.id.otp_LT);
         otpTIET=findViewById(R.id.otp_Et);
         nextBtn2=findViewById(R.id.nextBtn2);
+        timerTv = findViewById(R.id.timerTv);
     }
 
     @Override
