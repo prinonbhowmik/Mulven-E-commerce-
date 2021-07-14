@@ -221,6 +221,7 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(PlaceOrderDetailsActivity.this, ExistingIssueActivity.class);
+                intent.putExtra("orderId", OrderId);
                 startActivity(intent);
             }
         });

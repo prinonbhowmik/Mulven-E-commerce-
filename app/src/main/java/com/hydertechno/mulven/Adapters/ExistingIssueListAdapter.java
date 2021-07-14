@@ -28,17 +28,18 @@ public class ExistingIssueListAdapter extends RecyclerView.Adapter<ExistingIssue
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.existing_issue_list_layout_design,parent,false);
+        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.item_existing_issue,parent,false);
         return new ExistingIssueListAdapter.ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        ExistingIssueModel model=issueModelList.get(position);
-        holder.reportTitle.setText(model.getIssue_type());
-        holder.reportDescription.setText(model.getDescription());
-        holder.reportTime.setText(model.getCreated_at());
-        String  status=model.getStatus();
+        ExistingIssueModel model = issueModelList.get(position);
+
+        holder.reportTitle.setText(model.getIssueType() != null ? model.getIssueType() : "");
+        holder.reportDescription.setText(model.getDescription() != null ? model.getDescription() : "");
+        holder.reportTime.setText(model.getCreatedAt() != null ? model.getCreatedAt() : "");
+        String  status = model.getStatus() != null ? model.getStatus() : "";
         holder.reportStatus.setText(status);
         switch (status) {
             case "Pending":

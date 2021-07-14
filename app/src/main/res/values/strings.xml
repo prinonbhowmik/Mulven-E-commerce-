@@ -35,5 +35,14 @@
     -->
     <string name="hello_world">Hello Square World!</string>
 
+    <string-array name="issue_type">
+        <item>Delivery Acknowledgement</item>
+        <item>Payment</item>
+        <item>bKash Refund</item>
+        <item>Nagad Refund</item>
+        <item>Bank Refund</item>
+        <item>Cashback</item>
+        <item>Refund Issue</item>
+    </string-array>
 
 </resources>

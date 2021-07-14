@@ -6,6 +6,7 @@ import com.hydertechno.mulven.Models.CancellationReasonModel;
 import com.hydertechno.mulven.Models.CategoriesModel;
 import com.hydertechno.mulven.Models.CategoryNamesModel;
 import com.hydertechno.mulven.Models.ChangePasswordModel;
+import com.hydertechno.mulven.Models.ExistingIssueModel;
 import com.hydertechno.mulven.Models.InvoiceDetailsModel;
 import com.hydertechno.mulven.Models.NotificationModel;
 import com.hydertechno.mulven.Models.OrderDetails;
@@ -14,9 +15,9 @@ import com.hydertechno.mulven.Models.PlaceOrderModel;
 import com.hydertechno.mulven.Models.PostRefundSettlementResponse;
 import com.hydertechno.mulven.Models.ProductDetailsModel;
 import com.hydertechno.mulven.Models.RefundSettlementResponse;
+import com.hydertechno.mulven.Models.RequestReportBody;
 import com.hydertechno.mulven.Models.ResponseUpdate;
 import com.hydertechno.mulven.Models.SettlementModel;
-import com.hydertechno.mulven.Models.ShurjoPayPaymentModel;
 import com.hydertechno.mulven.Models.Sliderimage;
 import com.hydertechno.mulven.Models.SubCatModel;
 import com.hydertechno.mulven.Models.TransactionModel;
@@ -190,5 +191,17 @@ public interface ApiInterface {
     Call<PostRefundSettlementResponse> postRefundSettlement(
             @Query("token") String token,
             @Body SettlementModel body
+    );
+
+    @POST("post-report-issue")
+    Call<PostRefundSettlementResponse> postReportIssue(
+            @Query("token") String token,
+            @Body RequestReportBody body
+    );
+
+    @GET("get-report-issue")
+    Call<List<ExistingIssueModel>> getReportIssue(
+            @Query("token") String token,
+            @Query("order_id") String orderId
     );
 }

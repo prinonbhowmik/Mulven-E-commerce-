@@ -1,59 +1,64 @@
 package com.hydertechno.mulven.Models;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class ExistingIssueModel {
-    private int id;
-    private int user_id;
-    private String order_id;
-    private String issue_type;
+    @SerializedName("id")
+    @Expose
+    private Integer id;
+    @SerializedName("user_id")
+    @Expose
+    private Integer userId;
+    @SerializedName("order_id")
+    @Expose
+    private String orderId;
+    @SerializedName("issue_type")
+    @Expose
+    private String issueType;
+    @SerializedName("description")
+    @Expose
     private String description;
+    @SerializedName("status")
+    @Expose
     private String status;
-    private String created_at;
-    private String updated_at;
+    @SerializedName("created_at")
+    @Expose
+    private String createdAt;
+    @SerializedName("updated_at")
+    @Expose
+    private String updatedAt;
 
-    public ExistingIssueModel(int id, int user_id, String order_id, String issue_type, String description, String status, String created_at, String updated_at) {
-        this.id = id;
-        this.user_id = user_id;
-        this.order_id = order_id;
-        this.issue_type = issue_type;
-        this.description = description;
-        this.status = status;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
-    }
-
-    public ExistingIssueModel() {
-    }
-
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getUser_id() {
-        return user_id;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
-    public String getOrder_id() {
-        return order_id;
+    public String getOrderId() {
+        return orderId;
     }
 
-    public void setOrder_id(String order_id) {
-        this.order_id = order_id;
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 
-    public String getIssue_type() {
-        return issue_type;
+    public String getIssueType() {
+        return issueType;
     }
 
-    public void setIssue_type(String issue_type) {
-        this.issue_type = issue_type;
+    public void setIssueType(String issueType) {
+        this.issueType = issueType;
     }
 
     public String getDescription() {
@@ -72,19 +77,19 @@ public class ExistingIssueModel {
         this.status = status;
     }
 
-    public String getCreated_at() {
-        return created_at;
+    public String getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreated_at(String created_at) {
-        this.created_at = created_at;
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public String getUpdated_at() {
-        return updated_at;
+    public String getUpdatedAt() {
+        return updatedAt;
     }
 
-    public void setUpdated_at(String updated_at) {
-        this.updated_at = updated_at;
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

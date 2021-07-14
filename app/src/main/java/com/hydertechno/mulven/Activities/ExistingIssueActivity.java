@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -32,7 +33,7 @@ public class ExistingIssueActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private SharedPreferences sharedPreferences;
     private RelativeLayout progressRL;
-    private String  token,orderId;
+    private String  token, orderId;
     private RecyclerView existingIssueRecycler;
     private ExistingIssueListAdapter adapter;
     private List<ExistingIssueModel> modelList=new ArrayList<>();
@@ -46,31 +47,30 @@ public class ExistingIssueActivity extends AppCompatActivity {
     }
 
     private void getReports() {
-//        progressRL.setVisibility(View.VISIBLE);
-//        Call<List<ExistingIssueModel>> call = ApiUtils.getUserService().getReportIssue(orderId,token);
-//        call.enqueue(new Callback<List<ExistingIssueModel>>() {
-//            @Override
-//            public void onResponse(Call<List<ExistingIssueModel>> call, Response<List<ExistingIssueModel>> response) {
-//                if (response.isSuccessful() && response.code()==200){
-//                    if(response.body()!=null && response.body().size()>0){
-//                        progressRL.setVisibility(View.GONE);
-//                        adapter=new ExistingIssueListAdapter(response.body(),ExistingIssueActivity.this);
-//                        LinearLayoutManager layoutManager = new LinearLayoutManager(ExistingIssueActivity.this,LinearLayoutManager.VERTICAL,false);
-//                        existingIssueRecycler.setLayoutManager(layoutManager);
-//                        existingIssueRecycler.setAdapter(adapter);
-//                    }else {
-//                        progressRL.setVisibility(View.GONE);
-//                    }
-//                }else
-//                    Toast.makeText(ExistingIssueActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<ExistingIssueModel>> call, Throwable t) {
-//                progressRL.setVisibility(View.GONE);
-//            }
-//        });
+        progressRL.setVisibility(View.VISIBLE);
+        Call<List<ExistingIssueModel>> call = ApiUtils.getUserService().getReportIssue(token, orderId);
+        call.enqueue(new Callback<List<ExistingIssueModel>>() {
+            @Override
+            public void onResponse(Call<List<ExistingIssueModel>> call, Response<List<ExistingIssueModel>> response) {
+                progressRL.setVisibility(View.GONE);
+                if (response.isSuccessful() && response.code()==200){
+                    if(response.body()!=null && response.body().size()>0){
+                        adapter=new ExistingIssueListAdapter(response.body(),ExistingIssueActivity.this);
+                        LinearLayoutManager layoutManager = new LinearLayoutManager(ExistingIssueActivity.this,LinearLayoutManager.VERTICAL,false);
+                        existingIssueRecycler.setLayoutManager(layoutManager);
+                        existingIssueRecycler.setAdapter(adapter);
+                    }
+                }else
+                    Toasty.error(ExistingIssueActivity.this, "Something went wrong!", Toasty.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onFailure(Call<List<ExistingIssueModel>> call, Throwable t) {
+                progressRL.setVisibility(View.GONE);
+                Toasty.error(ExistingIssueActivity.this, Objects.requireNonNull(t.getMessage()), Toasty.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void init() {
@@ -81,6 +81,7 @@ public class ExistingIssueActivity extends AppCompatActivity {
         existingIssueRecycler=findViewById(R.id.existingIssueRecycler);
         sharedPreferences = getSharedPreferences("MyRef", MODE_PRIVATE);
         token = sharedPreferences.getString("token",null);
+        orderId = getIntent().getStringExtra("orderId");
     }
 
     @Override
