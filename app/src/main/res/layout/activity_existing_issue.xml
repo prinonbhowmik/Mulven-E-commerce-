@@ -9,7 +9,7 @@
     tools:context=".Activities.ExistingIssueActivity">
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
-        app:title="Existing Report"
+        app:title="Existing Issues"
         app:titleTextColor="@color/white"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"

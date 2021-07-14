@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -62,9 +63,14 @@ public class CampaignRelatedProductAdapter extends RecyclerView.Adapter<Campaign
             holder.productMRPPrice.setText(""+mrpPrice);
         }
 
-        int percentage=(((mrpPrice-unitPrice)*100)/mrpPrice);
-        int per=Math.round(percentage);
-        holder.textViewPercentage.setText("-"+per+"%");
+        if (mrpPrice > unitPrice) {
+            int percentage=(((mrpPrice-unitPrice)*100)/mrpPrice);
+            int per=Math.round(percentage);
+            holder.textViewPercentage.setText("-"+per+"%");
+        } else {
+            holder.percentLayout.setVisibility(View.GONE);
+        }
+
         holder.productUnitPrice.setText("৳ "+unitPrice);
         holder.productName.setText(model.getProduct_name());
         try{
@@ -109,10 +115,12 @@ public class CampaignRelatedProductAdapter extends RecyclerView.Adapter<Campaign
     public class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView productImage;
         private TextView productUnitPrice,productName,productMRPPrice,textViewPercentage;
+        private RelativeLayout percentLayout;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewPercentage=itemView.findViewById(R.id.textViewPercentage);
             productImage=itemView.findViewById(R.id.productImage);
+            percentLayout = itemView.findViewById(R.id.percentLayout);
             productName=itemView.findViewById(R.id.productName);
             productUnitPrice=itemView.findViewById(R.id.productUnitPrice);
             productMRPPrice=itemView.findViewById(R.id.productMRPPrice);

@@ -65,6 +65,7 @@
 
         </RelativeLayout>
         <RelativeLayout
+            android:id="@+id/percentLayout"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/bg_percentage">
