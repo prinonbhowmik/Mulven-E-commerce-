@@ -56,7 +56,7 @@ public class CampaignRelatedProductAdapter extends RecyclerView.Adapter<Campaign
         int unitPrice=model.getUnit_price();
         int mrpPrice=model.getMrp_price() != null ? model.getMrp_price() : 0;
 
-        if(mrpPrice==0){
+        if(mrpPrice==0 || mrpPrice==unitPrice){
             holder.productMRPPrice.setVisibility(View.GONE);
         } else {
             holder.productMRPPrice.setVisibility(View.VISIBLE);
@@ -66,7 +66,11 @@ public class CampaignRelatedProductAdapter extends RecyclerView.Adapter<Campaign
         if (mrpPrice > unitPrice) {
             int percentage=(((mrpPrice-unitPrice)*100)/mrpPrice);
             int per=Math.round(percentage);
-            holder.textViewPercentage.setText("-"+per+"%");
+            if(per>=10){
+                holder.textViewPercentage.setText("-"+per+"%");
+            }else {
+                holder.percentLayout.setVisibility(View.GONE);
+            }
         } else {
             holder.percentLayout.setVisibility(View.GONE);
         }

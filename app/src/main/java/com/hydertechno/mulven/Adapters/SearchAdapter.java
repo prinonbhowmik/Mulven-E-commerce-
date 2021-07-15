@@ -44,7 +44,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         CategoriesModel model=categoriesModelList.get(position);
-        holder.productUnitPrice.setText("৳ "+String.valueOf(model.getUnit_price()));
+        int unitPrice=model.getUnit_price();
+        holder.productUnitPrice.setText("৳ "+unitPrice);
         holder.productName.setText(model.getProduct_name());
         try{
             Picasso.get()
@@ -54,7 +55,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             e.printStackTrace();
         }
         int mrpPrice = model.getMrp_price() != null ? model.getMrp_price() : 0;
-        if(mrpPrice==0){
+        if(mrpPrice==0 || mrpPrice==unitPrice){
             holder.productMRPPrice.setVisibility(View.GONE);
         } else {
             holder.productMRPPrice.setText(String.valueOf(mrpPrice));

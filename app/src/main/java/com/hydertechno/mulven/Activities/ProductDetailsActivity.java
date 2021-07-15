@@ -326,12 +326,12 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
                 ProductDetailsModel detailsList = response.body();
                 product_Name.setText("" + detailsList.getProduct_name());
                 productMrpPrice = detailsList.getMrp_price() != null ? detailsList.getMrp_price() : 0;
-                if (productMrpPrice == 0) {
+                productUnitPrice = detailsList.getUnit_price();
+                if (productMrpPrice == 0 || productMrpPrice==productUnitPrice) {
                     productOldPrice.setVisibility(View.GONE);
                 } else {
                     productOldPrice.setText("৳ " + productMrpPrice);
                 }
-                productUnitPrice = detailsList.getUnit_price();
                 product_Price.setText("৳ " + productUnitPrice);
                 shop_Name.setText("" + detailsList.getShop_name());
                 shop_Address.setText("" + detailsList.getShop_address());
@@ -538,12 +538,12 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
                 ProductDetailsModel detailsList = response.body();
                 product_Name.setText("" + detailsList.getProduct_name());
                 productMrpPrice = detailsList.getMrp_price() != null ? detailsList.getMrp_price() : 0;
-                if (productMrpPrice == 0) {
+                productUnitPrice = detailsList.getUnit_price();
+                if (productMrpPrice == 0 || productMrpPrice==productUnitPrice) {
                     productOldPrice.setVisibility(View.GONE);
                 } else {
                     productOldPrice.setText("৳ " + productMrpPrice);
                 }
-                productUnitPrice = detailsList.getUnit_price();
                 product_Price.setText("৳ " + productUnitPrice);
                 shop_Name.setText("" + detailsList.getShop_name());
                 shop_Address.setText("" + detailsList.getShop_address());
