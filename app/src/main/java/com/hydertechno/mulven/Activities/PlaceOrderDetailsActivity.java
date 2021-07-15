@@ -64,6 +64,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import es.dmoral.toasty.Toasty;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -79,7 +80,8 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
     private RatingBar ratingBar;
     private String token, OrderId,paymentOrderStatus,orderStatus;
     private int userId;
-    private ImageView vendorImageIV, customerImageIV, moreIcon,deliveredIcon;
+    private ImageView moreIcon,deliveredIcon, vendorImageIV;
+    private CircleImageView customerImageIV;
     private SharedPreferences sharedPreferences;
     private List<InvoiceDetailsModel> invoiceDetailsModelList;
     private FrameLayout frame_layout2;
@@ -358,7 +360,7 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
                 try {
                     Picasso.get()
                             .load(Config.IMAGE_LINE + shopImage)
-                            .transform(new CropTransformation(500,150, CropTransformation.GravityHorizontal.CENTER, CropTransformation.GravityVertical.TOP))
+//                            .transform(new CropTransformation(500,250, CropTransformation.GravityHorizontal.CENTER, CropTransformation.GravityVertical.TOP))
                             .fit()
                             .into(vendorImageIV);
                 } catch (Exception e) {

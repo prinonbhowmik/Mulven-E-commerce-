@@ -155,9 +155,9 @@
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
-                    <de.hdodenhof.circleimageview.CircleImageView
+                    <ImageView
                         android:id="@+id/vendorImageTV"
-                        android:layout_width="50dp"
+                        android:layout_width="100dp"
                         android:layout_height="50dp"
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="2dp"
