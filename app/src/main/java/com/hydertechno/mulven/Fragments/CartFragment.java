@@ -45,6 +45,8 @@ import com.hydertechno.mulven.Models.PlaceOrderModel;
 import com.hydertechno.mulven.R;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -118,40 +120,46 @@ public class CartFragment extends Fragment  implements ConnectivityReceiver.Conn
                             double unitPrice = databaseHelper.columnSum();
                             if (unitPrice >= 500) {
                                 ArrayList<CartProductModel> allCartProducts = databaseHelper.getAllCartProducts();
-                                JSONArray array = new JSONArray();
-                                ArrayList<JSONArray> jsonArrayList = new ArrayList<>();
-                                List<Map<String, String>> list1 = new ArrayList<>();
+
+                                ArrayList<JSONObject> jsonArrayList = new ArrayList<>();
 
                                 for (CartProductModel item : allCartProducts) {
-                                    Map<String, String> parms = new HashMap<String, String>();
+//                                    Map<String, String> parms = new HashMap<String, String>();
+                                    JSONObject parms = new JSONObject();
 
-                                    parms.put("item_id", String.valueOf(item.getId()));
-                                    parms.put("pro_name", item.getProduct_name());
-                                    parms.put("sku", item.getSku());
-                                    parms.put("variant", item.getVariant());
-                                    parms.put("size", item.getSize());
-                                    parms.put("color", item.getColor());
-                                    parms.put("price", String.valueOf(item.getUnit_price()));
-                                    parms.put("order_from", item.getCampaignId());
-                                    parms.put("store_id", String.valueOf(item.getStoreId()));
-                                    parms.put("category_id", String.valueOf(item.getCategoryId()));
-                                    parms.put("quantity", String.valueOf(item.getQuantity()));
-                                    list1.add(parms);
-//                        databaseHelper.deleteData(id, size, color, variant);
-                                    array = new JSONArray(list1);
-                                    jsonArrayList.add(array);
+                                    try {
+                                        parms.put("item_id", String.valueOf(item.getId()));
+                                        parms.put("pro_name", item.getProduct_name());
+                                        parms.put("sku", item.getSku());
+                                        parms.put("variant", item.getVariant());
+                                        parms.put("size", item.getSize());
+                                        parms.put("color", item.getColor());
+                                        parms.put("price", String.valueOf(item.getUnit_price()));
+                                        parms.put("order_from", item.getCampaignId());
+                                        parms.put("store_id", String.valueOf(item.getStoreId()));
+                                        parms.put("category_id", String.valueOf(item.getCategoryId()));
+                                        parms.put("quantity", String.valueOf(item.getQuantity()));
+
+                                        jsonArrayList.add(parms);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+//                                    array = new JSONArray(list1);
+//                                    jsonArrayList.add(array);
                                 }
                                 Log.d("checkList", String.valueOf(jsonArrayList));
 
-                                if (list1.size() > 0) {
+                                if (jsonArrayList.size() > 0) {
                                     progressRL.setVisibility(View.VISIBLE);
-                                    Call<PlaceOrderModel> call = ApiUtils.getUserService().placeOrder(token, jsonArrayList);
+                                    Call<PlaceOrderModel> call = ApiUtils.getUserService().placeOrder(token, jsonArrayList.toString());
                                     call.enqueue(new Callback<PlaceOrderModel>() {
                                         @Override
                                         public void onResponse(Call<PlaceOrderModel> call, Response<PlaceOrderModel> response) {
                                             Log.e("Response=====>", response.toString());
                                             if (response.isSuccessful() && response.code() == 200) {
                                                 int status = response.body().getStatus();
+                                                Log.e("Response=====>", response.body().getMessage() + "");
+                                                Log.e("Response=====>", response.body().getStatus() + "");
                                                 if (status == 200) {
                                                     showSuccessDialog();
                                                 } else {
