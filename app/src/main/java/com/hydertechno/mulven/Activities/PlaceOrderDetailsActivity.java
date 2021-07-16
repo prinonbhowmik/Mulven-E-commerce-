@@ -78,7 +78,7 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
     public static double totalPay;
     private Dialog cancelledDialog, makePaymentDialog;
     private RatingBar ratingBar;
-    private String token, OrderId,paymentOrderStatus,orderStatus;
+    private String token, OrderId,paymentOrderStatus,orderStatus,invoiceStatus;
     private int userId;
     private ImageView moreIcon,deliveredIcon, vendorImageIV;
     private CircleImageView customerImageIV;
@@ -108,6 +108,7 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
         Intent intent = getIntent();
         OrderId = intent.getStringExtra("OrderId");
         paymentOrderStatus=intent.getStringExtra("PaymentStatus");
+        invoiceStatus=intent.getStringExtra("OrderStatus");
         orderStatusTV.setText(paymentOrderStatus);
         getInvoiceDetails();
         makePaymentTV.setOnClickListener(new View.OnClickListener() {
@@ -217,7 +218,7 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
             @Override
             public void onClick(View v) {
                 int status=0;
-                if(paidAmount>0 && paymentOrderStatus.equals("Partial Paid")|| paymentOrderStatus.equals("Processing")|| paymentOrderStatus.equals("Canceled")){
+                if(paidAmount>0 && invoiceStatus.equals("Partial Paid")|| invoiceStatus.equals("Processing")|| invoiceStatus.equals("Cancel")){
                     status=1;
                 }
                 Bundle args = new Bundle();
