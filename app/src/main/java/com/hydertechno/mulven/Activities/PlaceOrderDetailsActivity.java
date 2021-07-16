@@ -93,6 +93,7 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
     private PopupMenu popup;
     private LoadingDialog loadingDialog;
     private boolean isCampaignAvailable = false;
+    private double paidAmount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -215,8 +216,13 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
         reportIssueTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int status=0;
+                if(paidAmount>0 && paymentOrderStatus.equals("Partial Paid")|| paymentOrderStatus.equals("Processing")|| paymentOrderStatus.equals("Canceled")){
+                    status=1;
+                }
                 Bundle args = new Bundle();
                 args.putString("orderId", OrderId);
+                args.putInt("status", status);
                 ReportIssueBottomSheet bottom_sheet = new ReportIssueBottomSheet();
                 bottom_sheet.setArguments(args);
                 bottom_sheet.show(getSupportFragmentManager(), "bottomSheet");
@@ -354,6 +360,7 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
                 vendorPhoneTV.setText(shopPhone);
                 vendorAddressTV.setText(shopAddress);
                 orderTimeTV.setText(orderDate + " " + orderTime);
+                paidAmount=details.getTotalPay();
                 totalPaidTV.setText("৳ " +details.getTotalPay());
                 totalPay = details.getTotalPay();
 

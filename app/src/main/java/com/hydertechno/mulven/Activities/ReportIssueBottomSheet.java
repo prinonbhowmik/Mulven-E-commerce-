@@ -47,6 +47,7 @@ public class ReportIssueBottomSheet extends BottomSheetDialogFragment implements
 
     private SharedPreferences sharedPreferences;
     private String token;
+    private int status;
     private String selectedType = null;
 
 
@@ -57,6 +58,7 @@ public class ReportIssueBottomSheet extends BottomSheetDialogFragment implements
         init(view);
         Bundle mArgs = getArguments();
         OrderId = mArgs.getString("orderId");
+        status = mArgs.getInt("status");
         reportIssue.setText("Invoice Id :"+OrderId);
         return view;
     }
@@ -81,14 +83,20 @@ public class ReportIssueBottomSheet extends BottomSheetDialogFragment implements
     }
 
     private void setAdapter() {
-        String[] issueTypes = getResources().getStringArray(R.array.issue_type);
+        String[] issueTypes = new String[0];
+        if(status==1) {
+            issueTypes = getResources().getStringArray(R.array.issue_type);
+        }else {
+            issueTypes = getResources().getStringArray(R.array.issue_type2);
+        }
         ArrayAdapter<String> mAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_list_item_1, issueTypes);
         reportMenu.setAdapter(mAdapter);
+        String[] finalIssueTypes = issueTypes;
         reportMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectedType = issueTypes[position];
-                Log.e(TAG, issueTypes[position]);
+                selectedType = finalIssueTypes[position];
+                Log.e(TAG, finalIssueTypes[position]);
             }
         });
     }
