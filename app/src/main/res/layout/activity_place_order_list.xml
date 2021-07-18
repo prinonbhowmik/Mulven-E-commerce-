@@ -127,21 +127,6 @@
                 android:textSize="12sp" />
 
             <TextView
-                android:id="@+id/sDelivered"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/status_tag"
-                android:fontFamily="@font/comfortaa_bold"
-                android:gravity="center"
-                android:paddingStart="25dp"
-                android:paddingEnd="25dp"
-                android:text="Delivered"
-                android:textColor="@color/ash"
-                android:textSize="12sp" />
-
-            <TextView
                 android:id="@+id/sShipped"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
@@ -154,6 +139,21 @@
                 android:paddingEnd="25dp"
                 android:text="Shipped"
                 android:textColor="#FF5722"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/sDelivered"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/status_tag"
+                android:fontFamily="@font/comfortaa_bold"
+                android:gravity="center"
+                android:paddingStart="25dp"
+                android:paddingEnd="25dp"
+                android:text="Delivered"
+                android:textColor="@color/ash"
                 android:textSize="12sp" />
 
             <TextView
@@ -171,7 +171,6 @@
                 android:text="Canceled"
                 android:textColor="@color/GRed"
                 android:textSize="12sp" />
-
 
             <TextView
                 android:id="@+id/sRefunded"
