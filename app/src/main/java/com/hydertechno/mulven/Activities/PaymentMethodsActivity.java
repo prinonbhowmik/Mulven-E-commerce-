@@ -168,10 +168,11 @@ public class PaymentMethodsActivity extends BaseActivity implements OnPMethodIte
                     if (response.code() == 200) {
                         assert response.body() != null;
                         if (response.body().getStatus().equals("0")) {
-                            String msg = amount + " is not available on " + pay_method + " wallet";
+                            String msg = amount + "৳ is not available on your " + pay_method + " wallet";
                             Toasty.error(context, msg, Toasty.LENGTH_LONG).show();
                         } else {
                             Toasty.success(context, "Payment success!", Toasty.LENGTH_LONG).show();
+                            finish();
                         }
                     }
                 }

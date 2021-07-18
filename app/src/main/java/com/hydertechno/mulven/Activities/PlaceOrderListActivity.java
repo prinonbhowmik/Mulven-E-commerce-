@@ -715,7 +715,6 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
         intent.putExtra("OrderId", item.getOrder_id());
         intent.putExtra("PaymentStatus", item.getPay_status());
         intent.putExtra("OrderStatus", item.getOrders_status());
-        Toast.makeText(this, ""+item.getOrders_status(), Toast.LENGTH_SHORT).show();
 //        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         //context.startActivity(intent);
         startActivityForResult(intent, Place_Order_Request_Code);
