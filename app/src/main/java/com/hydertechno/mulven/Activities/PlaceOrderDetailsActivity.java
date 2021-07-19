@@ -17,6 +17,7 @@ import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
@@ -37,9 +39,11 @@ import com.hydertechno.mulven.Adapters.OrderItemsAdapter;
 import com.hydertechno.mulven.Adapters.OrderTimelineAdapter;
 import com.hydertechno.mulven.Api.ApiUtils;
 import com.hydertechno.mulven.Api.Config;
+import com.hydertechno.mulven.Fragments.LoadingDialog;
 import com.hydertechno.mulven.Internet.Connection;
 import com.hydertechno.mulven.Internet.ConnectivityReceiver;
 import com.hydertechno.mulven.Models.CancellationReasonModel;
+import com.hydertechno.mulven.Models.CartProductModel;
 import com.hydertechno.mulven.Models.InvoiceDetailsModel;
 import com.hydertechno.mulven.Models.OrderDetails;
 import com.hydertechno.mulven.Models.OrderItemsModel;
@@ -48,45 +52,54 @@ import com.hydertechno.mulven.Models.RequiredDataModel;
 import com.hydertechno.mulven.Models.ShurjoPayPaymentModel;
 import com.hydertechno.mulven.Models.UserProfile;
 import com.hydertechno.mulven.R;
+import com.hydertechno.mulven.Utilities.CropTransformation;
 import com.sm.shurjopaysdk.listener.PaymentResultListener;
 import com.sm.shurjopaysdk.model.TransactionInfo;
 import com.sm.shurjopaysdk.payment.ShurjoPaySDK;
 import com.sm.shurjopaysdk.utils.SPayConstants;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import es.dmoral.toasty.Toasty;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PlaceOrderDetailsActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener,ConnectivityReceiver.ConnectivityReceiverListener {
+public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu.OnMenuItemClickListener {
     private TextView invoiceIdTV, orderTimeTV, vendorNameTV, vendorPhoneTV, vendorAddressTV, customerNameTV,
-            customerPhoneTV, customerAddressTV, customerAddressEditTV, totalPaidTV,orderStatusTV;
+            customerPhoneTV, customerAddressTV, customerAddressEditTV, totalPaidTV,orderStatusTV,reportIssueTV,existingIssueTV;
     public static TextView totalPriceTv, dueTV,makePaymentTV;
-    public static int totalPay;
-    private Dialog cancelledDialog, makePaymentDialog,bankPaymentDialog;
+    public static double totalPay;
+    private Dialog cancelledDialog, makePaymentDialog;
     private RatingBar ratingBar;
-    private String token, OrderId,paymentOrderStatus,orderStatus;
+    private String token, OrderId,paymentOrderStatus,orderStatus,invoiceStatus;
     private int userId;
-    private ImageView vendorImageIV, customerImageIV, moreIcon,deliveredIcon;
+    private ImageView moreIcon,deliveredIcon, vendorImageIV;
+    private CircleImageView customerImageIV;
     private SharedPreferences sharedPreferences;
     private List<InvoiceDetailsModel> invoiceDetailsModelList;
     private FrameLayout frame_layout2;
+    private RelativeLayout topRelative,descriptionLinearLayout,statusRelative,oderTimeLineRL,refundRelative;
+    private LinearLayout priceLinearLayout;
     private RecyclerView timelineRecyclerView, orderItemListRecyclerView;
     private RelativeLayout rootLayout;
     private Snackbar snackbar;
-    private boolean isConnected;
-    private ConnectivityReceiver connectivityReceiver;
-    private IntentFilter intentFilter;
     private PopupMenu popup;
+    private LoadingDialog loadingDialog;
+    private boolean isCampaignAvailable = false;
+    private double paidAmount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_place_order_details);
+        loadingDialog = LoadingDialog.instance();
         init();
         checkConnection();
         if (!isConnected) {
@@ -95,6 +108,7 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
         Intent intent = getIntent();
         OrderId = intent.getStringExtra("OrderId");
         paymentOrderStatus=intent.getStringExtra("PaymentStatus");
+        invoiceStatus=intent.getStringExtra("OrderStatus");
         orderStatusTV.setText(paymentOrderStatus);
         getInvoiceDetails();
         makePaymentTV.setOnClickListener(new View.OnClickListener() {
@@ -107,90 +121,49 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
                     String amount=dueTV.getText().toString().substring(2);
                     makePaymentDialog = new Dialog(PlaceOrderDetailsActivity.this);
                     makePaymentDialog.setContentView(R.layout.make_payment_layout_design);
-                    makePaymentDialog.setCancelable(true);
+                    makePaymentDialog.setCancelable(false);
                     makePaymentDialog.show();
                     Window window = makePaymentDialog.getWindow();
                     window.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    ImageView BankIV,mpCloseIV;
-                    mpCloseIV= makePaymentDialog.findViewById(R.id.mpCloseIV);
-                    BankIV= makePaymentDialog.findViewById(R.id.BankIV);
                     EditText paymentAmount= makePaymentDialog.findViewById(R.id.makePayET);
-                    CheckBox nagadCB,shurjoPayCB;
-                    nagadCB= makePaymentDialog.findViewById(R.id.nagadCB);
-                    shurjoPayCB= makePaymentDialog.findViewById(R.id.shurjoPayCB);
-
-                    TextView makePayTV= makePaymentDialog.findViewById(R.id.makePayTV);
+                    TextView continuePayTV= makePaymentDialog.findViewById(R.id.continuePayTV);
+                    TextView closePayTV= makePaymentDialog.findViewById(R.id.closePayTV);
                     paymentAmount.setHint(amount);
-                    mpCloseIV.setOnClickListener(new View.OnClickListener() {
+                    closePayTV.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             makePaymentDialog.dismiss();
                         }
                     });
-                    BankIV.setOnClickListener(new View.OnClickListener() {
+
+                    continuePayTV.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            bankPaymentDialog = new Dialog(PlaceOrderDetailsActivity.this);
-                            bankPaymentDialog.setContentView(R.layout.bank_payment_layout_design);
-                            bankPaymentDialog.setCancelable(true);
-                            Window window2 = makePaymentDialog.getWindow();
-                            window2.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                            TextView bankAmount;
-                            ImageView bCloseIV;
-                            bCloseIV=bankPaymentDialog.findViewById(R.id.bCloseIV);
-                            bankAmount=bankPaymentDialog.findViewById(R.id.bb1);
-                            bankAmount.setText(amount);
-                            bankPaymentDialog.show();
-                            bCloseIV.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    bankPaymentDialog.dismiss();
-                                }
-                            });
-                        }
-                    });
-
-
-                    nagadCB.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                        @Override
-                        public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                            if(shurjoPayCB.isChecked()){
-                                shurjoPayCB.setChecked(false);
-                            }
-                        }
-                    });
-                    shurjoPayCB.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                        @Override
-                        public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                            if(nagadCB.isChecked()){
-                                nagadCB.setChecked(false);
-                            }
-                        }
-                    });
-
-                    makePayTV.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            if(!shurjoPayCB.isChecked()){
-                                Toast.makeText(PlaceOrderDetailsActivity.this, "Please Select Your Payment Method.", Toast.LENGTH_SHORT).show();
-                            }else if(shurjoPayCB.isChecked()){
                                 String am=paymentAmount.getText().toString();
                                 if(!TextUtils.isEmpty(am)){
                                     try {
                                         double value=Double.parseDouble(am);
-                                        getShurjoPayment(value);
-                                        makePaymentDialog.dismiss();
+                                        if(value>0){
+                                            Intent intent = new Intent(PlaceOrderDetailsActivity.this, PaymentMethodsActivity.class);
+                                            intent.putExtra("amount", value);
+                                            intent.putExtra("FAmount", dueTV.getText().toString());
+                                            intent.putExtra("orderId", OrderId);
+                                            intent.putExtra("isCampaign", isCampaignAvailable);
+                                            startActivity(intent);
+                                            makePaymentDialog.dismiss();
+                                        }else
+                                            Toast.makeText(PlaceOrderDetailsActivity.this, "Amount can not 0", Toast.LENGTH_SHORT).show();
+
                                     }catch (Exception e){
-                                        Toast.makeText(PlaceOrderDetailsActivity.this, "Amount must a number!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(PlaceOrderDetailsActivity.this, "Amount must be number", Toast.LENGTH_SHORT).show();
                                     }
 
 
                                 }else{
-                                    Toast.makeText(PlaceOrderDetailsActivity.this, "Please enter your amount.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(PlaceOrderDetailsActivity.this, "Please enter your amount", Toast.LENGTH_SHORT).show();
                                 }
 
                             }
-                        }
                     });
 
                 }
@@ -238,6 +211,30 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
             @Override
             public void onFailure(Call<UserProfile> call, Throwable t) {
 
+            }
+        });
+
+        reportIssueTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int status=0;
+                if(paidAmount>0 && invoiceStatus.equals("Partial Paid")|| invoiceStatus.equals("Processing")|| invoiceStatus.equals("Cancel")){
+                    status=1;
+                }
+                Bundle args = new Bundle();
+                args.putString("orderId", OrderId);
+                args.putInt("status", status);
+                ReportIssueBottomSheet bottom_sheet = new ReportIssueBottomSheet();
+                bottom_sheet.setArguments(args);
+                bottom_sheet.show(getSupportFragmentManager(), "bottomSheet");
+            }
+        });
+        existingIssueTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PlaceOrderDetailsActivity.this, ExistingIssueActivity.class);
+                intent.putExtra("orderId", OrderId);
+                startActivity(intent);
             }
         });
 
@@ -292,52 +289,21 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
         });
     }
 
-    private void getShurjoPayment(double amount) {
 
-        int unique_id=(int)((new Date().getTime()/1000L)% Integer.MAX_VALUE);
-        String Test_Username = "spaytest";
-        String Test_Password ="JehPNXF58rXs";
-        String Test_Transaction_Prefix=" NOK";
-        String testToken="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOiJzcGF5dGVzdCIsImlhdCI6MTU5ODM2MTI1Nn0.cwkvdTDI6_K430xq7Iqapaknbqjm9J3Th1EiXePIEcY";
-        String liveToken="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Im11bHZlbiIsImtleSI6ImpPYmdQRFdvcjFEcyJ9.Ie4mUEkQ-6WW1nyPg7FOverSWRfUs7IXZkCItKyvimI";
-        RequiredDataModel dataModel=new RequiredDataModel("mulven",
-                "m8zPxlA4Ews9","MLV"+OrderId+"$"+unique_id,amount, liveToken);
-        ShurjoPaySDK.getInstance().makePayment(PlaceOrderDetailsActivity.this,
-                SPayConstants.SdkType.LIVE, dataModel, new PaymentResultListener() {
-                    @Override
-                    public void onSuccess(TransactionInfo transactionInfo) {
-                        double amount=transactionInfo.getTxnAmount();
-
-                        Call<ShurjoPayPaymentModel> call = ApiUtils.getUserService().setShurjo_Pay(token,OrderId,""+amount,transactionInfo.getMethod(),transactionInfo.getBankTxID(),transactionInfo.getTxID());
-                        call.enqueue(new Callback<ShurjoPayPaymentModel>() {
-                            @Override
-                            public void onResponse(Call<ShurjoPayPaymentModel> call, Response<ShurjoPayPaymentModel> response) {
-                                if(response.isSuccessful()){
-                                    finish();
-                                }
-                            }
-                            @Override
-                            public void onFailure(Call<ShurjoPayPaymentModel> call, Throwable t) {
-                               // Toasty.error(PlaceOrderDetailsActivity.this, "Something went wrong", Toasty.LENGTH_SHORT).show();
-                            }
-                        });
-                        }
-
-                    @Override
-                    public void onFailed(String s) {
-                        Log.d("ss", ""+s);
-                    }
-                });
-    }
 
     private void init() {
         sharedPreferences = getSharedPreferences("MyRef", MODE_PRIVATE);
         token = sharedPreferences.getString("token", null);
         userId =sharedPreferences.getInt("userId",0);
         rootLayout = findViewById(R.id.place_order_details_rootLayout);
-        intentFilter = new IntentFilter();
-        intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
-        connectivityReceiver = new ConnectivityReceiver();
+        frame_layout2 = findViewById(R.id.frame_layout2);
+        topRelative = findViewById(R.id.topRelative);
+        descriptionLinearLayout = findViewById(R.id.descriptionLinearLayout);
+        statusRelative = findViewById(R.id.statusRelative);
+        oderTimeLineRL = findViewById(R.id.oderTimeLineRL);
+        refundRelative = findViewById(R.id.refundRelative);
+        priceLinearLayout = findViewById(R.id.priceLinearLayout);
+
         invoiceIdTV = findViewById(R.id.InvoiceTV);
         moreIcon = findViewById(R.id.moreIcon);
         orderTimeTV = findViewById(R.id.orderTimeTV);
@@ -350,6 +316,8 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
         customerPhoneTV = findViewById(R.id.customerPhoneTV);
         customerAddressTV = findViewById(R.id.customerAddressTV);
         customerAddressEditTV = findViewById(R.id.customerAddressEditTV);
+        reportIssueTV = findViewById(R.id.reportIssueTV);
+        existingIssueTV = findViewById(R.id.existingIssueTV);
         totalPaidTV = findViewById(R.id.totalPaidTV);
         totalPriceTv = findViewById(R.id.totalPriceTv);
         orderStatusTV = findViewById(R.id.orderStatusTV);
@@ -364,30 +332,44 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
 
 
     private void getInvoiceDetails() {
+        if (!loadingDialog.isAdded())
+            loadingDialog.show(getSupportFragmentManager(), null);
+
         invoiceIdTV.setText(OrderId);
         Call<InvoiceDetailsModel> call = ApiUtils.getUserService().getInvoiceDetails(OrderId, token);
         call.enqueue(new Callback<InvoiceDetailsModel>() {
             @Override
             public void onResponse(Call<InvoiceDetailsModel> call, Response<InvoiceDetailsModel> response) {
+                Log.e("Response ===> ", response.toString());
+                loadingDialog.dismiss();
+                topRelative.setVisibility(View.VISIBLE);
+                descriptionLinearLayout.setVisibility(View.VISIBLE);
+                statusRelative.setVisibility(View.VISIBLE);
+                oderTimeLineRL.setVisibility(View.VISIBLE);
+                refundRelative.setVisibility(View.VISIBLE);
+                priceLinearLayout.setVisibility(View.VISIBLE);
                 InvoiceDetailsModel details = response.body();
-                String shopName = details.getOrderDetails().getShop_name();
-                String shopPhone = details.getOrderDetails().getSeller_phone();
-                String shopAddress = details.getOrderDetails().getShop_address();
-                String shopImage = details.getOrderDetails().getShop_logo();
+                String shopName = details.getOrderDetails().getShopName();
+                String shopPhone = details.getOrderDetails().getSellerPhone();
+                String shopAddress = details.getOrderDetails().getShopAddress();
+                String shopImage = details.getOrderDetails().getShopLogo();
                 String orderTime = details.getOrderDetails().getTime();
                 String orderDate = details.getOrderDetails().getDate();
-                String customerAddress = details.getOrderDetails().getDelivery_address();
-                orderStatus = details.getOrderDetails().getOrders_status();
+                String customerAddress = details.getOrderDetails().getDeliveryAddress();
+                orderStatus = details.getOrderDetails().getOrdersStatus();
                 vendorNameTV.setText(shopName);
                 vendorPhoneTV.setText(shopPhone);
                 vendorAddressTV.setText(shopAddress);
                 orderTimeTV.setText(orderDate + " " + orderTime);
+                paidAmount=details.getTotalPay();
                 totalPaidTV.setText("৳ " +details.getTotalPay());
-                totalPay = Integer.parseInt(details.getTotalPay());
+                totalPay = details.getTotalPay();
 
                 try {
                     Picasso.get()
                             .load(Config.IMAGE_LINE + shopImage)
+//                            .transform(new CropTransformation(500,250, CropTransformation.GravityHorizontal.CENTER, CropTransformation.GravityVertical.TOP))
+                            .fit()
                             .into(vendorImageIV);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -416,6 +398,7 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
                     });
                 }else{
                     customerAddressTV.setText(customerAddress);
+                    customerAddressEditTV.setVisibility(View.GONE);
                 }
 
                 //Order Item
@@ -427,6 +410,7 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
                 orderItemListRecyclerView.setAdapter(orderItemsAdapter);
                 orderItemsAdapter.notifyDataSetChanged();
 
+                isCampaignAvailable = getIsCampaignAvailable(orderItemsModelList);
 
                 //Time Line
                 List<OrderTimelineModel> orderTimelineModelList = details.getTimeline();
@@ -436,7 +420,6 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
                 timelineRecyclerView.setAdapter(orderTimelineAdapter);
                // Collections.reverse(orderTimelineModelList);
                 orderTimelineAdapter.notifyDataSetChanged();
-
 
 
                 switch (paymentOrderStatus) {
@@ -469,6 +452,16 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
 
             }
         });
+    }
+
+
+    private boolean getIsCampaignAvailable(List<OrderItemsModel> products) {
+        for (OrderItemsModel item : products) {
+            if (item.getOrderFrom() != null && !item.getOrderFrom().isEmpty()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void placeOrderIdCopy(View view) {
@@ -590,7 +583,11 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
                             public void onResponse(Call<CancellationReasonModel> call, Response<CancellationReasonModel> response) {
                                 if (response.body().getStatus() == 1) {
                                     Toasty.normal(PlaceOrderDetailsActivity.this, "Order has been cancelled", Toasty.LENGTH_SHORT).show();
+
                                     recreate();
+                                    Intent resultIntent = new Intent();
+                                    resultIntent.putExtra("success", true);
+                                    setResult(PlaceOrderListActivity.Place_Order_Request_Code ,resultIntent);
                                 } else {
                                     Toasty.error(PlaceOrderDetailsActivity.this, "Something went wrong", Toasty.LENGTH_SHORT).show();
                                 }
@@ -667,15 +664,26 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
         return false;
     }
 
+
+    public void placeOrderDetailsBack(View view) {
+        Intent resultIntent = new Intent();
+//        setResult(PlaceOrderListActivity.Place_Order_Request_Code ,resultIntent);
+        //overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
     @Override
     public void onNetworkConnectionChanged(boolean isConnected) {
         snackBar(isConnected);
     }
 
-    private void checkConnection() {
-        isConnected = ConnectivityReceiver.isConnected();
-    }
-    private void snackBar(boolean isConnected) {
+
+    public void snackBar(boolean isConnected) {
         if(!isConnected) {
             snackbar = Snackbar.make(rootLayout, "No Internet Connection! Please Try Again.", Snackbar.LENGTH_INDEFINITE);
             snackbar.setDuration(5000);
@@ -684,58 +692,5 @@ public class PlaceOrderDetailsActivity extends AppCompatActivity implements Popu
             sbView.setBackgroundColor(Color.RED);
             snackbar.show();
         }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        registerReceiver(connectivityReceiver, intentFilter);
-    }
-    @Override
-    protected void onResume() {
-
-        // register connection status listener
-        Connection.getInstance().setConnectivityListener(this);
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        try{
-            if(connectivityReceiver!=null)
-                unregisterReceiver(connectivityReceiver);
-
-        }catch(Exception e){}
-
-    }
-
-    @Override
-    protected void onStop() {
-        try{
-            if(connectivityReceiver!=null)
-                unregisterReceiver(connectivityReceiver);
-
-        }catch(Exception e){}
-
-        super.onStop();
-    }
-
-    public void placeOrderDetailsBack(View view) {
-        Intent resultIntent = new Intent();
-
-            setResult(RESULT_OK,resultIntent);
-        //overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
-        finish();
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Intent resultIntent = new Intent();
-            //overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
-            setResult(RESULT_CANCELED, resultIntent);
-
-        finish();
     }
 }

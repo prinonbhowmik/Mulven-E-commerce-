@@ -38,15 +38,26 @@
                 android:fontFamily="@font/comfortaa_light"
                 android:layout_centerHorizontal="true"/>
         </RelativeLayout>
+
+        <TextView
+            android:id="@+id/timerTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_below="@+id/rl1"
+            android:padding="16dp"
+            android:textSize="18sp"
+            android:textColor="@color/themDark"/>
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/otp_LT"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-            android:layout_below="@+id/rl1"
+            android:layout_below="@+id/timerTv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="20dp"
             app:boxCornerRadiusBottomStart="10dp"
             app:boxCornerRadiusTopEnd="10dp"

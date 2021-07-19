@@ -17,6 +17,8 @@
     <color name="gray">#6b7583</color>
     <color name="ash">#808080</color>
     <color name="bg">#E3EDF7</color>
+    <color name="background">#FFF8F8F8</color>
+    <color name="shadow">#FFE6E6E6</color>
 
     <color name="GRed">#DB4437</color>
     <color name="GGreen">#0F9D58</color>
@@ -24,4 +26,6 @@
     <color name="GYellow">#F4B400</color>
 
     <color name="shimmer_background">#dddddd</color>
+
+    <color name="transparent">#00000000</color>
 </resources>

@@ -5,12 +5,14 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -33,6 +35,7 @@ import java.util.List;
 public class CampaignProductsAdapter extends RecyclerView.Adapter<CampaignProductsAdapter.ViewHolder> implements ConnectivityReceiver.ConnectivityReceiverListener {
 
     private List<CategoriesModel> categoriesModelList;
+    private List<CategoriesModel> filterModelList;
     private List<ImageGalleryModel> productImagesModelList = new ArrayList<>();
     private List<CategoriesModel> categoriesModelFiltered;
     private Context context;
@@ -44,6 +47,7 @@ public class CampaignProductsAdapter extends RecyclerView.Adapter<CampaignProduc
 
     public CampaignProductsAdapter(List<CategoriesModel> categoriesModelList, Context context) {
         this.categoriesModelList = categoriesModelList;
+        this.filterModelList = categoriesModelList;
         this.context = context;
 //        categoriesModelFiltered = new ArrayList<>(categoriesModelFiltered);
     }
@@ -51,27 +55,43 @@ public class CampaignProductsAdapter extends RecyclerView.Adapter<CampaignProduc
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.all_product_layout_design, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_campaign_all_product, parent, false);
         return new CampaignProductsAdapter.ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         CategoriesModel model=categoriesModelList.get(position);
-        holder.productUnitPrice.setText("৳ "+String.valueOf(model.getUnit_price()));
-        holder.productName.setText(model.getProduct_name());
+
+        int unitPrice=model.getUnit_price();
+        int mrpPrice=model.getMrp_price() != null ? model.getMrp_price() : 0;
+        if(mrpPrice==0 || mrpPrice==unitPrice){
+            holder.productMRPPrice.setVisibility(View.GONE);
+        } else {
+            holder.productMRPPrice.setVisibility(View.VISIBLE);
+            holder.productMRPPrice.setText(""+mrpPrice);
+        }
+
+        if (mrpPrice > unitPrice) {
+            int percentage=(((mrpPrice-unitPrice)*100)/mrpPrice);
+            int per=Math.round(percentage);
+            if(per>=10){
+                holder.textViewPercentage.setText("-"+per+"%");
+            }else {
+                holder.percentLayout.setVisibility(View.GONE);
+            }
+        } else  {
+            holder.percentLayout.setVisibility(View.GONE);
+        }
+
+        holder.productUnitPrice.setText("৳ "+unitPrice);
+        holder.productName.setText(model.getProduct_name() != null ? model.getProduct_name() : "");
         try{
             Picasso.get()
                     .load(Config.IMAGE_LINE+model.getFeacher_image())
                     .into(holder.productImage);
         } catch (Exception e) {
             e.printStackTrace();
-        }
-        if(model.getMrp_price()==0){
-            holder.productMRPPrice.setVisibility(View.GONE);
-        }
-        else {
-            holder.productMRPPrice.setText(String.valueOf(model.getMrp_price()));
         }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,25 +123,34 @@ public class CampaignProductsAdapter extends RecyclerView.Adapter<CampaignProduc
     private Filter exampleFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            List<CategoriesModel> filteredList = new ArrayList<>();
             if (constraint == null || constraint.length() == 0) {
-                filteredList.addAll(categoriesModelFiltered);
+                categoriesModelList = filterModelList;
             } else {
+                List<CategoriesModel> filteredList = new ArrayList<>();
                 String filterPattern = constraint.toString().toLowerCase().trim();
-                for (CategoriesModel item : categoriesModelList) {
-                    if (item.getProduct_name().toLowerCase().contains(filterPattern)) {
-                        filteredList.add(item);
+                for (CategoriesModel item : filterModelList) {
+                    if (TextUtils.isDigitsOnly(filterPattern)) {
+                        if(item.getCategory().equals(filterPattern)) {
+                            Log.e("Items==>", item.getCategory() + "==" + filterPattern);
+                            filteredList.add(item);
+                        }
+                    } else {
+                        if (item.getProduct_name().toLowerCase().contains(filterPattern)) {
+                            filteredList.add(item);
+                            Log.e("Items contains==>", item.getCategory() + "==" + filterPattern);
+                        }
                     }
                 }
+                categoriesModelList = filteredList;
             }
             FilterResults results = new FilterResults();
-            results.values = filteredList;
+            results.values = categoriesModelList;
             return results;
         }
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            categoriesModelList.clear();
-            categoriesModelList.addAll((List) results.values);
+            Log.e("values", results.toString());
+            categoriesModelList = (ArrayList<CategoriesModel>) results.values;
             notifyDataSetChanged();
         }
     };
@@ -133,9 +162,12 @@ public class CampaignProductsAdapter extends RecyclerView.Adapter<CampaignProduc
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView productImage;
-        private TextView productUnitPrice,productName,productMRPPrice;
+        private TextView productUnitPrice,productName,productMRPPrice,textViewPercentage;
+        private RelativeLayout percentLayout;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            textViewPercentage=itemView.findViewById(R.id.textViewPercentage);
+            percentLayout = itemView.findViewById(R.id.percentLayout);
             productImage=itemView.findViewById(R.id.productImage);
             productName=itemView.findViewById(R.id.productName);
             productUnitPrice=itemView.findViewById(R.id.productUnitPrice);
@@ -162,6 +194,12 @@ public class CampaignProductsAdapter extends RecyclerView.Adapter<CampaignProduc
 
     private void checkConnection() {
         isConnected = ConnectivityReceiver.isConnected();
+    }
+
+    public void updateData(List<CategoriesModel> list) {
+        this.categoriesModelList = list;
+        this.filterModelList = list;
+        notifyDataSetChanged();
     }
 }
 

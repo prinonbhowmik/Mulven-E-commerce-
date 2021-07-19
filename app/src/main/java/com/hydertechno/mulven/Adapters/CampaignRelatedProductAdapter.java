@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -45,15 +46,36 @@ public class CampaignRelatedProductAdapter extends RecyclerView.Adapter<Campaign
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_layout_design, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_campaign_related_product, parent, false);
         return new CampaignRelatedProductAdapter.ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         CategoriesModel model=categoriesModelList.get(position);
-        holder.productUnitPrice.setText("৳ "+String.valueOf(model.getUnit_price()));
-        holder.productMRPPrice.setText(String.valueOf(model.getMrp_price()));
+        int unitPrice=model.getUnit_price();
+        int mrpPrice=model.getMrp_price() != null ? model.getMrp_price() : 0;
+
+        if(mrpPrice==0 || mrpPrice==unitPrice){
+            holder.productMRPPrice.setVisibility(View.GONE);
+        } else {
+            holder.productMRPPrice.setVisibility(View.VISIBLE);
+            holder.productMRPPrice.setText(""+mrpPrice);
+        }
+
+        if (mrpPrice > unitPrice) {
+            int percentage=(((mrpPrice-unitPrice)*100)/mrpPrice);
+            int per=Math.round(percentage);
+            if(per>=10){
+                holder.textViewPercentage.setText("-"+per+"%");
+            }else {
+                holder.percentLayout.setVisibility(View.GONE);
+            }
+        } else {
+            holder.percentLayout.setVisibility(View.GONE);
+        }
+
+        holder.productUnitPrice.setText("৳ "+unitPrice);
         holder.productName.setText(model.getProduct_name());
         try{
             Picasso.get()
@@ -61,9 +83,6 @@ public class CampaignRelatedProductAdapter extends RecyclerView.Adapter<Campaign
                     .into(holder.productImage);
         } catch (Exception e) {
             e.printStackTrace();
-        }
-        if(model.getMrp_price()==0){
-            holder.productMRPPrice.setVisibility(View.GONE);
         }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,10 +118,13 @@ public class CampaignRelatedProductAdapter extends RecyclerView.Adapter<Campaign
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView productImage;
-        private TextView productUnitPrice,productName,productMRPPrice;
+        private TextView productUnitPrice,productName,productMRPPrice,textViewPercentage;
+        private RelativeLayout percentLayout;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            textViewPercentage=itemView.findViewById(R.id.textViewPercentage);
             productImage=itemView.findViewById(R.id.productImage);
+            percentLayout = itemView.findViewById(R.id.percentLayout);
             productName=itemView.findViewById(R.id.productName);
             productUnitPrice=itemView.findViewById(R.id.productUnitPrice);
             productMRPPrice=itemView.findViewById(R.id.productMRPPrice);

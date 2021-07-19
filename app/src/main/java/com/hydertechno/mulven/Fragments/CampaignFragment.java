@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -41,16 +42,15 @@ import retrofit2.Response;
 
 public class CampaignFragment extends Fragment implements ConnectivityReceiver.ConnectivityReceiverListener{
     private DrawerLayout drawerLayout;
-    private ImageView navIcon,searchIv,closeIv;
-    private String title,id;
+    private ImageView navIcon;
     private int categoryID;
     private TextView titleName,noCampaign;
-    private SearchView searchView;
     private RecyclerView campaignRecyclerView;
     private CampaignAdapter campaignAdapter;
     private List<CampaignModel> campaignModelList =new ArrayList<>();
     private ApiInterface apiInterface;
-    public static RelativeLayout rootLayout;
+    public static LinearLayout rootLayout;
+    private RelativeLayout progressRL;
     private Snackbar snackbar;
     private boolean isConnected;
     private ConnectivityReceiver connectivityReceiver;
@@ -70,23 +70,6 @@ public class CampaignFragment extends Fragment implements ConnectivityReceiver.C
             }
         });
 
-        searchIv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                searchView.setVisibility(View.VISIBLE);
-                closeIv.setVisibility(View.VISIBLE);
-                searchIv.setVisibility(View.GONE);
-            }
-        });
-
-        closeIv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                searchIv.setVisibility(View.VISIBLE);
-                closeIv.setVisibility(View.GONE);
-                searchView.setVisibility(View.GONE);
-            }
-        });
 
         getCategories();
 
@@ -96,15 +79,13 @@ public class CampaignFragment extends Fragment implements ConnectivityReceiver.C
 
     private void init(View view) {
         rootLayout=view.findViewById(R.id.campaign_fragment_rootLayout);
+        progressRL=view.findViewById(R.id.progressRL);
         intentFilter = new IntentFilter();
         intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
         connectivityReceiver = new ConnectivityReceiver();
         navIcon=view.findViewById(R.id.navIcon);
         noCampaign=view.findViewById(R.id.noCampaign);
         campaignRecyclerView =view.findViewById(R.id.campaignRecyclerView);
-        searchView = view.findViewById(R.id.searchET);
-        searchIv = view.findViewById(R.id.SearchIv);
-        closeIv = view.findViewById(R.id.closeIv);
         campaignAdapter =new CampaignAdapter(campaignModelList,getContext());
         LinearLayoutManager camp = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         campaignRecyclerView.setLayoutManager(camp);
@@ -118,12 +99,14 @@ public class CampaignFragment extends Fragment implements ConnectivityReceiver.C
         imm.hideSoftInputFromWindow(this.getActivity().getWindow().getDecorView().getRootView().getWindowToken(), 0);
     }
     private void getCategories() {
+        progressRL.setVisibility(View.VISIBLE);
         campaignModelList.clear();
         Call<Campaign> call = apiInterface.getAllCampaigns();
         call.enqueue(new Callback<Campaign>() {
             @Override
             public void onResponse(Call<Campaign> call, Response<Campaign>response) {
                 if (response.isSuccessful()){
+                    progressRL.setVisibility(View.GONE);
                     Campaign list=response.body();
                     campaignModelList=list.getCampaign();
                     campaignAdapter = new CampaignAdapter(campaignModelList, getContext());
@@ -137,6 +120,7 @@ public class CampaignFragment extends Fragment implements ConnectivityReceiver.C
             }
             @Override
             public void onFailure(Call<Campaign> call, Throwable t) {
+                progressRL.setVisibility(View.GONE);
             }
         });
     }

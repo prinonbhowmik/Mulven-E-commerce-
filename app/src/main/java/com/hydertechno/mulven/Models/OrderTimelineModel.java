@@ -1,46 +1,73 @@
 package com.hydertechno.mulven.Models;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class OrderTimelineModel {
-   private  int id;
-   private String order_id;
-   private String status;
-   private String commants;
-   private String date;
-   private String time;
+    @SerializedName("id")
+    @Expose
+    private Integer id;
+    @SerializedName("order_id")
+    @Expose
+    private String orderId;
+    @SerializedName("status")
+    @Expose
+    private String status;
+    @SerializedName("commants")
+    @Expose
+    private String commants;
+    @SerializedName("date")
+    @Expose
+    private String date;
+    @SerializedName("time")
+    @Expose
+    private String time;
 
-    public OrderTimelineModel(int id, String order_id, String status, String commants, String date, String time) {
-        this.id = id;
-        this.order_id = order_id;
-        this.status = status;
-        this.commants = commants;
-        this.date = date;
-        this.time = time;
-    }
-
-    public OrderTimelineModel() {
-    }
-
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public String getOrder_id() {
-        return order_id;
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 
     public String getStatus() {
         return status;
     }
 
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public String getCommants() {
         return commants;
+    }
+
+    public void setCommants(String commants) {
+        this.commants = commants;
     }
 
     public String getDate() {
         return date;
     }
 
+    public void setDate(String date) {
+        this.date = date;
+    }
+
     public String getTime() {
         return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 }

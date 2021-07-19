@@ -13,9 +13,10 @@ public class UserProfile {
     private String token;
     private String message;
     private String user_photo;
+    private String password;
     private int otp;
 
-    public UserProfile(int id, String full_name, String phone, String email, String birthday, String status, String address, String updated_at, String created_at, String token, String message, String user_photo, int otp) {
+    public UserProfile(int id, String full_name, String phone, String email, String birthday, String status, String address, String updated_at, String created_at, String token, String message, String user_photo, String password, int otp) {
         this.id = id;
         this.full_name = full_name;
         this.phone = phone;
@@ -28,6 +29,7 @@ public class UserProfile {
         this.token = token;
         this.message = message;
         this.user_photo = user_photo;
+        this.password = password;
         this.otp = otp;
     }
 
@@ -91,5 +93,9 @@ public class UserProfile {
 
     public String getUser_photo() {
         return user_photo;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }

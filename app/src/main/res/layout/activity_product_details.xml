@@ -7,34 +7,14 @@
     android:layout_height="match_parent"
     tools:context=".Activities.ProductDetailsActivity">
 
-    <RelativeLayout
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="65dp"
-        android:background="@color/themDark">
-
-        <ImageView
-            android:id="@+id/navIcon"
-            android:layout_width="35sp"
-            android:layout_height="35sp"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="20dp"
-            android:onClick="productDetailsBack"
-            android:src="@drawable/ic_arrow" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginStart="10dp"
-            android:layout_toEndOf="@+id/navIcon"
-            android:fontFamily="@font/comfortaa_light"
-            android:gravity="center"
-            android:text="Details"
-            android:textColor="@color/white"
-            android:textSize="18sp" />
-
-    </RelativeLayout>
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/themDark"
+        app:theme="@style/ToolbarColoredBackArrow"
+        app:title="Details"
+        app:titleTextColor="@color/white" />
 
     <ScrollView
         android:id="@+id/scrollView"
@@ -112,94 +92,97 @@
                     android:id="@+id/brandRL"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:layout_below="@+id/product_Price"
                     android:layout_marginStart="15dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_below="@+id/product_Price">
+                    android:layout_marginTop="10dp">
 
 
-                <TextView
-                    android:id="@+id/brandTxt"
-                    android:layout_width="85dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="15dp"
-                    android:fontFamily="@font/comfortaa_light"
-                    android:text="Brand"
-                    android:textColor="@color/gray"
-                    android:textSize="16sp" />
+                    <TextView
+                        android:id="@+id/brandTxt"
+                        android:layout_width="85dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="15dp"
+                        android:fontFamily="@font/comfortaa_light"
+                        android:text="Brand"
+                        android:textColor="@color/gray"
+                        android:textSize="16sp" />
 
 
-                <TextView
-                    android:id="@+id/bbb"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="15dp"
-                    android:layout_toEndOf="@+id/brandTxt"
-                    android:fontFamily="@font/comfortaa_light"
-                    android:text=":"
-                    android:textColor="@color/gray"
-                    android:textSize="16sp" />
+                    <TextView
+                        android:id="@+id/bbb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="15dp"
+                        android:layout_toEndOf="@+id/brandTxt"
+                        android:fontFamily="@font/comfortaa_light"
+                        android:text=":"
+                        android:textColor="@color/gray"
+                        android:textSize="16sp" />
 
-                <TextView
-                    android:id="@+id/brand_Name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginEnd="15dp"
-                    android:layout_toEndOf="@+id/bbb"
-                    android:fontFamily="@font/comfortaa_light"
-                    android:textColor="@color/gray"
-                    android:textSize="16sp" />
+                    <TextView
+                        android:id="@+id/brand_Name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:layout_toEndOf="@+id/bbb"
+                        android:fontFamily="@font/comfortaa_light"
+                        android:textColor="@color/gray"
+                        android:textSize="16sp" />
                 </RelativeLayout>
 
                 <RelativeLayout
                     android:id="@+id/skuRL"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/brandRL"
+                    android:visibility="gone"
                     android:layout_marginStart="15dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_below="@+id/brandRL">
-                <TextView
-                    android:id="@+id/skuTxt"
-                    android:layout_width="85dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="15dp"
-                    android:fontFamily="@font/comfortaa_light"
-                    android:text="SKU"
-                    android:textColor="@color/gray"
-                    android:textSize="16sp" />
+                    android:layout_marginTop="10dp">
 
-                <TextView
-                    android:id="@+id/sss"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="15dp"
-                    android:layout_toEndOf="@+id/skuTxt"
-                    android:fontFamily="@font/comfortaa_light"
-                    android:text=":"
-                    android:textColor="@color/gray"
-                    android:textSize="16sp" />
+                    <TextView
+                        android:id="@+id/skuTxt"
+                        android:layout_width="85dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="15dp"
+                        android:fontFamily="@font/comfortaa_light"
+                        android:text="SKU"
+                        android:textColor="@color/gray"
+                        android:textSize="16sp" />
 
-                <TextView
-                    android:id="@+id/skuTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginEnd="15dp"
-                    android:layout_toEndOf="@+id/sss"
-                    android:fontFamily="@font/comfortaa_light"
-                    android:textColor="@color/gray"
-                    android:textSize="16sp" />
+                    <TextView
+                        android:id="@+id/sss"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="15dp"
+                        android:layout_toEndOf="@+id/skuTxt"
+                        android:fontFamily="@font/comfortaa_light"
+                        android:text=":"
+                        android:textColor="@color/gray"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/skuTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:layout_toEndOf="@+id/sss"
+                        android:fontFamily="@font/comfortaa_light"
+                        android:textColor="@color/gray"
+                        android:textSize="16sp" />
                 </RelativeLayout>
 
                 <LinearLayout
-                    android:id="@+id/quantity"
+                    android:id="@+id/quantityLL"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/skuRL"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
-                    android:visibility="visible">
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="85dp"
@@ -214,9 +197,9 @@
                         android:id="@+id/qqq"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:layout_marginStart="16dp"
                         android:layout_marginEnd="15dp"
-                        android:layout_gravity="center_vertical"
                         android:fontFamily="@font/comfortaa_light"
                         android:text=":"
                         android:textColor="@color/gray"
@@ -236,10 +219,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="35dp"
                         android:layout_gravity="center_vertical"
-                        android:fontFamily="@font/comfortaa"
-                        android:gravity="center"
                         android:layout_marginStart="20dp"
                         android:layout_marginEnd="20dp"
+                        android:fontFamily="@font/comfortaa"
+                        android:gravity="center"
                         android:text="1"
                         android:textColor="@color/gray"
                         android:textSize="16sp" />
@@ -258,7 +241,7 @@
                     android:id="@+id/colorSizeRL"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/quantity">
+                    android:layout_below="@id/quantityLL">
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/size_menu"
@@ -430,6 +413,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/featureRL"
                 android:layout_marginTop="10dp"
+                android:visibility="gone"
                 android:background="@color/white">
 
                 <TextView
@@ -458,6 +442,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/descriptionRl"
                 android:layout_marginTop="10dp"
+                android:visibility="gone"
                 android:layout_marginBottom="70dp"
                 android:background="@color/white">
 
@@ -480,6 +465,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="3dp"
                     android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="8dp"
                     android:background="@color/themDark" />
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -506,8 +492,25 @@
         android:layout_marginBottom="10dp">
 
 
-        <LinearLayout
+        <Button
+            android:id="@+id/stockOutTV"
             android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginEnd="5dp"
+            android:fontFamily="@font/comfortaa_bold"
+            android:gravity="center"
+            android:text="Stock Out"
+            android:visibility="gone"
+            android:textAllCaps="false"
+            android:padding="10dp"
+            android:backgroundTint="@color/gray"
+            android:enabled="false"
+            android:textSize="15sp"
+            android:textColor="@color/white" />
+        <LinearLayout
+            android:id="@+id/addCartLL"
+            android:layout_width="match_parent"
+            android:visibility="gone"
             android:layout_height="45dp"
             android:orientation="horizontal"
             android:weightSum="1">

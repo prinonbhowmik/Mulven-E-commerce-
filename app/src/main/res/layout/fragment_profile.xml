@@ -1,69 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     android:id="@+id/fragment_profile_rootLayout"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragments.ProfileFragment">
 
-    <RelativeLayout
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/topRL">
-
-        <ImageView
-            android:id="@+id/profileBGIV"
+        android:background="@color/white"
+        app:layout_behavior=".Utilities.FlingBehavior">
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/main.collapsing"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/ic_profile_bg" />
+            android:layout_height="match_parent"
+            app:expandedTitleMarginEnd="64dp"
+            app:expandedTitleMarginStart="48dp"
+            app:contentScrim="@android:color/transparent"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:statusBarScrim="@android:color/transparent"
+            app:titleEnabled="false">
 
-        <ImageView
-            android:id="@+id/navIcon"
-            android:layout_width="35sp"
-            android:layout_height="35sp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="15dp"
-            android:src="@drawable/ic_menu" />
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/anim_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/userImageIV"
-            android:layout_width="130dp"
-            android:layout_height="130dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="40dp"
-            android:background="@drawable/round_stroke"
-            android:padding="2dp"
-            android:src="@drawable/demo_profile" />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_collapseMode="parallax"
+                app:layout_collapseParallaxMultiplier="1">
 
-        <TextView
-            android:id="@+id/userName"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="130dp"
-            android:fontFamily="@font/comfortaa_bold"
-            android:maxLines="2"
-            android:textColor="@color/white"
-            android:textSize="18sp" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_gravity="center_vertical"
+                    tools:ignore="UselessParent">
 
-        <TextView
-            android:id="@+id/userPhoneNo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/userName"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="5dp"
-            android:fontFamily="@font/comfortaa_bold"
-            android:textColor="@color/white"
-            android:textSize="15sp" />
-    </RelativeLayout>
-    <ScrollView
+                    <ImageView
+                        android:id="@+id/profileBGIV"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ic_profile_bg"
+                        app:layout_collapseMode="parallax"/>
+
+                    <ImageView
+                        android:id="@+id/navIcon"
+                        android:layout_width="35sp"
+                        android:layout_height="35sp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="15dp"
+                        android:src="@drawable/ic_menu" />
+
+                    <TextView
+                        android:id="@+id/userName"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:fontFamily="@font/comfortaa_bold"
+                        android:maxLines="2"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        android:layout_centerVertical="true"/>
+
+                    <TextView
+                        android:id="@+id/userPhoneNo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/userName"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="@font/comfortaa_bold"
+                        android:textColor="@color/white"
+                        android:textSize="17sp" />
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/userImageIV"
+                        android:layout_width="@dimen/image_width"
+                        android:layout_height="@dimen/image_width"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="80dp"
+                        android:layout_marginEnd="40dp"
+                        android:background="@drawable/round_stroke"
+                        android:padding="2dp"
+                        android:src="@drawable/demo_profile" />
+                </RelativeLayout>
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/actionBarSize"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                app:layout_collapseMode="parallax"
+                app:layout_collapseParallaxMultiplier="1">
+
+                <Space
+                    android:id="@+id/space"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginStart="56dp"
+                    android:layout_marginEnd="8dp"/>
+
+                <TextView
+                    android:id="@+id/toolbar_title"
+                    style="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical|start"
+                    android:textAlignment="viewStart"/>
+            </LinearLayout>
+
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/topRL">
+        android:scrollbars="none"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -73,6 +140,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/Relative1"
+                android:visibility="gone"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:layout_centerHorizontal="true">
@@ -82,10 +150,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="15dp"
                     android:orientation="vertical">
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="55dp"
-                    android:layout_height="55dp"
-                    android:src="@drawable/ic_profile" />
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_width="55dp"
+                        android:layout_height="55dp"
+                        android:src="@drawable/ic_profile" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -110,31 +178,68 @@
                         android:layout_gravity="center_horizontal"/>
                 </LinearLayout>
                 <LinearLayout
-                android:id="@+id/balanceLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/addressLayout"
-                android:orientation="vertical">
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="55dp"
-                    android:layout_height="55dp"
-                    android:src="@drawable/ic_tk_sign" />
-                <TextView
+                    android:id="@+id/balanceLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:text="Balance"/>
-            </LinearLayout>
+                    android:layout_toEndOf="@id/addressLayout"
+                    android:orientation="vertical">
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_width="55dp"
+                        android:layout_height="55dp"
+                        android:src="@drawable/ic_tk_sign" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="Balance"/>
+                </LinearLayout>
 
 
             </RelativeLayout>
             <androidx.cardview.widget.CardView
-                android:id="@+id/paymentHistoryCV"
+                android:id="@+id/userProfileCV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="5dp"
+                app:cardCornerRadius="10dp"
+                android:layout_below="@+id/Relative1"
+                android:backgroundTint="@color/themDark">
+                <RelativeLayout
+                    android:id="@+id/userProfileRL"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/profileLogo"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="5dp"
+                        android:src="@drawable/ic_profile"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:layout_toEndOf="@+id/profileLogo"
+                        android:layout_marginStart="10dp"
+                        android:text="Profile"
+                        android:textSize="18sp"
+                        android:fontFamily="@font/comfortaa_bold"
+                        android:layout_centerVertical="true" />
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/orderHistoryCV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 app:cardCornerRadius="10dp"
-                android:layout_below="@+id/Relative1"
+                android:layout_below="@+id/userProfileCV"
                 android:backgroundTint="@color/themDark">
                 <RelativeLayout
                     android:id="@+id/paymentHistoryRL"
@@ -162,11 +267,84 @@
                         android:layout_centerVertical="true" />
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/paymentHistoryCV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                android:layout_below="@+id/orderHistoryCV"
+                android:layout_margin="5dp"
+                app:cardCornerRadius="10dp"
+                android:backgroundTint="@color/themDark">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/payLogo"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="5dp"
+                        android:src="@drawable/ic_payment_list"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:layout_toEndOf="@+id/payLogo"
+                        android:layout_marginStart="10dp"
+                        android:text="Payment History"
+                        android:textSize="18sp"
+                        android:fontFamily="@font/comfortaa_bold"
+                        android:layout_centerVertical="true" />
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/refundSettlementCV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                android:layout_below="@+id/paymentHistoryCV"
+                android:layout_margin="5dp"
+                app:cardCornerRadius="10dp"
+                android:backgroundTint="@color/themDark">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/refundLogo"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="5dp"
+                        android:src="@drawable/ic_refund_logo"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:layout_toEndOf="@+id/refundLogo"
+                        android:layout_marginStart="10dp"
+                        android:text="Refund Settlement"
+                        android:textSize="18sp"
+                        android:fontFamily="@font/comfortaa_bold"
+                        android:layout_centerVertical="true" />
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/changePasswordCV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/paymentHistoryCV"
+                android:layout_below="@+id/refundSettlementCV"
                 android:layout_margin="5dp"
                 app:cardCornerRadius="10dp"
                 android:backgroundTint="@color/themDark">
@@ -196,42 +374,315 @@
                         android:layout_centerVertical="true" />
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
-            <androidx.cardview.widget.CardView
-                android:id="@+id/changePasswordCV2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:layout_below="@+id/changePasswordCV"
-                android:layout_margin="5dp"
-                app:cardCornerRadius="10dp"
-                android:backgroundTint="@color/themDark">
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="10dp">
-
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/passwordLogo2"
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="5dp"
-                        android:src="@drawable/ic_bell"/>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        android:layout_toEndOf="@+id/passwordLogo2"
-                        android:layout_marginStart="10dp"
-                        android:text="Notifications"
-                        android:textSize="18sp"
-                        android:fontFamily="@font/comfortaa_bold"
-                        android:layout_centerVertical="true" />
-                </RelativeLayout>
-            </androidx.cardview.widget.CardView>
 
         </RelativeLayout>
+    </androidx.core.widget.NestedScrollView>
 
-    </ScrollView>
-</RelativeLayout>
+
+    <!--    <RelativeLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:id="@+id/topRL">-->
+
+<!--        <ImageView-->
+<!--            android:id="@+id/profileBGIV"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="300dp"-->
+<!--            android:scaleType="fitXY"-->
+<!--            android:src="@drawable/ic_profile_bg" />-->
+
+<!--        <ImageView-->
+<!--            android:id="@+id/navIcon"-->
+<!--            android:layout_width="35sp"-->
+<!--            android:layout_height="35sp"-->
+<!--            android:layout_marginStart="20dp"-->
+<!--            android:layout_marginTop="15dp"-->
+<!--            android:src="@drawable/ic_menu" />-->
+
+<!--        <de.hdodenhof.circleimageview.CircleImageView-->
+<!--            android:id="@+id/userImageIV"-->
+<!--            android:layout_width="130dp"-->
+<!--            android:layout_height="130dp"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:layout_centerVertical="true"-->
+<!--            android:layout_marginEnd="40dp"-->
+<!--            android:background="@drawable/round_stroke"-->
+<!--            android:padding="2dp"-->
+<!--            android:src="@drawable/demo_profile" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/userName"-->
+<!--            android:layout_width="200dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="20dp"-->
+<!--            android:layout_marginTop="130dp"-->
+<!--            android:fontFamily="@font/comfortaa_bold"-->
+<!--            android:maxLines="2"-->
+<!--            android:textColor="@color/white"-->
+<!--            android:textSize="20sp" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/userPhoneNo"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@id/userName"-->
+<!--            android:layout_marginStart="20dp"-->
+<!--            android:layout_marginTop="5dp"-->
+<!--            android:fontFamily="@font/comfortaa_bold"-->
+<!--            android:textColor="@color/white"-->
+<!--            android:textSize="17sp" />-->
+<!--    </RelativeLayout>-->
+
+<!--    <ScrollView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_below="@id/topRL">-->
+
+<!--        <RelativeLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:id="@+id/bottomRL">-->
+
+<!--            <RelativeLayout-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:id="@+id/Relative1"-->
+<!--                android:visibility="gone"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:layout_marginBottom="10dp"-->
+<!--                android:layout_centerHorizontal="true">-->
+<!--                <LinearLayout-->
+<!--                    android:id="@+id/profileLayout"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginEnd="15dp"-->
+<!--                    android:orientation="vertical">-->
+<!--                <de.hdodenhof.circleimageview.CircleImageView-->
+<!--                    android:layout_width="55dp"-->
+<!--                    android:layout_height="55dp"-->
+<!--                    android:src="@drawable/ic_profile" />-->
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_gravity="center_horizontal"-->
+<!--                        android:text="Profile"/>-->
+<!--                </LinearLayout>-->
+<!--                <LinearLayout-->
+<!--                    android:id="@+id/addressLayout"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginEnd="15dp"-->
+<!--                    android:layout_toEndOf="@+id/profileLayout"-->
+<!--                    android:orientation="vertical">-->
+<!--                    <de.hdodenhof.circleimageview.CircleImageView-->
+<!--                        android:layout_width="55dp"-->
+<!--                        android:layout_height="55dp"-->
+<!--                        android:src="@drawable/ic_home_pin" />-->
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="Address"-->
+<!--                        android:layout_gravity="center_horizontal"/>-->
+<!--                </LinearLayout>-->
+<!--                <LinearLayout-->
+<!--                android:id="@+id/balanceLayout"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_toEndOf="@id/addressLayout"-->
+<!--                android:orientation="vertical">-->
+<!--                <de.hdodenhof.circleimageview.CircleImageView-->
+<!--                    android:layout_width="55dp"-->
+<!--                    android:layout_height="55dp"-->
+<!--                    android:src="@drawable/ic_tk_sign" />-->
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_gravity="center_horizontal"-->
+<!--                    android:text="Balance"/>-->
+<!--            </LinearLayout>-->
+
+
+<!--            </RelativeLayout>-->
+<!--            <androidx.cardview.widget.CardView-->
+<!--                android:id="@+id/userProfileCV"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="5dp"-->
+<!--                android:layout_marginEnd="5dp"-->
+<!--                android:layout_marginTop="30dp"-->
+<!--                android:layout_marginBottom="5dp"-->
+<!--                app:cardCornerRadius="10dp"-->
+<!--                android:layout_below="@+id/Relative1"-->
+<!--                android:backgroundTint="@color/themDark">-->
+<!--                <RelativeLayout-->
+<!--                    android:id="@+id/userProfileRL"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_margin="10dp">-->
+
+<!--                    <de.hdodenhof.circleimageview.CircleImageView-->
+<!--                        android:id="@+id/profileLogo"-->
+<!--                        android:layout_width="35dp"-->
+<!--                        android:layout_height="35dp"-->
+<!--                        android:layout_centerVertical="true"-->
+<!--                        android:layout_marginStart="5dp"-->
+<!--                        android:src="@drawable/ic_profile"/>-->
+
+<!--                    <TextView-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:textColor="@color/white"-->
+<!--                        android:layout_toEndOf="@+id/profileLogo"-->
+<!--                        android:layout_marginStart="10dp"-->
+<!--                        android:text="Profile"-->
+<!--                        android:textSize="18sp"-->
+<!--                        android:fontFamily="@font/comfortaa_bold"-->
+<!--                        android:layout_centerVertical="true" />-->
+<!--                </RelativeLayout>-->
+<!--            </androidx.cardview.widget.CardView>-->
+<!--            <androidx.cardview.widget.CardView-->
+<!--                android:id="@+id/orderHistoryCV"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_margin="5dp"-->
+<!--                app:cardCornerRadius="10dp"-->
+<!--                android:layout_below="@+id/userProfileCV"-->
+<!--                android:backgroundTint="@color/themDark">-->
+<!--                <RelativeLayout-->
+<!--                    android:id="@+id/paymentHistoryRL"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_margin="10dp">-->
+
+<!--                    <de.hdodenhof.circleimageview.CircleImageView-->
+<!--                        android:id="@+id/historyLogo"-->
+<!--                        android:layout_width="35dp"-->
+<!--                        android:layout_height="35dp"-->
+<!--                        android:layout_centerVertical="true"-->
+<!--                        android:layout_marginStart="5dp"-->
+<!--                        android:src="@drawable/ic_order_list"/>-->
+
+<!--                    <TextView-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:textColor="@color/white"-->
+<!--                        android:layout_toEndOf="@+id/historyLogo"-->
+<!--                        android:layout_marginStart="10dp"-->
+<!--                        android:text="Order History"-->
+<!--                        android:textSize="18sp"-->
+<!--                        android:fontFamily="@font/comfortaa_bold"-->
+<!--                        android:layout_centerVertical="true" />-->
+<!--                </RelativeLayout>-->
+<!--            </androidx.cardview.widget.CardView>-->
+
+
+<!--            <androidx.cardview.widget.CardView-->
+<!--                android:id="@+id/paymentHistoryCV"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:visibility="visible"-->
+<!--                android:layout_below="@+id/orderHistoryCV"-->
+<!--                android:layout_margin="5dp"-->
+<!--                app:cardCornerRadius="10dp"-->
+<!--                android:backgroundTint="@color/themDark">-->
+<!--                <RelativeLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_margin="10dp">-->
+
+<!--                    <de.hdodenhof.circleimageview.CircleImageView-->
+<!--                        android:id="@+id/payLogo"-->
+<!--                        android:layout_width="35dp"-->
+<!--                        android:layout_height="35dp"-->
+<!--                        android:layout_centerVertical="true"-->
+<!--                        android:layout_marginStart="5dp"-->
+<!--                        android:src="@drawable/ic_payment_list"/>-->
+
+<!--                    <TextView-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:textColor="@color/white"-->
+<!--                        android:layout_toEndOf="@+id/payLogo"-->
+<!--                        android:layout_marginStart="10dp"-->
+<!--                        android:text="Payment History"-->
+<!--                        android:textSize="18sp"-->
+<!--                        android:fontFamily="@font/comfortaa_bold"-->
+<!--                        android:layout_centerVertical="true" />-->
+<!--                </RelativeLayout>-->
+<!--            </androidx.cardview.widget.CardView>-->
+
+
+<!--            <androidx.cardview.widget.CardView-->
+<!--                android:id="@+id/refundSettlementCV"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:visibility="visible"-->
+<!--                android:layout_below="@+id/paymentHistoryCV"-->
+<!--                android:layout_margin="5dp"-->
+<!--                app:cardCornerRadius="10dp"-->
+<!--                android:backgroundTint="@color/themDark">-->
+<!--                <RelativeLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_margin="10dp">-->
+
+<!--                    <de.hdodenhof.circleimageview.CircleImageView-->
+<!--                        android:id="@+id/refundLogo"-->
+<!--                        android:layout_width="35dp"-->
+<!--                        android:layout_height="35dp"-->
+<!--                        android:layout_centerVertical="true"-->
+<!--                        android:layout_marginStart="5dp"-->
+<!--                        android:src="@drawable/ic_refund_logo"/>-->
+
+<!--                    <TextView-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:textColor="@color/white"-->
+<!--                        android:layout_toEndOf="@+id/refundLogo"-->
+<!--                        android:layout_marginStart="10dp"-->
+<!--                        android:text="Refund Settlement"-->
+<!--                        android:textSize="18sp"-->
+<!--                        android:fontFamily="@font/comfortaa_bold"-->
+<!--                        android:layout_centerVertical="true" />-->
+<!--                </RelativeLayout>-->
+<!--            </androidx.cardview.widget.CardView>-->
+
+<!--            <androidx.cardview.widget.CardView-->
+<!--                android:id="@+id/changePasswordCV"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_below="@+id/refundSettlementCV"-->
+<!--                android:layout_margin="5dp"-->
+<!--                app:cardCornerRadius="10dp"-->
+<!--                android:backgroundTint="@color/themDark">-->
+<!--                <RelativeLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:id="@+id/changePasswordRL"-->
+<!--                    android:layout_margin="10dp">-->
+
+<!--                    <de.hdodenhof.circleimageview.CircleImageView-->
+<!--                        android:id="@+id/passwordLogo"-->
+<!--                        android:layout_width="35dp"-->
+<!--                        android:layout_height="35dp"-->
+<!--                        android:layout_centerVertical="true"-->
+<!--                        android:layout_marginStart="5dp"-->
+<!--                        android:src="@drawable/ic_change_password"/>-->
+
+<!--                    <TextView-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:textColor="@color/white"-->
+<!--                        android:layout_toEndOf="@+id/passwordLogo"-->
+<!--                        android:layout_marginStart="10dp"-->
+<!--                        android:text="Change Password"-->
+<!--                        android:textSize="18sp"-->
+<!--                        android:fontFamily="@font/comfortaa_bold"-->
+<!--                        android:layout_centerVertical="true" />-->
+<!--                </RelativeLayout>-->
+<!--            </androidx.cardview.widget.CardView>-->
+
+<!--        </RelativeLayout>-->
+
+<!--    </ScrollView>-->
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

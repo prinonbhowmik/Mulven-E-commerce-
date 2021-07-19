@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -29,7 +30,7 @@ public class SplashActivity extends AppCompatActivity {
         textViewLine= findViewById(R.id.textViewLine1);
         logoanim = AnimationUtils.loadAnimation(this,R.anim.blink);
         imageLogo.setAnimation(logoanim);
-        new Handler().postDelayed(new Runnable() {
+        new Handler(Looper.myLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
                 startActivity(new Intent(SplashActivity.this, MainActivity.class).putExtra("fragment","home"));

@@ -10,6 +10,7 @@ import android.media.Image;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -28,9 +29,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.hydertechno.mulven.Activities.MainActivity;
 import com.hydertechno.mulven.Activities.PhoneNumber;
 import com.hydertechno.mulven.Activities.ProfileActivity;
@@ -40,6 +44,8 @@ import com.hydertechno.mulven.Api.ApiUtils;
 import com.hydertechno.mulven.Internet.ConnectivityReceiver;
 import com.hydertechno.mulven.Models.UserProfile;
 import com.hydertechno.mulven.R;
+
+import java.util.Objects;
 
 import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
@@ -102,19 +108,19 @@ public class AccountFragment extends Fragment implements ConnectivityReceiver.Co
                     hideKeyboardFrom(getContext());
                     phoneTIL.setError("Please Enter Phone Number");
                     phoneTIET.requestFocus();
-                } /*else if (phone.length() != 11) {
+                } else if (phone.length() != 11) {
                     hideKeyboardFrom(getContext());
                     phoneTIL.setError("Please Provide Correct Phone Number");
                     phoneTIET.requestFocus();
-                }*/ else if (TextUtils.isEmpty(password)) {
+                } else if (TextUtils.isEmpty(password)) {
                     hideKeyboardFrom(getContext());
                     passwordTIL.setError("Please Enter Password");
                     passwordTIET.requestFocus();
-                } else if (password.length() < 5) {
+                } /*else if (password.length() < 5) {
                     hideKeyboardFrom(getContext());
                     passwordTIL.setError("Minimum 6 digits password");
                     passwordTIET.requestFocus();
-                } else {
+                } */else {
                     phoneTIL.setErrorEnabled(false);
                     passwordTIL.setErrorEnabled(false);
                     String phone = phoneTIET.getText().toString();
@@ -135,8 +141,8 @@ public class AccountFragment extends Fragment implements ConnectivityReceiver.Co
             public void onClick(View v) {
                 Intent intent=new Intent(getActivity(), PhoneNumber.class);
                 startActivity(intent);
-                getActivity().overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
-                //getActivity().finish();
+                requireActivity().overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+//                requireActivity().finish();
             }
         });
         return view;
@@ -170,6 +176,16 @@ public class AccountFragment extends Fragment implements ConnectivityReceiver.Co
                                 editor.apply();
                                 Log.d("ShowToken",token);
                                 Log.d("ShowToken",name+","+phone);
+                                FirebaseMessaging.getInstance().subscribeToTopic(userId + "")
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                                    Log.e("Firebase", "Success!!");
+                                                }
+                                            }
+                                        });
+
                                 Toasty.success(getContext(), ""+message,Toasty.LENGTH_SHORT).show();
                                 Intent intent = new Intent(getContext(), MainActivity.class);
                                 intent.putExtra("fragment","home");
@@ -179,18 +195,17 @@ public class AccountFragment extends Fragment implements ConnectivityReceiver.Co
                             }
                             @Override
                             public void onFailure(Call<UserProfile> call, Throwable t) {
+                                Toasty.normal(getContext(),"Something went wrong!",Toasty.LENGTH_SHORT).show();
 
                             }
                         });
 
                     }else if(status.equals("0")){
-                        Toasty.success(getContext(), ""+message).show();
-                        Intent intent = new Intent(getContext(), MainActivity.class);
-                        intent.putExtra("fragment","home");
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                        getActivity().finish();
+                        Toasty.normal(getContext(), "Something went wrong!",Toasty.LENGTH_SHORT).show();
+
                     }
+                }else {
+                    Toasty.normal(getContext(),"Phone number or Password doesn't match ",Toasty.LENGTH_SHORT).show();
                 }
             }
 

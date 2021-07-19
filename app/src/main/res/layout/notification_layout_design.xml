@@ -4,12 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
-    android:backgroundTint="@color/GBlue"
+    android:backgroundTint="#F3F4F6"
     app:cardCornerRadius="6dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="5dp">
 
         <TextView
             android:id="@+id/notificationTitle"
@@ -20,8 +21,7 @@
             android:layout_marginEnd="10dp"
             android:fontFamily="@font/comfortaa_bold"
             android:maxLines="1"
-            android:textColor="@color/white"
-            android:text="Notification Title"
+            android:textColor="@color/black"
             android:textSize="15sp" />
 
         <TextView
@@ -31,12 +31,11 @@
             android:layout_below="@id/notificationTitle"
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
+            android:maxLines="2"
             android:layout_marginEnd="10dp"
             android:fontFamily="@font/comfortaa_light"
-            android:maxLines="3"
             android:lineSpacingExtra="5dp"
-            android:textColor="@color/white"
-            android:text="Notification Body. This is notification boyd. text size 12sp. font family comfortaa light. and max lines are 3"
+            android:textColor="@color/black"
             android:textSize="12sp" />
 
         <TextView
@@ -50,8 +49,7 @@
             android:layout_below="@+id/notificationBody"
             android:fontFamily="@font/comfortaa_light"
             android:maxLines="1"
-            android:textColor="@color/white"
-            android:text="01-02-2021 10:30 AM"
+            android:textColor="@color/black"
             android:textSize="12sp" />
 
     </RelativeLayout>

@@ -4,14 +4,14 @@ public class CategoriesModel {
     private int id;
     private String sku;
     private String category;
-    private int sub_category;
-    private int sub_sub_category;
+    private Integer sub_category;
+    private Integer sub_sub_category;
     private String product_name;
-    private int mrp_price;
-    private int unit_price;
+    private Integer mrp_price;
+    private Integer unit_price;
     private String feacher_image;
 
-    public CategoriesModel(int id, String sku, String category, int sub_category, int sub_sub_category, String product_name, int mrp_price, int unit_price, String feacher_image) {
+    public CategoriesModel(int id, String sku, String category, Integer sub_category, Integer sub_sub_category, String product_name, Integer mrp_price, Integer unit_price, String feacher_image) {
         this.id = id;
         this.sku = sku;
         this.category = category;
@@ -23,7 +23,7 @@ public class CategoriesModel {
         this.feacher_image = feacher_image;
     }
 
-    public CategoriesModel(int id, String sku, String product_name, int mrp_price, int unit_price, String feacher_image) {
+    public CategoriesModel(int id, String sku, String product_name, Integer mrp_price, Integer unit_price, String feacher_image) {
         this.id = id;
         this.sku = sku;
         this.product_name = product_name;
@@ -47,11 +47,11 @@ public class CategoriesModel {
         return product_name;
     }
 
-    public int getMrp_price() {
+    public Integer getMrp_price() {
         return mrp_price;
     }
 
-    public int getUnit_price() {
+    public Integer getUnit_price() {
         return unit_price;
     }
 
@@ -63,11 +63,11 @@ public class CategoriesModel {
         return category;
     }
 
-    public int getSub_category() {
+    public Integer getSub_category() {
         return sub_category;
     }
 
-    public int getSub_sub_category() {
+    public Integer getSub_sub_category() {
         return sub_sub_category;
     }
 }

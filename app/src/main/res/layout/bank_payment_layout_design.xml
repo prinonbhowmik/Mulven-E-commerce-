@@ -25,9 +25,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
         android:paddingBottom="20dp"
         android:background="@drawable/dash_strock"
         android:layout_below="@id/m1">
@@ -38,14 +38,14 @@
             android:layout_height="25dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="5dp"
-            android:src="@drawable/city_bank_logo"/>
+            android:src="@drawable/dutch_bangla_bank"/>
         <TextView
             android:id="@+id/cityTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="10dp"
-            android:text="CITY BANK TRANSFER"
+            android:text="DBBL TRANSFER"
             android:textSize="15sp"
             android:layout_marginEnd="15dp"
             android:fontFamily="@font/comfortaa"
@@ -105,6 +105,17 @@
         android:layout_marginStart="20dp"
         android:layout_below="@id/b3"/>
     <TextView
+        android:id="@+id/b0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/banktext0"
+        android:textSize="13sp"
+        android:fontFamily="@font/comfortaa_light"
+        android:textColor="@color/black"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="20dp"
+        android:layout_below="@id/b4"/>
+    <TextView
         android:id="@+id/b5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -114,7 +125,7 @@
         android:textColor="@color/black"
         android:layout_marginTop="5dp"
         android:layout_marginStart="20dp"
-        android:layout_below="@id/b4"/>
+        android:layout_below="@id/b0"/>
 
         <TextView
             android:id="@+id/b6"

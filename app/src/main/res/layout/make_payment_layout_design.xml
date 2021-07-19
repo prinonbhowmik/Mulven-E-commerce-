@@ -2,27 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:padding="16sp"
     android:layout_height="wrap_content">
-
-    <TextView
-        android:id="@+id/m1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="10dp"
-        android:fontFamily="@font/comfortaa"
-        android:text="Make Payment"
-        android:textColor="@color/black"
-        android:textSize="21sp" />
-    <ImageView
-        android:id="@+id/mpCloseIV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_close"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="20dp"/>
-
 
     <TextView
         android:id="@+id/m2"
@@ -32,10 +13,10 @@
         android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="20dp"
-        android:fontFamily="@font/comfortaa"
+        android:fontFamily="@font/comfortaa_bold"
         android:text="How much do you want to pay?"
         android:textColor="@color/black"
-        android:textSize="18sp" />
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/m3"
@@ -61,7 +42,7 @@
         android:fontFamily="@font/comfortaa"
         android:text="Amount"
         android:textColor="@color/black"
-        android:textSize="18sp" />
+        android:textSize="16sp" />
 
     <EditText
         android:id="@+id/makePayET"
@@ -74,98 +55,46 @@
         android:layout_marginEnd="20dp"
         android:hint="500"
         android:textColor="@color/black"
-        android:textSize="18sp" />
+        android:textSize="16sp" />
 
     <LinearLayout
-        android:id="@+id/paymentMethodLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/makePayET"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:orientation="vertical">
-        <LinearLayout
-            android:layout_width="220dp"
-            android:layout_height="wrap_content"
-            android:visibility="visible"
-            android:background="@color/bg"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/BankIV"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:paddingStart="30dp"
-                android:src="@drawable/bank_transfer"
-                tools:ignore="RtlSymmetry" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="220dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:visibility="gone"
-            android:background="@color/bg"
-            android:orientation="horizontal">
-
-            <CheckBox
-                android:id="@+id/nagadCB"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp" />
-
-            <ImageView
-                android:id="@+id/spIV"
-                android:layout_width="150dp"
-                android:layout_height="45dp"
-                android:layout_below="@+id/makePayET"
-                android:src="@drawable/nagad" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="220dp"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="5dp"
-            android:background="@color/bg">
-
-            <CheckBox
-                android:id="@+id/shurjoPayCB"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp" />
-
-            <ImageView
-                android:id="@+id/spIV2"
-                android:layout_width="wrap_content"
-                android:layout_height="45dp"
-                android:layout_below="@+id/makePayET"
-                android:src="@drawable/shurjo_pay" />
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/makePayTV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/paymentMethodLayout"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/btn_background_blue"
-        android:fontFamily="@font/comfortaa"
-        android:gravity="center"
-        android:paddingTop="7dp"
-        android:paddingBottom="7dp"
-        android:text="Confirm Payment"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="18sp" />
+        android:layout_below="@+id/makePayET"
+        android:layout_marginTop="10dp"
+        android:weightSum="2"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/closePayTV"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_light_red"
+            android:fontFamily="@font/comfortaa"
+            android:gravity="center"
+            android:layout_marginEnd="5dp"
+            android:paddingTop="7dp"
+            android:paddingBottom="7dp"
+            android:text="Close"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+        <TextView
+            android:id="@+id/continuePayTV"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:background="@drawable/btn_background_blue"
+            android:fontFamily="@font/comfortaa"
+            android:gravity="center"
+            android:paddingTop="7dp"
+            android:paddingBottom="7dp"
+            android:text="Continue"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+    </LinearLayout>
+
 
 </RelativeLayout>

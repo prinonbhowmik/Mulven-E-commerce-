@@ -42,13 +42,39 @@
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
         android:textColor="#000"
-        android:textSize="18sp" />
+        android:textSize="15sp" />
     </com.google.android.material.textfield.TextInputLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/infoRL"
+        android:padding="5dp"
+        android:gravity="center"
+        android:layout_below="@+id/delivery_LT">
+
+        <ImageView
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:src="@drawable/ic_about"
+            android:layout_marginTop="5dp"
+            android:layout_gravity="top"
+            android:layout_marginStart="10dp"/>
+        <TextView
+            android:id="@+id/deliveryInfoTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="You can set delivery address only one time. For further changes, please contact our support."
+            android:fontFamily="@font/comfortaa_bold"
+            android:gravity="center"
+            android:textSize="12sp"/>
+    </LinearLayout>
+
     <TextView
         android:id="@+id/saveAddressTV"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_below="@+id/delivery_LT"
+        android:layout_below="@+id/infoRL"
         android:text="Save Address"
         android:gravity="center"
         android:layout_marginStart="20dp"

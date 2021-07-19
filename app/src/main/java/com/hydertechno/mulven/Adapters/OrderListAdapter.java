@@ -22,6 +22,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.hydertechno.mulven.Activities.PlaceOrderDetailsActivity;
 import com.hydertechno.mulven.Activities.PlaceOrderListActivity;
 import com.hydertechno.mulven.Activities.ProductDetailsActivity;
+import com.hydertechno.mulven.Interface.OnClickOrderListener;
 import com.hydertechno.mulven.Internet.ConnectivityReceiver;
 import com.hydertechno.mulven.Models.CategoriesModel;
 import com.hydertechno.mulven.Models.OrderListModel;
@@ -40,10 +41,12 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
     private ConnectivityReceiver connectivityReceiver;
     private IntentFilter intentFilter;
     public PlaceOrderListActivity activity;
+    private OnClickOrderListener listener;
 
-    public OrderListAdapter(List<OrderListModel> orderListModelList, Context context) {
+    public OrderListAdapter(List<OrderListModel> orderListModelList, Context context, OnClickOrderListener listener) {
         this.orderListModelList = orderListModelList;
         this.context = context;
+        this.listener = listener;
     }
 
     @NonNull
@@ -60,7 +63,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
         holder.orderDateTV.setText(orderListModel.getDate());
         holder.orderTimeTV.setText(orderListModel.getTime());
         String orderStatus=orderListModel.getOrders_status();
-        //holder.orderStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.status_cancel));
+        holder.orderStatusTV.setText(orderStatus);
         switch (orderStatus) {
             case "Pending":
                 holder.orderStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.status_pending));
@@ -84,19 +87,23 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
             case "Picked":
                 holder.orderStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.status_picked));
                 break;
+            default:
+                holder.orderStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.status_default));
         }
-        holder.orderStatusTV.setText(orderStatus);
         String payStatus=orderListModel.getPay_status();
-
-        if(payStatus.equals("Unpaid")){
-            holder.paymentStatusTV.setText("Unpaid");
-            holder.paymentStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.payment_unpaid));
-        }else if(payStatus.equals("Paid")) {
-            holder.paymentStatusTV.setText("Paid");
-            holder.paymentStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.payment_paid));
-        } else if(payStatus.equals("Partial Paid")){
-            holder.paymentStatusTV.setText("Partial Paid");
-            holder.paymentStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.payment_partial_paid));
+        holder.paymentStatusTV.setText(payStatus);
+        switch (payStatus) {
+            case "Unpaid":
+                holder.paymentStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.payment_unpaid));
+                break;
+            case "Paid":
+                holder.paymentStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.payment_paid));
+                break;
+            case "Partial Paid":
+                holder.paymentStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.payment_partial_paid));
+                break;
+            default:
+                holder.paymentStatusTV.setBackground(ContextCompat.getDrawable(context, R.drawable.status_default));
         }
 
         intentFilter = new IntentFilter();
@@ -111,15 +118,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
                     toastShow(isConnected);
                 }else{
                 try {
-                    Intent intent = new Intent(context, PlaceOrderDetailsActivity.class);
-                    intent.putExtra("OrderId", orderListModel.getOrder_id());
-                    intent.putExtra("PaymentStatus", orderListModel.getPay_status());
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    //context.startActivity(intent);
-                    ((Activity)context).startActivityForResult(intent,1);
-                    //((Activity) context).overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                    //((Activity)context).finish();
-
+                    listener.onClick(orderListModel);
                 } catch (Exception e) {
                     Log.d("Error", e.getMessage());
                 }

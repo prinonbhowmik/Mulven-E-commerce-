@@ -1,124 +1,183 @@
 package com.hydertechno.mulven.Models;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class OrderDetails {
-    public String token;
+    @SerializedName("id")
+    @Expose
     private Integer id;
-    private String order_id;
-    private Integer vendor_id;
-    private Integer customer_id;
+    @SerializedName("order_id")
+    @Expose
+    private String orderId;
+    @SerializedName("vendor_id")
+    @Expose
+    private Integer vendorId;
+    @SerializedName("customer_id")
+    @Expose
+    private Integer customerId;
+    @SerializedName("date")
+    @Expose
     private String date;
+    @SerializedName("time")
+    @Expose
     private String time;
-    private String orders_status;
-    private String delivery_address;
-    private String cancel_reason;
-    private String date_time;
-    private String shop_name;
-    private String seller_phone;
-    private String shop_address;
-    private String shop_logo;
+    @SerializedName("orders_status")
+    @Expose
+    private String ordersStatus;
+    @SerializedName("delivery_address")
+    @Expose
+    private String deliveryAddress;
+    @SerializedName("cancel_reason")
+    @Expose
+    private String cancelReason;
+    @SerializedName("date_time")
+    @Expose
+    private String dateTime;
+    @SerializedName("updated_status")
+    @Expose
+    private String updatedStatus;
+    @SerializedName("shop_name")
+    @Expose
+    private String shopName;
+    @SerializedName("seller_phone")
+    @Expose
+    private String sellerPhone;
+    @SerializedName("shop_address")
+    @Expose
+    private String shopAddress;
+    @SerializedName("shop_logo")
+    @Expose
+    private String shopLogo;
+    @SerializedName("status")
+    @Expose
     private String status;
-
-
-    public OrderDetails(Integer id, String order_id, Integer vendor_id, Integer customer_id, String date, String time, String orders_status, String delivery_address, String cancel_reason, String date_time, String shop_name, String seller_phone, String shop_address, String shop_logo, String status) {
-        this.id = id;
-        this.order_id = order_id;
-        this.vendor_id = vendor_id;
-        this.customer_id = customer_id;
-        this.date = date;
-        this.time = time;
-        this.orders_status = orders_status;
-        this.delivery_address = delivery_address;
-        this.cancel_reason = cancel_reason;
-        this.date_time = date_time;
-        this.shop_name = shop_name;
-        this.seller_phone = seller_phone;
-        this.shop_address = shop_address;
-        this.shop_logo = shop_logo;
-        this.status = status;
-    }
-
-    public OrderDetails() {
-    }
-
-    public OrderDetails(String token, String order_id, String cancel_reason) {
-        this.token = token;
-        this.order_id = order_id;
-        this.cancel_reason = cancel_reason;
-    }
 
     public Integer getId() {
         return id;
     }
 
-    public String getOrder_id() {
-        return order_id;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public Integer getVendor_id() {
-        return vendor_id;
+    public String getOrderId() {
+        return orderId;
     }
 
-    public Integer getCustomer_id() {
-        return customer_id;
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
+
+    public Integer getVendorId() {
+        return vendorId;
+    }
+
+    public void setVendorId(Integer vendorId) {
+        this.vendorId = vendorId;
+    }
+
+    public Integer getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(Integer customerId) {
+        this.customerId = customerId;
     }
 
     public String getDate() {
         return date;
     }
 
+    public void setDate(String date) {
+        this.date = date;
+    }
+
     public String getTime() {
         return time;
     }
 
-    public String getOrders_status() {
-        return orders_status;
+    public void setTime(String time) {
+        this.time = time;
     }
 
-    public String getDelivery_address() {
-        return delivery_address;
+    public String getOrdersStatus() {
+        return ordersStatus;
     }
 
-    public String getCancel_reason() {
-        return cancel_reason;
+    public void setOrdersStatus(String ordersStatus) {
+        this.ordersStatus = ordersStatus;
     }
 
-    public String getDate_time() {
-        return date_time;
+    public String getDeliveryAddress() {
+        return deliveryAddress;
     }
 
-    public String getShop_name() {
-        return shop_name;
+    public void setDeliveryAddress(String deliveryAddress) {
+        this.deliveryAddress = deliveryAddress;
     }
 
-    public String getSeller_phone() {
-        return seller_phone;
+    public String getCancelReason() {
+        return cancelReason;
     }
 
-    public String getShop_address() {
-        return shop_address;
+    public void setCancelReason(String cancelReason) {
+        this.cancelReason = cancelReason;
     }
 
-    public String getShop_logo() {
-        return shop_logo;
+    public String getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(String dateTime) {
+        this.dateTime = dateTime;
+    }
+
+    public String getUpdatedStatus() {
+        return updatedStatus;
+    }
+
+    public void setUpdatedStatus(String updatedStatus) {
+        this.updatedStatus = updatedStatus;
+    }
+
+    public String getShopName() {
+        return shopName;
+    }
+
+    public void setShopName(String shopName) {
+        this.shopName = shopName;
+    }
+
+    public String getSellerPhone() {
+        return sellerPhone;
+    }
+
+    public void setSellerPhone(String sellerPhone) {
+        this.sellerPhone = sellerPhone;
+    }
+
+    public String getShopAddress() {
+        return shopAddress;
+    }
+
+    public void setShopAddress(String shopAddress) {
+        this.shopAddress = shopAddress;
+    }
+
+    public String getShopLogo() {
+        return shopLogo;
+    }
+
+    public void setShopLogo(String shopLogo) {
+        this.shopLogo = shopLogo;
     }
 
     public String getStatus() {
         return status;
     }
 
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    public void setOrder_id(String order_id) {
-        this.order_id = order_id;
-    }
-
-    public void setCancel_reason(String cancel_reason) {
-        this.cancel_reason = cancel_reason;
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

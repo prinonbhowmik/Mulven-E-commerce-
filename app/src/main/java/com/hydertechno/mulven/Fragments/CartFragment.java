@@ -4,13 +4,18 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,16 +31,22 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
+import com.hydertechno.mulven.Activities.MainActivity;
+import com.hydertechno.mulven.Activities.PaymentMethodsActivity;
 import com.hydertechno.mulven.Activities.PlaceOrderListActivity;
 import com.hydertechno.mulven.Adapters.CartAdapter;
 import com.hydertechno.mulven.Api.ApiUtils;
 import com.hydertechno.mulven.DatabaseHelper.Database_Helper;
+import com.hydertechno.mulven.Internet.ConnectivityReceiver;
 import com.hydertechno.mulven.Models.CartProductModel;
 import com.hydertechno.mulven.Models.PlaceItemModel;
 import com.hydertechno.mulven.Models.PlaceOrderModel;
 import com.hydertechno.mulven.R;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,7 +60,7 @@ import retrofit2.Response;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public class CartFragment extends Fragment {
+public class CartFragment extends Fragment  implements ConnectivityReceiver.ConnectivityReceiverListener{
     private DrawerLayout drawerLayout;
     public static RelativeLayout totalLayout,noCartLayout,cartLayout;
     private ImageView navIcon;
@@ -64,6 +75,11 @@ public class CartFragment extends Fragment {
     private String token;
     private int loggedIn;
     private Dialog dialog;
+    private RelativeLayout rootLayout,progressRL;
+    private Snackbar snackbar;
+    private boolean isConnected;
+    private ConnectivityReceiver connectivityReceiver;
+    private IntentFilter intentFilter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -90,130 +106,133 @@ public class CartFragment extends Fragment {
         placeOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (loggedIn == 0 ){
-                    Toasty.normal(getContext(),"Please login first!",Toasty.LENGTH_SHORT).show();
-                }else if(loggedIn == 1){
-                Cursor cursor = databaseHelper.getCart();
-                if (cursor != null) {
+                checkConnection();
+                if (!isConnected) {
+                    snackBar(isConnected);
+                } else {
+                    if (loggedIn == 0) {
+                        Toasty.normal(getContext(), "Please login first!", Toasty.LENGTH_SHORT).show();
+                    } else if (loggedIn == 1) {
 
-                    int unitPrice = databaseHelper.columnSum();
-                    if(unitPrice>=500){
-                    JSONArray array = new JSONArray();
-                    ArrayList<JSONArray> jsonArrayList = new ArrayList<>();
-                    List<Map<String, String>> list1 = new ArrayList<>();
-                    while (cursor.moveToNext()) {
-                        int id = cursor.getInt(cursor.getColumnIndex(databaseHelper.ID));
-                        String sku = cursor.getString(cursor.getColumnIndex(databaseHelper.SKU));
-                        String name = cursor.getString(cursor.getColumnIndex(databaseHelper.PRODUCT_NAME));
-                        int unit_price = cursor.getInt(cursor.getColumnIndex(databaseHelper.UNIT_PRICE));
-                        int quantity = cursor.getInt(cursor.getColumnIndex(databaseHelper.QUANTITY));
-                        String size = cursor.getString(cursor.getColumnIndex(databaseHelper.SIZE));
-                        String color = cursor.getString(cursor.getColumnIndex(databaseHelper.COLOR));
-                        String variant = cursor.getString(cursor.getColumnIndex(databaseHelper.VARIANT));
-                        String campaign_id = cursor.getString(cursor.getColumnIndex(databaseHelper.CAMPAIGN_ID));
-                        int store_id = cursor.getInt(cursor.getColumnIndex(databaseHelper.STORE_ID));
+                        Cursor cursor = databaseHelper.getCart();
+                        if (cursor != null) {
 
-                        Map<String, String> parms = new HashMap<String, String>();
+                            double unitPrice = databaseHelper.columnSum();
+                            if (unitPrice >= 500) {
+                                ArrayList<CartProductModel> allCartProducts = databaseHelper.getAllCartProducts();
 
-                        parms.put("item_id", String.valueOf(id));
-                        parms.put("pro_name", name);
-                        parms.put("sku", sku);
-                        parms.put("variant", variant);
-                        parms.put("size", size);
-                        parms.put("color", color);
-                        parms.put("price", String.valueOf(unit_price));
-                        parms.put("order_from", campaign_id);
-                        parms.put("store_id", String.valueOf(store_id));
-                        parms.put("quantity", String.valueOf(quantity));
+                                ArrayList<JSONObject> jsonArrayList = new ArrayList<>();
 
-                        list1.add(parms);
-                        databaseHelper.deleteData(id, size, color, variant);
-                        array = new JSONArray(list1);
-                        jsonArrayList.add(array);
+                                for (CartProductModel item : allCartProducts) {
+//                                    Map<String, String> parms = new HashMap<String, String>();
+                                    JSONObject parms = new JSONObject();
 
+                                    try {
+                                        parms.put("item_id", String.valueOf(item.getId()));
+                                        parms.put("pro_name", item.getProduct_name());
+                                        parms.put("sku", item.getSku());
+                                        parms.put("variant", item.getVariant());
+                                        parms.put("size", item.getSize());
+                                        parms.put("color", item.getColor());
+                                        parms.put("price", String.valueOf(item.getUnit_price()));
+                                        parms.put("order_from", item.getCampaignId());
+                                        parms.put("store_id", String.valueOf(item.getStoreId()));
+                                        parms.put("category_id", String.valueOf(item.getCategoryId()));
+                                        parms.put("quantity", String.valueOf(item.getQuantity()));
 
-                    }
-                    Log.d("checkList", String.valueOf(jsonArrayList));
-                    Call<PlaceOrderModel> call = ApiUtils.getUserService().placeOrder(token, jsonArrayList);
-                    call.enqueue(new Callback<PlaceOrderModel>() {
-                        @Override
-                        public void onResponse(Call<PlaceOrderModel> call, Response<PlaceOrderModel> response) {
-                            if (response.isSuccessful()) {
-                                int status = response.body().getStatus();
-                                if (status == 1) {
-
-                                    new Handler().postDelayed(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            dialog.dismiss();
-                                            Intent intent = new Intent(getActivity(), PlaceOrderListActivity.class);
-                                            intent.putExtra("from", "cart");
-                                            startActivity(intent);
-                                            getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                                            getActivity().finish();
-
-                                        }
-                                    }, 5000);
-
-                                    dialog = new Dialog(view.getContext());
-                                    dialog.setContentView(R.layout.place_order_successful_design);
-
-                                    dialog.setCancelable(false);
-
-                                    dialog.show();
-                                    Window window = dialog.getWindow();
-                                    window.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
+                                        jsonArrayList.add(parms);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+//                                    array = new JSONArray(list1);
+//                                    jsonArrayList.add(array);
                                 }
+                                Log.d("checkList", String.valueOf(jsonArrayList));
+
+                                if (jsonArrayList.size() > 0) {
+                                    progressRL.setVisibility(View.VISIBLE);
+                                    Call<PlaceOrderModel> call = ApiUtils.getUserService().placeOrder(token, jsonArrayList.toString());
+                                    call.enqueue(new Callback<PlaceOrderModel>() {
+                                        @Override
+                                        public void onResponse(Call<PlaceOrderModel> call, Response<PlaceOrderModel> response) {
+                                            Log.e("Response=====>", response.toString());
+                                            if (response.isSuccessful() && response.code() == 200) {
+                                                int status = response.body().getStatus();
+                                                Log.e("Response=====>", response.body().getMessage() + "");
+                                                Log.e("Response=====>", response.body().getStatus() + "");
+                                                if (status == 200) {
+                                                    showSuccessDialog();
+                                                } else {
+                                                    showErrorDialog(response.body().getMessage());
+                                                }
+                                            } else {
+                                                showErrorDialog("Something went wrong, Please try again!");
+                                            }
+                                            progressRL.setVisibility(View.GONE);
+                                        }
+                                        @Override
+                                        public void onFailure(Call<PlaceOrderModel> call, Throwable t) {
+                                            showErrorDialog("Something went wrong, Please contact support!");
+                                            progressRL.setVisibility(View.VISIBLE);
+                                        }
+                                    });
+                                }
+                            } else {
+                                Toast.makeText(getContext(), "Minimum order value is 500 Tk", Toast.LENGTH_SHORT).show();
                             }
                         }
-
-                        @Override
-                        public void onFailure(Call<PlaceOrderModel> call, Throwable t) {
-                        }
-                    });
-                }else{
-                        Toast.makeText(getContext(), "Minimum order value is 500 Tk", Toast.LENGTH_SHORT).show();
                     }
                 }
-            }
             }
         });
         return view;
     }
 
-    private void getCartProducts() {
 
-        Cursor cursor = databaseHelper.getCart();
-        if (cursor != null) {
-            while (cursor.moveToNext()) {
+    private void showSuccessDialog() {
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        DialogFragment newFragment = new OrderSuccessFragment();
+        newFragment.show(ft, "dialog");
 
-                int id = cursor.getInt(cursor.getColumnIndex(databaseHelper.ID));
-                String name = cursor.getString(cursor.getColumnIndex(databaseHelper.PRODUCT_NAME));
-                int mrp_price = cursor.getInt(cursor.getColumnIndex(databaseHelper.MRP_PRICE));
-                int unit_price = cursor.getInt(cursor.getColumnIndex(databaseHelper.UNIT_PRICE));
-                String shop_name = cursor.getString(cursor.getColumnIndex(databaseHelper.SHOP_NAME));
-                int quantity = cursor.getInt(cursor.getColumnIndex(databaseHelper.QUANTITY));
-                String image = cursor.getString(cursor.getColumnIndex(databaseHelper.IMAGE));
-                String size = cursor.getString(cursor.getColumnIndex(databaseHelper.SIZE));
-                String color = cursor.getString(cursor.getColumnIndex(databaseHelper.COLOR));
-                String variant = cursor.getString(cursor.getColumnIndex(databaseHelper.VARIANT));
-
-                CartProductModel cartProductsModel = new CartProductModel(id, name, mrp_price, unit_price, size, color, variant, shop_name, quantity, image);
-
-                list.add(cartProductsModel);
-                adapter = new CartAdapter(list, getContext());
-                cartRecycler.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
-            }
-            if (list.size() == 0) {
-                noCartLayout.setVisibility(View.VISIBLE);
-                cartLayout.setVisibility(View.GONE);
-            }
+        ArrayList<CartProductModel> allCartProducts = databaseHelper.getAllCartProducts();
+        for (CartProductModel item : allCartProducts) {
+            databaseHelper.deleteData(item.getId(), item.getSize(), item.getColor(), item.getVariant());
+        }
+        int count=databaseHelper.numberOfrows().getCount();
+        if (count>0) {
+            MainActivity.chipNavigationBar.showBadge(R.id.cart, count);
+        } else{
+            MainActivity.chipNavigationBar.dismissBadge(R.id.cart);
+            totalLayout.setVisibility(View.GONE);
+            cartLayout.setVisibility(View.GONE);
+            noCartLayout.setVisibility(View.VISIBLE);
         }
     }
 
+    private void showErrorDialog(String text) {
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        DialogFragment newFragment = new OrderErrorFragment(text);
+        newFragment.show(ft, "dialog");
+    }
+
+    private void getCartProducts() {
+        ArrayList<CartProductModel> allCartProducts = databaseHelper.getAllCartProducts();
+        if (allCartProducts.size() == 0) {
+            noCartLayout.setVisibility(View.VISIBLE);
+            cartLayout.setVisibility(View.GONE);
+        } else {
+            adapter = new CartAdapter(allCartProducts, getContext());
+            cartRecycler.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
+        }
+        progressRL.setVisibility(View.GONE);
+    }
+
     private void init(View view) {
+        rootLayout=view.findViewById(R.id.fragment_cart_rootLayout);
+        intentFilter = new IntentFilter();
+        intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        connectivityReceiver = new ConnectivityReceiver();
         navIcon = view.findViewById(R.id.navIcon);
         placeOrder = view.findViewById(R.id.placeOrderTV);
         noCartLayout = view.findViewById(R.id.noCartLayout);
@@ -228,11 +247,36 @@ public class CartFragment extends Fragment {
         sharedPreferences = getContext().getSharedPreferences("MyRef", MODE_PRIVATE);
         token = sharedPreferences.getString("token", null);
         loggedIn = sharedPreferences.getInt("loggedIn",0);
+        progressRL=view.findViewById(R.id.progressRL);
         //Log.d("ShowToken", token);
     }
 
     private void hideKeyboardFrom(Context context) {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(this.getActivity().getWindow().getDecorView().getRootView().getWindowToken(), 0);
+    }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        snackBar(isConnected);
+    }
+
+    private void checkConnection() {
+        isConnected = ConnectivityReceiver.isConnected();
+    }
+    private void snackBar(boolean isConnected) {
+        if(!isConnected) {
+            snackbar = Snackbar.make(rootLayout, "No Internet Connection!", Snackbar.LENGTH_INDEFINITE).setAction("ReTry", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //recreate();
+                }
+            });
+            snackbar.setDuration(5000);
+            snackbar.setActionTextColor(Color.WHITE);
+            View sbView = snackbar.getView();
+            sbView.setBackgroundColor(Color.RED);
+            snackbar.show();
+        }
     }
 }

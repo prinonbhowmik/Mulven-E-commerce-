@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="@color/white"
+    android:background="@color/background"
     android:focusableInTouchMode="true"
     tools:context=".Activities.SeeAllProductsActivity">
 
@@ -17,68 +17,9 @@
         android:animateLayoutChanges="true"
         android:background="@color/themDark">
 
-        <ImageView
-            android:id="@+id/seeAllBack"
-            android:layout_width="35sp"
-            android:layout_height="35sp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="15dp"
-            android:onClick="seeAllProductBack"
-            android:src="@drawable/ic_arrow" />
-
-        <TextView
-            android:id="@+id/titleName"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="18dp"
-            android:layout_marginBottom="10dp"
-            android:layout_toEndOf="@+id/seeAllBack"
-            android:fontFamily="@font/comfortaa_light"
-            android:textColor="@color/white"
-            android:textSize="18sp" />
-
-        <ImageView
-            android:id="@+id/SearchIV"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
-            android:src="@drawable/ic_home_search" />
-
-        <ImageView
-            android:id="@+id/closeIV"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
-            android:src="@drawable/ic_cross"
-            android:visibility="gone" />
-
-        <EditText
-            android:id="@+id/searchET"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_below="@+id/titleName"
-            android:layout_marginStart="25dp"
-            android:layout_marginEnd="25dp"
-            android:layout_marginBottom="15dp"
-            android:background="@drawable/search_background"
-            android:drawableEnd="@drawable/ic_search"
-            android:fontFamily="@font/comfortaa_light"
-            android:gravity="center_vertical"
-            android:maxLines="1"
-            android:imeOptions="actionSearch"
-            android:inputType="text"
-            android:hint="Search here"
-            android:paddingStart="10dp"
-            android:paddingEnd="15dp"
-            android:textColor="@color/themDark"
-            android:textSize="18sp"
-            android:visibility="gone"
-            tools:ignore="RtlSymmetry" />
+        <include layout="@layout/toolbar"/>
+        <include layout="@layout/search_toolbar"
+            android:visibility="gone"/>
 
     </RelativeLayout>
 
@@ -87,36 +28,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/allProductToolbar">
-        <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-           <RelativeLayout
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content">
-               <TextView
-                   android:id="@+id/sAll2"
-                   android:layout_width="wrap_content"
-                   android:layout_height="30dp"
-                   android:layout_marginStart="10dp"
-                   android:layout_marginTop="5dp"
-                   android:layout_marginBottom="5dp"
-                   android:background="@drawable/status_tag"
-                   android:fontFamily="@font/comfortaa_bold"
-                   android:gravity="center"
-                   android:paddingStart="25dp"
-                   android:paddingEnd="25dp"
-                   android:text="All"
-                   android:textColor="@color/teal_200"
-                   android:textSize="12sp" />
-               <androidx.recyclerview.widget.RecyclerView
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:layout_toEndOf="@+id/sAll2"
-                   android:id="@+id/subCatRecycler"/>
-
-           </RelativeLayout>
-
-        </HorizontalScrollView>
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/background"
+            android:id="@+id/subCatRecycler"/>
     </RelativeLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="wrap_content"
@@ -126,8 +42,10 @@
         android:layout_marginTop="3dp"
         android:layout_below="@+id/subCatLayout"/>
     <RelativeLayout
+        android:id="@+id/allProductRL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:layout_below="@+id/subSubCatRecycler"
         android:animateLayoutChanges="true">
 
@@ -135,11 +53,30 @@
             android:id="@+id/allProductRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#F1F1F1"
+            android:background="@color/background"
             android:fitsSystemWindows="true"
             android:layoutAnimation="@anim/layout_animation"
             android:padding="2dp"
             android:scrollbars="vertical"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/noItemLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/allProductToolbar"
+        android:background="@color/background"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="No product found"
+            android:fontFamily="@font/comfortaa"
+            android:textSize="15sp"
+            android:textColor="@color/themDark"/>
     </RelativeLayout>
 </RelativeLayout>

@@ -21,13 +21,32 @@
     <string name="aboutText2">Technical solution provider\n
         Hyder Technology &amp; IT Solution</string>
     <string name="aboutText3">Mulven aims to spearhead the e-commerce service revolution in Bangladesh.</string>
-    <string name="banktext1">&#8226; Total Amount  :  ৳ </string>
-    <string name="banktext2">&#8226; Bank  :  City Bank</string>
-    <string name="banktext3">&#8226; Account Name  :  MULVEN </string>
-    <string name="banktext4">&#8226; Account Number  :  1502922838001 </string>
-    <string name="banktext5">&#8226; Branch  :  Uttora </string>
+    <string name="banktext1">&#8226; Total Amount  :   </string>
+    <string name="banktext2">&#8226; Bank  :  Dutch Bangla Bank Limited</string>
+    <string name="banktext3">&#8226; Account Name  :  MULVEN.COM LTD </string>
+    <string name="banktext4">&#8226; Account Number  :  1161100030805 </string>
+    <string name="banktext0">&#8226; Routing Number  :  090261725 </string>
+    <string name="banktext5">&#8226; Branch  :  Gulshan </string>
     <string name="banktext6">If you make a bank payment please keep a copy of the deposit slip or if your
     are transferring from online banking please take screenshot of the transaction successful page. Send the payment proof with invoice number to our whatsapp number: +8801842770738 Your payment will be updated within 48 hours </string>
+    <string name="title_activity_payment_methods">PaymentMethodsActivity</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
 
+    <string-array name="issue_type">
+        <item>Payment</item>
+        <item>bKash Refund</item>
+        <item>Nagad Refund</item>
+        <item>Bank Refund</item>
+        <item>Cashback</item>
+        <item>Refund Issue</item>
+    </string-array>
+    <string-array name="issue_type2">
+        <item>Payment</item>
+        <item>Other</item>
+    </string-array>
 
 </resources>

@@ -54,6 +54,34 @@
         <item name="material_dialog_positive_button_text_color">#FFFFFF</item>
         <item name="material_dialog_negative_button_text_color">@color/white</item>
     </style>
+    <style name="ToolbarColoredBackArrow" parent="Theme.Mulven">
+        <item name="android:textColorSecondary">@color/white</item>
+        <item name="android:fontFamily">@font/comfortaa</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <style name="Comfortaa_bold">
+        <item name="android:fontFamily">@font/comfortaa</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="FullScreenDialogStyle" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="colorPrimaryDark">@color/themDark</item>
+        <item name="colorPrimary">@color/themDark</item>
+
+        <!-- Set this to true if you want Full Screen without status bar -->
+        <item name="android:windowFullscreen">false</item>
+
+        <item name="android:windowIsFloating">false</item>
+
+        <!-- This is important! Don't forget to set window background -->
+        <item name="android:windowBackground">@android:color/white</item>
+
+        <!-- Additionally if you want animations when dialog opening -->
+    </style>
+    <style name="ProgressBarTheme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorAccent">@color/themDark</item>
+    </style>
 
 
 </resources>

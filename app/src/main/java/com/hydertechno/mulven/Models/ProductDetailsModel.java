@@ -6,9 +6,10 @@ import java.util.List;
 public class ProductDetailsModel {
     private int id;
     private int category_id;
+    private int stock;
     private String sku;
     private String product_name;
-    private int mrp_price;
+    private Integer mrp_price;
     private int unit_price;
     private int store_id;
     private String campaign_id;
@@ -31,6 +32,10 @@ public class ProductDetailsModel {
         return category_id;
     }
 
+    public int getStock() {
+        return stock;
+    }
+
     public String getSku() {
         return sku;
     }
@@ -39,7 +44,7 @@ public class ProductDetailsModel {
         return product_name;
     }
 
-    public int getMrp_price() {
+    public Integer getMrp_price() {
         return mrp_price;
     }
 

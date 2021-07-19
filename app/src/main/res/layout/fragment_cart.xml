@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
+    android:id="@+id/fragment_cart_rootLayout"
     tools:context=".Fragments.CartFragment">
 
 
@@ -85,6 +86,8 @@
             android:layout_height="match_parent"
             android:layout_above="@id/totalLayout"
             android:id="@+id/cartRecycler"/>
+
+        <include layout="@layout/layout_circular_progress" />
 
         <RelativeLayout
             android:id="@+id/totalLayout"

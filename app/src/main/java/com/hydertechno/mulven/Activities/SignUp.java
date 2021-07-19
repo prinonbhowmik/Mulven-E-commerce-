@@ -1,5 +1,6 @@
 package com.hydertechno.mulven.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -21,9 +22,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.hydertechno.mulven.Api.ApiUtils;
 import com.hydertechno.mulven.Internet.Connection;
 import com.hydertechno.mulven.Internet.ConnectivityReceiver;
@@ -75,7 +79,7 @@ public class SignUp extends AppCompatActivity implements ConnectivityReceiver.Co
                 if (!isConnected) {
                     snackBar(isConnected);
                 }else{
-                startActivity(new Intent(SignUp.this, WebViewActivity.class).putExtra("url", "https://mulven.com/terms-conditions-for-app"));
+                    startActivity(new Intent(SignUp.this, WebViewActivity.class).putExtra("url", "https://mulven.com/terms-conditions-for-app"));
                 }
             }
         });
@@ -151,6 +155,15 @@ public class SignUp extends AppCompatActivity implements ConnectivityReceiver.Co
                                 editor.apply();
                                 Log.d("ShowToken",token);
                                 Log.d("ShowToken",name+","+phone);
+                                FirebaseMessaging.getInstance().subscribeToTopic(userId + "")
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                                    Log.e("Firebase", "Success!!");
+                                                }
+                                            }
+                                        });
                                 Toasty.success(SignUp.this, "Login Successful").show();
                                 Intent intent = new Intent(SignUp.this, MainActivity.class);
                                 intent.putExtra("fragment","home");
