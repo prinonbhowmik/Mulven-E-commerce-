@@ -83,7 +83,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
     private ProductFeatureAdapter productFeatureAdapter;
     private Database_Helper databaseHelper;
     private List<ProductDetailsModel> list;
-    private int product_id, quantity, category_id;
+    private int product_id, quantity, category_id,originalID;
     private WebView webView;
     private String url = "https://mulven.com/pro-det-for-app/", imageString, size, color, variant, capmpagin_id, from, sku, sku2;
     private ImageView shopLogoIV, card_Minus, card_Plus;
@@ -166,13 +166,13 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
                     if (capmpagin_id == null) {
                         capmpagin_id = "";
                     }
-                    if (databaseHelper.checkProductExist(product_id, size, color, variant)) {
+                    if (databaseHelper.checkProductExist(originalID, size, color, variant)) {
 
-                        int count = databaseHelper.checkQuantity(product_id);
-                        databaseHelper.addQuantity(product_id, count + 1);
+                        int count = databaseHelper.checkQuantity(originalID);
+                        databaseHelper.addQuantity(originalID, count + 1);
 
                 } else {
-                    databaseHelper.addToCart(product_id,sku2, product_Name.getText().toString(),
+                    databaseHelper.addToCart(originalID,sku2, product_Name.getText().toString(),
                             productMrpPrice, productUnitPrice, size, color, variant,
                             shop_Name.getText().toString(), Integer.parseInt(cardQuantity.getText().toString()),
                             capmpagin_id, store_id, category_id, imageString);
@@ -332,6 +332,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
                 } else {
                     productOldPrice.setText("৳ " + productMrpPrice);
                 }
+                originalID=detailsList.getId();
                 product_Price.setText("৳ " + productUnitPrice);
                 shop_Name.setText("" + detailsList.getShop_name());
                 shop_Address.setText("" + detailsList.getShop_address());
@@ -544,6 +545,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
                 } else {
                     productOldPrice.setText("৳ " + productMrpPrice);
                 }
+                originalID=detailsList.getId();
                 product_Price.setText("৳ " + productUnitPrice);
                 shop_Name.setText("" + detailsList.getShop_name());
                 shop_Address.setText("" + detailsList.getShop_address());
