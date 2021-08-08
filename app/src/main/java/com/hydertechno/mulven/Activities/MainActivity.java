@@ -23,7 +23,10 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
+import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.hydertechno.mulven.BuildConfig;
 import com.hydertechno.mulven.Models.ResponseUpdate;
@@ -58,6 +61,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+    private static final String TAG = MainActivity.class.getSimpleName();
+
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     public static ChipNavigationBar chipNavigationBar;
@@ -265,6 +270,38 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         sharedPreferences = getSharedPreferences("MyRef", MODE_PRIVATE);
         loggedIn = sharedPreferences.getInt("loggedIn",0);
         userId = sharedPreferences.getInt("userId",0);
+
+        getDynamicLinks();
+    }
+
+    private void getDynamicLinks() {
+        FirebaseDynamicLinks.getInstance()
+                .getDynamicLink(getIntent())
+                .addOnSuccessListener(this, new OnSuccessListener<PendingDynamicLinkData>() {
+                    @Override
+                    public void onSuccess(PendingDynamicLinkData pendingDynamicLinkData) {
+                        // Get deep link from result (may be null if no link is found)
+                        Uri deepLink = null;
+                        if (pendingDynamicLinkData != null) {
+                            deepLink = pendingDynamicLinkData.getLink();
+                            Log.e("dynamic link", deepLink.toString());
+                        }
+
+
+
+                        // Handle the deep link. For example, open the linked content,
+                        // or apply promotional credit to the user's account.
+                        // ...
+
+                        // ...
+                    }
+                })
+                .addOnFailureListener(this, new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "getDynamicLink:onFailure", e);
+                    }
+                });
     }
 
     private void hideKeyboardFrom(Context context) {

@@ -45,6 +45,7 @@ import com.hydertechno.mulven.Activities.ProfileActivity;
 import com.hydertechno.mulven.Activities.RefundMethodFormActivity;
 import com.hydertechno.mulven.Activities.RefundOTPActivity;
 import com.hydertechno.mulven.Activities.RefundSettlementActivity;
+import com.hydertechno.mulven.Activities.RewardsActivity;
 import com.hydertechno.mulven.Api.ApiUtils;
 import com.hydertechno.mulven.Api.Config;
 import com.hydertechno.mulven.Internet.ConnectivityReceiver;
@@ -73,7 +74,12 @@ public class ProfileFragment extends Fragment implements ConnectivityReceiver.Co
     private CircleImageView mAvatarImageView;
     private Dialog dialog;
     private Animation upAnimation,downAnimation;
-    private CardView userProfileCV,orderHistoryCV,paymentHistoryCV,refundSettlementCV,changePasswordCV;
+    private CardView userProfileCV;
+    private CardView orderHistoryCV;
+    private CardView paymentHistoryCV;
+    private CardView refundSettlementCV;
+    private CardView sendInvitationCV;
+    private CardView changePasswordCV;
     private SharedPreferences sharedPreferences;
     private String token,name,phone;
     private int id,userId;
@@ -271,6 +277,16 @@ public class ProfileFragment extends Fragment implements ConnectivityReceiver.Co
             }
         });
 
+        sendInvitationCV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), RewardsActivity.class);
+                startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                getActivity().finish();
+            }
+        });
+
         changePasswordCV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -313,6 +329,7 @@ public class ProfileFragment extends Fragment implements ConnectivityReceiver.Co
         userProfileCV=view.findViewById(R.id.userProfileCV);
         paymentHistoryCV=view.findViewById(R.id.paymentHistoryCV);
         refundSettlementCV=view.findViewById(R.id.refundSettlementCV);
+        sendInvitationCV=view.findViewById(R.id.sendInvitationCV);
         changePasswordCV=view.findViewById(R.id.changePasswordCV);
         sharedPreferences = getContext().getSharedPreferences("MyRef", MODE_PRIVATE);
 

@@ -340,11 +340,47 @@
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
 
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/sendInvitationCV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                android:layout_below="@+id/refundSettlementCV"
+                android:layout_margin="5dp"
+                app:cardCornerRadius="10dp"
+                android:backgroundTint="@color/themDark">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/inviteLogo"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="5dp"
+                        android:src="@drawable/ic_invite_logo"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:layout_toEndOf="@+id/inviteLogo"
+                        android:layout_marginStart="10dp"
+                        android:text="Get Rewards"
+                        android:textSize="18sp"
+                        android:fontFamily="@font/comfortaa_bold"
+                        android:layout_centerVertical="true" />
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/changePasswordCV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/refundSettlementCV"
+                android:layout_below="@+id/sendInvitationCV"
                 android:layout_margin="5dp"
                 app:cardCornerRadius="10dp"
                 android:backgroundTint="@color/themDark">
