@@ -214,50 +214,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        checkUpdate();
-    }
-
-    private void checkUpdate() {
-        Call<ResponseUpdate> call = ApiUtils.getUserService().versionCheck();
-        call.enqueue(new Callback<ResponseUpdate>() {
-            @Override
-            public void onResponse(Call<ResponseUpdate> call, Response<ResponseUpdate> response) {
-                if (response.isSuccessful() && response.code() == 200){
-                    String versionName = BuildConfig.VERSION_NAME;
-                    String vName= response.body().getApkVersion();
-
-                    if (!versionName.equals(vName)) {
-                        AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
-                        dialog.setTitle("New Version!");
-                        dialog.setIcon(R.drawable.applogo);
-                        dialog.setMessage("New version is available. Please update for latest features.");
-                        dialog.setCancelable(false);
-                        dialog.setPositiveButton("Ok", new android.content.DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(android.content.DialogInterface dialogInterface, int i) {
-                                startActivity(new Intent(Intent.ACTION_VIEW,
-                                        Uri.parse("https://play.google.com/store/apps/details?id=" + getPackageName())));
-                                System.exit(0);
-                            }
-                        });
-                        dialog.setNegativeButton("Later", new android.content.DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(android.content.DialogInterface dialogInterface, int i) {
-                                dialogInterface.dismiss();
-                                System.exit(0);
-                            }
-                        });
-                        AlertDialog alertDialog = dialog.create();
-                        alertDialog.show();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseUpdate> call, Throwable t) {
-
-            }
-        });
     }
 
     private void init() {
@@ -271,7 +227,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         loggedIn = sharedPreferences.getInt("loggedIn",0);
         userId = sharedPreferences.getInt("userId",0);
 
-        getDynamicLinks();
+//        getDynamicLinks();
     }
 
     private void getDynamicLinks() {
