@@ -219,12 +219,12 @@ public class ProductDetailsActivity extends AppCompatActivity implements Product
                         capmpagin_id = "";
                     }
                     Log.d("CheckData", size + "," + color + "," + variant);
-                    if (databaseHelper.checkProductExist(product_id, size, color, variant)) {
+                    if (databaseHelper.checkProductExist(originalID, size, color, variant)) {
 
-                            int count = databaseHelper.checkQuantity(product_id);
-                            databaseHelper.addQuantity(product_id, count + 1);
+                            int count = databaseHelper.checkQuantity(originalID);
+                            databaseHelper.addQuantity(originalID, count + 1);
                         } else {
-                            databaseHelper.addToCart(product_id,sku2, product_Name.getText().toString(),
+                            databaseHelper.addToCart(originalID,sku2, product_Name.getText().toString(),
                                     productMrpPrice, productUnitPrice, size, color, variant,
                                     shop_Name.getText().toString(), Integer.parseInt(cardQuantity.getText().toString()),
                                     capmpagin_id, store_id, category_id, imageString);
