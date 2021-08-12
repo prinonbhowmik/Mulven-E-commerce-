@@ -1,11 +1,13 @@
 package com.hydertechno.mulven.Activities;
 
+import androidx.activity.result.ActivityResult;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -28,16 +30,18 @@ import com.hydertechno.mulven.Internet.Connection;
 import com.hydertechno.mulven.Internet.ConnectivityReceiver;
 import com.hydertechno.mulven.Models.OrderListModel;
 import com.hydertechno.mulven.R;
+import com.hydertechno.mulven.Utilities.BetterActivityResult;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PlaceOrderListActivity extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener, OnClickOrderListener {
+public class PlaceOrderListActivity extends BaseActivity implements ConnectivityReceiver.ConnectivityReceiverListener, OnClickOrderListener, BetterActivityResult.OnActivityResult<ActivityResult> {
     public static final int Place_Order_Request_Code=1111;
     private RecyclerView orderListRecyclerView;
     private ApiInterface apiInterface;
@@ -47,7 +51,6 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
     private int id;
     private String token,from;
     private RelativeLayout noOrderLayout,progressRL;
-    private boolean isConnected;
     private Snackbar snackbar;
     private SharedPreferences sharedPreferences;
     public static LinearLayout rootLayout;
@@ -639,9 +642,6 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
     public void onNetworkConnectionChanged(boolean isConnected) {
         snackBar(isConnected);
     }
-    private void checkConnection() {
-        isConnected = ConnectivityReceiver.isConnected();
-    }
     private void snackBar(boolean isConnected) {
         if(!isConnected) {
             snackbar = Snackbar.make(rootLayout, "No Internet Connection! Please Try Again.", Snackbar.LENGTH_INDEFINITE);
@@ -651,40 +651,6 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
             sbView.setBackgroundColor(Color.RED);
             snackbar.show();
         }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        registerReceiver(connectivityReceiver, intentFilter);
-    }
-    @Override
-    protected void onResume() {
-        // register connection status listener
-        Connection.getInstance().setConnectivityListener(this);
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        try{
-            if(connectivityReceiver!=null)
-                unregisterReceiver(connectivityReceiver);
-
-        }catch(Exception e){}
-
-    }
-
-    @Override
-    protected void onStop() {
-        try{
-            if(connectivityReceiver!=null)
-                unregisterReceiver(connectivityReceiver);
-
-        }catch(Exception e){}
-
-        super.onStop();
     }
 
     @Override
@@ -715,11 +681,16 @@ public class PlaceOrderListActivity extends AppCompatActivity implements Connect
         intent.putExtra("OrderId", item.getOrder_id());
         intent.putExtra("PaymentStatus", item.getPay_status());
         intent.putExtra("OrderStatus", item.getOrders_status());
-//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        //context.startActivity(intent);
-        startActivityForResult(intent, Place_Order_Request_Code);
-        //((Activity) context).overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-        //((Activity)context).finish();
+        activityLauncher.launch(intent, this);
+    }
 
+    @Override
+    public void onActivityResult(ActivityResult result) {
+        if (result.getResultCode() == Activity.RESULT_OK) {
+            Intent data = result.getData();
+            if (data != null && data.getBooleanExtra("successReason", false)) {
+                recreate();
+            }
+        }
     }
 }

@@ -328,6 +328,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             case R.id.terms:
                 Intent terms = new Intent(MainActivity.this, WebViewActivity.class);
+                terms.putExtra("isTerms", true);
                 terms.putExtra("url","https://mulven.com/terms-conditions-for-app");
                 startActivity(terms);
                 break;

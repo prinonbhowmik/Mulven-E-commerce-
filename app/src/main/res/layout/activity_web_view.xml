@@ -24,7 +24,6 @@
             android:id="@+id/webPageTitle"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
-            android:text="Terms And Conditions"
             android:layout_centerVertical="true"
             android:layout_marginStart="10dp"
             android:layout_toEndOf="@+id/webBack"
@@ -33,9 +32,20 @@
             android:textSize="24sp" />
 
     </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/loadingProgress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/webToolbar">
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
     <WebView
         android:id="@+id/webView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/webToolbar"/>
+        android:layout_below="@+id/webToolbar"
+        android:visibility="gone"/>
 </RelativeLayout>

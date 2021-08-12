@@ -79,7 +79,9 @@ public class SignUp extends AppCompatActivity implements ConnectivityReceiver.Co
                 if (!isConnected) {
                     snackBar(isConnected);
                 }else{
-                    startActivity(new Intent(SignUp.this, WebViewActivity.class).putExtra("url", "https://mulven.com/terms-conditions-for-app"));
+                    startActivity(new Intent(SignUp.this, WebViewActivity.class)
+                            .putExtra("isTerms", true)
+                            .putExtra("url", "https://mulven.com/terms-conditions-for-app"));
                 }
             }
         });

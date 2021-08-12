@@ -1,11 +1,13 @@
 package com.hydertechno.mulven.Activities;
 
+import androidx.activity.result.ActivityResult;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -29,6 +31,7 @@ import com.hydertechno.mulven.Models.PaymentMethodModel;
 import com.hydertechno.mulven.Models.RequiredDataModel;
 import com.hydertechno.mulven.Models.WalletPayStatus;
 import com.hydertechno.mulven.R;
+import com.hydertechno.mulven.Utilities.BetterActivityResult;
 import com.sm.shurjopaysdk.listener.PaymentResultListener;
 import com.sm.shurjopaysdk.model.TransactionInfo;
 import com.sm.shurjopaysdk.payment.ShurjoPaySDK;
@@ -45,13 +48,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PaymentMethodsActivity extends BaseActivity implements OnPMethodItemClickListener {
+public class PaymentMethodsActivity extends BaseActivity implements OnPMethodItemClickListener, BetterActivityResult.OnActivityResult<ActivityResult> {
     private TextView payInvoiceIdTV,payAmountTV;
     private RecyclerView methodsRecyclerView;
     private PaymentMethodsAdapter methodsAdapter;
     private SharedPreferences sharedPreferences;
     Toolbar toolbar;
     private String orderId,fullAmount,token;
+    private int userId;
     private boolean isCampaignAvailable;
     private double amount;
 
@@ -81,13 +85,13 @@ public class PaymentMethodsActivity extends BaseActivity implements OnPMethodIte
 
     private void getData() {
         methodModelsList=new ArrayList<>();
-        //methodModelsList.add(new PaymentMethodModel("Nagad", "Pay from your Nagad account", R.drawable.nagad));
         methodModelsList.add(new PaymentMethodModel(1,"Bank", "Pay by bank account", R.drawable.bank_transfer));
-        methodModelsList.add(new PaymentMethodModel(2,"Shurjo Pay", "Choose your desire payment method by Shurjo Pay", R.drawable.shurjo_pay));
+        methodModelsList.add(new PaymentMethodModel(2, "Nagad", "Pay from your Nagad account", R.drawable.nagad));
+        methodModelsList.add(new PaymentMethodModel(3,"Shurjo Pay", "Choose your desire payment method by Shurjo Pay", R.drawable.shurjo_pay));
         if (!isCampaignAvailable) {
-            methodModelsList.add(new PaymentMethodModel(3,"Account", "Pay by Mulven Account Wallet", R.drawable.mulven_wallet));
-            methodModelsList.add(new PaymentMethodModel(4,"Voucher", "Pay by Mulven Voucher Wallet", R.drawable.mulven_wallet));
-            methodModelsList.add(new PaymentMethodModel(5,"Cashback", "Pay by Mulven Cashback Wallet", R.drawable.mulven_wallet));
+            methodModelsList.add(new PaymentMethodModel(4,"Account", "Pay by Mulven Account Wallet", R.drawable.mulven_wallet));
+            methodModelsList.add(new PaymentMethodModel(5,"Voucher", "Pay by Mulven Voucher Wallet", R.drawable.mulven_wallet));
+            methodModelsList.add(new PaymentMethodModel(6,"Cashback", "Pay by Mulven Cashback Wallet", R.drawable.mulven_wallet));
         }
 
         methodsAdapter.updateData(methodModelsList);
@@ -101,6 +105,7 @@ public class PaymentMethodsActivity extends BaseActivity implements OnPMethodIte
 
         sharedPreferences = getSharedPreferences("MyRef", MODE_PRIVATE);
         token = sharedPreferences.getString("token", null);
+        userId = sharedPreferences.getInt("userId",0);
         payInvoiceIdTV=findViewById(R.id.payInvoiceIdTV);
         payAmountTV=findViewById(R.id.payAmountTV);
         methodsRecyclerView=findViewById(R.id.methodsRecyclerView);
@@ -147,11 +152,19 @@ public class PaymentMethodsActivity extends BaseActivity implements OnPMethodIte
                 });
                 break;
             case 2:
-                getShurjoPayment(amount);
+                //nagad
+                Intent intent = new Intent(PaymentMethodsActivity.this, WebViewActivity.class);
+                intent.putExtra("isTerms", false);
+                intent.putExtra("url","https://mulven.com/app_nagad_payment?order_id="+ orderId +"&amount="+ amount +"&user_id=" + userId);
+//                startActivity(intent);
+                activityLauncher.launch(intent, this);
                 break;
             case 3:
+                getShurjoPayment(amount);
+                break;
             case 4:
             case 5:
+            case 6:
                 checkWalletPay(item.getTitle(), String.valueOf(amount), orderId);
                 break;
         }
@@ -230,6 +243,21 @@ public class PaymentMethodsActivity extends BaseActivity implements OnPMethodIte
     @Override
     public void onNetworkConnectionChanged(boolean isConnected) {
 
+    }
+
+    @Override
+    public void onActivityResult(ActivityResult result) {
+        if (result.getResultCode() == Activity.RESULT_OK) {
+            Intent data = result.getData();
+            if (data != null && data.getStringExtra("result") != null) {
+                if (data.getStringExtra("result").equals("Success")) {
+                    Intent intent = new Intent();
+                    intent.putExtra("resultPay", data.getStringExtra("result"));
+                    setResult(Activity.RESULT_OK, intent);
+                    PaymentMethodsActivity.this.finish();
+                }
+            }
+        }
     }
 
 

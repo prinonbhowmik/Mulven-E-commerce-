@@ -86,4 +86,11 @@ public abstract class BaseActivity extends AppCompatActivity implements Connecti
     }
 
     protected final BetterActivityResult<Intent, ActivityResult> activityLauncher = BetterActivityResult.registerActivityForResult(this);
+
+//     activityLauncher.launch(intent, this);
+
+//    Intent intent = new Intent();
+//    intent.putExtra("result", "matched");
+//    setResult(Activity.RESULT_OK, intent);
+//    RefundOTPActivity.this.finish();
 }

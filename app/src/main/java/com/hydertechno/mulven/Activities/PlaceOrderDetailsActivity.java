@@ -1,10 +1,12 @@
 package com.hydertechno.mulven.Activities;
 
+import androidx.activity.result.ActivityResult;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -52,6 +54,7 @@ import com.hydertechno.mulven.Models.RequiredDataModel;
 import com.hydertechno.mulven.Models.ShurjoPayPaymentModel;
 import com.hydertechno.mulven.Models.UserProfile;
 import com.hydertechno.mulven.R;
+import com.hydertechno.mulven.Utilities.BetterActivityResult;
 import com.hydertechno.mulven.Utilities.CropTransformation;
 import com.sm.shurjopaysdk.listener.PaymentResultListener;
 import com.sm.shurjopaysdk.model.TransactionInfo;
@@ -71,7 +74,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu.OnMenuItemClickListener {
+public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu.OnMenuItemClickListener, BetterActivityResult.OnActivityResult<ActivityResult> {
     private TextView invoiceIdTV, orderTimeTV, vendorNameTV, vendorPhoneTV, vendorAddressTV, customerNameTV,
             customerPhoneTV, customerAddressTV, customerAddressEditTV, totalPaidTV,orderStatusTV,reportIssueTV,existingIssueTV;
     public static TextView totalPriceTv, dueTV,makePaymentTV;
@@ -94,6 +97,8 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
     private LoadingDialog loadingDialog;
     private boolean isCampaignAvailable = false;
     private double paidAmount;
+
+    private boolean isResult = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,7 +154,7 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
                                             intent.putExtra("FAmount", dueTV.getText().toString());
                                             intent.putExtra("orderId", OrderId);
                                             intent.putExtra("isCampaign", isCampaignAvailable);
-                                            startActivity(intent);
+                                            activityLauncher.launch(intent, PlaceOrderDetailsActivity.this);
                                             makePaymentDialog.dismiss();
                                         }else
                                             Toast.makeText(PlaceOrderDetailsActivity.this, "Amount can not 0", Toast.LENGTH_SHORT).show();
@@ -584,10 +589,9 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
                                 if (response.body().getStatus() == 1) {
                                     Toasty.normal(PlaceOrderDetailsActivity.this, "Order has been cancelled", Toasty.LENGTH_SHORT).show();
 
-                                    recreate();
-                                    Intent resultIntent = new Intent();
-                                    resultIntent.putExtra("success", true);
-                                    setResult(PlaceOrderListActivity.Place_Order_Request_Code ,resultIntent);
+                                    getInvoiceDetails();
+
+                                    isResult = true;
                                 } else {
                                     Toasty.error(PlaceOrderDetailsActivity.this, "Something went wrong", Toasty.LENGTH_SHORT).show();
                                 }
@@ -666,14 +670,22 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
 
 
     public void placeOrderDetailsBack(View view) {
-        Intent resultIntent = new Intent();
-//        setResult(PlaceOrderListActivity.Place_Order_Request_Code ,resultIntent);
-        //overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+        if (isResult) {
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra("successReason", true);
+            setResult(Activity.RESULT_OK, resultIntent);
+        }
+//        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
         finish();
     }
 
     @Override
     public void onBackPressed() {
+        if (isResult) {
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra("successReason", true);
+            setResult(Activity.RESULT_OK, resultIntent);
+        }
         super.onBackPressed();
     }
 
@@ -691,6 +703,19 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
             View sbView = snackbar.getView();
             sbView.setBackgroundColor(Color.RED);
             snackbar.show();
+        }
+    }
+
+    @Override
+    public void onActivityResult(ActivityResult result) {
+        if (result.getResultCode() == Activity.RESULT_OK) {
+            Intent data = result.getData();
+            if (data != null && data.getStringExtra("resultPay") != null) {
+                if (data.getStringExtra("resultPay").equals("Success")) {
+                    recreate();
+                    Toasty.success(PlaceOrderDetailsActivity.this, "Payment Success!", Toasty.LENGTH_SHORT).show();
+                }
+            }
         }
     }
 }
