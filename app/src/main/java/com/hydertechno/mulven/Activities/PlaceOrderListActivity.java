@@ -689,7 +689,7 @@ public class PlaceOrderListActivity extends BaseActivity implements Connectivity
         if (result.getResultCode() == Activity.RESULT_OK) {
             Intent data = result.getData();
             if (data != null && data.getBooleanExtra("successReason", false)) {
-                recreate();
+                getOrderList();
             }
         }
     }

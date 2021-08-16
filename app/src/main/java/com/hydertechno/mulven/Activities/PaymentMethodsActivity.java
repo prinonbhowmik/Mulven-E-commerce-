@@ -184,8 +184,7 @@ public class PaymentMethodsActivity extends BaseActivity implements OnPMethodIte
                             String msg = amount + "৳ is not available on your " + pay_method + " wallet";
                             Toasty.error(context, msg, Toasty.LENGTH_LONG).show();
                         } else {
-                            Toasty.success(context, "Payment success!", Toasty.LENGTH_LONG).show();
-                            finish();
+                            setIntentSuccess();
                         }
                     }
                 }
@@ -198,6 +197,13 @@ public class PaymentMethodsActivity extends BaseActivity implements OnPMethodIte
                 Toasty.error(context, t.getMessage(), Toasty.LENGTH_LONG).show();
             }
         });
+    }
+
+    private void setIntentSuccess() {
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra("resultPay", "Success");
+        setResult(Activity.RESULT_OK, resultIntent);
+        PaymentMethodsActivity.this.finish();
     }
 
     private void getShurjoPayment(double amount) {
@@ -220,10 +226,8 @@ public class PaymentMethodsActivity extends BaseActivity implements OnPMethodIte
                             @Override
                             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                                 if(response.isSuccessful() && response.code() == 200){
-                                    recreate();
-                                    Intent resultIntent = new Intent();
-                                    resultIntent.putExtra("success", true);
-                                    setResult(PlaceOrderListActivity.Place_Order_Request_Code ,resultIntent);
+//                                    recreate();
+                                    setIntentSuccess();
                                 }
                             }
                             @Override

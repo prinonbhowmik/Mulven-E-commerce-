@@ -712,7 +712,8 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
             Intent data = result.getData();
             if (data != null && data.getStringExtra("resultPay") != null) {
                 if (data.getStringExtra("resultPay").equals("Success")) {
-                    recreate();
+                    isResult = true;
+                    getInvoiceDetails();
                     Toasty.success(PlaceOrderDetailsActivity.this, "Payment Success!", Toasty.LENGTH_SHORT).show();
                 }
             }
