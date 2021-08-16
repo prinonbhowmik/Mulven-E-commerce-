@@ -41,6 +41,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ProfileActivity extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener {
+    private static final String TAG = ProfileActivity.class.getSimpleName();
     private FrameLayout frameLayout;
     private CircleImageView profileImageTV;
     private EditText nameET,addressET,emailET,phoneET;
@@ -156,13 +157,19 @@ public class ProfileActivity extends AppCompatActivity implements ConnectivityRe
                         }
                     });
                 } else {
-                    Call<UserProfile> call1 = ApiUtils.getUserService().updateProfileData(token, nameET.getText().toString(),
-                            emailET.getText().toString(), addressET.getText().toString());
+                    Call<UserProfile> call1 = ApiUtils.getUserService()
+                            .updateProfileData(
+                                    token,
+                                    nameET.getText().toString(),
+                                    emailET.getText().toString(),
+                                    addressET.getText().toString());
                     call1.enqueue(new Callback<UserProfile>() {
                         @Override
                         public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
+                            Log.e(TAG, response.toString());
                             if (response.isSuccessful()) {
                                 String status = response.body().getStatus();
+                                Log.e(TAG, status);
                                 if (status.equals("1")) {
                                     Toasty.success(ProfileActivity.this, "Update Success!", Toast.LENGTH_SHORT, true).show();
                                     Intent intent = new Intent(ProfileActivity.this, MainActivity.class);
@@ -178,7 +185,7 @@ public class ProfileActivity extends AppCompatActivity implements ConnectivityRe
 
                         @Override
                         public void onFailure(Call<UserProfile> call, Throwable t) {
-
+                            Log.e(TAG, t.getMessage());
                         }
                     });
                 }

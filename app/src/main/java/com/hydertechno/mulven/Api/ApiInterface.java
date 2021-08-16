@@ -24,10 +24,6 @@ import com.hydertechno.mulven.Models.TransactionModel;
 import com.hydertechno.mulven.Models.UserProfile;
 import com.hydertechno.mulven.Models.WalletPayStatus;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.MultipartBody;
@@ -38,6 +34,7 @@ import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
@@ -62,7 +59,7 @@ public interface ApiInterface {
 
     @GET("campaigns-product-detais?")
     Call<ProductDetailsModel> getCampaignProd_details(@Query("id") int id,
-                                                       @Query("sku") String  sku);
+                                                      @Query("sku") String sku);
 
     @GET("order-list?")
     Call<List<OrderListModel>> getOrderList(@Query("token") String token);
@@ -96,6 +93,7 @@ public interface ApiInterface {
                                             @Query("token") String token,
                                             @Field("delivery_address") String address);
 
+    @Headers({"Content-Type: application/json","Accept: application/json,text/plain,*/*"})
     @POST("profile-update")
     @FormUrlEncoded
     Call<UserProfile> updateProfileData(@Query("token") String token,
@@ -127,7 +125,7 @@ public interface ApiInterface {
     @POST("forgot-password")
     @FormUrlEncoded
     Call<ChangePasswordModel> changePassword(@Query("phone") String phone,
-                                     @Field("password") String password);
+                                             @Field("password") String password);
 
     @GET("campaigns")
     Call<Campaign> getAllCampaigns();
@@ -141,7 +139,6 @@ public interface ApiInterface {
                                      @Field("item") String item);
 
 
-
     @GET("order-cancel")
     Call<CancellationReasonModel> setCancelReason(@Query("token") String token,
                                                   @Query("order_id") String order_id,
@@ -149,7 +146,7 @@ public interface ApiInterface {
 
     @GET("order-delivered")
     Call<CancellationReasonModel> setOrderDelivered(@Query("token") String token,
-                                                  @Query("order_id") String order_id);
+                                                    @Query("order_id") String order_id);
 
     @GET("sub-categories?categorie_id=4")
     Call<List<SubCatModel>> getSubCat(@Query("categorie_id") int categorie_id);
