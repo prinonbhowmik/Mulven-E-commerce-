@@ -18,8 +18,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Mulven">
-
-        <activity android:name=".Activities.RewardsActivity"/>
+        <activity android:name=".Activities.RefundRequestActivity"></activity>
+        <activity android:name=".Activities.RewardsActivity" />
         <activity
             android:name=".Activities.RefundMethodFormActivity"
             android:screenOrientation="portrait" />
@@ -91,15 +91,16 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".Activities.MainActivity"
-            android:screenOrientation="portrait" >
-
+            android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
                 <data
                     android:host="https://mulven.com/invites/"
-                    android:scheme="https"/>
+                    android:scheme="https" />
             </intent-filter>
         </activity>
         <activity
@@ -148,7 +149,6 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/themRed" />
-
     </application>
 
 </manifest>

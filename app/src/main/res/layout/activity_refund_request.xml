@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.RefundRequestActivity">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/themDark"
+            app:theme="@style/ToolbarColoredBackArrow"
+            app:title="Refund Request"
+            app:titleTextColor="@color/white" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/refundMethodRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:listitem="@layout/item_refund_request"
+        tools:itemCount="3"
+        android:layout_below="@id/toolbar"/>
+    <TextView
+        android:id="@+id/commentTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/refundMethodRecycler"
+        android:fontFamily="@font/comfortaa_bold"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:textSize="18sp"
+        android:layout_marginBottom="10dp"
+        android:text="Comment"
+        android:textColor="@color/black"        />
+    <EditText
+        android:id="@+id/refundCommentET"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_below="@id/commentTxt"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="50dp"
+        android:hint="Write something"
+        android:inputType="textMultiLine"
+        android:maxLines="10"
+        android:gravity="top|left"
+        android:background="@drawable/background_stroke"
+        android:fontFamily="@font/comfortaa_light"
+        android:padding="10dp"
+        android:textColor="@color/black"
+        tools:ignore="TextFields" />
+
+    <FrameLayout
+        android:id="@+id/frame_layout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F8F8F8"
+        android:layout_alignParentBottom="true">
+        <TextView
+            android:id="@+id/applyRequestTV"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:text="Apply"
+            android:gravity="center"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="4dp"
+            android:focusable="false"
+            android:visibility="visible"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/btn_background_blue"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:fontFamily="@font/comfortaa"
+            android:textAllCaps="false"/>
+    </FrameLayout>
+
+</RelativeLayout>

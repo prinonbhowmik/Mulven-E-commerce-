@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@color/white"
+        android:elevation="6dp"
+        app:cardCornerRadius="10dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/methodLogo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                app:cardCornerRadius="5dp">
+
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:padding="5dp"
+                    android:src="@drawable/nagad" />
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/methodName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_toEndOf="@id/methodLogo"
+                android:fontFamily="@font/comfortaa_bold"
+                android:text="Nagad Account"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/methodNumber"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@id/methodName"
+                android:layout_toEndOf="@+id/methodLogo"
+                android:layout_toStartOf="@+id/methodCheckBox"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/background_light_gray"
+                android:fontFamily="@font/comfortaa_bold"
+                android:gravity="center_vertical"
+                android:hint="Not Provided"
+                android:text="+8801712345678"
+                android:inputType="text"
+                android:maxLines="1"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/gray"
+                android:textSize="18sp"
+                tools:ignore="RtlSymmetry" />
+            <CheckBox
+                android:id="@+id/methodCheckBox"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginTop="5dp"
+                android:checked="true"
+                android:layout_below="@id/methodName"
+                android:layout_alignParentEnd="true"/>
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+</RelativeLayout>

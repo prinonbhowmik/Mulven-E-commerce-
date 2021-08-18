@@ -77,7 +77,7 @@ import retrofit2.Response;
 public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu.OnMenuItemClickListener, BetterActivityResult.OnActivityResult<ActivityResult> {
     private TextView invoiceIdTV, orderTimeTV, vendorNameTV, vendorPhoneTV, vendorAddressTV, customerNameTV,
             customerPhoneTV, customerAddressTV, customerAddressEditTV, totalPaidTV,orderStatusTV,reportIssueTV,existingIssueTV;
-    public static TextView totalPriceTv, dueTV,makePaymentTV;
+    public static TextView totalPriceTv, dueTV,makePaymentTV,refundPaymentTV;
     public static double totalPay;
     private Dialog cancelledDialog, makePaymentDialog;
     private RatingBar ratingBar;
@@ -327,6 +327,7 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
         totalPriceTv = findViewById(R.id.totalPriceTv);
         orderStatusTV = findViewById(R.id.orderStatusTV);
         makePaymentTV = findViewById(R.id.makePaymentTV);
+        refundPaymentTV = findViewById(R.id.refundPaymentTV);
         paymentOrderStatus=orderStatusTV.getText().toString();
 
         dueTV = findViewById(R.id.dueTV);
@@ -379,7 +380,7 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                if(orderStatus.equals("Pending") || orderStatus.equals("Partial Paid") ||(orderStatus.equals("Shipped"))){
+                if(orderStatus.equals("Pending") || orderStatus.equals("Partial Paid") ||(orderStatus.equals("Paid"))){
                     moreIcon.setVisibility(View.VISIBLE);
                    // popup.getMenu().removeItem(R.id.deliveredOrder);
                 }
@@ -440,12 +441,17 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
                         orderStatusTV.setTextColor(Color.parseColor("#4285F4"));
                         if(orderStatus.equals("Cancel")){
                             makePaymentTV.setVisibility(View.GONE);
+                            refundPaymentTV.setVisibility(View.VISIBLE);
                         }else {
                             makePaymentTV.setVisibility(View.VISIBLE);
+                            refundPaymentTV.setVisibility(View.GONE);
                         }
                         break;
                     case "Paid":
                         orderStatusTV.setTextColor(Color.parseColor("#DB4437"));
+                        if(orderStatus.equals("Cancel")){
+                            refundPaymentTV.setVisibility(View.VISIBLE);
+                        }
                         makePaymentTV.setVisibility(View.GONE);
                         break;
                 }

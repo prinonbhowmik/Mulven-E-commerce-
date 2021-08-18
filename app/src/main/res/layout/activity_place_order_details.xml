@@ -617,5 +617,24 @@
             android:textSize="17sp"
             android:fontFamily="@font/comfortaa"
             android:textAllCaps="false"/>
+        <TextView
+            android:id="@+id/refundPaymentTV"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="Refund"
+            android:gravity="center"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="4dp"
+            android:visibility="gone"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/btn_background_red"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            android:fontFamily="@font/comfortaa"
+            android:textAllCaps="false"/>
     </FrameLayout>
 </RelativeLayout>
