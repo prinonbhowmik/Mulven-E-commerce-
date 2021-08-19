@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/refundRequestRootLayout"
     tools:context=".Activities.RefundRequestActivity">
 
         <androidx.appcompat.widget.Toolbar
@@ -50,7 +51,17 @@
         android:padding="10dp"
         android:textColor="@color/black"
         tools:ignore="TextFields" />
-
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addSettlementBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:backgroundTint="@color/themDark"
+        android:layout_marginBottom="80dp"
+        android:layout_marginEnd="20dp"
+        app:tint="#fff"
+        android:src="@drawable/ic_add"/>
     <FrameLayout
         android:id="@+id/frame_layout3"
         android:layout_width="match_parent"

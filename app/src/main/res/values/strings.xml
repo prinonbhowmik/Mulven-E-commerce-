@@ -38,14 +38,14 @@
 
     <string-array name="issue_type">
         <item>Payment</item>
-        <item>bKash Refund</item>
-        <item>Nagad Refund</item>
-        <item>Bank Refund</item>
-        <item>Cashback</item>
+        <item>Delivery Acknowledgement</item>
         <item>Refund Issue</item>
+        <item>Other</item>
     </string-array>
     <string-array name="issue_type2">
         <item>Payment</item>
+        <item>Delivery Acknowledgement</item>
+        <item>Refund Issue</item>
         <item>Other</item>
     </string-array>
 

@@ -37,6 +37,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.hydertechno.mulven.Adapters.ExistingIssueListAdapter;
 import com.hydertechno.mulven.Adapters.OrderItemsAdapter;
 import com.hydertechno.mulven.Adapters.OrderTimelineAdapter;
 import com.hydertechno.mulven.Api.ApiUtils;
@@ -46,6 +47,7 @@ import com.hydertechno.mulven.Internet.Connection;
 import com.hydertechno.mulven.Internet.ConnectivityReceiver;
 import com.hydertechno.mulven.Models.CancellationReasonModel;
 import com.hydertechno.mulven.Models.CartProductModel;
+import com.hydertechno.mulven.Models.ExistingIssueModel;
 import com.hydertechno.mulven.Models.InvoiceDetailsModel;
 import com.hydertechno.mulven.Models.OrderDetails;
 import com.hydertechno.mulven.Models.OrderItemsModel;
@@ -66,6 +68,7 @@ import com.squareup.picasso.Transformation;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import es.dmoral.toasty.Toasty;
@@ -177,6 +180,7 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
         moreIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkConnection();
                 if (!isConnected) {
                     snackBar(isConnected);
                 }else{
@@ -191,6 +195,20 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
                     popup.show();
 
                 }
+            }
+        });
+        refundPaymentTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkConnection();
+                if (!isConnected) {
+                    snackBar(isConnected);
+                }else {
+                    Intent intent = new Intent(PlaceOrderDetailsActivity.this, RefundRequestActivity.class);
+                    overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+                    startActivity(intent);
+                }
+
             }
         });
 
@@ -221,25 +239,25 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
 
         reportIssueTV.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                int status=0;
-                if(paidAmount>0 && invoiceStatus.equals("Partial Paid")|| invoiceStatus.equals("Processing")|| invoiceStatus.equals("Cancel")){
-                    status=1;
+            public void onClick(View v) {checkConnection();
+                if (!isConnected) {
+                    snackBar(isConnected);
+                }else {
+                    checkExistingIssue();
                 }
-                Bundle args = new Bundle();
-                args.putString("orderId", OrderId);
-                args.putInt("status", status);
-                ReportIssueBottomSheet bottom_sheet = new ReportIssueBottomSheet();
-                bottom_sheet.setArguments(args);
-                bottom_sheet.show(getSupportFragmentManager(), "bottomSheet");
             }
         });
         existingIssueTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PlaceOrderDetailsActivity.this, ExistingIssueActivity.class);
-                intent.putExtra("orderId", OrderId);
-                startActivity(intent);
+                checkConnection();
+                if (!isConnected) {
+                    snackBar(isConnected);
+                }else {
+                    Intent intent = new Intent(PlaceOrderDetailsActivity.this, ExistingIssueActivity.class);
+                    intent.putExtra("orderId", OrderId);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -295,7 +313,50 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
     }
 
 
+    private void checkExistingIssue() {
+//        progressRL.setVisibility(View.VISIBLE);
+        Call<List<ExistingIssueModel>> call = ApiUtils.getUserService().getReportIssue(token, OrderId);
+        call.enqueue(new Callback<List<ExistingIssueModel>>() {
+            @Override
+            public void onResponse(Call<List<ExistingIssueModel>> call, Response<List<ExistingIssueModel>> response) {
+//                progressRL.setVisibility(View.GONE);
+                if (response.isSuccessful() && response.code()==200){
+                    boolean result=checkIssueResult(response.body());
+                    Log.e("check",result+"");
+                    if(result){
+                        Toasty.normal(PlaceOrderDetailsActivity.this, "You already have a pending existing issue !", Toasty.LENGTH_SHORT).show();
+                    }else {
+                        int status=0;
+                        if(paidAmount>0 && invoiceStatus.equals("Partial Paid")|| invoiceStatus.equals("Processing")|| invoiceStatus.equals("Cancel")){
+                            status=1;
+                        }
+                        Bundle args = new Bundle();
+                        args.putString("orderId", OrderId);
+                        args.putInt("status", status);
+                        ReportIssueBottomSheet bottom_sheet = new ReportIssueBottomSheet();
+                        bottom_sheet.setArguments(args);
+                        bottom_sheet.show(getSupportFragmentManager(), "bottomSheet");
+                    }
+                }else
+                    Toasty.error(PlaceOrderDetailsActivity.this, "Something went wrong!", Toasty.LENGTH_SHORT).show();
+                }
 
+            @Override
+            public void onFailure(Call<List<ExistingIssueModel>> call, Throwable t) {
+            }
+        });
+    }
+
+    private boolean checkIssueResult(List<ExistingIssueModel> response){
+        if(response.size()>0){
+            for(int i=0; i<response.size();i++){
+                if(response.get(i).getStatus().equals("Pending")){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     private void init() {
         sharedPreferences = getSharedPreferences("MyRef", MODE_PRIVATE);
         token = sharedPreferences.getString("token", null);

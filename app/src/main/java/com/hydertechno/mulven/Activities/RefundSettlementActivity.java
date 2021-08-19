@@ -69,9 +69,7 @@ public class RefundSettlementActivity extends BaseActivity implements View.OnCli
         checkConnection();
         if (!isConnected) {
             snackBar(isConnected);
-        }
-
-        if (isConnected) {
+        }else {
             getRefundSettlements();
         }
     }
