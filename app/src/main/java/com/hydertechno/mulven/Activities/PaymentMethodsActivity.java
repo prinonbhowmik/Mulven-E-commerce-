@@ -13,13 +13,16 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.hydertechno.mulven.Adapters.PaymentMethodsAdapter;
@@ -54,7 +57,9 @@ public class PaymentMethodsActivity extends BaseActivity implements OnPMethodIte
     private PaymentMethodsAdapter methodsAdapter;
     private SharedPreferences sharedPreferences;
     Toolbar toolbar;
-    private String orderId,fullAmount,token;
+    private double fullAmount;
+    private Dialog  makePaymentDialog;
+    private String orderId,token;
     private int userId;
     private boolean isCampaignAvailable;
     private double amount;
@@ -72,11 +77,10 @@ public class PaymentMethodsActivity extends BaseActivity implements OnPMethodIte
         init();
 
         Intent getInt=getIntent();
-        amount=getInt.getDoubleExtra("amount",0.0);
         orderId=getInt.getStringExtra("orderId");
-        fullAmount=getInt.getStringExtra("FAmount");
+        fullAmount=getInt.getDoubleExtra("FAmount",0.0);
         isCampaignAvailable=getInt.getBooleanExtra("isCampaign", false);
-        payAmountTV.setText(""+amount);
+        payAmountTV.setText(""+fullAmount);
         payInvoiceIdTV.setText(orderId);
 
         getData();
@@ -142,7 +146,7 @@ public class PaymentMethodsActivity extends BaseActivity implements OnPMethodIte
                 ImageView bCloseIV;
                 bCloseIV=bankPaymentDialog.findViewById(R.id.bCloseIV);
                 bankAmount=bankPaymentDialog.findViewById(R.id.bb1);
-                bankAmount.setText(fullAmount);
+                bankAmount.setText(" "+fullAmount);
                 bankPaymentDialog.show();
                 bCloseIV.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -153,19 +157,19 @@ public class PaymentMethodsActivity extends BaseActivity implements OnPMethodIte
                 break;
             case 2:
                 //nagad
-                Intent intent = new Intent(PaymentMethodsActivity.this, WebViewActivity.class);
-                intent.putExtra("isTerms", false);
-                intent.putExtra("url","https://mulven.com/app_nagad_payment?order_id="+ orderId +"&amount="+ amount +"&user_id=" + userId);
-//                startActivity(intent);
-                activityLauncher.launch(intent, this);
+                paymentDialog("a",2);
                 break;
             case 3:
-                getShurjoPayment(amount);
+                paymentDialog("a",3);
                 break;
             case 4:
+                paymentDialog(item.getTitle(),4);
+                break;
             case 5:
+                paymentDialog(item.getTitle(),5);
+                break;
             case 6:
-                checkWalletPay(item.getTitle(), String.valueOf(amount), orderId);
+                paymentDialog(item.getTitle(),6);
                 break;
         }
     }
@@ -204,6 +208,60 @@ public class PaymentMethodsActivity extends BaseActivity implements OnPMethodIte
         resultIntent.putExtra("resultPay", "Success");
         setResult(Activity.RESULT_OK, resultIntent);
         PaymentMethodsActivity.this.finish();
+    }
+    private void paymentDialog(String title,int indexNumber){
+                    makePaymentDialog = new Dialog(PaymentMethodsActivity.this);
+                    makePaymentDialog.setContentView(R.layout.make_payment_layout_design);
+                    makePaymentDialog.setCancelable(false);
+                    makePaymentDialog.show();
+                    Window window = makePaymentDialog.getWindow();
+                    window.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    EditText paymentAmount= makePaymentDialog.findViewById(R.id.makePayET);
+                    TextView continuePayTV= makePaymentDialog.findViewById(R.id.continuePayTV);
+                    TextView closePayTV= makePaymentDialog.findViewById(R.id.closePayTV);
+                    paymentAmount.setHint(""+fullAmount);
+                    closePayTV.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            makePaymentDialog.dismiss();
+                        }
+                    });
+
+                    continuePayTV.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                                String am=paymentAmount.getText().toString();
+                                if(!TextUtils.isEmpty(am)){
+                                    try {
+                                        double value=Double.parseDouble(am);
+                                        if(value>=10){
+                                            if(indexNumber==2){
+                                                Intent intent = new Intent(PaymentMethodsActivity.this, WebViewActivity.class);
+                                                intent.putExtra("isTerms", false);
+                                                intent.putExtra("url","https://mulven.com/app_nagad_payment?order_id="+ orderId +"&amount="+ value +"&user_id=" + userId);
+//                                              startActivity(intent);
+                                                activityLauncher.launch(intent, PaymentMethodsActivity.this);
+                                            }else if(indexNumber==3){
+                                                getShurjoPayment(value);
+                                            }else if(indexNumber==4||indexNumber==5||indexNumber==6){
+
+                                                checkWalletPay(title, String.valueOf(value), orderId);
+                                            }
+                                            makePaymentDialog.dismiss();
+                                        }else
+                                            Toast.makeText(PaymentMethodsActivity.this, "Minimum amount 10Tk", Toast.LENGTH_SHORT).show();
+
+                                    }catch (Exception e){
+                                        Toast.makeText(PaymentMethodsActivity.this, "Amount must be number", Toast.LENGTH_SHORT).show();
+                                    }
+
+
+                                }else{
+                                    Toast.makeText(PaymentMethodsActivity.this, "Please enter your amount", Toast.LENGTH_SHORT).show();
+                                }
+
+                            }
+                    });
     }
 
     private void getShurjoPayment(double amount) {
@@ -276,3 +334,59 @@ public class PaymentMethodsActivity extends BaseActivity implements OnPMethodIte
 //        }
 //    }
 }
+
+
+
+
+
+/*else{
+                    String amount=dueTV.getText().toString().substring(2);
+                    makePaymentDialog = new Dialog(PlaceOrderDetailsActivity.this);
+                    makePaymentDialog.setContentView(R.layout.make_payment_layout_design);
+                    makePaymentDialog.setCancelable(false);
+                    makePaymentDialog.show();
+                    Window window = makePaymentDialog.getWindow();
+                    window.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    EditText paymentAmount= makePaymentDialog.findViewById(R.id.makePayET);
+                    TextView continuePayTV= makePaymentDialog.findViewById(R.id.continuePayTV);
+                    TextView closePayTV= makePaymentDialog.findViewById(R.id.closePayTV);
+                    paymentAmount.setHint(amount);
+                    closePayTV.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            makePaymentDialog.dismiss();
+                        }
+                    });
+
+                    continuePayTV.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                                String am=paymentAmount.getText().toString();
+                                if(!TextUtils.isEmpty(am)){
+                                    try {
+                                        double value=Double.parseDouble(am);
+                                        if(value>0){
+                                            Intent intent = new Intent(PlaceOrderDetailsActivity.this, PaymentMethodsActivity.class);
+                                            intent.putExtra("amount", value);
+                                            intent.putExtra("FAmount", dueTV.getText().toString());
+                                            intent.putExtra("orderId", OrderId);
+                                            intent.putExtra("isCampaign", isCampaignAvailable);
+                                            activityLauncher.launch(intent, PlaceOrderDetailsActivity.this);
+                                            makePaymentDialog.dismiss();
+                                        }else
+                                            Toast.makeText(PlaceOrderDetailsActivity.this, "Amount can not 0", Toast.LENGTH_SHORT).show();
+
+                                    }catch (Exception e){
+                                        Toast.makeText(PlaceOrderDetailsActivity.this, "Amount must be number", Toast.LENGTH_SHORT).show();
+                                    }
+
+
+                                }else{
+                                    Toast.makeText(PlaceOrderDetailsActivity.this, "Please enter your amount", Toast.LENGTH_SHORT).show();
+                                }
+
+                            }
+                    });
+
+                }
+*/

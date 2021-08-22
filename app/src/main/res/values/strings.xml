@@ -37,13 +37,13 @@
     <string name="hello_world">Hello Square World!</string>
 
     <string-array name="issue_type">
-        <item>Payment</item>
+        <item>Payment Issue</item>
         <item>Delivery Acknowledgement</item>
         <item>Refund Issue</item>
         <item>Other</item>
     </string-array>
     <string-array name="issue_type2">
-        <item>Payment</item>
+        <item>Payment Issue</item>
         <item>Delivery Acknowledgement</item>
         <item>Refund Issue</item>
         <item>Other</item>

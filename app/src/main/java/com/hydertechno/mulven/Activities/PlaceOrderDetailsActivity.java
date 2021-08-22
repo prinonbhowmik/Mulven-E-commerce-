@@ -82,7 +82,7 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
             customerPhoneTV, customerAddressTV, customerAddressEditTV, totalPaidTV,orderStatusTV,reportIssueTV,existingIssueTV;
     public static TextView totalPriceTv, dueTV,makePaymentTV,refundPaymentTV;
     public static double totalPay;
-    private Dialog cancelledDialog, makePaymentDialog;
+    private Dialog cancelledDialog;
     private RatingBar ratingBar;
     private String token, OrderId,paymentOrderStatus,orderStatus,invoiceStatus;
     private int userId;
@@ -100,7 +100,6 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
     private LoadingDialog loadingDialog;
     private boolean isCampaignAvailable = false;
     private double paidAmount;
-
     private boolean isResult = false;
 
     @Override
@@ -119,60 +118,21 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
         invoiceStatus=intent.getStringExtra("OrderStatus");
         orderStatusTV.setText(paymentOrderStatus);
         getInvoiceDetails();
+
         makePaymentTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 checkConnection();
                 if (!isConnected) {
                     snackBar(isConnected);
-                }else{
-                    String amount=dueTV.getText().toString().substring(2);
-                    makePaymentDialog = new Dialog(PlaceOrderDetailsActivity.this);
-                    makePaymentDialog.setContentView(R.layout.make_payment_layout_design);
-                    makePaymentDialog.setCancelable(false);
-                    makePaymentDialog.show();
-                    Window window = makePaymentDialog.getWindow();
-                    window.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    EditText paymentAmount= makePaymentDialog.findViewById(R.id.makePayET);
-                    TextView continuePayTV= makePaymentDialog.findViewById(R.id.continuePayTV);
-                    TextView closePayTV= makePaymentDialog.findViewById(R.id.closePayTV);
-                    paymentAmount.setHint(amount);
-                    closePayTV.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            makePaymentDialog.dismiss();
-                        }
-                    });
-
-                    continuePayTV.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                                String am=paymentAmount.getText().toString();
-                                if(!TextUtils.isEmpty(am)){
-                                    try {
-                                        double value=Double.parseDouble(am);
-                                        if(value>0){
-                                            Intent intent = new Intent(PlaceOrderDetailsActivity.this, PaymentMethodsActivity.class);
-                                            intent.putExtra("amount", value);
-                                            intent.putExtra("FAmount", dueTV.getText().toString());
-                                            intent.putExtra("orderId", OrderId);
-                                            intent.putExtra("isCampaign", isCampaignAvailable);
-                                            activityLauncher.launch(intent, PlaceOrderDetailsActivity.this);
-                                            makePaymentDialog.dismiss();
-                                        }else
-                                            Toast.makeText(PlaceOrderDetailsActivity.this, "Amount can not 0", Toast.LENGTH_SHORT).show();
-
-                                    }catch (Exception e){
-                                        Toast.makeText(PlaceOrderDetailsActivity.this, "Amount must be number", Toast.LENGTH_SHORT).show();
-                                    }
-
-
-                                }else{
-                                    Toast.makeText(PlaceOrderDetailsActivity.this, "Please enter your amount", Toast.LENGTH_SHORT).show();
-                                }
-
-                            }
-                    });
+                }else {
+                    String amounts=dueTV.getText().toString().substring(2);
+                    double amount=Double.parseDouble(amounts);
+                    Intent intent = new Intent(PlaceOrderDetailsActivity.this, PaymentMethodsActivity.class);
+                    intent.putExtra("FAmount", amount);
+                    intent.putExtra("orderId", OrderId);
+                    intent.putExtra("isCampaign", isCampaignAvailable);
+                    activityLauncher.launch(intent, PlaceOrderDetailsActivity.this);
 
                 }
             }
