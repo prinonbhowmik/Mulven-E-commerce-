@@ -345,7 +345,7 @@
                 android:id="@+id/sendInvitationCV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:layout_below="@+id/refundSettlementCV"
                 android:layout_margin="5dp"
                 app:cardCornerRadius="10dp"
