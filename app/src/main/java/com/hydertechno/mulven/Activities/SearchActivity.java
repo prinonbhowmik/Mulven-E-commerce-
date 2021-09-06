@@ -78,7 +78,9 @@ public class SearchActivity extends AppCompatActivity implements OnQueryTextChan
                     allSearchAdapter = new SearchAdapter(list, SearchActivity.this);
                     allProductRecycler.setAdapter(allSearchAdapter);
                 }
-                allSearchAdapter.notifyDataSetChanged();
+
+                if (allSearchAdapter!= null)
+                    allSearchAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -158,7 +160,8 @@ public class SearchActivity extends AppCompatActivity implements OnQueryTextChan
             snackBar(isConnected);
         }else{
             if (!query.equals("")){
-                allSearchAdapter.getFilter().filter(query);
+                if (allSearchAdapter!= null)
+                    allSearchAdapter.getFilter().filter(query);
             }else{
                 getAllProducts();
             }

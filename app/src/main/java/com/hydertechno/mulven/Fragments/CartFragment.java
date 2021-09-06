@@ -134,6 +134,7 @@ public class CartFragment extends Fragment  implements ConnectivityReceiver.Conn
                                         parms.put("variant", item.getVariant());
                                         parms.put("size", item.getSize());
                                         parms.put("color", item.getColor());
+                                        parms.put("mrp_price",String.valueOf(item.getMrp_price()));
                                         parms.put("price", String.valueOf(item.getUnit_price()));
                                         parms.put("order_from", item.getCampaignId());
                                         parms.put("store_id", String.valueOf(item.getStoreId()));
@@ -172,8 +173,9 @@ public class CartFragment extends Fragment  implements ConnectivityReceiver.Conn
                                         }
                                         @Override
                                         public void onFailure(Call<PlaceOrderModel> call, Throwable t) {
+                                            Log.e("List", t.getMessage());
                                             showErrorDialog("Something went wrong, Please contact support!");
-                                            progressRL.setVisibility(View.VISIBLE);
+                                            progressRL.setVisibility(View.GONE);
                                         }
                                     });
                                 }

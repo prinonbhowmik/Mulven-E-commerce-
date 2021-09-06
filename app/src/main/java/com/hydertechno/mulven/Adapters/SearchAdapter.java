@@ -102,7 +102,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             categoriesModelList.clear();
-            categoriesModelList.addAll((List) results.values);
+            if (results != null && results.values != null)
+                categoriesModelList.addAll((List) results.values);
             notifyDataSetChanged();
         }
     };
