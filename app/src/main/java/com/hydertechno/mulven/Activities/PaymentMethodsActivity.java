@@ -140,7 +140,12 @@ public class PaymentMethodsActivity extends BaseActivity implements OnPMethodIte
         }
         switch (item.getId()) {
             case 1:
-                bankPaymentDialog = new Dialog(context);
+
+                Intent intent = new Intent(PaymentMethodsActivity.this, BankPaymentDetailsActivity.class);
+                intent.putExtra("fullAmount", fullAmount);
+                intent.putExtra("orderId", orderId);
+                startActivity(intent);
+                /*bankPaymentDialog = new Dialog(context);
                 bankPaymentDialog.setContentView(R.layout.bank_payment_layout_design);
                 bankPaymentDialog.setCancelable(true);
                 TextView bankAmount;
@@ -154,7 +159,7 @@ public class PaymentMethodsActivity extends BaseActivity implements OnPMethodIte
                     public void onClick(View view) {
                         bankPaymentDialog.dismiss();
                     }
-                });
+                });*/
                 break;
             case 2:
                 //nagad

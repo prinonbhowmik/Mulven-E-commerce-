@@ -18,7 +18,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Mulven">
-        <activity android:name=".Activities.RefundRequestActivity"></activity>
+        <activity android:name=".Activities.DepositorFormActivity"></activity>
+        <activity android:name=".Activities.BankPaymentDetailsActivity" />
+        <activity android:name=".Activities.RefundRequestActivity" />
         <activity android:name=".Activities.RewardsActivity" />
         <activity
             android:name=".Activities.RefundMethodFormActivity"
