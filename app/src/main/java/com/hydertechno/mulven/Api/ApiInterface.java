@@ -1,5 +1,6 @@
 package com.hydertechno.mulven.Api;
 
+import com.hydertechno.mulven.Models.BankDepositModel;
 import com.hydertechno.mulven.Models.Campaign;
 import com.hydertechno.mulven.Models.CampaignProductsModel;
 import com.hydertechno.mulven.Models.CancellationReasonModel;
@@ -107,6 +108,17 @@ public interface ApiInterface {
                                                  @Part("email") RequestBody email,
                                                  @Part("address") RequestBody address,
                                                  @Part MultipartBody.Part user_photo);
+
+    @Headers({"Content-Type: application/json","Accept: application/json,text/plain,*/*"})
+    @Multipart
+    @POST("ofline-pay-for-review")
+    Call<BankDepositModel> sendBankDeposit(@Part("depo_name") RequestBody depo_name,
+                                           @Part("depo_phone") RequestBody depo_phone,
+                                           @Part("order_id") RequestBody order_id,
+                                           @Part("bank_name") RequestBody bank_name,
+                                           @Part("pay_am") RequestBody pay_am,
+                                           @Part("token") RequestBody token,
+                                           @Part MultipartBody.Part depo_slip);
 
     @GET("all-product")
     Call<List<CategoriesModel>> searchProduct();

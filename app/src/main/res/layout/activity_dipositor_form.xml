@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/depositorRootLayout"
+    android:focusableInTouchMode="true"
     tools:context=".Activities.DepositorFormActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -20,11 +21,11 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
             android:id="@+id/cb6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -38,126 +39,154 @@
             android:layout_marginTop="15dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"/>
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/depositorNameTIL"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/depositorNameTIL"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            app:boxCornerRadiusBottomStart="10dp"
+            app:boxCornerRadiusTopEnd="10dp"
+            android:hint="Depositor's Name"
+            app:hintTextColor="@color/black"
+            android:textColorHint="#000"
+            app:boxBackgroundMode="outline">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/depositorNameET"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
-                app:boxCornerRadiusBottomStart="10dp"
-                app:boxCornerRadiusTopEnd="10dp"
-                android:hint="Depositor's Name"
-                app:hintTextColor="@color/black"
-                android:textColorHint="#000"
-                app:boxBackgroundMode="outline">
+                android:layout_height="match_parent"
+                android:inputType="text"
+                android:maxLines="1"
+                android:fontFamily="@font/comfortaa_light"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:textColor="#000"
+                android:textSize="18sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/depositorPhoneTIL"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            app:boxCornerRadiusBottomStart="10dp"
+            app:boxCornerRadiusTopEnd="10dp"
+            android:hint="Depositor's Phone Number"
+            app:hintTextColor="@color/black"
+            android:textColorHint="#000"
+            app:boxBackgroundMode="outline">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/depositorNameET"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:inputType="phone"
-                    android:maxLines="1"
-                    android:fontFamily="@font/comfortaa_light"
-                    android:paddingStart="20dp"
-                    android:paddingEnd="20dp"
-                    android:textColor="#000"
-                    android:textSize="18sp" />
-            </com.google.android.material.textfield.TextInputLayout>
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/depositorPhoneTIL"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/depositorPhoneET"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
-                app:boxCornerRadiusBottomStart="10dp"
-                app:boxCornerRadiusTopEnd="10dp"
-                android:hint="Depositor's Phone Number"
-                app:hintTextColor="@color/black"
-                android:textColorHint="#000"
-                app:boxBackgroundMode="outline">
+                android:layout_height="match_parent"
+                android:inputType="phone"
+                android:maxLines="1"
+                android:fontFamily="@font/comfortaa_light"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:textColor="#000"
+                android:textSize="18sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/depositorBankTIL"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            app:boxCornerRadiusBottomStart="10dp"
+            app:boxCornerRadiusTopEnd="10dp"
+            android:hint="Depositor's Bank Name"
+            app:hintTextColor="@color/black"
+            android:textColorHint="#000"
+            app:boxBackgroundMode="outline">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/depositorPhoneET"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:inputType="phone"
-                    android:maxLines="1"
-                    android:fontFamily="@font/comfortaa_light"
-                    android:paddingStart="20dp"
-                    android:paddingEnd="20dp"
-                    android:textColor="#000"
-                    android:textSize="18sp" />
-            </com.google.android.material.textfield.TextInputLayout>
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/depositorBankTIL"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/depositorBankET"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
-                app:boxCornerRadiusBottomStart="10dp"
-                app:boxCornerRadiusTopEnd="10dp"
-                android:hint="Depositor's Bank Name"
-                app:hintTextColor="@color/black"
-                android:textColorHint="#000"
-                app:boxBackgroundMode="outline">
+                android:layout_height="match_parent"
+                android:inputType="text"
+                android:maxLines="1"
+                android:fontFamily="@font/comfortaa_light"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:textColor="#000"
+                android:textSize="18sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/depositorAmountTIL"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            app:boxCornerRadiusBottomStart="10dp"
+            app:boxCornerRadiusTopEnd="10dp"
+            android:hint="Amount"
+            app:hintTextColor="@color/black"
+            android:textColorHint="#000"
+            app:boxBackgroundMode="outline">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/depositorBankET"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:inputType="phone"
-                    android:maxLines="1"
-                    android:fontFamily="@font/comfortaa_light"
-                    android:paddingStart="20dp"
-                    android:paddingEnd="20dp"
-                    android:textColor="#000"
-                    android:textSize="18sp" />
-            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/depositorAmountET"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal"
+                android:maxLines="1"
+                android:fontFamily="@font/comfortaa_light"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:textColor="#000"
+                android:textSize="18sp" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-            <RelativeLayout
-                android:id="@+id/uploadBtn"
-                android:layout_gravity="center_horizontal"
+        <RelativeLayout
+            android:id="@+id/uploadBtn"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            android:background="#e9eef1">
+            <ImageView
+                android:id="@+id/bankReceiptIV"
                 android:layout_width="match_parent"
                 android:layout_height="220dp"
-                android:layout_marginStart="40dp"
-                android:layout_marginEnd="40dp"
-                android:layout_marginBottom="20dp"
-                android:layout_marginTop="20dp"
-                android:background="#e9eef1">
-                <ImageView
-                    android:id="@+id/bankReceiptIV"
-                    android:layout_width="match_parent"
-                    android:layout_height="220dp"
-                    android:src="@drawable/upload_imag"/>
-            </RelativeLayout>
+                android:src="@drawable/upload_imag"/>
+        </RelativeLayout>
 
-            <TextView
-                android:id="@+id/submit_bankPaymentTV"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:text="Submit"
-                android:gravity="center"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:paddingBottom="4dp"
-                android:visibility="visible"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/btn_background_blue"
-                android:textColor="@color/white"
-                android:textSize="17sp"
-                android:fontFamily="@font/comfortaa"
-                android:textAllCaps="false"/>
+        <TextView
+            android:id="@+id/submit_bankPaymentTV"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="Submit"
+            android:gravity="center"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="4dp"
+            android:visibility="visible"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/btn_background_blue"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            android:fontFamily="@font/comfortaa"
+            android:textAllCaps="false"/>
 
-        </LinearLayout>
+    </LinearLayout>
 
     </ScrollView>
+    <include layout="@layout/layout_circular_progress" />
 </RelativeLayout>
