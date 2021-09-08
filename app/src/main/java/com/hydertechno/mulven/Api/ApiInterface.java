@@ -15,6 +15,7 @@ import com.hydertechno.mulven.Models.OrderListModel;
 import com.hydertechno.mulven.Models.PlaceOrderModel;
 import com.hydertechno.mulven.Models.PostRefundSettlementResponse;
 import com.hydertechno.mulven.Models.ProductDetailsModel;
+import com.hydertechno.mulven.Models.ProfileUpdateResponse;
 import com.hydertechno.mulven.Models.RefundSettlementResponse;
 import com.hydertechno.mulven.Models.RequestReportBody;
 import com.hydertechno.mulven.Models.ResponseUpdate;
@@ -25,8 +26,11 @@ import com.hydertechno.mulven.Models.TransactionModel;
 import com.hydertechno.mulven.Models.UserProfile;
 import com.hydertechno.mulven.Models.WalletPayStatus;
 
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -99,11 +103,11 @@ public interface ApiInterface {
 
     @Headers({"Content-Type: application/json","Accept: application/json,text/plain,*/*"})
     @POST("profile-update")
-    @FormUrlEncoded
-    Call<UserProfile> updateProfileData(@Query("token") String token,
-                                         @Field("full_name") String name,
-                                         @Field("email") String email,
-                                         @Field("address") String address);
+//    @FormUrlEncoded
+    Call<ProfileUpdateResponse> updateProfileData(@Query("token") String token,
+                                                  @Query("full_name") String name,
+                                                  @Query("email") String email,
+                                                  @Query("address") String address);
     @Multipart
     @POST("profile-update")
     Call<UserProfile> updateProfileDataWithImage(@Part("token") RequestBody token,
@@ -114,11 +118,11 @@ public interface ApiInterface {
 
     @Headers({"Content-Type: application/json","Accept: application/json,text/plain,*/*"})
     @Multipart
-    @POST("ofline-pay-for-review")
+    @POST("ofline-pay")
     Call<BankDepositModel> sendBankDeposit(
-            @Header("token") RequestBody token,
-            @PartMap HashMap<String, RequestBody> body
-//            @Part MultipartBody.Part depo_slip
+            @Query("token") String token,
+            @Part MultipartBody.Part depo_slip,
+            @PartMap() Map<String, RequestBody> bodyMap
     );
 
     @GET("all-product")

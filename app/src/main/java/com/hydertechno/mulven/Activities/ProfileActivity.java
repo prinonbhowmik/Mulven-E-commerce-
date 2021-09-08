@@ -23,6 +23,7 @@ import com.hydertechno.mulven.Api.ApiUtils;
 import com.hydertechno.mulven.Api.Config;
 import com.hydertechno.mulven.Internet.Connection;
 import com.hydertechno.mulven.Internet.ConnectivityReceiver;
+import com.hydertechno.mulven.Models.ProfileUpdateResponse;
 import com.hydertechno.mulven.Models.UserProfile;
 import com.hydertechno.mulven.R;
 import com.squareup.picasso.Picasso;
@@ -157,15 +158,15 @@ public class ProfileActivity extends AppCompatActivity implements ConnectivityRe
                         }
                     });
                 } else {
-                    Call<UserProfile> call1 = ApiUtils.getUserService()
+                    Call<ProfileUpdateResponse> call1 = ApiUtils.getUserService()
                             .updateProfileData(
                                     token,
                                     nameET.getText().toString(),
                                     emailET.getText().toString(),
                                     addressET.getText().toString());
-                    call1.enqueue(new Callback<UserProfile>() {
+                    call1.enqueue(new Callback<ProfileUpdateResponse>() {
                         @Override
-                        public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
+                        public void onResponse(Call<ProfileUpdateResponse> call, Response<ProfileUpdateResponse> response) {
                             Log.e(TAG, response.toString());
                             if (response.isSuccessful()) {
                                 String status = response.body().getStatus();
@@ -184,7 +185,7 @@ public class ProfileActivity extends AppCompatActivity implements ConnectivityRe
                         }
 
                         @Override
-                        public void onFailure(Call<UserProfile> call, Throwable t) {
+                        public void onFailure(Call<ProfileUpdateResponse> call, Throwable t) {
                             Log.e(TAG, t.getMessage());
                         }
                     });

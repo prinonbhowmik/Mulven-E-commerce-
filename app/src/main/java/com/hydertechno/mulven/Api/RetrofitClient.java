@@ -2,7 +2,6 @@ package com.hydertechno.mulven.Api;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.util.concurrent.TimeUnit;
 
@@ -22,7 +21,7 @@ public class RetrofitClient {
                     .setLenient()
                     .create();
             HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-            interceptor.level(HttpLoggingInterceptor.Level.BODY);
+            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
             OkHttpClient.Builder client = new OkHttpClient.Builder();
             client.readTimeout(REQUEST_TIMEOUT, TimeUnit.SECONDS);
             client.writeTimeout(REQUEST_TIMEOUT, TimeUnit.SECONDS);
@@ -30,7 +29,6 @@ public class RetrofitClient {
             client.addInterceptor(interceptor);
             retrofit = new Retrofit.Builder()
                     .baseUrl(url)
-                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .addConverterFactory(ScalarsConverterFactory.create())
                     .build();
