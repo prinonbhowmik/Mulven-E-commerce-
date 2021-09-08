@@ -28,12 +28,14 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.Objects;
 
 import es.dmoral.toasty.Toasty;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -106,20 +108,24 @@ public class DepositorFormActivity extends BaseActivity {
                         progressRL.setVisibility(View.VISIBLE);
                         File image_file = new File(imageUri.getPath());
 
-                        Log.d("checkToken", userToken + " , " + imageUri.toString());
-
-                        RequestBody userImage = RequestBody.create(MediaType.parse("image/*"), image_file);
+                        RequestBody userImage = RequestBody.create(MediaType.parse("multipart/form-data"), image_file);
 
                         MultipartBody.Part depo_slip = MultipartBody.Part.createFormData("depo_slip", image_file.getName(), userImage);
-                        RequestBody depo_name = RequestBody.create(MediaType.parse("text/plain"), depositorName);
-                        RequestBody depo_phone = RequestBody.create(MediaType.parse("text/plain"), depositorPhone);
-                        RequestBody bank_name = RequestBody.create(MediaType.parse("text/plain"), depositorBankName);
-                        RequestBody pay_am = RequestBody.create(MediaType.parse("text/plain"), depositAmount);
-                        RequestBody order_id = RequestBody.create(MediaType.parse("text/plain"), orderId);
-                        RequestBody token = RequestBody.create(MediaType.parse("text/plain"), userToken);
+                        RequestBody depo_name = RequestBody.create(MediaType.parse("multipart/form-data"), depositorName);
+                        RequestBody depo_phone = RequestBody.create(MediaType.parse("multipart/form-data"), depositorPhone);
+                        RequestBody bank_name = RequestBody.create(MediaType.parse("multipart/form-data"), depositorBankName);
+                        RequestBody pay_am = RequestBody.create(MediaType.parse("multipart/form-data"), depositAmount);
+                        RequestBody order_id = RequestBody.create(MediaType.parse("multipart/form-data"), orderId);
+                        RequestBody token = RequestBody.create(MediaType.parse("multipart/form-data"), "Bearer " + userToken);
 
-                        Call<BankDepositModel> call= ApiUtils.getUserService().sendBankDeposit(depo_name,
-                                depo_phone,order_id, bank_name, pay_am, token, depo_slip);
+                        HashMap<String, RequestBody> bodyMap = new HashMap<>();
+                        bodyMap.put("depo_name", depo_name);
+                        bodyMap.put("depo_phone", depo_phone);
+                        bodyMap.put("bank_name", bank_name);
+                        bodyMap.put("pay_am", pay_am);
+                        bodyMap.put("order_id", order_id);
+
+                        Call<BankDepositModel> call= ApiUtils.getUserService().sendBankDeposit(token, bodyMap);
                         call.enqueue(new Callback<BankDepositModel>() {
                             @Override
                             public void onResponse(Call<BankDepositModel> call, Response<BankDepositModel> response) {
@@ -130,15 +136,16 @@ public class DepositorFormActivity extends BaseActivity {
                                         Toasty.success(DepositorFormActivity.this,""+response.body().getText(),Toasty.LENGTH_SHORT).show();
                                     }else{
                                         progressRL.setVisibility(View.GONE);
-                                        Toasty.error(DepositorFormActivity.this,"Something went wrong!",Toasty.LENGTH_SHORT).show();
+                                        Toasty.error(DepositorFormActivity.this,""+response.body().getText(),Toasty.LENGTH_SHORT).show();
+                                        //Toasty.error(DepositorFormActivity.this,"Something went wrong!",Toasty.LENGTH_SHORT).show();
                                     }
+                                    Log.e("OnResponse=====>", response.body().getStatus()+"");
                                 }
                                 else{
                                     progressRL.setVisibility(View.GONE);
                                     Toasty.error(DepositorFormActivity.this,"Something went wrong!",Toasty.LENGTH_SHORT).show();
                                 }
 
-                                Log.e("OnResponse=====>", response.body().getStatus() + " , " + response.body().getText());
                             }
 
                             @Override

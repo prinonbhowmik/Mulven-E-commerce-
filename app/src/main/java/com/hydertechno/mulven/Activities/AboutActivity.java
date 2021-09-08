@@ -62,7 +62,7 @@ public class AboutActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent1=new Intent(Intent.ACTION_VIEW);
-                intent1.setData(Uri.parse("geo:23.80681,90.4254013"));
+                intent1.setData(Uri.parse("geo:23.8339934,90.4180273"));
                 Intent c=Intent.createChooser(intent1,"Launch Maps");
                 startActivity(c);
             }

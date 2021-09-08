@@ -164,7 +164,7 @@
             android:id="@+id/mv_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Moti mahal 2023 Abdus Sobhan Dhali Rd, Dhaka 1212"
+            android:text="House # 1C/1D, Road #16, Nikunja #2, Khilkhet, Dhaka-1229"
             android:layout_below="@id/mvAddressIV"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
