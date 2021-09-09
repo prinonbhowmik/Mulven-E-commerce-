@@ -165,6 +165,9 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
                     snackBar(isConnected);
                 }else {
                     Intent intent = new Intent(PlaceOrderDetailsActivity.this, RefundRequestActivity.class);
+
+                    intent.putExtra("orderId", OrderId);
+                    intent.putExtra("refundAmount", paidAmount);
                     overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
                     startActivity(intent);
                 }

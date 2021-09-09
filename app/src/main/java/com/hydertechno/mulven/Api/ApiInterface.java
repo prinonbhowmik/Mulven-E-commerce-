@@ -20,6 +20,7 @@ import com.hydertechno.mulven.Models.RefundSettlementResponse;
 import com.hydertechno.mulven.Models.RequestReportBody;
 import com.hydertechno.mulven.Models.ResponseUpdate;
 import com.hydertechno.mulven.Models.SettlementModel;
+import com.hydertechno.mulven.Models.SettlementRequestResponse;
 import com.hydertechno.mulven.Models.Sliderimage;
 import com.hydertechno.mulven.Models.SubCatModel;
 import com.hydertechno.mulven.Models.TransactionModel;
@@ -222,4 +223,14 @@ public interface ApiInterface {
             @Query("token") String token,
             @Query("order_id") String orderId
     );
+
+
+    @Headers({"Content-Type: application/json","Accept: application/json,text/plain,*/*"})
+    @POST("refund-request")
+//    @FormUrlEncoded
+    Call<SettlementRequestResponse> sendRefundRequest(@Query("token") String token,
+                                                      @Query("order_id") String order_id,
+                                                      @Query("amount") double amount,
+                                                      @Query("account_type") String account_type,
+                                                      @Query("description") String address);
 }

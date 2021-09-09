@@ -98,6 +98,9 @@ public class DepositorFormActivity extends BaseActivity {
                     } else if (TextUtils.isEmpty(depositorPhone)) {
                         depositorPhoneTIL.setError("Please enter phone number");
                         depositorPhoneET.requestFocus();
+                    }else if (depositorPhone.length() != 11) {
+                        depositorPhoneTIL.setError("Please provide correct phone number");
+                        depositorPhoneET.requestFocus();
                     } else if (TextUtils.isEmpty(depositorBankName)) {
                         depositorBankTIL.setError("Please enter bank name");
                         depositorBankET.requestFocus();

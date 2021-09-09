@@ -91,8 +91,8 @@ public class PaymentMethodsActivity extends BaseActivity implements OnPMethodIte
         methodModelsList=new ArrayList<>();
         methodModelsList.add(new PaymentMethodModel(1,"Bank", "Pay by bank account", R.drawable.bank_transfer));
         methodModelsList.add(new PaymentMethodModel(2, "Nagad", "Pay from your Nagad account", R.drawable.ic_nagad));
-        methodModelsList.add(new PaymentMethodModel(3,"bKash", "Pay from your Nagad account", R.drawable.ic_bkash));
-       // methodModelsList.add(new PaymentMethodModel(3,"Shurjo Pay", "Choose your desire payment method by Shurjo Pay", R.drawable.shurjo_pay));
+//        methodModelsList.add(new PaymentMethodModel(3,"bKash", "Pay from your Nagad account", R.drawable.ic_bkash));
+        methodModelsList.add(new PaymentMethodModel(3,"Shurjo Pay", "Choose your desire payment method by Shurjo Pay", R.drawable.shurjo_pay));
         if (!isCampaignAvailable) {
             methodModelsList.add(new PaymentMethodModel(4,"Account", "Pay by Mulven Account Wallet", R.drawable.mulven_wallet));
             methodModelsList.add(new PaymentMethodModel(5,"Voucher", "Pay by Mulven Voucher Wallet", R.drawable.mulven_wallet));
@@ -248,7 +248,8 @@ public class PaymentMethodsActivity extends BaseActivity implements OnPMethodIte
 //                                              startActivity(intent);
                                                 activityLauncher.launch(intent, PaymentMethodsActivity.this);
                                             }else if(indexNumber==3){
-                                                getBkahsPayment(value);
+                                                getShurjoPayment(value);
+//                                                getBkahsPayment(value);
                                             }else if(indexNumber==4||indexNumber==5||indexNumber==6){
 
                                                 checkWalletPay(title, String.valueOf(value), orderId);
@@ -274,7 +275,7 @@ public class PaymentMethodsActivity extends BaseActivity implements OnPMethodIte
 
     }
 
-    /*private void getShurjoPayment(double amount) {
+    private void getShurjoPayment(double amount) {
         int unique_id=(int)((new Date().getTime()/1000L)% Integer.MAX_VALUE);
         String Test_Username = "spaytest";
         String Test_Password ="JehPNXF58rXs";
@@ -310,7 +311,7 @@ public class PaymentMethodsActivity extends BaseActivity implements OnPMethodIte
                         Log.d("ss", ""+s);
                     }
                 });
-    }*/
+    }
 
 
 
