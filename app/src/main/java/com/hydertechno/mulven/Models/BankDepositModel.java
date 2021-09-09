@@ -6,92 +6,26 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 public class BankDepositModel implements Serializable {
-    @SerializedName("depo_name")
+    @SerializedName("status")
     @Expose
-    private String depoName;
-    @SerializedName("depo_phone")
+    private String status;
+    @SerializedName("text")
     @Expose
-    private String depoPhone;
-    @SerializedName("order_id")
-    @Expose
-    private String orderId;
-    @SerializedName("user_id")
-    @Expose
-    private Integer userId;
-    @SerializedName("payment_option")
-    @Expose
-    private String paymentOption;
-    @SerializedName("bank_tx_id")
-    @Expose
-    private String bankTxId;
-    @SerializedName("amount")
-    @Expose
-    private String amount;
-    @SerializedName("depo_slip")
-    @Expose
-    private String depoSlip;
+    private String text;
 
-    public String getDepoName() {
-        return depoName;
+    public String getStatus() {
+        return status;
     }
 
-    public void setDepoName(String depoName) {
-        this.depoName = depoName;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    public String getDepoPhone() {
-        return depoPhone;
+    public String getText() {
+        return text;
     }
 
-    public void setDepoPhone(String depoPhone) {
-        this.depoPhone = depoPhone;
-    }
-
-    public String getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(String orderId) {
-        this.orderId = orderId;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public String getPaymentOption() {
-        return paymentOption;
-    }
-
-    public void setPaymentOption(String paymentOption) {
-        this.paymentOption = paymentOption;
-    }
-
-    public String getBankTxId() {
-        return bankTxId;
-    }
-
-    public void setBankTxId(String bankTxId) {
-        this.bankTxId = bankTxId;
-    }
-
-    public String getAmount() {
-        return amount;
-    }
-
-    public void setAmount(String amount) {
-        this.amount = amount;
-    }
-
-    public String getDepoSlip() {
-        return depoSlip;
-    }
-
-    public void setDepoSlip(String depoSlip) {
-        this.depoSlip = depoSlip;
+    public void setText(String text) {
+        this.text = text;
     }
 }

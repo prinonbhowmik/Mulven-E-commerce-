@@ -111,45 +111,39 @@ public class DepositorFormActivity extends BaseActivity {
                         progressRL.setVisibility(View.VISIBLE);
                         File image_file = new File(imageUri.getPath());
 
-                        RequestBody userImage = RequestBody.create(MultipartBody.FORM, image_file);
+                        RequestBody userImage = RequestBody.create(image_file, MediaType.parse("image/*"));
 
                         MultipartBody.Part depo_slip = MultipartBody.Part.createFormData("depo_slip", image_file.getName(), userImage);
-                        RequestBody depo_name = RequestBody.create(MultipartBody.FORM, depositorName);
-                        RequestBody depo_phone = RequestBody.create(MultipartBody.FORM, depositorPhone);
-                        RequestBody bank_name = RequestBody.create(MultipartBody.FORM, depositorBankName);
-                        RequestBody pay_am = RequestBody.create(MultipartBody.FORM, depositAmount);
-                        RequestBody order_id = RequestBody.create(MultipartBody.FORM, orderId);
-//                        RequestBody token = RequestBody.create(MediaType.parse("multipart/form-data"), "Bearer " + userToken);
+                        RequestBody depo_name = RequestBody.create(depositorName, MediaType.parse("text/plain;charset=utf-8"));
+                        RequestBody depo_phone = RequestBody.create(depositorPhone, MediaType.parse("text/plain;charset=utf-8"));
+                        RequestBody bank_name = RequestBody.create(depositorBankName, MediaType.parse("text/plain;charset=utf-8"));
+                        RequestBody pay_am = RequestBody.create(depositAmount, MediaType.parse("text/plain;charset=utf-8"));
+                        RequestBody order_id = RequestBody.create(orderId, MediaType.parse("text/plain;charset=utf-8"));
+                        RequestBody token = RequestBody.create(userToken, MediaType.parse("text/plain;charset=utf-8"));
 
-                        HashMap<String, RequestBody> bodyMap = new HashMap<>();
-                        bodyMap.put("depo_name", depo_name);
-                        bodyMap.put("depo_phone", depo_phone);
-                        bodyMap.put("order_id", order_id);
-                        bodyMap.put("bank_name", bank_name);
-                        bodyMap.put("pay_am", pay_am);
-
-                        Call<BankDepositModel> call= ApiUtils.getUserService().sendBankDeposit(userToken, depo_slip, bodyMap);
+                        Call<BankDepositModel> call= ApiUtils.getUserService().sendBankDeposit(
+                                token, depo_name, depo_phone, order_id, bank_name, pay_am, depo_slip
+                        );
                         call.enqueue(new Callback<BankDepositModel>() {
                             @Override
                             public void onResponse(Call<BankDepositModel> call, Response<BankDepositModel> response) {
-//                                if (response.isSuccessful() && response.code() == 200) {
-//                                    String status = response.body().getStatus();
-//                                    if (status.equals("1")) {
-//                                        progressRL.setVisibility(View.GONE);
-//                                        Toasty.success(DepositorFormActivity.this,""+response.body().getText(),Toasty.LENGTH_SHORT).show();
-//                                    }else{
-//                                        progressRL.setVisibility(View.GONE);
-//                                        Toasty.error(DepositorFormActivity.this,""+response.body().getText(),Toasty.LENGTH_SHORT).show();
-//                                        //Toasty.error(DepositorFormActivity.this,"Something went wrong!",Toasty.LENGTH_SHORT).show();
-//                                    }
-//                                    Log.e("OnResponse=====>", response.body().getText()+"" + response.body().getStatus());
-//                                }
-//                                else{
-//                                    progressRL.setVisibility(View.GONE);
-//                                    Toasty.error(DepositorFormActivity.this,"Something went wrong!",Toasty.LENGTH_SHORT).show();
-//                                }
-
-                                Log.e("onResponse", response.body().getDepoName() + "");
+                                if (response.isSuccessful() && response.code() == 200) {
+                                    String status = response.body().getStatus();
+                                    if (status.equals("1")) {
+                                        progressRL.setVisibility(View.GONE);
+                                        Toasty.success(DepositorFormActivity.this,""+response.body().getText(),Toasty.LENGTH_LONG).show();
+                                        DepositorFormActivity.this.finish();
+                                    }else{
+                                        progressRL.setVisibility(View.GONE);
+                                        Toasty.error(DepositorFormActivity.this,""+response.body().getText(),Toasty.LENGTH_SHORT).show();
+                                        //Toasty.error(DepositorFormActivity.this,"Something went wrong!",Toasty.LENGTH_SHORT).show();
+                                    }
+                                    Log.e("OnResponse=====>", response.body().getText()+"" + response.body().getStatus());
+                                }
+                                else{
+                                    progressRL.setVisibility(View.GONE);
+                                    Toasty.error(DepositorFormActivity.this,"Something went wrong!",Toasty.LENGTH_SHORT).show();
+                                }
                             }
 
                             @Override

@@ -116,13 +116,16 @@ public interface ApiInterface {
                                                  @Part("address") RequestBody address,
                                                  @Part MultipartBody.Part user_photo);
 
-    @Headers({"Content-Type: application/json","Accept: application/json,text/plain,*/*"})
     @Multipart
     @POST("ofline-pay")
     Call<BankDepositModel> sendBankDeposit(
-            @Query("token") String token,
-            @Part MultipartBody.Part depo_slip,
-            @PartMap() Map<String, RequestBody> bodyMap
+            @Part("token") RequestBody token,
+            @Part("depo_name") RequestBody depo_name,
+            @Part("depo_phone") RequestBody depo_phone,
+            @Part("order_id") RequestBody order_id,
+            @Part("bank_name") RequestBody bank_name,
+            @Part("pay_am") RequestBody pay_am,
+            @Part MultipartBody.Part depo_slip
     );
 
     @GET("all-product")
