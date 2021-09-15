@@ -8,6 +8,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.ConsoleMessage;
+import android.webkit.WebChromeClient;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -46,6 +50,17 @@ public class WebViewActivity extends AppCompatActivity implements WebMsgInterfac
                 webView.setVisibility(View.VISIBLE);
                 loadingProgress.setVisibility(View.GONE);
                 super.onPageFinished(view, url);
+            }
+        });
+        webView.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
+                Log.d("MyApplication", consoleMessage.message() + " -- From line " +
+                        consoleMessage.lineNumber() + " of " + consoleMessage.sourceId());
+//                if (consoleMessage.message().contains("TypeError")) {
+//                    onMessage("Error");
+//                }
+                return true;
             }
         });
         webView.loadUrl(Url);

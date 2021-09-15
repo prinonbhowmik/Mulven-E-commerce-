@@ -91,12 +91,12 @@ public class PaymentMethodsActivity extends BaseActivity implements OnPMethodIte
         methodModelsList=new ArrayList<>();
         methodModelsList.add(new PaymentMethodModel(1,"Bank", "Pay by bank account", R.drawable.bank_transfer));
         methodModelsList.add(new PaymentMethodModel(2, "Nagad", "Pay from your Nagad account", R.drawable.ic_nagad));
-//        methodModelsList.add(new PaymentMethodModel(3,"bKash", "Pay from your Nagad account", R.drawable.ic_bkash));
-        methodModelsList.add(new PaymentMethodModel(3,"Shurjo Pay", "Choose your desire payment method by Shurjo Pay", R.drawable.shurjo_pay));
+        methodModelsList.add(new PaymentMethodModel(3,"bKash", "Pay from your Bkash account", R.drawable.ic_bkash));
+        methodModelsList.add(new PaymentMethodModel(4,"Shurjo Pay", "Choose your desire payment method by Shurjo Pay", R.drawable.shurjo_pay));
         if (!isCampaignAvailable) {
-            methodModelsList.add(new PaymentMethodModel(4,"Account", "Pay by Mulven Account Wallet", R.drawable.mulven_wallet));
-            methodModelsList.add(new PaymentMethodModel(5,"Voucher", "Pay by Mulven Voucher Wallet", R.drawable.mulven_wallet));
-            methodModelsList.add(new PaymentMethodModel(6,"Cashback", "Pay by Mulven Cashback Wallet", R.drawable.mulven_wallet));
+            methodModelsList.add(new PaymentMethodModel(5,"Account", "Pay by Mulven Account Wallet", R.drawable.mulven_wallet));
+            methodModelsList.add(new PaymentMethodModel(6,"Voucher", "Pay by Mulven Voucher Wallet", R.drawable.mulven_wallet));
+            methodModelsList.add(new PaymentMethodModel(7,"Cashback", "Pay by Mulven Cashback Wallet", R.drawable.mulven_wallet));
         }
 
         methodsAdapter.updateData(methodModelsList);
@@ -140,7 +140,6 @@ public class PaymentMethodsActivity extends BaseActivity implements OnPMethodIte
         }
         switch (item.getId()) {
             case 1:
-
                 Intent intent = new Intent(PaymentMethodsActivity.this, BankPaymentDetailsActivity.class);
                 intent.putExtra("fullAmount", fullAmount);
                 intent.putExtra("orderId", orderId);
@@ -176,6 +175,9 @@ public class PaymentMethodsActivity extends BaseActivity implements OnPMethodIte
                 break;
             case 6:
                 paymentDialog(item.getTitle(),6);
+                break;
+            case 7:
+                paymentDialog(item.getTitle(),7);
                 break;
         }
     }
@@ -248,10 +250,14 @@ public class PaymentMethodsActivity extends BaseActivity implements OnPMethodIte
 //                                              startActivity(intent);
                                                 activityLauncher.launch(intent, PaymentMethodsActivity.this);
                                             }else if(indexNumber==3){
+                                                Intent intent = new Intent(PaymentMethodsActivity.this, WebViewActivity.class);
+                                                intent.putExtra("isTerms", false);
+                                                intent.putExtra("url","https://mulven.com/app_bkash_payment?order_id="+ orderId +"&amount="+ value +"&user_id=" + userId);
+//                                              startActivity(intent);
+                                                activityLauncher.launch(intent, PaymentMethodsActivity.this);
+                                            }else if(indexNumber==4){
                                                 getShurjoPayment(value);
-//                                                getBkahsPayment(value);
-                                            }else if(indexNumber==4||indexNumber==5||indexNumber==6){
-
+                                            }else if(indexNumber==7||indexNumber==5||indexNumber==6){
                                                 checkWalletPay(title, String.valueOf(value), orderId);
                                             }
                                             makePaymentDialog.dismiss();
@@ -330,6 +336,8 @@ public class PaymentMethodsActivity extends BaseActivity implements OnPMethodIte
                     intent.putExtra("resultPay", data.getStringExtra("result"));
                     setResult(Activity.RESULT_OK, intent);
                     PaymentMethodsActivity.this.finish();
+                } else {
+                    Toasty.error(PaymentMethodsActivity.this, "Payment failed", Toasty.LENGTH_SHORT).show();
                 }
             }
         }
