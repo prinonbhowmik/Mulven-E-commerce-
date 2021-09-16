@@ -140,7 +140,7 @@ public interface ApiInterface {
                                              @Field("new_psss") String new_pass,
                                              @Field("con_pass") String con_pass);
 
-    @GET("forgot-password-otp?phone")
+    @GET("forgot-password-otp")
     Call<UserProfile> matchOTP(@Query("phone") String phone);
 
     @POST("forgot-password")
