@@ -79,19 +79,19 @@ import retrofit2.Response;
 
 public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu.OnMenuItemClickListener, BetterActivityResult.OnActivityResult<ActivityResult> {
     private TextView invoiceIdTV, orderTimeTV, vendorNameTV, vendorPhoneTV, vendorAddressTV, customerNameTV,
-            customerPhoneTV, customerAddressTV, customerAddressEditTV, totalPaidTV,orderStatusTV,reportIssueTV,existingIssueTV;
-    public static TextView totalPriceTv, dueTV,makePaymentTV,refundPaymentTV;
+            customerPhoneTV, customerAddressTV, customerAddressEditTV, totalPaidTV, orderStatusTV, reportIssueTV, existingIssueTV;
+    public static TextView totalPriceTv, dueTV, makePaymentTV, refundPaymentTV;
     public static double totalPay;
     private Dialog cancelledDialog;
     private RatingBar ratingBar;
-    private String token, OrderId,paymentOrderStatus,orderStatus,invoiceStatus;
+    private String token, OrderId, paymentOrderStatus, orderStatus, invoiceStatus;
     private int userId;
-    private ImageView moreIcon,deliveredIcon, vendorImageIV;
+    private ImageView moreIcon, deliveredIcon, vendorImageIV;
     private CircleImageView customerImageIV;
     private SharedPreferences sharedPreferences;
     private List<InvoiceDetailsModel> invoiceDetailsModelList;
     private FrameLayout frame_layout2;
-    private RelativeLayout topRelative,descriptionLinearLayout,statusRelative,oderTimeLineRL,refundRelative;
+    private RelativeLayout topRelative, descriptionLinearLayout, statusRelative, oderTimeLineRL, refundRelative;
     private LinearLayout priceLinearLayout;
     private RecyclerView timelineRecyclerView, orderItemListRecyclerView;
     private RelativeLayout rootLayout;
@@ -114,8 +114,8 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
         }
         Intent intent = getIntent();
         OrderId = intent.getStringExtra("OrderId");
-        paymentOrderStatus=intent.getStringExtra("PaymentStatus");
-        invoiceStatus=intent.getStringExtra("OrderStatus");
+        paymentOrderStatus = intent.getStringExtra("PaymentStatus");
+        invoiceStatus = intent.getStringExtra("OrderStatus");
         orderStatusTV.setText(paymentOrderStatus);
         getInvoiceDetails();
 
@@ -125,9 +125,9 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
                 checkConnection();
                 if (!isConnected) {
                     snackBar(isConnected);
-                }else {
-                    String amounts=dueTV.getText().toString().substring(2);
-                    double amount=Double.parseDouble(amounts);
+                } else {
+                    String amounts = dueTV.getText().toString().substring(2);
+                    double amount = Double.parseDouble(amounts);
                     Intent intent = new Intent(PlaceOrderDetailsActivity.this, PaymentMethodsActivity.class);
                     intent.putExtra("FAmount", amount);
                     intent.putExtra("orderId", OrderId);
@@ -143,15 +143,15 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
                 checkConnection();
                 if (!isConnected) {
                     snackBar(isConnected);
-                }else{
+                } else {
                     popup = new PopupMenu(PlaceOrderDetailsActivity.this, moreIcon);
                     popup.setOnMenuItemClickListener(PlaceOrderDetailsActivity.this);
                     popup.getMenuInflater().inflate(R.menu.cancel_product_menu, popup.getMenu());
-                    if(orderStatus.equals("Pending") || orderStatus.equals("Partial Paid")){
+                    if (orderStatus.equals("Pending") || orderStatus.equals("Partial Paid") || orderStatus.equals("Processing")) {
                         popup.getMenu().removeItem(R.id.deliveredOrder);
-                    } else if(orderStatus.equals("Shipped")){
-                    popup.getMenu().removeItem(R.id.cancelOrder);
-                }
+                    } else if (orderStatus.equals("Shipped")) {
+                        popup.getMenu().removeItem(R.id.cancelOrder);
+                    }
                     popup.show();
 
                 }
@@ -163,12 +163,12 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
                 checkConnection();
                 if (!isConnected) {
                     snackBar(isConnected);
-                }else {
+                } else {
                     Intent intent = new Intent(PlaceOrderDetailsActivity.this, RefundRequestActivity.class);
 
                     intent.putExtra("orderId", OrderId);
                     intent.putExtra("refundAmount", paidAmount);
-                    overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                     startActivity(intent);
                 }
 
@@ -202,10 +202,11 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
 
         reportIssueTV.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {checkConnection();
+            public void onClick(View v) {
+                checkConnection();
                 if (!isConnected) {
                     snackBar(isConnected);
-                }else {
+                } else {
                     checkExistingIssue();
                 }
             }
@@ -216,7 +217,7 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
                 checkConnection();
                 if (!isConnected) {
                     snackBar(isConnected);
-                }else {
+                } else {
                     Intent intent = new Intent(PlaceOrderDetailsActivity.this, ExistingIssueActivity.class);
                     intent.putExtra("orderId", OrderId);
                     startActivity(intent);
@@ -243,32 +244,32 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
                         if (!isConnected) {
                             snackBar(isConnected);
                             cancelledDialog.dismiss();
-                        }else{
-                        String address = delivery_ET.getText().toString();
-                        if (TextUtils.isEmpty(address)) {
-                            Toast.makeText(PlaceOrderDetailsActivity.this, "Please provide delivery address!", Toast.LENGTH_LONG).show();
                         } else {
-                            Call<OrderDetails> call = ApiUtils.getUserService().updateDeliverAddress(OrderId, token, address);
-                            call.enqueue(new Callback<OrderDetails>() {
-                                @Override
-                                public void onResponse(Call<OrderDetails> call, Response<OrderDetails> response) {
-                                    if (response.isSuccessful()) {
-                                        String status = response.body().getStatus();
-                                        if (status.equals("1")) {
-                                            Toast.makeText(PlaceOrderDetailsActivity.this, "Delivery address updated!", Toast.LENGTH_SHORT).show();
-                                            getInvoiceDetails();
-                                            cancelledDialog.dismiss();
+                            String address = delivery_ET.getText().toString();
+                            if (TextUtils.isEmpty(address)) {
+                                Toast.makeText(PlaceOrderDetailsActivity.this, "Please provide delivery address!", Toast.LENGTH_LONG).show();
+                            } else {
+                                Call<OrderDetails> call = ApiUtils.getUserService().updateDeliverAddress(OrderId, token, address);
+                                call.enqueue(new Callback<OrderDetails>() {
+                                    @Override
+                                    public void onResponse(Call<OrderDetails> call, Response<OrderDetails> response) {
+                                        if (response.isSuccessful()) {
+                                            String status = response.body().getStatus();
+                                            if (status.equals("1")) {
+                                                Toast.makeText(PlaceOrderDetailsActivity.this, "Delivery address updated!", Toast.LENGTH_SHORT).show();
+                                                getInvoiceDetails();
+                                                cancelledDialog.dismiss();
+                                            }
                                         }
                                     }
-                                }
 
-                                @Override
-                                public void onFailure(Call<OrderDetails> call, Throwable t) {
+                                    @Override
+                                    public void onFailure(Call<OrderDetails> call, Throwable t) {
 
-                                }
-                            });
+                                    }
+                                });
+                            }
                         }
-                    }
                     }
                 });
             }
@@ -283,15 +284,15 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
             @Override
             public void onResponse(Call<List<ExistingIssueModel>> call, Response<List<ExistingIssueModel>> response) {
 //                progressRL.setVisibility(View.GONE);
-                if (response.isSuccessful() && response.code()==200){
-                    boolean result=checkIssueResult(response.body());
-                    Log.e("check",result+"");
-                    if(result){
+                if (response.isSuccessful() && response.code() == 200) {
+                    boolean result = checkIssueResult(response.body());
+                    Log.e("check", result + "");
+                    if (result) {
                         Toasty.normal(PlaceOrderDetailsActivity.this, "You already have a pending existing issue !", Toasty.LENGTH_SHORT).show();
-                    }else {
-                        int status=0;
-                        if(paidAmount>0 && invoiceStatus.equals("Partial Paid")|| invoiceStatus.equals("Processing")|| invoiceStatus.equals("Cancel")){
-                            status=1;
+                    } else {
+                        int status = 0;
+                        if (paidAmount > 0 && invoiceStatus.equals("Partial Paid") || invoiceStatus.equals("Processing") || invoiceStatus.equals("Cancel")) {
+                            status = 1;
                         }
                         Bundle args = new Bundle();
                         args.putString("orderId", OrderId);
@@ -300,9 +301,9 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
                         bottom_sheet.setArguments(args);
                         bottom_sheet.show(getSupportFragmentManager(), "bottomSheet");
                     }
-                }else
+                } else
                     Toasty.error(PlaceOrderDetailsActivity.this, "Something went wrong!", Toasty.LENGTH_SHORT).show();
-                }
+            }
 
             @Override
             public void onFailure(Call<List<ExistingIssueModel>> call, Throwable t) {
@@ -310,20 +311,21 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
         });
     }
 
-    private boolean checkIssueResult(List<ExistingIssueModel> response){
-        if(response.size()>0){
-            for(int i=0; i<response.size();i++){
-                if(response.get(i).getStatus().equals("Pending")){
+    private boolean checkIssueResult(List<ExistingIssueModel> response) {
+        if (response.size() > 0) {
+            for (int i = 0; i < response.size(); i++) {
+                if (response.get(i).getStatus().equals("Pending")) {
                     return true;
                 }
             }
         }
         return false;
     }
+
     private void init() {
         sharedPreferences = getSharedPreferences("MyRef", MODE_PRIVATE);
         token = sharedPreferences.getString("token", null);
-        userId =sharedPreferences.getInt("userId",0);
+        userId = sharedPreferences.getInt("userId", 0);
         rootLayout = findViewById(R.id.place_order_details_rootLayout);
         frame_layout2 = findViewById(R.id.frame_layout2);
         topRelative = findViewById(R.id.topRelative);
@@ -352,7 +354,7 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
         orderStatusTV = findViewById(R.id.orderStatusTV);
         makePaymentTV = findViewById(R.id.makePaymentTV);
         refundPaymentTV = findViewById(R.id.refundPaymentTV);
-        paymentOrderStatus=orderStatusTV.getText().toString();
+        paymentOrderStatus = orderStatusTV.getText().toString();
 
         dueTV = findViewById(R.id.dueTV);
         ratingBar = findViewById(R.id.ratingBar);
@@ -391,8 +393,8 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
                 vendorPhoneTV.setText(shopPhone);
                 vendorAddressTV.setText(shopAddress);
                 orderTimeTV.setText(orderDate + " " + orderTime);
-                paidAmount=details.getTotalPay();
-                totalPaidTV.setText("৳ " +details.getTotalPay());
+                paidAmount = details.getTotalPay();
+                totalPaidTV.setText("৳ " + details.getTotalPay());
                 totalPay = details.getTotalPay();
 
                 try {
@@ -404,15 +406,10 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                if(orderStatus.equals("Pending") || orderStatus.equals("Partial Paid") ||(orderStatus.equals("Paid"))){
+                if (orderStatus.equals("Pending") || orderStatus.equals("Partial Paid") || orderStatus.equals("Processing") || orderStatus.equals("Shipped")) {
                     moreIcon.setVisibility(View.VISIBLE);
-                   // popup.getMenu().removeItem(R.id.deliveredOrder);
                 }
-                /*if(orderStatus.equals("Shipped")){
-                    moreIcon.setVisibility(View.VISIBLE);
-                    popup.getMenu().removeItem(R.id.cancelOrder);
-                }*/
-                if(customerAddress==null){
+                if (customerAddress == null) {
                     Call<UserProfile> call2 = ApiUtils.getUserService().getUserData(token);
                     call2.enqueue(new Callback<UserProfile>() {
                         @Override
@@ -426,7 +423,7 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
                         public void onFailure(Call<UserProfile> call2, Throwable t) {
                         }
                     });
-                }else{
+                } else {
                     customerAddressTV.setText(customerAddress);
                     customerAddressEditTV.setVisibility(View.GONE);
                 }
@@ -448,32 +445,32 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
                 LinearLayoutManager layoutManager2 = new LinearLayoutManager(PlaceOrderDetailsActivity.this, LinearLayoutManager.VERTICAL, false);
                 timelineRecyclerView.setLayoutManager(layoutManager2);
                 timelineRecyclerView.setAdapter(orderTimelineAdapter);
-               // Collections.reverse(orderTimelineModelList);
+                // Collections.reverse(orderTimelineModelList);
                 orderTimelineAdapter.notifyDataSetChanged();
 
 
                 switch (paymentOrderStatus) {
                     case "Unpaid":
                         orderStatusTV.setTextColor(Color.parseColor("#DB4437"));
-                        if(orderStatus.equals("Cancel")){
+                        if (orderStatus.equals("Cancel")) {
                             makePaymentTV.setVisibility(View.GONE);
-                        }else {
+                        } else {
                             makePaymentTV.setVisibility(View.VISIBLE);
                         }
                         break;
                     case "Partial Paid":
                         orderStatusTV.setTextColor(Color.parseColor("#4285F4"));
-                        if(orderStatus.equals("Cancel")){
+                        if (orderStatus.equals("Cancel")) {
                             makePaymentTV.setVisibility(View.GONE);
                             refundPaymentTV.setVisibility(View.VISIBLE);
-                        }else {
+                        } else {
                             makePaymentTV.setVisibility(View.VISIBLE);
                             refundPaymentTV.setVisibility(View.GONE);
                         }
                         break;
                     case "Paid":
                         orderStatusTV.setTextColor(Color.parseColor("#DB4437"));
-                        if(orderStatus.equals("Cancel")){
+                        if (orderStatus.equals("Cancel")) {
                             refundPaymentTV.setVisibility(View.VISIBLE);
                         }
                         makePaymentTV.setVisibility(View.GONE);
@@ -506,184 +503,183 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
 
     @Override
     public boolean onMenuItemClick(MenuItem menuItem) {
-        switch(menuItem.getItemId()){
+        switch (menuItem.getItemId()) {
             case R.id.cancelOrder:
-            //Toast.makeText(PlaceOrderDetailsActivity.this, "Item 1 Selected", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(PlaceOrderDetailsActivity.this, "Item 1 Selected", Toast.LENGTH_SHORT).show();
 
-            cancelledDialog = new Dialog(PlaceOrderDetailsActivity.this);
-            cancelledDialog.setContentView(R.layout.cancel_reason_layout_design);
-            cancelledDialog.setCancelable(true);
-            TextView submitReasonTV= cancelledDialog.findViewById(R.id.submitReasonTV);
-            CheckBox reason1,reason2,reason3,reason4,reason5,reason6;
-            reason1= cancelledDialog.findViewById(R.id.reason1);
-            reason2= cancelledDialog.findViewById(R.id.reason2);
-            reason3= cancelledDialog.findViewById(R.id.reason3);
-            reason4= cancelledDialog.findViewById(R.id.reason4);
-            reason5= cancelledDialog.findViewById(R.id.reason5);
-            reason6= cancelledDialog.findViewById(R.id.reason6);
-            final String[] reason = new String[1];
-            reason1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    if(reason1.isChecked()){
-                        reason2.setChecked(false);
-                        reason3.setChecked(false);
-                        reason4.setChecked(false);
-                        reason5.setChecked(false);
-                        reason6.setChecked(false);
-                        reason[0] =reason1.getText().toString();
+                cancelledDialog = new Dialog(PlaceOrderDetailsActivity.this);
+                cancelledDialog.setContentView(R.layout.cancel_reason_layout_design);
+                cancelledDialog.setCancelable(true);
+                TextView submitReasonTV = cancelledDialog.findViewById(R.id.submitReasonTV);
+                CheckBox reason1, reason2, reason3, reason4, reason5, reason6;
+                reason1 = cancelledDialog.findViewById(R.id.reason1);
+                reason2 = cancelledDialog.findViewById(R.id.reason2);
+                reason3 = cancelledDialog.findViewById(R.id.reason3);
+                reason4 = cancelledDialog.findViewById(R.id.reason4);
+                reason5 = cancelledDialog.findViewById(R.id.reason5);
+                reason6 = cancelledDialog.findViewById(R.id.reason6);
+                final String[] reason = new String[1];
+                reason1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                        if (reason1.isChecked()) {
+                            reason2.setChecked(false);
+                            reason3.setChecked(false);
+                            reason4.setChecked(false);
+                            reason5.setChecked(false);
+                            reason6.setChecked(false);
+                            reason[0] = reason1.getText().toString();
+                        }
                     }
-                }
-            });
-            reason2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    if(reason2.isChecked()){
-                        reason1.setChecked(false);
-                        reason3.setChecked(false);
-                        reason4.setChecked(false);
-                        reason5.setChecked(false);
-                        reason6.setChecked(false);
-                        reason[0] =reason2.getText().toString();
+                });
+                reason2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                        if (reason2.isChecked()) {
+                            reason1.setChecked(false);
+                            reason3.setChecked(false);
+                            reason4.setChecked(false);
+                            reason5.setChecked(false);
+                            reason6.setChecked(false);
+                            reason[0] = reason2.getText().toString();
+                        }
                     }
-                }
-            });
-            reason3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    if(reason3.isChecked()){
-                        reason2.setChecked(false);
-                        reason1.setChecked(false);
-                        reason4.setChecked(false);
-                        reason5.setChecked(false);
-                        reason6.setChecked(false);
-                        reason[0] =reason3.getText().toString();
+                });
+                reason3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                        if (reason3.isChecked()) {
+                            reason2.setChecked(false);
+                            reason1.setChecked(false);
+                            reason4.setChecked(false);
+                            reason5.setChecked(false);
+                            reason6.setChecked(false);
+                            reason[0] = reason3.getText().toString();
+                        }
                     }
-                }
-            });
-            reason4.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    if(reason4.isChecked()){
-                        reason2.setChecked(false);
-                        reason3.setChecked(false);
-                        reason1.setChecked(false);
-                        reason5.setChecked(false);
-                        reason6.setChecked(false);
-                        reason[0] =reason4.getText().toString();
+                });
+                reason4.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                        if (reason4.isChecked()) {
+                            reason2.setChecked(false);
+                            reason3.setChecked(false);
+                            reason1.setChecked(false);
+                            reason5.setChecked(false);
+                            reason6.setChecked(false);
+                            reason[0] = reason4.getText().toString();
+                        }
                     }
-                }
-            });
-            reason5.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    if(reason5.isChecked()){
-                        reason2.setChecked(false);
-                        reason3.setChecked(false);
-                        reason4.setChecked(false);
-                        reason1.setChecked(false);
-                        reason6.setChecked(false);
-                        reason[0] =reason5.getText().toString();
+                });
+                reason5.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                        if (reason5.isChecked()) {
+                            reason2.setChecked(false);
+                            reason3.setChecked(false);
+                            reason4.setChecked(false);
+                            reason1.setChecked(false);
+                            reason6.setChecked(false);
+                            reason[0] = reason5.getText().toString();
+                        }
                     }
-                }
-            });
+                });
 
-            reason6.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    if(reason6.isChecked()){
-                        reason2.setChecked(false);
-                        reason3.setChecked(false);
-                        reason4.setChecked(false);
-                        reason5.setChecked(false);
-                        reason1.setChecked(false);
-                        reason[0] =reason6.getText().toString();
+                reason6.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                        if (reason6.isChecked()) {
+                            reason2.setChecked(false);
+                            reason3.setChecked(false);
+                            reason4.setChecked(false);
+                            reason5.setChecked(false);
+                            reason1.setChecked(false);
+                            reason[0] = reason6.getText().toString();
+                        }
                     }
-                }
-            });
+                });
 
 
-            submitReasonTV.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    checkConnection();
-                    if (!isConnected) {
-                        snackBar(isConnected);
-                        cancelledDialog.dismiss();
-                    }else{
-                    if (reason1.isChecked() || reason2.isChecked() || reason3.isChecked() || reason4.isChecked() || reason5.isChecked() || reason6.isChecked()) {
-                        Call<CancellationReasonModel> call = ApiUtils.getUserService().setCancelReason(token, OrderId, reason[0]);
-                        call.enqueue(new Callback<CancellationReasonModel>() {
-                            @Override
-                            public void onResponse(Call<CancellationReasonModel> call, Response<CancellationReasonModel> response) {
-                                if (response.body().getStatus() == 1) {
-                                    Toasty.normal(PlaceOrderDetailsActivity.this, "Order has been cancelled", Toasty.LENGTH_SHORT).show();
+                submitReasonTV.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        checkConnection();
+                        if (!isConnected) {
+                            snackBar(isConnected);
+                            cancelledDialog.dismiss();
+                        } else {
+                            if (reason1.isChecked() || reason2.isChecked() || reason3.isChecked() || reason4.isChecked() || reason5.isChecked() || reason6.isChecked()) {
+                                Call<CancellationReasonModel> call = ApiUtils.getUserService().setCancelReason(token, OrderId, reason[0]);
+                                call.enqueue(new Callback<CancellationReasonModel>() {
+                                    @Override
+                                    public void onResponse(Call<CancellationReasonModel> call, Response<CancellationReasonModel> response) {
+                                        if (response.body().getStatus() == 1) {
+                                            Toasty.normal(PlaceOrderDetailsActivity.this, "Order has been cancelled", Toasty.LENGTH_SHORT).show();
 
-                                    getInvoiceDetails();
+                                            getInvoiceDetails();
 
-                                    isResult = true;
-                                } else {
-                                    Toasty.error(PlaceOrderDetailsActivity.this, "Something went wrong", Toasty.LENGTH_SHORT).show();
-                                }
+                                            isResult = true;
+                                        } else {
+                                            Toasty.error(PlaceOrderDetailsActivity.this, "Something went wrong", Toasty.LENGTH_SHORT).show();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<CancellationReasonModel> call, Throwable t) {
+                                        Toasty.error(PlaceOrderDetailsActivity.this, "Something went wrong", Toasty.LENGTH_SHORT).show();
+                                    }
+                                });
+
+                                cancelledDialog.dismiss();
+                            } else {
+                                Toasty.info(PlaceOrderDetailsActivity.this, "Please select your cancellation reason", Toasty.LENGTH_SHORT).show();
                             }
-
-                            @Override
-                            public void onFailure(Call<CancellationReasonModel> call, Throwable t) {
-                                Toasty.error(PlaceOrderDetailsActivity.this, "Something went wrong", Toasty.LENGTH_SHORT).show();
-                            }
-                        });
-
-                        cancelledDialog.dismiss();
-                    } else {
-                        Toasty.info(PlaceOrderDetailsActivity.this, "Please select your cancellation reason", Toasty.LENGTH_SHORT).show();
+                        }
                     }
-                }
-            }
-            });
+                });
 
-            cancelledDialog.show();
+                cancelledDialog.show();
 
 
-            Window window = cancelledDialog.getWindow();
-            window.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            break;
+                Window window = cancelledDialog.getWindow();
+                window.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                break;
             case R.id.deliveredOrder:
                 androidx.appcompat.app.AlertDialog.Builder dialog2 = new androidx.appcompat.app.AlertDialog.Builder(this);
-                dialog2.setTitle("Order Delivered");
+                dialog2.setTitle("Have you received your delivery?");
                 dialog2.setIcon(R.drawable.applogo);
-                dialog2.setMessage("Do you get your delivery?");
+                dialog2.setMessage("Confirm us by pressing the yes button once you " +
+                        "receive your product. This is the only proof that you" +
+                        " got the product in hand.");
                 dialog2.setCancelable(false);
-                dialog2.setPositiveButton("Yes I Get", new DialogInterface.OnClickListener() {
+                dialog2.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog2, int which) {
                         checkConnection();
                         if (!isConnected) {
                             snackBar(isConnected);
-                            dialog2.dismiss();
-                        }else{
-                        Call<CancellationReasonModel> call = ApiUtils.getUserService().setOrderDelivered(token, OrderId);
-                        call.enqueue(new Callback<CancellationReasonModel>() {
-                            @Override
-                            public void onResponse(Call<CancellationReasonModel> call, Response<CancellationReasonModel> response) {
-                                if (response.body().getStatus() == 1) {
-                                    Toasty.normal(PlaceOrderDetailsActivity.this, "Order has delivered.", Toasty.LENGTH_SHORT).show();
-                                    recreate();
-                                } else {
-                                    Toasty.error(PlaceOrderDetailsActivity.this,
-                                            "Confirm us by pressing the received button once you " +
-                                                    "receive your product. This is the only proof that you" +
-                                                    " got the product in hand", Toasty.LENGTH_SHORT).show();
+                        } else {
+                            Call<CancellationReasonModel> call = ApiUtils.getUserService().setOrderDelivered(token, OrderId);
+                            call.enqueue(new Callback<CancellationReasonModel>() {
+                                @Override
+                                public void onResponse(Call<CancellationReasonModel> call, Response<CancellationReasonModel> response) {
+                                    if (response.body().getStatus() == 1) {
+                                        Toasty.normal(PlaceOrderDetailsActivity.this, "Order has delivered", Toasty.LENGTH_SHORT).show();
+                                        recreate();
+                                    } else {
+                                        Toasty.error(PlaceOrderDetailsActivity.this,
+                                                "Something went wrong", Toasty.LENGTH_SHORT).show();
+                                    }
                                 }
-                            }
 
-                            @Override
-                            public void onFailure(Call<CancellationReasonModel> call, Throwable t) {
-                                Toasty.error(PlaceOrderDetailsActivity.this, "Something went wrong", Toasty.LENGTH_SHORT).show();
-                            }
-                        });
+                                @Override
+                                public void onFailure(Call<CancellationReasonModel> call, Throwable t) {
+                                    Toasty.error(PlaceOrderDetailsActivity.this, "Something went wrong", Toasty.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
                         dialog2.dismiss();
                     }
-                }
                 });
                 dialog2.setNegativeButton("No", new DialogInterface.OnClickListener() {
                     @Override
@@ -726,7 +722,7 @@ public class PlaceOrderDetailsActivity extends BaseActivity implements PopupMenu
 
 
     public void snackBar(boolean isConnected) {
-        if(!isConnected) {
+        if (!isConnected) {
             snackbar = Snackbar.make(rootLayout, "No Internet Connection! Please Try Again.", Snackbar.LENGTH_INDEFINITE);
             snackbar.setDuration(5000);
             snackbar.setActionTextColor(Color.WHITE);

@@ -1,8 +1,8 @@
 <shape android:shape="rectangle"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <corners android:radius="150dp"/>
-    <size android:width="150dp"
-        android:height="150dp"/>
+    <corners android:radius="130dp"/>
+    <size android:width="130dp"
+        android:height="130dp"/>
     <stroke android:color="@color/themDark"
         android:width="2dp"/>
     <solid android:color="@color/white"/>
